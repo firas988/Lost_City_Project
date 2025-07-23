@@ -1,0 +1,100 @@
+[
+  {
+    "Pedestrian": [
+      {
+        "name": "Pedestrian",
+        "walkRadius": 100,
+        "areaMask": 1,
+        "waitTimeRange": [2, 4],
+        "navMeshAreaName": "",
+        "speed": 1,
+        "maxSpeed": 1
+      }
+    ],
+
+    "QuestGiver": [
+      {
+        "name": "ConfusedPerson",
+        "walkRadius": 100,
+        "areaMask": 1,
+        "waitTimeRange": [2, 4],
+        "navMeshAreaName": "",
+        "speed": 1,
+        "maxSpeed": 1
+      }
+    ],
+
+    "Enemy": [
+      {
+        "name": "Bear",
+        "walkRadius": 50,
+        "areaMask": 1,
+        "waitTimeRange": [5, 7],
+        "navMeshAreaName": "",
+        "health": 250,
+        "speed": 1,
+        "maxSpeed": 4
+      },
+      {
+        "name": "Wolf",
+        "walkRadius": 50,
+        "areaMask": 1,
+        "waitTimeRange": [5, 7],
+        "navMeshAreaName": "",
+        "health": 200,
+        "speed": 2.5,
+        "maxSpeed": 6
+      },
+      {
+        "name": "Troll",
+        "walkRadius": 50,
+        "areaMask": 1,
+        "waitTimeRange": [5, 7],
+        "navMeshAreaName": "",
+        "health": 750,
+        "speed": 1.5,
+        "maxSpeed": 4
+      },
+      {
+        "name": "HobGoblin",
+        "walkRadius": 50,
+        "areaMask": 1,
+        "waitTimeRange": [5, 7],
+        "navMeshAreaName": "",
+        "health": 300,
+        "speed": 1.5,
+        "maxSpeed": 4
+      },
+      {
+        "name": "Goblin",
+        "walkRadius": 50,
+        "areaMask": 1,
+        "waitTimeRange": [5, 7],
+        "navMeshAreaName": "",
+        "health": 150,
+        "speed": 1.5,
+        "maxSpeed": 4
+      },
+      {
+        "name": "MonsterMutant",
+        "walkRadius": 50,
+        "areaMask": 1,
+        "waitTimeRange": [5, 7],
+        "navMeshAreaName": "",
+        "health": 400,
+        "speed": 2,
+        "maxSpeed": 4
+      },
+      {
+        "name": "Executioner",
+        "walkRadius": 50,
+        "areaMask": 1,
+        "waitTimeRange": [5, 7],
+        "navMeshAreaName": "",
+        "health": 300,
+        "speed": 2,
+        "maxSpeed": 4.5
+      }
+    ]
+  }
+]

@@ -1,0 +1,262 @@
+using System;
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+/// <summary>
+/// Manages dialogue interactions between the player and NPCs, handling conversation flow and quest distribution.
+/// Controls dialogue UI display, input handling, and quest assignment upon conversation completion.
+/// </summary>
+public class DialogueManager : MonoBehaviour
+{
+    /// <summary>
+    /// UI button for continuing the dialogue conversation.
+    /// </summary>
+    [SerializeField]
+    private GameObject continueButton;
+
+    /// <summary>
+    /// UI button for canceling or exiting the dialogue.
+    /// </summary>
+    [SerializeField]
+    private GameObject cancelButton;
+
+    /// <summary>
+    /// Layer mask for identifying NPCs that can engage in dialogue.
+    /// </summary>
+    [SerializeField]
+    private LayerMask talkativeLayers;
+
+    /// <summary>
+    /// Reference to the quest manager for quest assignment after dialogue completion.
+    /// </summary>
+    [SerializeField]
+    private QuestManager questManager;
+
+    /// <summary>
+    /// Reference to the animation controller for managing player animations during dialogue.
+    /// </summary>
+    private AnimateController animateController;
+
+    /// <summary>
+    /// Reference to the input listener for detecting interaction input.
+    /// </summary>
+    private InputListener inputListener;
+
+    /// <summary>
+    /// Reference to the player's script for state management during dialogue.
+    /// </summary>
+    private playerScript playerStateManager;
+
+    /// <summary>
+    /// Canvas component for the dialogue UI system.
+    /// </summary>
+    private Canvas dialUI;
+
+    /// <summary>
+    /// Text component for displaying NPC dialogue responses.
+    /// </summary>
+    private TextMeshProUGUI textContainer;
+
+    /// <summary>
+    /// Reference to the NPC GameObject the player is currently talking to.
+    /// </summary>
+    private GameObject talkingTo;
+
+    /// <summary>
+    /// Quest giver component of the NPC for quest distribution.
+    /// </summary>
+    private QuestGiver npc;
+
+    /// <summary>
+    /// Event triggered when dialogue ends, providing the quest to be assigned.
+    /// </summary>
+    public event Action<Quest> onDialogueExit;
+
+    /// <summary>
+    /// The current dialogue option selected for continuing the conversation.
+    /// </summary>
+    private string continueSentence;
+
+    /// <summary>
+    /// Flag to prevent rapid dialogue interactions.
+    /// </summary>
+    private bool onCoolDown;
+
+    /// <summary>
+    /// Initializes the dialogue manager by finding required components and setting up initial NPC reference.
+    /// </summary>
+    void Awake()
+    {
+        // Find the input listener component from the GameManager GameObject
+        inputListener = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InputListener>();
+
+        // Find the player script component in the scene
+        playerStateManager = FindAnyObjectByType<playerScript>();
+
+        // Find the animation controller component in the scene
+        animateController = FindAnyObjectByType<AnimateController>();
+
+        // Get the Canvas component attached to this GameObject for UI management
+        dialUI = GetComponent<Canvas>();
+
+        // Get the NPC the player is currently interacting with
+        talkingTo = playerStateManager.getInteractingWith();
+
+        // If there's an NPC to talk to, get its QuestGiver component
+        if(talkingTo != null )
+        {
+            // Cast the NPC to QuestGiver type for quest distribution functionality
+            npc = (QuestGiver)talkingTo.GetComponent<StartNpc>().GetNpcsInstance();
+        }
+    }
+
+    /// <summary>
+    /// Continuously monitors for dialogue interaction input and manages conversation flow.
+    /// Handles dialogue initiation and NPC response processing.
+    /// </summary>
+    void Update()
+    {
+        // Early return if player is not near NPC, already in dialogue, or not pressing interaction key
+        if (!playerStateManager.isNearNPC || playerStateManager.isInDialogue() || !inputListener.isInteracting())
+        {
+            return; // Exit early to prevent dialogue processing
+        }
+
+        // Get the current NPC the player is trying to interact with
+        talkingTo = playerStateManager.getInteractingWith();
+
+        // Early return if no NPC found or NPC is not on a talkative layer
+        if ( talkingTo ==null || !IsInTalkativeLayers(talkingTo))
+        {
+            return; // Exit early if NPC validation fails
+        }
+
+        // Get the QuestGiver component from the NPC for quest functionality
+        npc = (QuestGiver)talkingTo.GetComponent<StartNpc>().GetNpcsInstance();
+
+        // Debug log to track interaction input
+        Debug.Log(inputListener.isInteracting());
+
+        // Check if input is valid, interaction is happening, and quest is not already completed
+        if (inputListener != null && inputListener.isInteracting() && !npc.GetQuestToGive().isCompleted)
+        {
+            // Find the text container component for displaying dialogue
+            textContainer = this.gameObject.transform.Find("dialogueText").gameObject.transform.Find("npcDialogue").GetComponent<TextMeshProUGUI>();
+
+            // Get the initial dialogue response and options from the NPC
+            string response = npc.respodToDialogue("start", out string[] options);
+
+            // Set the dialogue text to display the NPC's response
+            UIcontroller.SetText(textContainer, response);
+
+            // Set the continue button text to the first dialogue option
+            UIcontroller.SetText(continueButton.GetComponent<TextMeshProUGUI>(), options[0]);
+
+            // Store the selected dialogue option for the next response
+            continueSentence = options[0];
+
+            // Show the dialogue UI and enter dialogue mode
+            showDialogue();
+        }
+    }
+
+    /// <summary>
+    /// Processes the player's response to NPC dialogue and continues the conversation.
+    /// Handles quest assignment when dialogue reaches completion.
+    /// </summary>
+    public void respondToNpc() {
+            Debug.Log("respondToNpc");
+
+        try
+        {
+            // Get the NPC's response based on the player's selected dialogue option
+            string response = npc.respodToDialogue(continueSentence, out string[] options);
+
+            // Set the dialogue text, replacing "TARGET" placeholder if this is a QuestGiver NPC
+            UIcontroller.SetText(textContainer,talkingTo.layer == LayerMask.NameToLayer("QuestGiver") ? response.Replace("TARGET", this.npc.GetQuestToGive().QuestTarget) : response);
+
+            // Set the continue button text to the next dialogue option
+            UIcontroller.SetText(continueButton.GetComponent<TextMeshProUGUI>(), options[0]);
+
+            // Store the selected dialogue option for the next response
+            continueSentence = options[0];
+        }
+        catch (IndexOutOfRangeException){
+            // Dialogue has ended - no more options available
+
+            // Get the quest to be assigned to the player
+            Quest questToGive = npc.GetQuestToGive();
+
+            // Trigger the dialogue exit event with the quest
+            onDialogueExit?.Invoke(questToGive);
+
+            // Close the dialogue UI and restore gameplay state
+            closeDialogue();
+        }
+    }
+
+    /// <summary>
+    /// Closes the dialogue UI and restores normal gameplay state.
+    /// Re-enables player input and animations.
+    /// </summary>
+    public void closeDialogue()
+    {
+        // Hide the dialogue UI canvas
+        dialUI.enabled = false;
+
+        // Lock the cursor for normal gameplay
+        Cursor.lockState = CursorLockMode.Locked;
+
+        // Set player state to not in dialogue
+        playerStateManager.setInDialogue(false);
+
+        // Re-enable input listener for normal gameplay input
+        inputListener.enabled = true;
+
+        // Re-enable animation controller for player animations
+        animateController.enabled = true;
+
+        // Clear the reference to the NPC being talked to
+        playerStateManager.setInteractingWith( null);
+    }
+
+    /// <summary>
+    /// Shows the dialogue UI and enters dialogue mode.
+    /// Disables player input and animations during conversation.
+    /// </summary>
+    public void showDialogue()
+    {
+        // Show the dialogue UI canvas
+        dialUI.enabled = true;
+
+        // Unlock cursor for UI interaction
+        Cursor.lockState = CursorLockMode.None;
+
+        // Set player state to in dialogue
+        playerStateManager.setInDialogue(true);
+
+        // Disable input listener to prevent gameplay input during dialogue
+        inputListener.enabled = false;
+
+        // Disable animation controller to prevent player movement during dialogue
+        animateController.enabled = false;
+    }
+
+    /// <summary>
+    /// Checks whether the given GameObject is on one of the interactive layers.
+    /// </summary>
+    /// <param name="obj">GameObject to check.</param>
+    /// <returns>True if the object's layer is within the interactiveLayers mask; false otherwise.</returns>
+    private bool IsInTalkativeLayers(GameObject obj)
+    {
+        // Use bitwise AND to check if the object's layer is included in the talkativeLayers mask
+        return (talkativeLayers.value & (1 << obj.layer)) != 0;
+    }
+
+    public void testOnClick()
+    {
+        Debug.Log("testOnClick");
+    }
+}

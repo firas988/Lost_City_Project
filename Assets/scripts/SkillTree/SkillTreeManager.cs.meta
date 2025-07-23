@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: f5bd09d817ae3e046a9c012c55b1ee4f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerObject: {fileID: 1507731602361876451, guid: f8b38168b213cad4d9b4fee40a448bb7, type: 3}
+  - levelSystem: {instanceID: 0}
+  - strengthSkillList: {fileID: 11400000, guid: 778fe23d0da150f4ebfb340d09685fba, type: 2}
+  - speedSkillList: {instanceID: 0}
+  - defenseSkillList: {instanceID: 0}
+  - healthSkillList: {instanceID: 0}
+  executionOrder: 10
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,36 @@
+{
+  "ConfusedPerson": {
+    "start": {
+      "dialogue": [
+        {
+          "text": "Hello, may i ask you for a favor?",
+          "options": ["yes", "goodbye"]
+        }
+      ]
+    },
+    "yes": {
+      "dialogue": [
+        {
+          "text": "I need help with finding a TARGET",
+          "options": ["sure i will help you", "goodbye"]
+        }
+      ]
+    },
+    "sure i will help you": {
+      "dialogue": [
+        {
+          "text": "Thank you for your kind offer, i will reward you if you find it.",
+          "options": ["goodbye"]
+        }
+      ]
+    },
+    "goodbye": {
+      "dialogue": [
+        {
+          "text": "Goodbye",
+          "options": []
+        }
+      ]
+    }
+  }
+}

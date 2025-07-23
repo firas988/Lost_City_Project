@@ -1,0 +1,107 @@
+[
+  {
+    "Bear": [
+      {
+        "attackName": "attackHand",
+        "attackRange": 2.5,
+        "attackTime": 1,
+        "attackDamage": 10.0,
+        "attackRadius": 0.6
+      },
+      {
+        "attackName": "attackBite",
+        "attackRange": 2.5,
+        "attackTime": 1,
+        "attackDamage": 15.0,
+        "attackRadius": 0.6
+      },
+      {
+        "attackName": "attackJump",
+        "attackRange": 2,
+        "attackTime": 1,
+        "attackDamage": 20.0,
+        "attackRadius": 1.0
+      }
+    ]
+  },
+  {
+    "Wolf": [
+      {
+        "attackName": "attackBite",
+        "attackRange": 2.0,
+        "attackTime": 3.5,
+        "attackDamage": 15.0,
+        "attackRadius": 0.6
+      }
+    ]
+  },
+  {
+    "Troll": [
+      {
+        "attackName": "attackHand",
+        "attackRange": 3.0,
+        "attackTime": 3.5,
+        "attackDamage": 20.0,
+        "attackRadius": 1.0
+      }
+    ]
+  },
+  {
+    "HobGoblin": [
+      {
+        "attackName": "attackHand",
+        "attackRange": 2.0,
+        "attackTime": 3.5,
+        "attackDamage": 15.0,
+        "attackRadius": 0.6
+      }
+    ]
+  },
+  {
+    "Goblin": [
+      {
+        "attackName": "attackHand",
+        "attackRange": 2,
+        "attackTime": 2,
+        "attackDamage": 10.0,
+        "attackRadius": 0.6
+      }
+    ]
+  },
+  {
+    "MonsterMutant": [
+      {
+        "attackName": "attackHand",
+        "attackRange": 2.6,
+        "attackTime": 2,
+        "attackDamage": 10.0,
+        "attackRadius": 0.6
+      },
+      {
+        "attackName": "attackSpike",
+        "attackRange": 2.6,
+        "attackTime": 2,
+        "attackDamage": 10.0,
+        "attackRadius": 0.6
+      }
+    ]
+  },
+  {
+    "Executioner": [
+      {
+        "attackName": "AttackOneHandSword",
+        "attackRange": 1.5,
+        "attackTime": 2.7,
+        "attackDamage": 10.0,
+        "attackRadius": 0.4
+      },
+      {
+        "attackName": "AttackOneHandSwordRotation",
+        "attackRange": 1.5,
+        "attackTime": 0.8,
+        "attackDamage": 10.0,
+        "attackRadius": 0.4
+      }
+    ]
+  }
+]
