@@ -74,20 +74,19 @@ public class SkillTreeButton : MonoBehaviour
             return;
         Debug.Log("Incrementing skill " + skillList.getCurrentLevel());
 
-        GetComponent<Button>().enabled = false;
-        skillList
-            .getSkillTreeButtons()[skillList.getCurrentLevel()]
-            .GetComponent<Button>()
-            .enabled = true;
-
-        if (skillList.getCurrentLevel() < skillList.getMaxLevel())
-        {
-            skillList.getSkillTreeButtons()[skillList.getCurrentLevel()].enabled = true;
-        }
+        GetComponent<Button>().interactable = false;
+     
+       
 
         isSkillPurchased = skillTreeManager.UpgradeSkill(skillList);
         Debug.Log("Skill upgraded " + isSkillPurchased);
         SetColors();
+
+    if (skillList.getCurrentLevel() < skillList.getMaxLevel())
+        {
+            skillList.getSkillTreeButtons()[skillList.getCurrentLevel()].interactable = true;
+        }
+
 
         if (lineToUpdate != null)
             lineToUpdate.SetSkillProgressBar(1f);
@@ -97,7 +96,7 @@ public class SkillTreeButton : MonoBehaviour
     /// Checks if the skill can be incremented (enough points and not already purchased).
     /// </summary>
     private bool CanIncrement() =>
-        _skillAmountLimit.CanSpend(skillList.currentCost) && !isSkillPurchased;
+       !skillList.isMaxLevel() && _skillAmountLimit.CanSpend(skillList.currentCost) && !isSkillPurchased;
 
     #endregion
 
