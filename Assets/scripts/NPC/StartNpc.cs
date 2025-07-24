@@ -14,7 +14,6 @@ public class StartNpc : MonoBehaviour
     [SerializeField]
     private GameObject npcPrefab;
 
-
     [SerializeField]
     private ExpKillQuests killQuests;
 
@@ -58,7 +57,6 @@ public class StartNpc : MonoBehaviour
         typeInstance = npcTypes.Find(t => t.name == npcName);
         // Initialize an NPC instance with the retrieved data
 
-        Debug.Log(typeInstance);
         if (typeInstance != null)
         {
             createNpcInstance();
@@ -108,25 +106,27 @@ public class StartNpc : MonoBehaviour
                 break;
             case "QuestGiver":
                 {
-
                     ConvertDialouges dialogueConv = FindAnyObjectByType<ConvertDialouges>();
-                    Dictionary<string, Dialogue> dialogueData = dialogueConv.GetDialogueByNpcName(typeInstance.name);
-
-                    npcsInstance = new QuestGiver(
-                    gameObject.GetInstanceID(),
-                    typeInstance.name,
-                    layerName,
-                    typeInstance.walkRadius,
-                    typeInstance.areaMask,
-                    new Vector2(typeInstance.waitTimeRange[0], typeInstance.waitTimeRange[1]),
-                    "",
-                    typeInstance.speed,
-                    typeInstance.maxSpeed,
-                    "start",
-                    dialogueData,
-                    npcName == "ConfusedPerson" ? new FindQuest( findQuests.RandomQuest) : new KillQuest(killQuests.RandomQuest)
+                    Dictionary<string, Dialogue> dialogueData = dialogueConv.GetDialogueByNpcName(
+                        typeInstance.name
                     );
 
+                    npcsInstance = new QuestGiver(
+                        gameObject.GetInstanceID(),
+                        typeInstance.name,
+                        layerName,
+                        typeInstance.walkRadius,
+                        typeInstance.areaMask,
+                        new Vector2(typeInstance.waitTimeRange[0], typeInstance.waitTimeRange[1]),
+                        "",
+                        typeInstance.speed,
+                        typeInstance.maxSpeed,
+                        "start",
+                        dialogueData,
+                        npcName == "ConfusedPerson"
+                            ? new FindQuest(findQuests.RandomQuest)
+                            : new KillQuest(killQuests.RandomQuest)
+                    );
 
                     Debug.Log(npcsInstance);
                 }

@@ -15,8 +15,11 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Maximum allowed attack count before reset.</summary>
     private int attackCountMax = 0;
 
-    /// <summary>Cooldown timer between attacks.</summary>
-    private float attackCoolDown = 0.0f;
+    /// <summary>Flag indicating if the enemy is currently attacking.</summary>
+    private bool isAttacking = false;
+
+    /// <summary>Flag indicating if the enemy is currently hitting.</summary>
+    private bool isHitting = false;
 
     /// <summary>Currently selected attack from the list.</summary>
     private Attack currentAttack;
@@ -35,6 +38,8 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Reference to the animation controller of the enemy.</summary>
     private EnemyAnimatorControl enemyAnimatorControl;
+
+    private Player player = null;
 
     /// <summary>
     /// Initializes references and loads attack data based on the enemy's tag.
@@ -60,7 +65,19 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         attackPick(); // Selects appropriate attack if needed.
         attackPlacePick(); // Finds attack origin point (e.g., hand).
-        hitCheck(); // Performs hit detection.
+
+        if (hitCheck())
+        {
+            dealDamage();
+        }
+    }
+
+    /// <summary>
+    /// Deals damage to the player.
+    /// </summary>
+    private void dealDamage()
+    {
+        player.takeDamage(currentAttack.attackDamage);
     }
 
     /// <summary>
@@ -105,10 +122,14 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
 
             foreach (Collider col in hitColliders)
             {
-                if (col.CompareTag("Player") && attackCoolDown <= 0)
+                if (col.CompareTag("Player") && isAttacking && !isHitting)
                 {
                     // Register the hit and start cooldown.
-                    attackCoolDown = currentAttack.attackTime;
+                    isHitting = true;
+                    if (player == null)
+                    {
+                        player = col.GetComponent<StartPlayer>().getPlayer();
+                    }
                     attackCount++;
 
                     if (attackCount > attackCountMax)
@@ -118,12 +139,6 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
                     return true;
                 }
             }
-        }
-
-        // Reduce cooldown over time.
-        if (attackCoolDown >= 0)
-        {
-            attackCoolDown -= Time.deltaTime;
         }
 
         return false;
@@ -172,6 +187,19 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
     public float getAttackDamage()
     {
         return currentAttack.attackDamage;
+    }
+
+    /// <summary>Starts the Troll's attack animation.</summary>
+    public void startAttackTroll()
+    {
+        isAttacking = true;
+    }
+
+    /// <summary>Ends the Troll's attack animation.</summary>
+    public void endAttackTroll()
+    {
+        isHitting = false;
+        isAttacking = false;
     }
 
     ///enable this to see the attack range

@@ -16,9 +16,11 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Maximum attack count before reset.</summary>
     private int attackCountMax = 3;
 
-    /// <summary>Cooldown timer between attacks.</summary>
-    [SerializeField]
-    private float attackCoolDown = 0.0f;
+    /// <summary>Flag indicating if the enemy is currently attacking.</summary>
+    private bool isAttacking = false;
+
+    /// <summary>Flag indicating if the enemy is currently hitting.</summary>
+    private bool isHitting = false;
 
     /// <summary>The current attack data being used.</summary>
     private Attack currentAttack;
@@ -79,6 +81,9 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
         }
     }
 
+    /// <summary>
+    /// Deals damage to the player.
+    /// </summary>
     private void dealDamage()
     {
         player.takeDamage(currentAttack.attackDamage);
@@ -127,13 +132,13 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
 
             foreach (Collider col in hitColliders)
             {
-                if (col.CompareTag("Player") && attackCoolDown <= 0)
+                if (col.CompareTag("Player") && isAttacking && !isHitting)
                 {
+                    isHitting = true;
                     if (player == null)
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
-                    attackCoolDown = currentAttack.attackTime;
                     playAttackSound();
                     attackCount++;
                     if (attackCount > attackCountMax)
@@ -144,10 +149,7 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
                 }
             }
         }
-        if (attackCoolDown >= 0)
-        {
-            attackCoolDown -= Time.deltaTime;
-        }
+
         return false;
     }
 
@@ -218,6 +220,18 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
         return currentAttack.attackDamage;
     }
 
+    /// <summary>Starts the Bear's attack animation.</summary>
+    public void startAttackBear()
+    {
+        isAttacking = true;
+    }
+
+    /// <summary>Ends the Bear's attack animation.</summary>
+    public void endAttackBear()
+    {
+        isHitting = false;
+        isAttacking = false;
+    }
     // enable this to see the attack range in the editor
     /// <summary>
     /// Draws Gizmos in the editor to visualize the attack radius.

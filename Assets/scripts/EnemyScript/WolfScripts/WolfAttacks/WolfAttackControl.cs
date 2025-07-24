@@ -14,8 +14,11 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>The maximum number of times an attack can be repeated before resetting.</summary>
     private int attackCountMax = 0;
 
-    /// <summary>Cooldown timer between attacks.</summary>
-    private float attackCoolDown = 0.0f;
+    /// <summary>Flag indicating if the enemy is currently attacking.</summary>
+    private bool isAttacking = false;
+
+    /// <summary>Flag indicating if the enemy is currently hitting.</summary>
+    private bool isHitting = false;
 
     /// <summary>The currently selected attack.</summary>
     private Attack currentAttack;
@@ -34,6 +37,9 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Reference to the enemy animation controller.</summary>
     private EnemyAnimatorControl enemyAnimatorControl;
+
+    /// <summary>Reference to the Player script for interacting with the player.</summary>
+    private Player player = null;
 
     /// <summary>
     /// Initializes components and loads attack data for the wolf.
@@ -54,7 +60,19 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         attackPick();
         attackPlacePick();
-        hitCheck();
+
+        if (hitCheck())
+        {
+            dealDamage();
+        }
+    }
+
+    /// <summary>
+    /// Deals damage to the player.
+    /// </summary>
+    private void dealDamage()
+    {
+        player.takeDamage(currentAttack.attackDamage);
     }
 
     /// <summary>
@@ -101,9 +119,13 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
 
             foreach (Collider col in hitColliders)
             {
-                if (col.CompareTag("Player") && attackCoolDown <= 0)
+                if (col.CompareTag("Player") && isAttacking && !isHitting)
                 {
-                    attackCoolDown = currentAttack.attackTime;
+                    isHitting = true;
+                    if (player == null)
+                    {
+                        player = col.GetComponent<StartPlayer>().getPlayer();
+                    }
                     attackCount++;
                     if (attackCount > attackCountMax)
                     {
@@ -112,11 +134,6 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
                     return true;
                 }
             }
-        }
-
-        if (attackCoolDown >= 0)
-        {
-            attackCoolDown -= Time.deltaTime;
         }
 
         return false;
@@ -176,6 +193,19 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     public float getAttackDamage()
     {
         return currentAttack.attackDamage;
+    }
+
+    /// <summary>Starts the Wolf's attack animation.</summary>
+    public void startAttackWolf()
+    {
+        isAttacking = true;
+    }
+
+    /// <summary>Ends the Wolf's attack animation.</summary>
+    public void endAttackWolf()
+    {
+        isAttacking = false;
+        isHitting = false;
     }
 
     /// enable this to see the attack hit radius in the editor

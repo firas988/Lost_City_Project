@@ -15,8 +15,11 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Maximum attack count before reset.</summary>
     private int attackCountMax = 0;
 
-    /// <summary>Cooldown timer between attacks.</summary>
-    private float attackCoolDown = 0.0f;
+    /// <summary>Flag indicating if the enemy is currently attacking.</summary>
+    private bool isAttacking = false;
+
+    /// <summary>Flag indicating if the enemy is currently hitting.</summary>
+    private bool isHitting = false;
 
     /// <summary>The current attack data being used.</summary>
     private Attack currentAttack;
@@ -35,6 +38,9 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Reference to the EnemyAnimatorControl script for animation control.</summary>
     private EnemyAnimatorControl enemyAnimatorControl;
+
+    /// <summary>Reference to the Player script controlling player data.</summary>
+    private Player player = null;
 
     /// <summary>
     /// Initializes components and loads attack data on start.
@@ -58,7 +64,19 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         attackPick();
         attackPlacePick();
-        hitCheck();
+
+        if (hitCheck())
+        {
+            dealDamage();
+        }
+    }
+
+    /// <summary>
+    /// Deals damage to the player.
+    /// </summary>
+    private void dealDamage()
+    {
+        player.takeDamage(currentAttack.attackDamage);
     }
 
     /// <summary>
@@ -104,9 +122,13 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
             foreach (Collider col in hitColliders)
             {
-                if (col.CompareTag("Player") && attackCoolDown <= 0)
+                if (col.CompareTag("Player") && isAttacking && !isHitting)
                 {
-                    attackCoolDown = currentAttack.attackTime;
+                    isHitting = true;
+                    if (player == null)
+                    {
+                        player = col.GetComponent<StartPlayer>().getPlayer();
+                    }
                     attackCount++;
                     if (attackCount > attackCountMax)
                     {
@@ -115,10 +137,6 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
                     return true;
                 }
             }
-        }
-        if (attackCoolDown >= 0)
-        {
-            attackCoolDown -= Time.deltaTime;
         }
         return false;
     }
@@ -164,6 +182,19 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     public float getAttackDamage()
     {
         return currentAttack.attackDamage;
+    }
+
+    /// <summary>Starts the Goblin's attack animation.</summary>
+    public void startAttackGoblin()
+    {
+        isAttacking = true;
+    }
+
+    /// <summary>Ends the Goblin's attack animation.</summary>
+    public void endAttackGoblin()
+    {
+        isHitting = false;
+        isAttacking = false;
     }
 
     // enable this to see the attack range in the editor

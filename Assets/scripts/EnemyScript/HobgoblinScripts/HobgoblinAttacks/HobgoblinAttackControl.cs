@@ -15,8 +15,11 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Maximum attack count before reset.</summary>
     private int attackCountMax = 0;
 
-    /// <summary>Cooldown timer between attacks.</summary>
-    private float attackCoolDown = 0.0f;
+    /// <summary>Flag indicating if the enemy is currently attacking.</summary>
+    private bool isAttacking = false;
+
+    /// <summary>Flag indicating if the enemy is currently hitting.</summary>
+    private bool isHitting = false;
 
     /// <summary>The current attack data being used.</summary>
     private Attack currentAttack;
@@ -35,6 +38,9 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Reference to the EnemyAnimatorControl script controlling animations.</summary>
     private EnemyAnimatorControl enemyAnimatorControl;
+
+    /// <summary>Reference to the Player script controlling player data.</summary>
+    private Player player = null;
 
     /// <summary>
     /// Initializes components and retrieves the list of available attacks at start.
@@ -60,7 +66,19 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         attackPick(); // Selects the current attack.
         attackPlacePick(); // Finds the GameObject representing the attack origin.
-        hitCheck(); // Checks for hits on the player.
+
+        if (hitCheck())
+        {
+            dealDamage();
+        }
+    }
+
+    /// <summary>
+    /// Deals damage to the player.
+    /// </summary>
+    private void dealDamage()
+    {
+        player.takeDamage(currentAttack.attackDamage);
     }
 
     /// <summary>
@@ -109,10 +127,14 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
             foreach (Collider col in hitColliders)
             {
                 // If collider belongs to the player and cooldown is over.
-                if (col.CompareTag("Player") && attackCoolDown <= 0)
+                if (col.CompareTag("Player") && isAttacking && !isHitting)
                 {
                     // Reset cooldown and increase attack count.
-                    attackCoolDown = currentAttack.attackTime;
+                    isHitting = true;
+                    if (player == null)
+                    {
+                        player = col.GetComponent<StartPlayer>().getPlayer();
+                    }
                     attackCount++;
                     if (attackCount > attackCountMax)
                     {
@@ -121,12 +143,6 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
                     return true;
                 }
             }
-        }
-
-        // Reduce cooldown over time.
-        if (attackCoolDown >= 0)
-        {
-            attackCoolDown -= Time.deltaTime;
         }
 
         return false;
@@ -174,6 +190,19 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     public float getAttackDamage()
     {
         return currentAttack.attackDamage;
+    }
+
+    /// <summary>Starts the Hobgoblin's attack animation.</summary>
+    public void startAttackHobgoblin()
+    {
+        isAttacking = true;
+    }
+
+    /// <summary>Ends the Hobgoblin's attack animation.</summary>
+    public void endAttackHobgoblin()
+    {
+        isHitting = false;
+        isAttacking = false;
     }
 
     // enable this to see the attack range in the editor

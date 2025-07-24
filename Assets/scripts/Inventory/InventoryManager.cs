@@ -87,7 +87,6 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-        Debug.Log(player.getWeapon());
         if (Input.GetKeyDown(KeyCode.J))
         {
             SaveInventory();

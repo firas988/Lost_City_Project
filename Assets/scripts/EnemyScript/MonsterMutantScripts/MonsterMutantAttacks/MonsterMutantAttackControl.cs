@@ -15,8 +15,11 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Maximum allowed attack count before resetting.</summary>
     private int attackCountMax = 2;
 
-    /// <summary>Cooldown timer between attacks.</summary>
-    private float attackCoolDown = 0.0f;
+    /// <summary>Flag indicating if the enemy is currently attacking.</summary>
+    private bool isAttacking = false;
+
+    /// <summary>Flag indicating if the enemy is currently hitting.</summary>
+    private bool isHitting = false;
 
     /// <summary>The current attack being used.</summary>
     private Attack currentAttack;
@@ -35,6 +38,8 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Reference to the enemy animation controller.</summary>
     private EnemyAnimatorControl enemyAnimatorControl;
+
+    private Player player = null;
 
     /// <summary>
     /// Initializes references and loads attack data on start.
@@ -61,7 +66,19 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         attackPick(); // Choose appropriate attack based on attack count.
         attackPlacePick(); // Find the attack origin GameObject.
-        hitCheck(); // Check for hits on the player.
+
+        if (hitCheck())
+        {
+            dealDamage();
+        }
+    }
+
+    /// <summary>
+    /// Deals damage to the player.
+    /// </summary>
+    private void dealDamage()
+    {
+        player.takeDamage(currentAttack.attackDamage);
     }
 
     /// <summary>
@@ -110,11 +127,14 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
             foreach (Collider col in hitColliders)
             {
                 // If a collider tagged "Player" is found and cooldown is finished.
-                if (col.CompareTag("Player") && attackCoolDown <= 0)
+                if (col.CompareTag("Player") && isAttacking && !isHitting)
                 {
                     // Reset cooldown timer to the current attack's duration.
-                    attackCoolDown = currentAttack.attackTime;
-
+                    isHitting = true;
+                    if (player == null)
+                    {
+                        player = col.GetComponent<StartPlayer>().getPlayer();
+                    }
                     // Increment attack count and reset if exceeded max.
                     attackCount++;
                     if (attackCount > attackCountMax)
@@ -124,12 +144,6 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
                     return true;
                 }
             }
-        }
-
-        // Decrease cooldown timer as time passes.
-        if (attackCoolDown >= 0)
-        {
-            attackCoolDown -= Time.deltaTime;
         }
 
         return false;
@@ -181,6 +195,19 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
     public float getAttackDamage()
     {
         return currentAttack.attackDamage;
+    }
+
+    /// <summary>Starts the Monster Mutant's attack animation.</summary>
+    public void startAttackMonsterMutant()
+    {
+        isAttacking = true;
+    }
+
+    /// <summary>Ends the Monster Mutant's attack animation.</summary>
+    public void endAttackMonsterMutant()
+    {
+        isHitting = false;
+        isAttacking = false;
     }
 
     ///enable this to see the detection and chase ranges

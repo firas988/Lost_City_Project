@@ -29,8 +29,6 @@ public class ConvertNpcType : MonoBehaviour
 
         foreach (var npc in npcTypes)
         {
-            Debug.Log(npcType);
-
             foreach (var type in npc)
             {
                 if (type.Key == npcType)
