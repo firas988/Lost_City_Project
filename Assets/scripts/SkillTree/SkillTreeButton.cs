@@ -60,17 +60,6 @@ public class SkillTreeButton : MonoBehaviour
         SetColors();
     }
 
-    /// <summary>
-    /// For testing: allows incrementing skill with the U key.
-    /// </summary>
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            Increment();
-        }
-    }
-
     #endregion
 
     #region Skill Logic
@@ -85,14 +74,20 @@ public class SkillTreeButton : MonoBehaviour
             return;
         Debug.Log("Incrementing skill " + skillList.getCurrentLevel());
 
-        isSkillPurchased = skillTreeManager.UpgradeSkill(skillList);
-        Debug.Log("Skill upgraded " + isSkillPurchased);
-        SetColors();
         GetComponent<Button>().enabled = false;
+        skillList
+            .getSkillTreeButtons()[skillList.getCurrentLevel()]
+            .GetComponent<Button>()
+            .enabled = true;
+
         if (skillList.getCurrentLevel() < skillList.getMaxLevel())
         {
             skillList.getSkillTreeButtons()[skillList.getCurrentLevel()].enabled = true;
         }
+
+        isSkillPurchased = skillTreeManager.UpgradeSkill(skillList);
+        Debug.Log("Skill upgraded " + isSkillPurchased);
+        SetColors();
 
         if (lineToUpdate != null)
             lineToUpdate.SetSkillProgressBar(1f);

@@ -170,10 +170,15 @@ public class SkillTreeManager : MonoBehaviour
     /// <param name="skillList">The skill list to upgrade.</param>
     public bool UpgradeSkill(SkillList skillList)
     {
-        if (skillList.Upgrade())
+        try
         {
             startPlayer.getPlayer().addStrengthBonusSkill(skillList.currentBonus);
+            skillList.Upgrade();
             return true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error upgrading skill: " + e.Message);
         }
         return false;
     }
