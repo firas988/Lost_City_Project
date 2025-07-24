@@ -41,6 +41,12 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Reference to the Player script for interacting with the player.</summary>
     private Player player = null;
 
+    /// <summary>Reference to the AudioManager script.</summary>
+    private AudioManager audioManager;
+
+    /// <summary>Reference to the AudioSource component.</summary>
+    private AudioSource audioSource;
+
     /// <summary>
     /// Initializes components and loads attack data for the wolf.
     /// </summary>
@@ -51,6 +57,8 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
         enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
         wolfAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);
         currentAttack = wolfAttacks.Find(attack => attack.attackName == "attackBite");
+        audioManager = FindAnyObjectByType<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -126,6 +134,7 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
+                    playAttackSound();
                     attackCount++;
                     if (attackCount > attackCountMax)
                     {
@@ -137,6 +146,14 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
         }
 
         return false;
+    }
+
+    private void playAttackSound()
+    {
+        if (attackCount <= 0)
+        {
+            audioManager.playEnemy(audioSource, "Wolf_Attack");
+        }
     }
 
     /// <summary>
