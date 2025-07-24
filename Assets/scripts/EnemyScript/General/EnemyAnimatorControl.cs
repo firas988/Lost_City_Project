@@ -28,6 +28,12 @@ public class EnemyAnimatorControl : MonoBehaviour
 
     private DissolvingController dissolvingController;
 
+    /// <summary>Reference to the AudioManager script.</summary>
+    private AudioManager audioManager;
+
+    /// <summary>Reference to the AudioSource component.</summary>
+    private AudioSource audioSource;
+
     /// <summary>
     /// Initializes references to components.
     /// </summary>
@@ -39,7 +45,8 @@ public class EnemyAnimatorControl : MonoBehaviour
         startNpc = GetComponent<StartNpc>();
         entity = (Entity)startNpc.GetNpcsInstance();
         dissolvingController = GetComponent<DissolvingController>();
-
+        audioManager = FindAnyObjectByType<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
         // Log warning if attack behavior not found (interface not attached).
         if (enemyAttackBehavior == null)
         {
@@ -136,6 +143,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     {
         if (entity.isDead() && !isDead)
         {
+            audioManager.playEnemy(audioSource, transform.tag + "_Death");
             KillEnemyHandler.KilledEnemy(transform.tag);
             enemyMovement.setCanMove(false);
             animator.SetTrigger("isDead");
