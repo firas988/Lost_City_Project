@@ -142,5 +142,10 @@ public class SkillList : ScriptableObject
         return this.skillTreeButtons;
     }
 
+    public bool isMaxLevel()
+    {
+        return this.currentLevel >= this.maxLevel;
+    }
+
     #endregion
 }
