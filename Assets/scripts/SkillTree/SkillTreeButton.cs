@@ -79,21 +79,24 @@ public class SkillTreeButton : MonoBehaviour
         Debug.Log("Incrementing skill " + skillList.getCurrentLevel());
 
         GetComponent<Button>().onClick.RemoveAllListeners();
-        GetComponent<Button>().onClick.AddListener( () => audioManager.playUI(audioSource, "Error"));
-        GetComponent<Button>().onClick.AddListener( () => notificationsManager.queueTopLeftNotification("Skill Already Upgraded/Not Enough Points/Not Enough XP"));
+        GetComponent<Button>().onClick.AddListener(() => audioManager.playUI(audioSource, "Error"));
+        GetComponent<Button>()
+            .onClick.AddListener(() =>
+                notificationsManager.queueTopLeftNotification(
+                    "Skill Already Upgraded/Not Enough Points/Not Enough XP"
+                )
+            );
 
         isSkillPurchased = skillTreeManager.UpgradeSkill(skillList);
         Debug.Log("Skill upgraded " + isSkillPurchased);
         SetColors();
 
-   
-    if (isSkillPurchased && skillList.getCurrentLevel() < skillList.getMaxLevel())
+        if (isSkillPurchased && skillList.getCurrentLevel() < skillList.getMaxLevel())
         {
             skillList.getSkillTreeButtons()[skillList.getCurrentLevel()].interactable = true;
             audioManager.playUI(audioSource, "skillupgraded");
             notificationsManager.queueTopLeftNotification("Skill Upgraded");
         }
-
 
         if (lineToUpdate != null)
             lineToUpdate.SetSkillProgressBar(1f);
@@ -103,7 +106,9 @@ public class SkillTreeButton : MonoBehaviour
     /// Checks if the skill can be incremented (enough points and not already purchased).
     /// </summary>
     private bool CanIncrement() =>
-       !skillList.isMaxLevel() && _skillAmountLimit.CanSpend(skillList.currentCost) && !isSkillPurchased;
+        !skillList.isMaxLevel()
+        && _skillAmountLimit.CanSpend(skillList.currentCost)
+        && !isSkillPurchased;
 
     #endregion
 
@@ -133,7 +138,6 @@ public class SkillTreeButton : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Sets the skill as purchased and updates the UI.
     /// </summary>
@@ -141,10 +145,10 @@ public class SkillTreeButton : MonoBehaviour
     {
         isSkillPurchased = true;
         GetComponent<Button>().interactable = false;
-         if (lineToUpdate != null)
+        if (lineToUpdate != null)
             lineToUpdate.SetSkillProgressBar(1f);
         SetColors();
     }
-     
+
     #endregion
 }

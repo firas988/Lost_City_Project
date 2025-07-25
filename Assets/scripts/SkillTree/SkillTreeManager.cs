@@ -87,18 +87,18 @@ public class SkillTreeManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-            audioManager = GameObject.Find("GameManger").GetComponent<AudioManager>();
+        audioManager = GameObject.Find("GameManger").GetComponent<AudioManager>();
         notificationsManager = GameObject.Find("GameManger").GetComponent<NotificationsManager>();
         audioSource = GetComponent<AudioSource>();
 
-           SkillTreeData skillTreeData = SaveSystem.LoadSkills();
+        SkillTreeData skillTreeData = SaveSystem.LoadSkills();
         if (skillTreeData != null)
         {
             skillAmountLimit.setTotalAvailable(skillTreeData.totalSkillPoints);
             skillAmountLimit.setSpent(skillTreeData.spent);
             skillAmountLimit.Render();
         }
-     
+
         startPlayer = playerObject.GetComponent<StartPlayer>();
         Init(GetComponent<LevelManager>());
         strengthSkillList.Init(
@@ -107,8 +107,6 @@ public class SkillTreeManager : MonoBehaviour
             strengthSkillButtons,
             skillAmountLimit
         );
-     
-    
     }
 
     /// <summary>
@@ -142,22 +140,22 @@ public class SkillTreeManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-              SkillTreeData skillTreeData = SaveSystem.LoadSkills();
-        if (skillTreeData != null)
-        {
-            skillAmountLimit.setTotalAvailable(skillTreeData.totalSkillPoints);
-            skillAmountLimit.setSpent(skillTreeData.spent);
-            skillAmountLimit.Render();
-        }
-     
-        startPlayer = playerObject.GetComponent<StartPlayer>();
-        Init(GetComponent<LevelManager>());
-        strengthSkillList.Init(
-            skillTreeData.strengthLevel,
-            strengthSkillList.getMaxLevel(),
-            strengthSkillButtons,
-            skillAmountLimit
-        );
+            SkillTreeData skillTreeData = SaveSystem.LoadSkills();
+            if (skillTreeData != null)
+            {
+                skillAmountLimit.setTotalAvailable(skillTreeData.totalSkillPoints);
+                skillAmountLimit.setSpent(skillTreeData.spent);
+                skillAmountLimit.Render();
+            }
+
+            startPlayer = playerObject.GetComponent<StartPlayer>();
+            Init(GetComponent<LevelManager>());
+            strengthSkillList.Init(
+                skillTreeData.strengthLevel,
+                strengthSkillList.getMaxLevel(),
+                strengthSkillButtons,
+                skillAmountLimit
+            );
         }
     }
 
@@ -194,7 +192,6 @@ public class SkillTreeManager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError("Error upgrading skill: " + e.Message);
-           
         }
         return false;
     }

@@ -23,6 +23,12 @@ public class DialogueManager : MonoBehaviour
     private GameObject cancelButton;
 
     /// <summary>
+    /// UI text for displaying the NPC's name.
+    /// </summary>
+    [SerializeField]
+    private GameObject npcName;
+
+    /// <summary>
     /// Layer mask for identifying NPCs that can engage in dialogue.
     /// </summary>
     [SerializeField]
@@ -90,7 +96,9 @@ public class DialogueManager : MonoBehaviour
     void Awake()
     {
         // Find the input listener component from the GameManager GameObject
-        inputListener = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InputListener>();
+        inputListener = GameObject
+            .FindGameObjectWithTag("GameManager")
+            .GetComponent<InputListener>();
 
         // Find the player script component in the scene
         playerStateManager = FindAnyObjectByType<playerScript>();
@@ -105,7 +113,7 @@ public class DialogueManager : MonoBehaviour
         talkingTo = playerStateManager.getInteractingWith();
 
         // If there's an NPC to talk to, get its QuestGiver component
-        if(talkingTo != null )
+        if (talkingTo != null)
         {
             // Cast the NPC to QuestGiver type for quest distribution functionality
             npc = (QuestGiver)talkingTo.GetComponent<StartNpc>().GetNpcsInstance();
@@ -119,7 +127,11 @@ public class DialogueManager : MonoBehaviour
     void Update()
     {
         // Early return if player is not near NPC, already in dialogue, or not pressing interaction key
-        if (!playerStateManager.isNearNPC || playerStateManager.isInDialogue() || !inputListener.isInteracting())
+        if (
+            !playerStateManager.isNearNPC
+            || playerStateManager.isInDialogue()
+            || !inputListener.isInteracting()
+        )
         {
             return; // Exit early to prevent dialogue processing
         }
@@ -128,7 +140,7 @@ public class DialogueManager : MonoBehaviour
         talkingTo = playerStateManager.getInteractingWith();
 
         // Early return if no NPC found or NPC is not on a talkative layer
-        if ( talkingTo ==null || !IsInTalkativeLayers(talkingTo))
+        if (talkingTo == null || !IsInTalkativeLayers(talkingTo))
         {
             return; // Exit early if NPC validation fails
         }
@@ -140,10 +152,20 @@ public class DialogueManager : MonoBehaviour
         Debug.Log(inputListener.isInteracting());
 
         // Check if input is valid, interaction is happening, and quest is not already completed
-        if (inputListener != null && inputListener.isInteracting() && !npc.GetQuestToGive().isCompleted)
+        if (
+            inputListener != null
+            && inputListener.isInteracting()
+            && !npc.GetQuestToGive().isCompleted
+        )
         {
+            // Set the NPC name
+            UIcontroller.SetText(npcName.GetComponent<TextMeshProUGUI>(), talkingTo.tag);
+
             // Find the text container component for displaying dialogue
-            textContainer = this.gameObject.transform.Find("dialogueText").gameObject.transform.Find("npcDialogue").GetComponent<TextMeshProUGUI>();
+            textContainer = this
+                .gameObject.transform.Find("Content")
+                .gameObject.transform.Find("dialogueText")
+                .GetComponent<TextMeshProUGUI>();
 
             // Get the initial dialogue response and options from the NPC
             string response = npc.respodToDialogue("start", out string[] options);
@@ -166,16 +188,20 @@ public class DialogueManager : MonoBehaviour
     /// Processes the player's response to NPC dialogue and continues the conversation.
     /// Handles quest assignment when dialogue reaches completion.
     /// </summary>
-    public void respondToNpc() {
-            Debug.Log("respondToNpc");
-
+    public void respondToNpc()
+    {
         try
         {
             // Get the NPC's response based on the player's selected dialogue option
             string response = npc.respodToDialogue(continueSentence, out string[] options);
 
             // Set the dialogue text, replacing "TARGET" placeholder if this is a QuestGiver NPC
-            UIcontroller.SetText(textContainer,talkingTo.layer == LayerMask.NameToLayer("QuestGiver") ? response.Replace("TARGET", this.npc.GetQuestToGive().QuestTarget) : response);
+            UIcontroller.SetText(
+                textContainer,
+                talkingTo.layer == LayerMask.NameToLayer("QuestGiver")
+                    ? response.Replace("TARGET", this.npc.GetQuestToGive().QuestTarget)
+                    : response
+            );
 
             // Set the continue button text to the next dialogue option
             UIcontroller.SetText(continueButton.GetComponent<TextMeshProUGUI>(), options[0]);
@@ -183,7 +209,8 @@ public class DialogueManager : MonoBehaviour
             // Store the selected dialogue option for the next response
             continueSentence = options[0];
         }
-        catch (IndexOutOfRangeException){
+        catch (IndexOutOfRangeException)
+        {
             // Dialogue has ended - no more options available
 
             // Get the quest to be assigned to the player
@@ -219,7 +246,7 @@ public class DialogueManager : MonoBehaviour
         animateController.enabled = true;
 
         // Clear the reference to the NPC being talked to
-        playerStateManager.setInteractingWith( null);
+        playerStateManager.setInteractingWith(null);
     }
 
     /// <summary>
