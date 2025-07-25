@@ -14,11 +14,23 @@ public class NotificationsManager : MonoBehaviour
     [SerializeField]
     private Notification middlenotification;
 
+    [SerializeField]
+    private Notification bottomLeftnotificationInventory;
+
+    [SerializeField]
+    private Transform parentBottomLeftnotificationInventory;
+
+    [SerializeField]
+    private float spacing = 500f;
+
     // Queue to store messages for the top-left notification, ensuring they are shown one after another
     private Queue<string> topLeftNotificationQueue = new Queue<string>();
 
     // Queue to store messages for the middle notification (not used for sequential display in this script)
     private Queue<string> middleNotificationQueue = new Queue<string>();
+
+    private List<Notification> activeBottomLeftNotificationQueueInventory =
+        new List<Notification>();
 
     // Flag to indicate if a top-left notification is currently being displayed
     private bool isTopLeftNotificationActive = false;
@@ -63,5 +75,62 @@ public class NotificationsManager : MonoBehaviour
         middlenotification.SetSubtitle(message);
         // Show the notification UI
         middlenotification.Show();
+    }
+
+    public void ShowBottomLeftNotificationInventory(string message)
+    {
+        Notification newNotification = Instantiate(
+            bottomLeftnotificationInventory,
+            parentBottomLeftnotificationInventory
+        );
+        newNotification.SetSubtitle(message);
+
+        List<Vector2> originalPositions = new List<Vector2>();
+
+        foreach (var notif in activeBottomLeftNotificationQueueInventory)
+        {
+            RectTransform r = notif.GetComponent<RectTransform>();
+            originalPositions.Add(r.anchoredPosition);
+        }
+
+        for (int i = 0; i < activeBottomLeftNotificationQueueInventory.Count; i++)
+        {
+            RectTransform r = activeBottomLeftNotificationQueueInventory[i]
+                .GetComponent<RectTransform>();
+            Vector2 targetPos = originalPositions[i] + new Vector2(0, spacing);
+            StartCoroutine(MoveUpSmoothly(r, targetPos, 0.25f));
+        }
+
+        newNotification.Show();
+        activeBottomLeftNotificationQueueInventory.Add(newNotification);
+
+        StartCoroutine(RemoveAfterDelay(newNotification, 5f));
+    }
+
+    private IEnumerator RemoveAfterDelay(Notification notification, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        notification.Hide();
+        yield return new WaitForSeconds(2f);
+        activeBottomLeftNotificationQueueInventory.Remove(notification);
+        Destroy(notification.gameObject);
+    }
+
+    private IEnumerator MoveUpSmoothly(RectTransform rect, Vector2 targetPos, float duration)
+    {
+        if (rect == null)
+            yield break;
+        Vector2 startPos = rect.anchoredPosition;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            rect.anchoredPosition = Vector2.Lerp(startPos, targetPos, t);
+            yield return null;
+        }
+
+        rect.anchoredPosition = targetPos;
     }
 }
