@@ -4,17 +4,19 @@ using UniRx;
 using UnityEngine;
 
 public class Notification : MonoBehaviour
-{   [SerializeField] private TMP_Text textTitle;
-        [SerializeField] private TMP_Text textSubtitle;
+{
+    [SerializeField]
+    private TMP_Text textTitle;
+
+    [SerializeField]
+    private TMP_Text textSubtitle;
     private Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         animator = this.GetComponent<Animator>();
-
     }
-
 
     public void SetTitle(string title) => textTitle.text = title;
 
