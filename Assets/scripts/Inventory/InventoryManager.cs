@@ -57,6 +57,11 @@ public class InventoryManager : MonoBehaviour
     public Item item2;
 
     /// <summary>
+    /// Reference to the NotificationsManager.
+    /// </summary>
+    private NotificationsManager notificationsManager;
+
+    /// <summary>
     /// Returns the current Inventory instance.
     /// </summary>
     /// <returns>The inventory object.</returns>
@@ -76,7 +81,7 @@ public class InventoryManager : MonoBehaviour
         player = startPlayer.getPlayer();
         inventory = player.getInventory();
         LoadInventory();
-
+        notificationsManager = FindAnyObjectByType<NotificationsManager>();
         // Add a test item to the hotbar
         Item newItem = ScriptableObject.Instantiate(item);
         ((WeaponItem)newItem).setDamage(GiveWeaponDamage.getDamage(newItem.rarity));
@@ -252,6 +257,9 @@ public class InventoryManager : MonoBehaviour
         }
         if (inventory.TryAddItem(newItem, out int row, out int column))
         {
+            notificationsManager.ShowBottomLeftNotificationInventory(
+                $"You have added {newItem.itemName} to your inventory."
+            );
             List<Item> items = inventory.GetItem(row, column);
             slotManager.SetSlot(newItem, items.Count, row, column);
         }
@@ -341,9 +349,9 @@ public class InventoryManager : MonoBehaviour
     {
         if (index == 0)
         {
-            return inventory.getHotbar().getWeapon();
             player.setWeapon();
             player.calculateStrengthAndDefenseBonus();
+            return inventory.getHotbar().getWeapon();
         }
         else
         {
