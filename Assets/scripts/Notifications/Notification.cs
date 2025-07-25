@@ -6,9 +6,6 @@ using UnityEngine;
 public class Notification : MonoBehaviour
 {
     [SerializeField]
-    private TMP_Text textTitle;
-
-    [SerializeField]
     private TMP_Text textSubtitle;
     private Animator animator;
 
