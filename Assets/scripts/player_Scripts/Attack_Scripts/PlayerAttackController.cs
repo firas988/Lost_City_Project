@@ -80,11 +80,7 @@ public class PlayerAttackController : MonoBehaviour
     {
         checkWeapon();
 
-        // Toggle attack mode (e.g. ranged vs melee stance)
-        if (inputListener.isToggleActivateAttack())
-        {
-            isToggleActivateAttack = !isToggleActivateAttack;
-        }
+        checkActivateAttack();
 
         ToggleActivateAttackAnimation();
 
@@ -97,6 +93,18 @@ public class PlayerAttackController : MonoBehaviour
         }
 
         checkDeath();
+    }
+
+    private void checkActivateAttack()
+    { // Toggle attack mode (e.g. ranged vs melee stance)
+        if (inputListener.isToggleActivateAttack() && player.getWeapon() != null)
+        {
+            isToggleActivateAttack = !isToggleActivateAttack;
+        }
+        else if (isToggleActivateAttack && player.getWeapon() == null)
+        {
+            isToggleActivateAttack = false;
+        }
     }
 
     /// <summary>
