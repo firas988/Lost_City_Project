@@ -15,6 +15,7 @@ public class QuestManager : MonoBehaviour
     private GameObject player;
 
     private AudioSource audioSource;
+
     /// <summary>
     /// Reference to the dialogue manager for quest integration.
     /// </summary>
@@ -23,6 +24,7 @@ public class QuestManager : MonoBehaviour
 
     [SerializeField]
     private AudioManager audioManager;
+
     /// <summary>
     /// Queue containing story quests to be processed in order.
     /// </summary>
@@ -87,18 +89,16 @@ public class QuestManager : MonoBehaviour
         if (quest == null)
             return;
 
-      if (player.GetComponent<StartPlayer>().getPlayer().addQuest(quest))
-      {
-        notificationsManager.queueTopLeftNotification("New Quest Added");
-       StartCoroutine(audioManager.queueUI(audioSource ,"notification"));
-        if (quest.GetType() == typeof(KillQuest))
-            activeKillQuests.Add((KillQuest)quest);
+        if (player.GetComponent<StartPlayer>().getPlayer().addQuest(quest))
+        {
+            notificationsManager.queueTopLeftNotification("New Quest Added");
+            StartCoroutine(audioManager.queueUI(audioSource, "notification"));
+            if (quest.GetType() == typeof(KillQuest))
+                activeKillQuests.Add((KillQuest)quest);
 
-        if (quest.GetType() == typeof(FindQuest))
-            activeFindQuests.Add((FindQuest)quest);
-
-      }
-
+            if (quest.GetType() == typeof(FindQuest))
+                activeFindQuests.Add((FindQuest)quest);
+        }
     }
 
     /// <summary>
@@ -107,32 +107,38 @@ public class QuestManager : MonoBehaviour
     /// <param name="objectFound">The GameObject that was found, used to match against quest targets.</param>
     public void addFind(GameObject objectFound)
     {
-        FindQuest questToInc = activeFindQuests.Find(questToFind =>questToFind != null && questToFind.QuestTarget == objectFound.tag);
+        FindQuest questToInc = activeFindQuests.Find(questToFind =>
+            questToFind != null && questToFind.QuestTarget == objectFound.tag
+        );
 
-        if (questToInc == null){
+        if (questToInc == null)
+        {
             Debug.Log("Object is not related to any quest");
             return;
         }
 
         questToInc.progress();
         Destroy(objectFound);
-        if (questToInc.isCompleted){
+        if (questToInc.isCompleted)
+        {
             activeFindQuests.Remove(questToInc);
             Debug.Log("Quest Completed: " + questToInc.GetQuestName());
-           StartCoroutine(audioManager.queueUI(audioSource ,"notification"));
-            notificationsManager.queueTopLeftNotification(questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)");            
+            StartCoroutine(audioManager.queueUI(audioSource, "notification"));
+            notificationsManager.queueTopLeftNotification(
+                questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)"
+            );
             onQuestFinish?.Invoke(float.Parse(questToInc.Reward));
-
-
         }
-
     }
 
     public void addKill(GameObject objectKilled)
     {
-        List<KillQuest> questToInc = activeKillQuests.FindAll(questToKill =>questToKill != null && questToKill.QuestTarget == objectKilled.tag);
+        List<KillQuest> questToInc = activeKillQuests.FindAll(questToKill =>
+            questToKill != null && questToKill.QuestTarget == objectKilled.tag
+        );
 
-        if (questToInc.Count == 0){
+        if (questToInc.Count == 0)
+        {
             Debug.Log("Object is not related to any quest");
             return;
         }
@@ -142,23 +148,27 @@ public class QuestManager : MonoBehaviour
         foreach (KillQuest quest in questToInc)
         {
             quest.progress();
-            if (quest.isCompleted){
+            if (quest.isCompleted)
+            {
                 totalReward += float.Parse(quest.Reward);
                 activeKillQuests.Remove(quest);
-                notificationsManager.queueTopLeftNotification(quest.GetQuestName() + " Completed! (+" + quest.Reward + " EXP)");
-                StartCoroutine(audioManager.queueUI(audioSource ,"notification")    );
+                notificationsManager.queueTopLeftNotification(
+                    quest.GetQuestName() + " Completed! (+" + quest.Reward + " EXP)"
+                );
+                StartCoroutine(audioManager.queueUI(audioSource, "notification"));
             }
         }
 
         onQuestFinish?.Invoke(totalReward);
     }
 
-    public void nextMainQuest(){
+    public void nextMainQuest()
+    {
         player.GetComponent<StartPlayer>().getPlayer().setCurrentMainQuest(storyQuests.Dequeue());
     }
 
-    public void completeMainQuest(){
+    public void completeMainQuest()
+    {
         player.GetComponent<StartPlayer>().getPlayer().setCurrentMainQuest(null);
     }
-
 }

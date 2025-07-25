@@ -1,8 +1,8 @@
 using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System.Collections;
 
 /// <summary>
 /// Manages player level progression, experience points, and skill tree integration.
@@ -12,23 +12,27 @@ public class LevelManager : MonoBehaviour
 {
     #region Inspector Fields
 
-    [SerializeField] private AudioManager audioManager;         // Reference to the AudioManager for playing sounds
-    [SerializeField] private Image levelUpFiller;               // UI image for level up progress bar
-    [SerializeField] private TextMeshProUGUI levelText;         // UI text for displaying the current level
+    [SerializeField]
+    private AudioManager audioManager; // Reference to the AudioManager for playing sounds
 
+    [SerializeField]
+    private Image levelUpFiller; // UI image for level up progress bar
+
+    [SerializeField]
+    private TextMeshProUGUI levelText; // UI text for displaying the current level
     #endregion
 
     #region Private Fields
 
-    private AudioSource audioSource;                            // AudioSource for playing level up sounds
-    private GameObject player;                                  // Reference to the player GameObject
-    private NotificationsManager notificationsManager;           // Reference to the notifications manager
-    private SkillTreeManager skillTree;                         // Reference to the skill tree manager
-    private QuestManager questManager;                          // Reference to the quest manager
+    private AudioSource audioSource; // AudioSource for playing level up sounds
+    private GameObject player; // Reference to the player GameObject
+    private NotificationsManager notificationsManager; // Reference to the notifications manager
+    private SkillTreeManager skillTree; // Reference to the skill tree manager
+    private QuestManager questManager; // Reference to the quest manager
 
-    private float currentXP;                                    // Current experience points accumulated by the player
-    private float XPtoNextLevel;                                // Experience points required to reach the next level
-    private int level;                                          // Current player level
+    private float currentXP; // Current experience points accumulated by the player
+    private float XPtoNextLevel; // Experience points required to reach the next level
+    private int level; // Current player level
 
     // Skill lists for different categories (not used directly in this script)
     private SkillList strengthSkillList;
@@ -121,13 +125,13 @@ public class LevelManager : MonoBehaviour
         player.GetComponent<StartPlayer>().getPlayer().addLevel(levelsToAdd);
         StartCoroutine(audioManager.queueUI(audioSource, "levelup"));
         notificationsManager.queueTopLeftNotification(
-            "Level Up! You are now level " + player.GetComponent<StartPlayer>().getPlayer().getLevel()
+            "Level Up! You are now level "
+                + player.GetComponent<StartPlayer>().getPlayer().getLevel()
         );
         levelText.text = (player.GetComponent<StartPlayer>().getPlayer().getLevel() + 1).ToString();
         level = player.GetComponent<StartPlayer>().getPlayer().getLevel();
         levelUpFiller.fillAmount = 0;
-              StartCoroutine(transitionLevelUp(2f));
-
+        StartCoroutine(transitionLevelUp(2f));
     }
 
     /// <summary>
@@ -141,7 +145,11 @@ public class LevelManager : MonoBehaviour
         float endFillAmount = Mathf.Min(currentXP / XPtoNextLevel, 1f);
         while (timeElapsed < transitionTime)
         {
-            levelUpFiller.fillAmount = Mathf.Lerp(startFillAmount, endFillAmount, timeElapsed / transitionTime);
+            levelUpFiller.fillAmount = Mathf.Lerp(
+                startFillAmount,
+                endFillAmount,
+                timeElapsed / transitionTime
+            );
             timeElapsed += Time.deltaTime;
             yield return null;
         }
