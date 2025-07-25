@@ -134,7 +134,6 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
-                    playAttackSound();
                     attackCount++;
                     if (attackCount > attackCountMax)
                     {
@@ -216,6 +215,7 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     public void startAttackWolf()
     {
         isAttacking = true;
+        playAttackSound();
     }
 
     /// <summary>Ends the Wolf's attack animation.</summary>

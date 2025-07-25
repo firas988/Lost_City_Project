@@ -139,7 +139,6 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
-                    playAttackSound();
                     attackCount++;
                     if (attackCount > attackCountMax)
                     {
@@ -224,6 +223,7 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
     public void startAttackBear()
     {
         isAttacking = true;
+        playAttackSound();
     }
 
     /// <summary>Ends the Bear's attack animation.</summary>

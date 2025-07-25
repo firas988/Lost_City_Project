@@ -42,6 +42,15 @@ public class ExecutionerAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Reference to the Player script controlling player data.</summary>
     private Player player = null;
 
+    /// <summary>Reference to the AudioSource component for playing attack sounds.</summary>
+    private AudioSource audioSource;
+
+    /// <summary>Reference to the AudioManager script for playing attack sounds.</summary>
+    private AudioManager audioManager;
+
+    /// <summary>Flag indicating if the attack rotation animation is playing.</summary>
+    private bool isAttackRotationPlaying = false;
+
     /// <summary>
     /// Initializes components and loads attack data on start.
     /// </summary>
@@ -49,7 +58,8 @@ public class ExecutionerAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
-
+        audioSource = GetComponent<AudioSource>();
+        audioManager = FindAnyObjectByType<AudioManager>();
         enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
 
         executionerAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);
@@ -70,6 +80,18 @@ public class ExecutionerAttackControl : MonoBehaviour, EnemyAttackBehavior
         if (hitCheck())
         {
             dealDamage();
+        }
+    }
+
+    private void playAttackSound()
+    {
+        if (attackCount <= 2)
+        {
+            audioManager.playEnemy(audioSource, "Executioner_AttackOneHandSword");
+        }
+        else if (attackCount == 3)
+        {
+            audioManager.playEnemy(audioSource, "Executioner_AttackOneHandSwordRotation");
         }
     }
 
@@ -199,6 +221,18 @@ public class ExecutionerAttackControl : MonoBehaviour, EnemyAttackBehavior
     public void startAttackExecutioner()
     {
         isAttacking = true;
+        if (!isAttackRotationPlaying)
+        {
+            playAttackSound();
+        }
+        if (attackCount == 3)
+        {
+            isAttackRotationPlaying = true;
+        }
+        else
+        {
+            isAttackRotationPlaying = false;
+        }
     }
 
     /// <summary>Ends the Executioner's attack animation.</summary>

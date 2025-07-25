@@ -1,7 +1,7 @@
-using UnityEngine;
+using System;
 using TMPro;
 using UniRx;
-using System;
+using UnityEngine;
 
 public class Notification : MonoBehaviour
 {   [SerializeField] private TMP_Text textTitle;
@@ -16,22 +16,20 @@ public class Notification : MonoBehaviour
     }
 
 
- public void SetTitle(string title) => textTitle.text = title;
+    public void SetTitle(string title) => textTitle.text = title;
 
-        public void SetSubtitle(string subtitle) => textSubtitle.text = subtitle;
+    public void SetSubtitle(string subtitle) => textSubtitle.text = subtitle;
 
-        public void Show() {
-            animator.SetBool("isVisible", true);
+    public void Show()
+    {
+        animator.SetBool("isVisible", true);
+    }
 
-        }
-
-        public void Hide() {
-            animator.SetBool("isVisible", false);
-        }
+    public void Hide()
+    {
+        animator.SetBool("isVisible", false);
+    }
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
+    void Update() { }
 }
