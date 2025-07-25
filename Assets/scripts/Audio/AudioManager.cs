@@ -54,7 +54,7 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// Initializes the audio entries dictionary at startup.
     /// </summary>
-    void Start()
+    void Awake()
     {
         audioEntriesDict = new Dictionary<string, AudioClip>();
         foreach (AudioEntry audioEntry in audioEntries.AudioEntries)
@@ -220,4 +220,9 @@ public class AudioManager : MonoBehaviour
     {
         EnemyVolume = volume;
     }
+
+
+
+
+    
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public class SkillTreeData
 {
-    public int available;
+    public int totalSkillPoints;
     public int spent;
     public int strengthLevel;
     public int speedLevel;
@@ -12,7 +12,7 @@ public class SkillTreeData
 
     public SkillTreeData(SkillTreeManager skillTreeManager)
     {
-        this.available = skillTreeManager.getSkillAmountLimit().GetAvailable();
+        this.totalSkillPoints = skillTreeManager.getSkillAmountLimit().GetTotalSkillPoints();
         this.spent = skillTreeManager.getSkillAmountLimit().GetTotalSpent();
         this.strengthLevel = skillTreeManager.getStrengthLevel();
         // this.speedLevel = skillTreeManager.getSpeedLevel();

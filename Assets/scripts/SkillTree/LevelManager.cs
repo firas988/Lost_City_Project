@@ -118,15 +118,16 @@ public class LevelManager : MonoBehaviour
         }
         if (levelsToAdd == 0)
             return;
-        levelUpFiller.fillAmount = 0;
-        StartCoroutine(transitionLevelUp(2f));
         player.GetComponent<StartPlayer>().getPlayer().addLevel(levelsToAdd);
+        StartCoroutine(audioManager.queueUI(audioSource, "levelup"));
         notificationsManager.queueTopLeftNotification(
             "Level Up! You are now level " + player.GetComponent<StartPlayer>().getPlayer().getLevel()
         );
-        StartCoroutine(audioManager.queueUI(audioSource, "notification"));
         levelText.text = (player.GetComponent<StartPlayer>().getPlayer().getLevel() + 1).ToString();
         level = player.GetComponent<StartPlayer>().getPlayer().getLevel();
+        levelUpFiller.fillAmount = 0;
+              StartCoroutine(transitionLevelUp(2f));
+
     }
 
     /// <summary>

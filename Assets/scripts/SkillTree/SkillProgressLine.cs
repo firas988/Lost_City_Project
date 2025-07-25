@@ -18,7 +18,7 @@ public class SkillProgressLine : MonoBehaviour
     /// <summary>
     /// Initializes the progress bar image reference.
     /// </summary>
-    void Start()
+    void Awake()
     {
         skillProgressBarImage = skillProgressBar.GetComponent<Image>();
     }
@@ -37,6 +37,15 @@ public class SkillProgressLine : MonoBehaviour
     /// <param name="value">A value between 0 and 1 representing progress.</param>
     public void SetSkillProgressBar(float value)
     {
-        skillProgressBarImage.fillAmount = value;
+        Debug.Log("Setting skill progress bar to " + value);
+        if(skillProgressBarImage != null)
+        {
+            skillProgressBarImage.fillAmount = value;
+        }
+        else
+        { 
+            skillProgressBarImage = skillProgressBar.GetComponent<Image>();
+            skillProgressBarImage.fillAmount = value;
+        }
     }
 }

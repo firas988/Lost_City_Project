@@ -72,6 +72,12 @@ public class SkillTreeManager : MonoBehaviour
     /// </summary>
     private int prevLevel;
 
+    private AudioSource audioSource;
+
+    private AudioManager audioManager;
+
+    private NotificationsManager notificationsManager;
+
     #endregion
 
     #region Unity Methods
@@ -81,15 +87,11 @@ public class SkillTreeManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        skillAmountLimit.UpdateSpent(0);
-        startPlayer = playerObject.GetComponent<StartPlayer>();
-        Init(GetComponent<LevelManager>());
-        strengthSkillList.Init(
-            strengthSkillList.getCurrentLevel(),
-            strengthSkillList.getMaxLevel(),
-            strengthSkillButtons,
-            skillAmountLimit
-        );
+            audioManager = GameObject.Find("GameManger").GetComponent<AudioManager>();
+        notificationsManager = GameObject.Find("GameManger").GetComponent<NotificationsManager>();
+        audioSource = GetComponent<AudioSource>();
+     
+    
     }
 
     /// <summary>
@@ -116,34 +118,30 @@ public class SkillTreeManager : MonoBehaviour
         }
 
         // Uncomment to enable skill tree save/load debug controls
-        // if (Input.GetKeyDown(KeyCode.S))
-        // {
-        //     Debug.Log("Saving skill tree");
-        //     SaveSystem.SaveSkills(this);
-        // }
-        // if (Input.GetKeyDown(KeyCode.R))
-        // {
-        //     SkillTreeData skillTreeData = SaveSystem.LoadSkills();
-        //     if (skillTreeData != null)
-        //     {
-        //         Debug.Log("Loaded skill tree data");
-        //         Debug.Log("Available: " + skillTreeData.available);
-        //         Debug.Log("Spent: " + skillTreeData.spent);
-        //         Debug.Log("Strength Level: " + skillTreeData.strengthLevel);
-        //         // Debug.Log("Speed Level: " + skillTreeData.speedLevel);
-        //         // Debug.Log("Defense Level: " + skillTreeData.defenseLevel);
-        //         // Debug.Log("Health Level: " + skillTreeData.healthLevel);
-        //         //
-        //         skillAmountLimit.setAvailable(skillTreeData.available);
-        //         skillAmountLimit.setTotalAvailable(skillTreeData.available + skillTreeData.spent);
-        //         skillAmountLimit.setSpent(skillTreeData.spent);
-        //         skillAmountLimit.Render();
-        //         strengthSkillList.setCurrentLevel(skillTreeData.strengthLevel);
-        //         // speedSkillList.SetCurrentLevel(skillTreeData.speedLevel);
-        //         // defenseSkillList.SetCurrentLevel(skillTreeData.defenseLevel);
-        //         // healthSkillList.SetCurrentLevel(skillTreeData.healthLevel);
-        //     }
-        // }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("Saving skill tree");
+            SaveSystem.SaveSkills(this);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+              SkillTreeData skillTreeData = SaveSystem.LoadSkills();
+        if (skillTreeData != null)
+        {
+            skillAmountLimit.setTotalAvailable(skillTreeData.totalSkillPoints);
+            skillAmountLimit.setSpent(skillTreeData.spent);
+            skillAmountLimit.Render();
+        }
+     
+        startPlayer = playerObject.GetComponent<StartPlayer>();
+        Init(GetComponent<LevelManager>());
+        strengthSkillList.Init(
+            skillTreeData.strengthLevel,
+            strengthSkillList.getMaxLevel(),
+            strengthSkillButtons,
+            skillAmountLimit
+        );
+        }
     }
 
     #endregion
@@ -174,11 +172,14 @@ public class SkillTreeManager : MonoBehaviour
         {
             startPlayer.getPlayer().addStrengthBonusSkill(skillList.currentBonus);
             skillList.Upgrade();
+            notificationsManager.queueTopLeftNotification("Skill Upgraded");
             return true;
         }
         catch (Exception e)
         {
             Debug.LogError("Error upgrading skill: " + e.Message);
+            audioManager.queueUI(audioSource, "Error");
+            notificationsManager.queueTopLeftNotification("Skill Maxed Out or Not Enough Skill Points");
         }
         return false;
     }

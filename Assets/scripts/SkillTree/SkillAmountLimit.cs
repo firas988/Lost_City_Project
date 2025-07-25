@@ -85,6 +85,11 @@ public class SkillAmountLimit : MonoBehaviour, ISkillAmountLimit
     #region Public API
 
     /// <summary>
+    /// Gets the total skill points.
+    /// </summary>
+    public int GetTotalSkillPoints() => _totalAvailable;
+
+    /// <summary>
     /// Gets the current available points.
     /// </summary>
     public int GetAvailable() => _available;
@@ -97,7 +102,12 @@ public class SkillAmountLimit : MonoBehaviour, ISkillAmountLimit
     /// <summary>
     /// Sets the spent points to a specific value.
     /// </summary>
-    public void setSpent(int spent) => _spent = spent;
+    public void setSpent(int spent)
+    {
+        _spent = spent;
+        _available = _totalAvailable - _spent;
+        Render();
+    }
 
     /// <summary>
     /// Sets the available points to a specific value.
@@ -114,6 +124,7 @@ public class SkillAmountLimit : MonoBehaviour, ISkillAmountLimit
     {
         _totalAvailable = totalAvailable;
         _available = _totalAvailable - _spent;
+        Render();
     }
 
     /// <summary>
@@ -139,7 +150,7 @@ public class SkillAmountLimit : MonoBehaviour, ISkillAmountLimit
     /// </summary>
     public void Render()
     {
-        availableText.text = _available.ToString();
+        availableText.text = (_totalAvailable - _spent).ToString();
         spentText.text = _spent.ToString();
     }
 

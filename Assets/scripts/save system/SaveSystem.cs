@@ -79,7 +79,7 @@ public static class SaveSystem
 
         SkillTreeData skillTreeData = new SkillTreeData(skillTreeManager);
         //logging the skill tree data manually
-        Debug.Log("Skill tree data: " + skillTreeData.available);
+        Debug.Log("Skill tree data: " + skillTreeData.totalSkillPoints);
         Debug.Log("Skill tree data: " + skillTreeData.spent);
         Debug.Log("Skill tree data: " + skillTreeData.strengthLevel);
         Debug.Log("Skill tree data: " + skillTreeData.speedLevel);

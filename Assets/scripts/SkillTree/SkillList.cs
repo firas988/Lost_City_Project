@@ -55,13 +55,15 @@ public class SkillList : ScriptableObject
     public void Init(int currentLevel, int maxLevel, List<Button> skillTreeButtons, SkillAmountLimit skillAmountLimit)
     {
         this.maxLevel = maxLevel;
-        this.currentLevel = currentLevel;
-        this.totalBonus = 0;
         this.skillAmountLimit = skillAmountLimit;
         this.skillTreeButtons = skillTreeButtons;
+        this.currentLevel = 0;
+        this.totalBonus = 0;
+
         for (int i = 0; i < currentLevel; i++)
         {
-            this.totalBonus += skills[i].Bonus;
+        Debug.Log("Incrementing skill " + i);
+         skillTreeButtons[i].GetComponentInParent<SkillTreeButton>().Increment();
         }
     }
 

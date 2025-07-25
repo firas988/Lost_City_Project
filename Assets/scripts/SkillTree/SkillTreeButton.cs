@@ -42,7 +42,8 @@ public class SkillTreeButton : MonoBehaviour
     #endregion
 
     #region Private Fields
-
+    private AudioManager audioManager;
+    private AudioSource audioSource;
     private bool isSkillPurchased; // Tracks if the skill has been purchased
     private SkillAmountLimit _skillAmountLimit; // Internal reference to skill amount limit
     #endregion
@@ -52,10 +53,11 @@ public class SkillTreeButton : MonoBehaviour
     /// <summary>
     /// Initializes the button, sets up listeners and colors.
     /// </summary>
-    void Start()
+    void Awake()
     {
+        audioManager = GameObject.Find("GameManger").GetComponent<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
         SetSkillAmountLimit(skillLimit);
-        GetComponent<Button>().onClick.AddListener(Increment);
         isSkillPurchased = false;
         SetColors();
     }
@@ -75,7 +77,7 @@ public class SkillTreeButton : MonoBehaviour
         Debug.Log("Incrementing skill " + skillList.getCurrentLevel());
 
         GetComponent<Button>().interactable = false;
-     
+        audioManager.playUI(audioSource, "skillupgraded");
        
 
         isSkillPurchased = skillTreeManager.UpgradeSkill(skillList);
@@ -115,6 +117,7 @@ public class SkillTreeButton : MonoBehaviour
     {
         if (isSkillPurchased)
         {
+            Debug.Log("Setting skill color to active");
             frameImage.color = activeFrameColor;
             iconImage.color = activeIconColor;
         }
@@ -125,5 +128,18 @@ public class SkillTreeButton : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Sets the skill as purchased and updates the UI.
+    /// </summary>
+    public void SetPurchasedToTrue()
+    {
+        isSkillPurchased = true;
+        GetComponent<Button>().interactable = false;
+         if (lineToUpdate != null)
+            lineToUpdate.SetSkillProgressBar(1f);
+        SetColors();
+    }
+     
     #endregion
 }
