@@ -15,8 +15,6 @@ public class Notification : MonoBehaviour
         animator = this.GetComponent<Animator>();
     }
 
-    public void SetTitle(string title) => textTitle.text = title;
-
     public void SetSubtitle(string subtitle) => textSubtitle.text = subtitle;
 
     public void Show()
