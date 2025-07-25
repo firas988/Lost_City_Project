@@ -140,7 +140,6 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
-                    playAttackSound();
                     // Increment attack count and reset if exceeded max.
                     attackCount++;
                     if (attackCount > attackCountMax)
@@ -219,6 +218,7 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
     public void startAttackMonsterMutant()
     {
         isAttacking = true;
+        playAttackSound();
     }
 
     /// <summary>Ends the Monster Mutant's attack animation.</summary>

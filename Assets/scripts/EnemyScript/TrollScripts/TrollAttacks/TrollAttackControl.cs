@@ -136,7 +136,6 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
-                    playAttackSound();
                     attackCount++;
 
                     if (attackCount > attackCountMax)
@@ -208,6 +207,7 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
     public void startAttackTroll()
     {
         isAttacking = true;
+        playAttackSound();
     }
 
     /// <summary>Ends the Troll's attack animation.</summary>

@@ -141,7 +141,6 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
-                    playAttackSound();
                     attackCount++;
                     if (attackCount > attackCountMax)
                     {
@@ -211,6 +210,7 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     public void startAttackHobgoblin()
     {
         isAttacking = true;
+        playAttackSound();
     }
 
     /// <summary>Ends the Hobgoblin's attack animation.</summary>

@@ -135,7 +135,6 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
-                    playAttackSound();
                     attackCount++;
                     if (attackCount > attackCountMax)
                     {
@@ -203,6 +202,7 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     public void startAttackGoblin()
     {
         isAttacking = true;
+        playAttackSound();
     }
 
     /// <summary>Ends the Goblin's attack animation.</summary>
