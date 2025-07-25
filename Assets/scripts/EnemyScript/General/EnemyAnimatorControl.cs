@@ -143,6 +143,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     {
         if (entity.isDead() && !isDead)
         {
+            audioSource.Stop();
             audioManager.playEnemy(audioSource, transform.tag + "_Death");
             KillEnemyHandler.KilledEnemy(transform.tag);
             enemyMovement.setCanMove(false);
