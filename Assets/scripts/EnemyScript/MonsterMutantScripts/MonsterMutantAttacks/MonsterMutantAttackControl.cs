@@ -41,6 +41,10 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     private Player player = null;
 
+    private AudioManager audioManager;
+
+    private AudioSource audioSource;
+
     /// <summary>
     /// Initializes references and loads attack data on start.
     /// </summary>
@@ -49,7 +53,8 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
         // Get references to movement and animation scripts.
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
-
+        audioManager = FindAnyObjectByType<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
         enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
 
         // Retrieve the list of attacks for this enemy based on its tag.
@@ -135,6 +140,7 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
+                    playAttackSound();
                     // Increment attack count and reset if exceeded max.
                     attackCount++;
                     if (attackCount > attackCountMax)
@@ -147,6 +153,18 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
         }
 
         return false;
+    }
+
+    private void playAttackSound()
+    {
+        if (attackCount <= 1)
+        {
+            audioManager.playEnemy(audioSource, "MonsterMutant_AttackHand");
+        }
+        else if (attackCount == 2)
+        {
+            audioManager.playEnemy(audioSource, "MonsterMutant_AttackSpike");
+        }
     }
 
     /// <summary>
