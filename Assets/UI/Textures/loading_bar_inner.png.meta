@@ -142,5 +142,5 @@ AssetOrigin:
   productId: 195933
   packageName: SharpUI GUI
   packageVersion: 1.0
-  assetPath: Assets/SharpUI/Textures/loading_bar_inner.png
+  assetPath: Assets/UI/Textures/loading_bar_inner.png
   uploadId: 452711

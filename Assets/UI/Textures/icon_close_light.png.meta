@@ -142,5 +142,5 @@ AssetOrigin:
   productId: 195933
   packageName: SharpUI GUI
   packageVersion: 1.0
-  assetPath: Assets/SharpUI/Textures/icon_close_light.png
+  assetPath: Assets/UI/Textures/icon_close_light.png
   uploadId: 452711

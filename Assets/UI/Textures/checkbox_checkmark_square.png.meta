@@ -142,5 +142,5 @@ AssetOrigin:
   productId: 195933
   packageName: SharpUI GUI
   packageVersion: 1.0
-  assetPath: Assets/SharpUI/Textures/checkbox_checkmark_square.png
+  assetPath: Assets/UI/Textures/checkbox_checkmark_square.png
   uploadId: 452711

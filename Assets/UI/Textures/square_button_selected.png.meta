@@ -142,5 +142,5 @@ AssetOrigin:
   productId: 195933
   packageName: SharpUI GUI
   packageVersion: 1.0
-  assetPath: Assets/SharpUI/Textures/square_button_selected.png
+  assetPath: Assets/UI/Textures/square_button_selected.png
   uploadId: 452711

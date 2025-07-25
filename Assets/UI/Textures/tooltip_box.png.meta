@@ -142,5 +142,5 @@ AssetOrigin:
   productId: 195933
   packageName: SharpUI GUI
   packageVersion: 1.0
-  assetPath: Assets/SharpUI/Textures/tooltip_box.png
+  assetPath: Assets/UI/Textures/tooltip_box.png
   uploadId: 452711

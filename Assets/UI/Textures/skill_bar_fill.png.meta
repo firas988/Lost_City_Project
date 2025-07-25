@@ -142,5 +142,5 @@ AssetOrigin:
   productId: 195933
   packageName: SharpUI GUI
   packageVersion: 1.0
-  assetPath: Assets/SharpUI/Textures/skill_bar_fill.png
+  assetPath: Assets/UI/Textures/skill_bar_fill.png
   uploadId: 452711

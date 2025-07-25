@@ -1,11 +1,7 @@
 fileFormatVersion: 2
-guid: 9072bfb5cca24f01a4acdc2ebc1db8a6
-MonoImporter:
+guid: 7a7207825d33c4b4aa8c774285d0c5e6
+PrefabImporter:
   externalObjects: {}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -14,5 +10,5 @@ AssetOrigin:
   productId: 195933
   packageName: SharpUI GUI
   packageVersion: 1.0
-  assetPath: Assets/scripts/SkillTree/SkillTreeButton.cs
+  assetPath: Assets/SharpUI/Prefabs/UI/Button/RectButton.prefab
   uploadId: 452711
