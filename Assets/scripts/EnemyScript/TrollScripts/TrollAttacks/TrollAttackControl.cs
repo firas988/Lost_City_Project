@@ -41,6 +41,10 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     private Player player = null;
 
+    private AudioManager audioManager;
+
+    private AudioSource audioSource;
+
     /// <summary>
     /// Initializes references and loads attack data based on the enemy's tag.
     /// </summary>
@@ -48,6 +52,8 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
+        audioManager = FindAnyObjectByType<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
 
         enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
 
@@ -130,6 +136,7 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
+                    playAttackSound();
                     attackCount++;
 
                     if (attackCount > attackCountMax)
@@ -142,6 +149,14 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
         }
 
         return false;
+    }
+
+    private void playAttackSound()
+    {
+        if (attackCount <= 0)
+        {
+            audioManager.playEnemy(audioSource, "Troll_Attack");
+        }
     }
 
     /// <summary>

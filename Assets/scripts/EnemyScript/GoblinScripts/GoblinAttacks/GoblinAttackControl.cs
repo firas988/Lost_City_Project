@@ -42,6 +42,10 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Reference to the Player script controlling player data.</summary>
     private Player player = null;
 
+    private AudioManager audioManager;
+
+    private AudioSource audioSource;
+
     /// <summary>
     /// Initializes components and loads attack data on start.
     /// </summary>
@@ -49,6 +53,8 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
+        audioManager = FindAnyObjectByType<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
 
         enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
 
@@ -129,6 +135,7 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
+                    playAttackSound();
                     attackCount++;
                     if (attackCount > attackCountMax)
                     {
@@ -139,6 +146,14 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
             }
         }
         return false;
+    }
+
+    private void playAttackSound()
+    {
+        if (attackCount <= 0)
+        {
+            audioManager.playEnemy(audioSource, "Goblin_Attack");
+        }
     }
 
     /// <summary>
