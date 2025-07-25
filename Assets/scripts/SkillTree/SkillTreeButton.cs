@@ -42,6 +42,7 @@ public class SkillTreeButton : MonoBehaviour
     #endregion
 
     #region Private Fields
+    private NotificationsManager notificationsManager;
     private AudioManager audioManager;
     private AudioSource audioSource;
     private bool isSkillPurchased; // Tracks if the skill has been purchased
@@ -55,6 +56,7 @@ public class SkillTreeButton : MonoBehaviour
     /// </summary>
     void Awake()
     {
+        notificationsManager = GameObject.Find("GameManger").GetComponent<NotificationsManager>();
         audioManager = GameObject.Find("GameManger").GetComponent<AudioManager>();
         audioSource = GetComponent<AudioSource>();
         SetSkillAmountLimit(skillLimit);
@@ -76,17 +78,20 @@ public class SkillTreeButton : MonoBehaviour
             return;
         Debug.Log("Incrementing skill " + skillList.getCurrentLevel());
 
-        GetComponent<Button>().interactable = false;
-        audioManager.playUI(audioSource, "skillupgraded");
-       
+        GetComponent<Button>().onClick.RemoveAllListeners();
+        GetComponent<Button>().onClick.AddListener( () => audioManager.playUI(audioSource, "Error"));
+        GetComponent<Button>().onClick.AddListener( () => notificationsManager.queueTopLeftNotification("Skill Already Upgraded/Not Enough Points/Not Enough XP"));
 
         isSkillPurchased = skillTreeManager.UpgradeSkill(skillList);
         Debug.Log("Skill upgraded " + isSkillPurchased);
         SetColors();
 
-    if (skillList.getCurrentLevel() < skillList.getMaxLevel())
+   
+    if (isSkillPurchased && skillList.getCurrentLevel() < skillList.getMaxLevel())
         {
             skillList.getSkillTreeButtons()[skillList.getCurrentLevel()].interactable = true;
+            audioManager.playUI(audioSource, "skillupgraded");
+            notificationsManager.queueTopLeftNotification("Skill Upgraded");
         }
 
 

@@ -119,9 +119,11 @@ public class QuestManager : MonoBehaviour
         if (questToInc.isCompleted){
             activeFindQuests.Remove(questToInc);
             Debug.Log("Quest Completed: " + questToInc.GetQuestName());
-           notificationsManager.queueTopLeftNotification(questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)");            
-           onQuestFinish?.Invoke(float.Parse(questToInc.Reward));
            StartCoroutine(audioManager.queueUI(audioSource ,"notification"));
+            notificationsManager.queueTopLeftNotification(questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)");            
+            onQuestFinish?.Invoke(float.Parse(questToInc.Reward));
+
+
         }
 
     }

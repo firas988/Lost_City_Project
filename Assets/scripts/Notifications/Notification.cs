@@ -6,24 +6,15 @@ using System;
 public class Notification : MonoBehaviour
 {   [SerializeField] private TMP_Text textTitle;
         [SerializeField] private TMP_Text textSubtitle;
-        [SerializeField] private bool hideOnStart;
     private Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         animator = this.GetComponent<Animator>();
-    InitVisibility();
 
     }
 
- private void InitVisibility()
-        {
-            if (hideOnStart)
-                Hide();
-            else
-                Show();
-        }
 
  public void SetTitle(string title) => textTitle.text = title;
 

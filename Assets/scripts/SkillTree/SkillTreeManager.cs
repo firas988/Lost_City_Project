@@ -90,6 +90,23 @@ public class SkillTreeManager : MonoBehaviour
             audioManager = GameObject.Find("GameManger").GetComponent<AudioManager>();
         notificationsManager = GameObject.Find("GameManger").GetComponent<NotificationsManager>();
         audioSource = GetComponent<AudioSource>();
+
+           SkillTreeData skillTreeData = SaveSystem.LoadSkills();
+        if (skillTreeData != null)
+        {
+            skillAmountLimit.setTotalAvailable(skillTreeData.totalSkillPoints);
+            skillAmountLimit.setSpent(skillTreeData.spent);
+            skillAmountLimit.Render();
+        }
+     
+        startPlayer = playerObject.GetComponent<StartPlayer>();
+        Init(GetComponent<LevelManager>());
+        strengthSkillList.Init(
+            strengthSkillList.getCurrentLevel(),
+            strengthSkillList.getMaxLevel(),
+            strengthSkillButtons,
+            skillAmountLimit
+        );
      
     
     }
@@ -172,14 +189,12 @@ public class SkillTreeManager : MonoBehaviour
         {
             startPlayer.getPlayer().addStrengthBonusSkill(skillList.currentBonus);
             skillList.Upgrade();
-            notificationsManager.queueTopLeftNotification("Skill Upgraded");
             return true;
         }
         catch (Exception e)
         {
             Debug.LogError("Error upgrading skill: " + e.Message);
-            audioManager.queueUI(audioSource, "Error");
-            notificationsManager.queueTopLeftNotification("Skill Maxed Out or Not Enough Skill Points");
+           
         }
         return false;
     }
