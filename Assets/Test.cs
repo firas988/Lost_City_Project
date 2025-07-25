@@ -9,6 +9,9 @@ public class Test : ScriptableObject
     public AnimationCurve testAnimationCurve;
     public Gradient testGradient;
 
+    public List<string> testList;
+    public Dictionary<string, int> testDictionary;
+    public HashSet<string> testHashSet;
     public void Test()
     {
         Debug.Log("Test");
