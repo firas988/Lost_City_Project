@@ -6,9 +6,6 @@ using UnityEngine;
 public class Notification : MonoBehaviour
 {
     [SerializeField]
-    private TMP_Text textTitle;
-
-    [SerializeField]
     private TMP_Text textSubtitle;
     private Animator animator;
 
@@ -17,8 +14,6 @@ public class Notification : MonoBehaviour
     {
         animator = this.GetComponent<Animator>();
     }
-
-    public void SetTitle(string title) => textTitle.text = title;
 
     public void SetSubtitle(string subtitle) => textSubtitle.text = subtitle;
 
