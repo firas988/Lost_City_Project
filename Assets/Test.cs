@@ -25,5 +25,8 @@ public class Test : ScriptableObject
     public List<string> testList;
     public Dictionary<string, int> testDictionary;
     public HashSet<string> testHashSet;
-  Debug.Log("Test");
+    public void Test()
+    {
+        Debug.Log("Test");
+    }
 }
