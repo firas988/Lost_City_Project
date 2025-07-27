@@ -56,6 +56,11 @@ public class ObjectInteraction : MonoBehaviour
     private bool isAchect = false;
 
     /// <summary>
+    /// Reference to the audio manager for playing chest opening sounds.
+    /// </summary>
+    private AudioManager audioManager;
+
+    /// <summary>
     /// Reference to the chest reward manager for handling chest rewards.
     /// </summary>
     private ChestRewardManager chestRewardManager;
@@ -153,6 +158,9 @@ public class ObjectInteraction : MonoBehaviour
             chestRewardManager = GetComponent<ChestRewardManager>();
             animator = GetComponent<Animator>();
             audioSource = GetComponent<AudioSource>();
+            audioManager = GameObject
+                .FindGameObjectWithTag(gameManagerTag)
+                .GetComponent<AudioManager>();
             canvas.enabled = false;
             openChestEffectParticleSystem = openChestEffect.GetComponent<ParticleSystem>();
         }
@@ -216,7 +224,7 @@ public class ObjectInteraction : MonoBehaviour
                 canOpen = false;
                 canvas.enabled = false;
                 animator.SetTrigger(isOpenTrigger);
-                audioSource.Play();
+                audioManager.playSFX(audioSource, "chestOpen");
                 openChestEffectParticleSystem.Play();
             }
         }
