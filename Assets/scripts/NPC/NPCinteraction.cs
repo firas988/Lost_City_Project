@@ -84,6 +84,9 @@ public class NPCinteraction : MonoBehaviour
     }
     public void toggleOffNavigation()
     {
+         if(NPCnavigation == null)
+         return;
+
         NPCnavigation.setIsWandering(false);
         playerTransform = player.transform;
         agent.isStopped = true;
@@ -95,11 +98,14 @@ public class NPCinteraction : MonoBehaviour
     }
 
     private void HandleExit()
-    {
+    {  
         Debug.Log("left trigger");
      
         
+        if(NPCnavigation != null)
          NPCnavigation.setIsWandering(true);
+
+
          if (player != null)
          {
             player = null;
@@ -108,6 +114,7 @@ public class NPCinteraction : MonoBehaviour
          {
             playerTransform = null;
          }
+         
         agent.isStopped = false;
         isOccupied = false;
 

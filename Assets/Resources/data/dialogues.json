@@ -33,4 +33,59 @@
       ]
     }
   }
+  ,
+  "A guy that loves parks":{
+    "start":{
+      "dialogue": [
+        {
+          "text": "Don't you love coming everyday to chill in a park?",
+          "options": ["Have you seen a guy named Robert?", "no"]
+        }
+      ]
+    },
+    "Have you seen a guy named Robert?":{
+      "dialogue": [
+        {
+          "text": "Ah, He's a usual guy here, abit weird that he always wears a tuxedo, but he's a good guy.",
+          "options": ["Alright, thanks for the info", "goodbye"]
+        }
+      ]
+    },
+    "alright, thanks for the info":{
+      "dialogue": [
+        {
+          "text": "My pleasure, say hi to him for me.",
+          "options": ["okay, thanks", ""]
+        }
+      ]
+    }
+
+  },
+
+  "Robert":{
+    "start":{
+      "dialogue": [
+        {
+          "text": "Can I help you with something?",
+          "options": ["Are you robet perchance?", "no"]
+        }
+      ]
+    },
+    "Are you robet perchance?":{
+      "dialogue": [
+        {
+          "text": "Yes, I'm Robert, what can I do for you?",
+          "options": ["**Show him the letter**", "Nothing, just saying hi"]
+        }
+      ]
+    },
+    "**Show him the letter**":{
+      "dialogue": [
+        {
+          "text": "Oh you're Adrians disciple, that's enough for me, follow me.",
+          "options": ["**Follow him**", "Mom said don't go with strangers"]
+        }
+      ]
+    }
+  }
 }
