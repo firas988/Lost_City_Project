@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// NPC class specialized for giving quests to players.
 /// Manages dialogue interactions and quest distribution functionality.
 /// </summary>
-public class QuestGiver : NPC
+public class QuestGiver : TalkativeNpc
 {
     /// <summary>
     /// The starting dialogue key for initiating conversation with this quest giver.
@@ -45,10 +45,8 @@ public class QuestGiver : NPC
         Vector2 waitTimeRange,
         string navMeshAreaName,
         float speed,
-        float maxSpeed, string start, Dictionary<string, Dialogue> dialogues, Quest questToGive) : base(id,name, type, walkRadius,areaMask,waitTimeRange,navMeshAreaName,speed,maxSpeed){
+        float maxSpeed, string start, Dictionary<string, Dialogue> dialogues, Quest questToGive) : base(id,name, type, walkRadius,areaMask,waitTimeRange,navMeshAreaName,speed,maxSpeed,dialogues,start){
        
-        this.start = start;
-        this.dialogues = dialogues;
         this.questToGive = questToGive;
         this.questToGive.SetGiverID(this.id);
 

@@ -3,7 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections.Generic;
 /// <summary>
 /// Manages dialogue interactions between the player and NPCs, handling conversation flow and quest distribution.
 /// Controls dialogue UI display, input handling, and quest assignment upon conversation completion.
@@ -33,10 +33,6 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     [SerializeField]
     private LayerMask talkativeLayers;
-
-       //reference to level manager
-       [SerializeField]
-       private LevelManager levelManager;
 
     /// <summary>
     /// Reference to the quest manager for quest assignment after dialogue completion.
@@ -75,9 +71,9 @@ public class DialogueManager : MonoBehaviour
     private GameObject talkingTo;
 
     /// <summary>
-    /// Quest giver component of the NPC for quest distribution.
+    ///  NPC component of the NPC for quest distribution.
     /// </summary>
-    private QuestGiver npc;
+    private TalkativeNpc npc;
 
     /// <summary>
     /// Event triggered when dialogue ends, providing the quest to be assigned.
@@ -93,6 +89,12 @@ public class DialogueManager : MonoBehaviour
     /// Flag to prevent rapid dialogue interactions.
     /// </summary>
     private bool onCoolDown;
+
+    /// <summary>
+    /// Reference to the level manager for XP distribution.
+    /// </summary>
+    [SerializeField]
+    private LevelManager levelManager;
 
     /// <summary>
     /// Initializes the dialogue manager by finding required components and setting up initial NPC reference.
@@ -120,7 +122,7 @@ public class DialogueManager : MonoBehaviour
         if (talkingTo != null)
         {
             // Cast the NPC to QuestGiver type for quest distribution functionality
-            npc = (QuestGiver)talkingTo.GetComponent<StartNpc>().GetNpcsInstance();
+            npc = (TalkativeNpc)talkingTo.GetComponent<StartNpc>().GetNpcsInstance();
         }
     }
 
@@ -143,7 +145,6 @@ public class DialogueManager : MonoBehaviour
         // Get the current NPC the player is trying to interact with
         talkingTo = playerStateManager.getInteractingWith();
 
-            
         // Early return if no NPC found or NPC is not on a talkative layer
         if (talkingTo == null || !IsInTalkativeLayers(talkingTo))
         {
@@ -151,7 +152,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         // Get the QuestGiver component from the NPC for quest functionality
-        npc = (QuestGiver)talkingTo.GetComponent<StartNpc>().GetNpcsInstance();
+        npc = (TalkativeNpc)talkingTo.GetComponent<StartNpc>().GetNpcsInstance();
 
         // Debug log to track interaction input
         Debug.Log(inputListener.isInteracting());
@@ -160,12 +161,10 @@ public class DialogueManager : MonoBehaviour
         if (
             inputListener != null
             && inputListener.isInteracting()
-            && !npc.GetQuestToGive().isCompleted
+        
         )
         {
-            startDialogue();
-            // Show the dialogue UI and enter dialogue mode
-            showDialogue();
+          startDialogue();
         }
     }
 
@@ -184,7 +183,7 @@ public class DialogueManager : MonoBehaviour
             UIcontroller.SetText(
                 textContainer,
                 talkingTo.layer == LayerMask.NameToLayer("QuestGiver")
-                    ? response.Replace("TARGET", this.npc.GetQuestToGive().QuestTarget)
+                    ? response.Replace("TARGET", ((QuestGiver) this.npc).GetQuestToGive().QuestTarget)
                     : response
             );
 
@@ -194,50 +193,68 @@ public class DialogueManager : MonoBehaviour
             // Store the selected dialogue option for the next response
             continueSentence = options[0];
         }
-        catch (IndexOutOfRangeException)
+        catch (KeyNotFoundException)
         {
+
             // Dialogue has ended - no more options available
+            if (npc.GetType() == typeof(TalkativeNpc))
+            {
+                levelManager.addXP(100f);
+                closeDialogue();
+                return;
+            }
 
+            if(npc.GetType() == typeof(QuestGiver))
+            {
             // Get the quest to be assigned to the player
-            Quest questToGive = npc.GetQuestToGive();
+            Quest questToGive = ((QuestGiver)npc).GetQuestToGive();
 
-        
-        if(talkingTo.layer == LayerMask.NameToLayer("QuestGiver"))
             // Trigger the dialogue exit event with the quest
             onDialogueExit?.Invoke(questToGive);
-        else
-         levelManager.addXP(100f);
-
+            }
             // Close the dialogue UI and restore gameplay state
             closeDialogue();
         }
     }
 
 
-     public void startDialogue()
-     {
+    public void startDialogue()
+    {
+        if(npc.GetType() == typeof(QuestGiver))
+        {
+            if(((QuestGiver)npc).GetQuestToGive().isCompleted)
+            {
+                return;
+            }
+          
+        }
+
+
           // Set the NPC name
-            UIcontroller.SetText(npcName.GetComponent<TextMeshProUGUI>(), talkingTo.tag);
+        UIcontroller.SetText(npcName.GetComponent<TextMeshProUGUI>(), talkingTo.tag);
 
-            // Find the text container component for displaying dialogue
-            textContainer = this
-                .gameObject.transform.Find("Content")
-                .gameObject.transform.Find("dialogueText")
-                .GetComponent<TextMeshProUGUI>();
+        // Find the text container component for displaying dialogue
+        textContainer = this
+            .gameObject.transform.Find("Content")
+            .gameObject.transform.Find("dialogueText")
+            .GetComponent<TextMeshProUGUI>();
 
-            // Get the initial dialogue response and options from the NPC
-            string response = npc.respodToDialogue("start", out string[] options);
+        // Get the initial dialogue response and options from the NPC
+        string response = npc.respodToDialogue(npc.start, out string[] options);
 
-            // Set the dialogue text to display the NPC's response
-            UIcontroller.SetText(textContainer, response);
+        // Set the dialogue text to display the NPC's response
+        UIcontroller.SetText(textContainer, response);
 
-            // Set the continue button text to the first dialogue option
-            UIcontroller.SetText(continueButton.GetComponent<TextMeshProUGUI>(), options[0]);
+        // Set the continue button text to the first dialogue option
+        UIcontroller.SetText(continueButton.GetComponent<TextMeshProUGUI>(), options[0]);
 
-            // Store the selected dialogue option for the next response
-            continueSentence = options[0];
+        // Store the selected dialogue option for the next response
+        continueSentence = options[0];
 
-     }
+        // Show the dialogue UI and enter dialogue mode
+            showDialogue();
+       
+    }
 
     /// <summary>
     /// Closes the dialogue UI and restores normal gameplay state.

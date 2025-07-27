@@ -131,6 +131,28 @@ public class StartNpc : MonoBehaviour
                     Debug.Log(npcsInstance);
                 }
                 break;
+            case "TalkativePerson":
+                {
+                    ConvertDialouges dialogueConv = FindAnyObjectByType<ConvertDialouges>();
+                    Dictionary<string, Dialogue> dialogueData = dialogueConv.GetDialogueByNpcName(
+                        typeInstance.name
+                    );
+                    npcsInstance = new TalkativeNpc(
+                        gameObject.GetInstanceID(),
+                        typeInstance.name,
+                        layerName,
+                        typeInstance.walkRadius,
+                        typeInstance.areaMask,
+                        new Vector2(typeInstance.waitTimeRange[0], typeInstance.waitTimeRange[1]),
+                        "",
+                        typeInstance.speed,
+                        typeInstance.maxSpeed,
+                        dialogueData,
+                        "start"
+                    );
+                }
+
+                break;
             default:
                 break;
         }

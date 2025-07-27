@@ -114,8 +114,10 @@ public class NPCinteraction : MonoBehaviour
          {
             playerTransform = null;
          }
-         
+
+        if(agent != null)
         agent.isStopped = false;
+        
         isOccupied = false;
 
         
