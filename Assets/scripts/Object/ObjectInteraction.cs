@@ -253,4 +253,9 @@ public class ObjectInteraction : MonoBehaviour
     {
         canvas.transform.LookAt(Camera.main.transform);
     }
+
+    public bool getIsOpen()
+    {
+        return isOpen;
+    }
 }

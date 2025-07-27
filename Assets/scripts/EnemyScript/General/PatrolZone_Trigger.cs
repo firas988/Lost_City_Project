@@ -25,6 +25,15 @@ public class PatrolZone_Trigger : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the patrol range.
+    /// </summary>
+    /// <returns>The patrol range.</returns>
+    public float getPatrolRange()
+    {
+        return patrolRange;
+    }
+
+    /// <summary>
     /// Triggered when another collider exits this trigger.
     /// If it's an enemy, the enemy stops chasing or attacking and starts returning.
     /// </summary>
