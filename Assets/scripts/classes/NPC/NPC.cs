@@ -36,6 +36,23 @@ public class NPC
         this.maxSpeed = maxSpeed;
     }
 
+    public NPC(
+        int id,
+        string name,
+        string type
+    )
+    {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.walkRadius = 0;
+        this.areaMask = 0;
+        this.waitTimeRange = new Vector2(0, 0);
+        this.navMeshAreaName = "";
+        this.speed = 0;
+        this.maxSpeed = 0;
+    }
+
     //getters and setters
     public int GetId()
     {

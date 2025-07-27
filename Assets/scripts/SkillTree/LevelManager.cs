@@ -62,7 +62,7 @@ public class LevelManager : MonoBehaviour
         skillTree = GameObject.Find("GameManger").GetComponent<SkillTreeManager>();
         questManager = gameObject.GetComponent<QuestManager>();
         currentXP = 0;
-        XPtoNextLevel = 50;
+        XPtoNextLevel = 1000;
         level = 0;
         questManager.onQuestFinish += addXP;
         notificationsManager = GameObject.Find("GameManger").GetComponent<NotificationsManager>();
