@@ -757,6 +757,26 @@ PrefabInstance:
       propertyPath: m_AngularSpeed
       value: 800
       objectReference: {fileID: 0}
+    - target: {fileID: 4513942412105502052, guid: de003291479aabf46afcb4b68be57838, type: 3}
+      propertyPath: MaxDistance
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4513942412105502052, guid: de003291479aabf46afcb4b68be57838, type: 3}
+      propertyPath: MinDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4513942412105502052, guid: de003291479aabf46afcb4b68be57838, type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4513942412105502052, guid: de003291479aabf46afcb4b68be57838, type: 3}
+      propertyPath: DopplerLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4513942412105502052, guid: de003291479aabf46afcb4b68be57838, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

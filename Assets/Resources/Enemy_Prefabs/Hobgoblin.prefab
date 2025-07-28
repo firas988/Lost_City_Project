@@ -786,6 +786,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7291743799124907745, guid: 7fcafa3ed7bbc494580a2eefb218aec2, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -1372625422
+      objectReference: {fileID: 0}
+    - target: {fileID: 7291743799124907745, guid: 7fcafa3ed7bbc494580a2eefb218aec2, type: 3}
       propertyPath: m_Acceleration
       value: 100
       objectReference: {fileID: 0}

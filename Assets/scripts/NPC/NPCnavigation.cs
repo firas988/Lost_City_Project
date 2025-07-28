@@ -200,7 +200,7 @@ public class NPCnavigation : MonoBehaviour
         isWaiting = true;
         animator.SetBool("isWalking", false);
         float waitTime = Random.Range(waitTimeRange.x, waitTimeRange.y);
-        
+
         yield return new WaitForSeconds(waitTime);
 
         TrySetNewDestination();

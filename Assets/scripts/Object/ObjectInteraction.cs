@@ -188,9 +188,12 @@ public class ObjectInteraction : MonoBehaviour
         {
             checkIfThePlayerIsNearTheChest();
         }
-        if (isAchect && playerIsInRange && canOpen)
+        if (isAchect && playerIsInRange)
         {
-            openChestProgress();
+            if (canOpen)
+            {
+                openChestProgress();
+            }
             lockToThePlayer();
         }
     }
@@ -218,7 +221,7 @@ public class ObjectInteraction : MonoBehaviour
             isInteracting = true;
             holdTimer += Time.deltaTime;
             progressBar.fillAmount = holdTimer / holdTime;
-            if (holdTimer >= holdTime)
+            if (holdTimer >= holdTime && !isOpen && canOpen)
             {
                 isOpen = true;
                 canOpen = false;
@@ -257,5 +260,10 @@ public class ObjectInteraction : MonoBehaviour
     public bool getIsOpen()
     {
         return isOpen;
+    }
+
+    public void setCanOpen(bool canOpen)
+    {
+        this.canOpen = canOpen;
     }
 }

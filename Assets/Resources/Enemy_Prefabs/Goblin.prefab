@@ -766,6 +766,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 2902df25e4a6f98468009580eb2f7426, type: 2}
     - target: {fileID: 8667626681704618796, guid: 9974f2b4597448f43b0f2cff5a889319, type: 3}
+      propertyPath: m_AgentTypeID
+      value: -1372625422
+      objectReference: {fileID: 0}
+    - target: {fileID: 8667626681704618796, guid: 9974f2b4597448f43b0f2cff5a889319, type: 3}
       propertyPath: m_Acceleration
       value: 100
       objectReference: {fileID: 0}
