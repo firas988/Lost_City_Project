@@ -70,8 +70,11 @@ public class QuestGiver : TalkativeNpc
             start
         )
     {
-        this.questToGive = questToGive;
-        this.questToGive.SetGiverID(this.id);
+        if (questToGive != null)
+        {
+            this.questToGive = questToGive;
+            this.questToGive.SetGiverID(this.id);
+        }
     }
 
     public QuestGiver(
@@ -102,8 +105,11 @@ public class QuestGiver : TalkativeNpc
             start
         )
     {
-        this.storyQuestToGive = storyQuestToGive;
-        this.storyQuestToGive.SetGiverID(this.id);
+        if (storyQuestToGive != null)
+        {
+            this.storyQuestToGive = storyQuestToGive;
+            this.storyQuestToGive.SetGiverID(this.id);
+        }
     }
 
     /// <summary>

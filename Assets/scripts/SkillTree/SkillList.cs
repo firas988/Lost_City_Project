@@ -1,7 +1,8 @@
-using UnityEngine;
 using System.Collections.Generic;
 using UniRx;
+using UnityEngine;
 using UnityEngine.UI;
+
 /// <summary>
 /// ScriptableObject representing a collection of skills for a specific skill tree category.
 /// Manages skill progression, level tracking, and bonus calculations for different skill types.
@@ -52,7 +53,12 @@ public class SkillList : ScriptableObject
     /// <param name="maxLevel">The maximum level that can be achieved in this skill tree.</param>
     /// <param name="skillTreeButtons">List of UI buttons for the skill tree.</param>
     /// <param name="skillAmountLimit">Reference to the skill amount limit.</param>
-    public void Init(int currentLevel, int maxLevel, List<Button> skillTreeButtons, SkillAmountLimit skillAmountLimit)
+    public void Init(
+        int currentLevel,
+        int maxLevel,
+        List<Button> skillTreeButtons,
+        SkillAmountLimit skillAmountLimit
+    )
     {
         this.maxLevel = maxLevel;
         this.skillAmountLimit = skillAmountLimit;
@@ -62,8 +68,8 @@ public class SkillList : ScriptableObject
 
         for (int i = 0; i < currentLevel; i++)
         {
-        Debug.Log("Incrementing skill " + i);
-         skillTreeButtons[i].GetComponentInParent<SkillTreeButton>().Increment();
+            Debug.Log("Incrementing skill " + i);
+            skillTreeButtons[i].GetComponentInParent<SkillTreeButton>().Increment();
         }
     }
 
@@ -82,7 +88,7 @@ public class SkillList : ScriptableObject
         {
             skillAmountLimit.UpdateSpent(currentCost);
             currentLevel++;
-            
+
             return true;
         }
         return false;
@@ -95,14 +101,16 @@ public class SkillList : ScriptableObject
     /// <summary>
     /// Gets the cost of the next skill upgrade in this skill tree.
     /// </summary>
-    public int currentCost {
+    public int currentCost
+    {
         get { return this.skills[currentLevel].Cost; }
     }
 
     /// <summary>
     /// Gets the bonus value of the next skill upgrade in this skill tree.
     /// </summary>
-    public float currentBonus {
+    public float currentBonus
+    {
         get { return this.skills[currentLevel].Bonus; }
     }
 

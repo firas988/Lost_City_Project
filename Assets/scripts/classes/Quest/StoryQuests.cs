@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 [CreateAssetMenu(fileName = "StoryQuests", menuName = "Quests/StoryQuests")]
-public class StoryQuests : ScriptableObject
+public abstract class StoryQuests : ScriptableObject
 {
     [SerializeField]
     private List<StoryQuest> quests;

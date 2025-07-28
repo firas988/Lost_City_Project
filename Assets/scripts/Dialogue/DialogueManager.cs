@@ -11,6 +11,8 @@ using UnityEngine.UI;
 /// </summary>
 public class DialogueManager : MonoBehaviour
 {
+    #region Serialized Fields
+
     /// <summary>
     /// UI button for continuing the dialogue conversation.
     /// </summary>
@@ -40,6 +42,16 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     [SerializeField]
     private QuestManager questManager;
+
+    /// <summary>
+    /// Reference to the level manager for XP distribution.
+    /// </summary>
+    [SerializeField]
+    private LevelManager levelManager;
+
+    #endregion
+
+    #region Private Fields
 
     /// <summary>
     /// Reference to the animation controller for managing player animations during dialogue.
@@ -77,11 +89,6 @@ public class DialogueManager : MonoBehaviour
     private TalkativeNpc npc;
 
     /// <summary>
-    /// Event triggered when dialogue ends, providing the quest to be assigned.
-    /// </summary>
-    public event Action<Quest> onDialogueExit;
-
-    /// <summary>
     /// The current dialogue option selected for continuing the conversation.
     /// </summary>
     private string continueSentence;
@@ -91,11 +98,18 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private bool onCoolDown;
 
+    #endregion
+
+    #region Events
+
     /// <summary>
-    /// Reference to the level manager for XP distribution.
+    /// Event triggered when dialogue ends, providing the quest to be assigned.
     /// </summary>
-    [SerializeField]
-    private LevelManager levelManager;
+    public event Action<Quest> onDialogueExit;
+
+    #endregion
+
+    #region Unity Lifecycle Methods
 
     /// <summary>
     /// Initializes the dialogue manager by finding required components and setting up initial NPC reference.
@@ -155,15 +169,16 @@ public class DialogueManager : MonoBehaviour
         // Get the QuestGiver component from the NPC for quest functionality
         npc = (TalkativeNpc)talkingTo.GetComponent<StartNpc>().GetNpcsInstance();
 
-        // Debug log to track interaction input
-        Debug.Log(inputListener.isInteracting());
-
         // Check if input is valid, interaction is happening, and quest is not already completed
         if (inputListener != null && inputListener.isInteracting())
         {
             startDialogue();
         }
     }
+
+    #endregion
+
+    #region Dialogue Management
 
     /// <summary>
     /// Processes the player's response to NPC dialogue and continues the conversation.
@@ -180,6 +195,7 @@ public class DialogueManager : MonoBehaviour
             UIcontroller.SetText(
                 textContainer,
                 talkingTo.layer == LayerMask.NameToLayer("QuestGiver")
+                && response.Contains("TARGET")
                     ? response.Replace(
                         "TARGET",
                         ((QuestGiver)this.npc).GetQuestToGive().QuestTarget
@@ -190,36 +206,52 @@ public class DialogueManager : MonoBehaviour
             // Set the continue button text to the next dialogue option
             UIcontroller.SetText(continueButton.GetComponent<TextMeshProUGUI>(), options[0]);
 
+            //set the goodbye button text to the next dialogue option
+            UIcontroller.SetText(cancelButton.GetComponent<TextMeshProUGUI>(), options[1]);
+
             // Store the selected dialogue option for the next response
             continueSentence = options[0];
         }
         catch (KeyNotFoundException)
         {
             // Dialogue has ended - no more options available
+            if (npc.GetType() == typeof(QuestGiver))
+            {
+                if (((QuestGiver)npc).GetQuestToGive() is StoryQuest)
+                {
+                    ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
+                    levelManager.addXP(200f);
+                    closeDialogue();
+                    return;
+                }
+
+                // Get the quest to be assigned to the player
+                Quest questToGive = ((QuestGiver)npc).GetQuestToGive();
+
+                // Trigger the dialogue exit event with the quest
+                onDialogueExit?.Invoke(questToGive);
+                closeDialogue();
+                return;
+            }
+
             if (npc.GetType() == typeof(TalkativeNpc))
             {
                 levelManager.addXP(100f);
                 closeDialogue();
                 return;
             }
-
-            if (npc.GetType() == typeof(QuestGiver))
-            {
-                // Get the quest to be assigned to the player
-                Quest questToGive = ((QuestGiver)npc).GetQuestToGive();
-
-                // Trigger the dialogue exit event with the quest
-                onDialogueExit?.Invoke(questToGive);
-            }
-            // Close the dialogue UI and restore gameplay state
-            closeDialogue();
         }
         catch (IndexOutOfRangeException)
         {
-            // Dialogue has ended - no more options available
-            if (npc.GetType() == typeof(TalkativeNpc))
+            if (
+                npc.GetType() == typeof(QuestGiver)
+                && ((QuestGiver)npc).GetQuestToGive() != null
+                && ((QuestGiver)npc).GetQuestToGive().GetType() == typeof(StoryQuest)
+            )
             {
-                levelManager.addXP(100f);
+                ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
+                levelManager.addXP(200f);
+
                 closeDialogue();
                 return;
             }
@@ -232,16 +264,30 @@ public class DialogueManager : MonoBehaviour
                 // Trigger the dialogue exit event with the quest
                 onDialogueExit?.Invoke(questToGive);
             }
+
+            if (npc.GetType() == typeof(TalkativeNpc))
+            {
+                levelManager.addXP(100f);
+                closeDialogue();
+                return;
+            }
+
             // Close the dialogue UI and restore gameplay state
             closeDialogue();
         }
     }
 
+    /// <summary>
+    /// Initiates dialogue with the current NPC and sets up the initial conversation state.
+    /// </summary>
     public void startDialogue()
     {
         if (npc.GetType() == typeof(QuestGiver))
         {
-            if (((QuestGiver)npc).GetQuestToGive().isCompleted)
+            if (
+                ((QuestGiver)npc).GetQuestToGive() != null
+                && ((QuestGiver)npc).GetQuestToGive().isCompleted
+            )
             {
                 return;
             }
@@ -271,6 +317,10 @@ public class DialogueManager : MonoBehaviour
         // Show the dialogue UI and enter dialogue mode
         showDialogue();
     }
+
+    #endregion
+
+    #region UI Management
 
     /// <summary>
     /// Closes the dialogue UI and restores normal gameplay state.
@@ -319,6 +369,10 @@ public class DialogueManager : MonoBehaviour
         animateController.enabled = false;
     }
 
+    #endregion
+
+    #region Utility Methods
+
     /// <summary>
     /// Checks whether the given GameObject is on one of the interactive layers.
     /// </summary>
@@ -330,8 +384,5 @@ public class DialogueManager : MonoBehaviour
         return (talkativeLayers.value & (1 << obj.layer)) != 0;
     }
 
-    public void testOnClick()
-    {
-        Debug.Log("testOnClick");
-    }
+    #endregion
 }

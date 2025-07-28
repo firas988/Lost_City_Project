@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using UnityEngine;
 
 /// <summary>
@@ -10,26 +8,32 @@ using UnityEngine;
 [System.Serializable]
 public abstract class Quest : ScriptableObject
 {
+    #region Serialized Fields
+
+    /// <summary>
+    /// The name of the quest displayed to the player.
+    /// </summary>
     [SerializeField]
     private string questName;
+
     /// <summary>
     /// The description of the quest that explains what the player needs to accomplish.
     /// </summary>
     [SerializeField]
     private string description;
-    
+
     /// <summary>
     /// The target or objective of the quest (e.g., enemy type to kill, item to find).
     /// </summary>
     [SerializeField]
     private string questTarget;
-    
+
     /// <summary>
     /// The type of reward given upon quest completion (e.g., "XP", "Gold", "Item").
     /// </summary>
     [SerializeField]
     private string rewardType;
-    
+
     /// <summary>
     /// The specific reward value or description given upon quest completion.
     /// </summary>
@@ -37,23 +41,29 @@ public abstract class Quest : ScriptableObject
     private string rewards;
 
     /// <summary>
-    /// The unique identifier of the NPC that gave this quest.
-    /// </summary>
-    private int giverId;
-    
-    /// <summary>
     /// Flag indicating whether this quest has been completed by the player.
     /// </summary>
     [SerializeField]
     protected bool completed;
 
+    #endregion
 
+    #region Private Fields
 
-/// <summary>
-/// Copy constructor for quest
-/// Copy all the properties of the quest to the new quest
-/// </summary>
-/// <param name="quest"></param>
+    /// <summary>
+    /// The unique identifier of the NPC that gave this quest.
+    /// </summary>
+    private int giverId;
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Copy constructor for quest.
+    /// Copies all the properties of the quest to the new quest.
+    /// </summary>
+    /// <param name="quest">The quest to copy properties from.</param>
     public Quest(Quest quest)
     {
         this.questName = quest.questName;
@@ -65,9 +75,9 @@ public abstract class Quest : ScriptableObject
         this.completed = false;
     }
 
-    
+    #endregion
 
-
+    #region Quest Giver Management
 
     /// <summary>
     /// Sets the ID of the NPC that gave this quest.
@@ -77,55 +87,41 @@ public abstract class Quest : ScriptableObject
     {
         this.giverId = giverId;
     }
-    
+
     /// <summary>
     /// Gets the ID of the NPC that gave this quest.
     /// </summary>
     public int GiverId
     {
-        get
-        {
-            return giverId;
-        }
+        get { return giverId; }
     }
+
+    #endregion
+
+    #region Quest Properties
 
     /// <summary>
     /// Gets the target or objective of this quest.
     /// </summary>
     public string QuestTarget
     {
-        get
-        {
-            return this.questTarget;
-        }
+        get { return this.questTarget; }
     }
-    
-    /// <summary>
-    /// Abstract method that must be implemented by derived quest classes.
-    /// Handles quest progress logic specific to each quest type.
-    /// </summary>
-    public abstract void progress();
 
     /// <summary>
     /// Gets whether this quest has been completed.
     /// </summary>
     public bool isCompleted
     {
-        get
-        {
-            return this.completed;
-        }
+        get { return this.completed; }
     }
-    
+
     /// <summary>
     /// Gets the type of reward given upon quest completion.
     /// </summary>
     public string RewardType
     {
-        get
-        {
-            return this.rewardType;
-        }
+        get { return this.rewardType; }
     }
 
     /// <summary>
@@ -133,16 +129,27 @@ public abstract class Quest : ScriptableObject
     /// </summary>
     public string Reward
     {
-        get {
-            return this.rewards;
-        }
+        get { return this.rewards; }
     }
 
+    /// <summary>
+    /// Gets the name of this quest.
+    /// </summary>
+    /// <returns>The quest name.</returns>
     public string GetQuestName()
     {
         return this.questName;
     }
 
+    #endregion
 
+    #region Abstract Methods
 
+    /// <summary>
+    /// Abstract method that must be implemented by derived quest classes.
+    /// Handles quest progress logic specific to each quest type.
+    /// </summary>
+    public abstract void progress();
+
+    #endregion
 }

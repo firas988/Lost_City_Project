@@ -10,7 +10,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class NPCnavigation : MonoBehaviour
 {
-    /// ===== CONFIGURATION FIELDS =====
+    #region Serialized Fields
+
     [Header("Wandering Settings")]
     [Tooltip("Maximum distance the NPC can move from its current position when wandering.")]
     [SerializeField]
@@ -30,52 +31,94 @@ public class NPCnavigation : MonoBehaviour
     [SerializeField]
     private bool isWandering = true;
 
-    /// ===== PRIVATE FIELDS =====
-    private NavMeshAgent agent; // Reference to the NavMeshAgent component
+    #endregion
+
+    #region Private Fields
 
     /// <summary>
-    /// Reference to the Animator component for animation control
+    /// Reference to the NavMeshAgent component for pathfinding and movement.
     /// </summary>
-    private Animator animator; // Reference to the Animator component for animation control
-    private int areaMask = NavMesh.AllAreas; // Bitmask used to limit valid areas for movement
+    private NavMeshAgent agent;
 
+    /// <summary>
+    /// Reference to the Animator component for animation control.
+    /// </summary>
+    private Animator animator;
+
+    /// <summary>
+    /// Bitmask used to limit valid areas for movement.
+    /// </summary>
+    private int areaMask = NavMesh.AllAreas;
+
+    /// <summary>
+    /// Indicates whether the NPC is in a waiting state.
+    /// </summary>
     [SerializeField]
-    private bool isWaiting = false; // Indicates whether the NPC is in a waiting state
-    private float walkTime; // Time left before NPC reassesses destination
+    private bool isWaiting = false;
 
-    private NPC npcsInstance; // Holds data from StartNpc (walk radius, area mask, wait range)
-
-    /// ===== PUBLIC METHODS =====
     /// <summary>
-    /// Sets the wandering state of the NPC
+    /// Time left before NPC reassesses destination.
     /// </summary>
-    /// <param name="isWandering">True to enable wandering, false to disable</param>
+    private float walkTime;
+
+    /// <summary>
+    /// Holds data from StartNpc (walk radius, area mask, wait range).
+    /// </summary>
+    private NPC npcsInstance;
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Sets the wandering state of the NPC.
+    /// </summary>
+    /// <param name="isWandering">True to enable wandering, false to disable.</param>
     public void setIsWandering(bool isWandering)
     {
         this.isWandering = isWandering;
     }
 
     /// <summary>
-    /// Gets the wandering state of the NPC
+    /// Gets the wandering state of the NPC.
     /// </summary>
-    /// <returns>True if the NPC is wandering, false otherwise</returns>
+    /// <returns>True if the NPC is wandering, false otherwise.</returns>
     public bool getIsWandering()
     {
         return this.isWandering;
     }
 
     /// <summary>
-    /// Sets the walk time of the NPC
+    /// Sets the walk time of the NPC.
     /// </summary>
-    /// <param name="walkTime">The walk time to set</param>
+    /// <param name="walkTime">The walk time to set.</param>
     public void setWalkTime(float walkTime)
     {
         this.walkTime = walkTime;
     }
 
-    /// ===== UNITY LIFECYCLE =====
     /// <summary>
-    /// Initializes the NPC�s navigation behavior and starts the wander loop if enabled.
+    /// Sets the NPC to run at maximum speed.
+    /// </summary>
+    public void itRun()
+    {
+        agent.speed = npcsInstance.GetMaxSpeed();
+    }
+
+    /// <summary>
+    /// Sets the NPC to walk at normal speed.
+    /// </summary>
+    public void itWalk()
+    {
+        agent.speed = npcsInstance.GetSpeed();
+    }
+
+    #endregion
+
+    #region Unity Lifecycle Methods
+
+    /// <summary>
+    /// Initializes the NPC's navigation behavior and starts the wander loop if enabled.
     /// </summary>
     private void Start()
     {
@@ -92,7 +135,6 @@ public class NPCnavigation : MonoBehaviour
 
         // Pull configuration
         walkRadius = npcsInstance.GetWalkRadius();
-
         waitTimeRange = npcsInstance.GetWaitingTimeRange();
 
         itWalk();
@@ -136,26 +178,19 @@ public class NPCnavigation : MonoBehaviour
             StartCoroutine(WaitAndMoveAgain());
     }
 
-    public void itRun()
-    {
-        agent.speed = npcsInstance.GetMaxSpeed();
-    }
+    #endregion
 
-    public void itWalk()
-    {
-        agent.speed = npcsInstance.GetSpeed();
-    }
+    #region Navigation Methods
 
-    /// ===== PRIVATE METHODS =====
     /// <summary>
-    /// Attempts to pick a new random destination and sets it as the agent�s goal.
+    /// Attempts to pick a new random destination and sets it as the agent's goal.
     /// </summary>
     private void TrySetNewDestination()
     {
         if (TrySetRandomDestination(out float newTime))
         {
             walkTime = newTime;
-            //// Set animation to walking
+            // Set animation to walking
             animator.SetBool("isWalking", true);
         }
         else
@@ -189,6 +224,10 @@ public class NPCnavigation : MonoBehaviour
         return false;
     }
 
+    #endregion
+
+    #region Coroutines
+
     /// <summary>
     /// Handles the wait time between movements.
     /// Stops movement, waits randomly, and resumes with a new destination.
@@ -207,4 +246,6 @@ public class NPCnavigation : MonoBehaviour
         isWaiting = false;
         isWandering = true;
     }
+
+    #endregion
 }

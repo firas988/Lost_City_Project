@@ -9,6 +9,8 @@ using UnityEngine.UI;
 /// </summary>
 public class playerScript : MonoBehaviour
 {
+    #region Serialized Fields
+
     [Header("Detection Settings")]
     [Tooltip("The Transform used as the center point of the detection sphere.")]
     [SerializeField]
@@ -27,16 +29,33 @@ public class playerScript : MonoBehaviour
     [SerializeField]
     private UIBehaviour interactionUI;
 
-    // Reference to the input listener script (e.g., handling player input).
+    #endregion
+
+    #region Private Fields
+
+    /// <summary>
+    /// Reference to the input listener script for handling player input.
+    /// </summary>
     private InputListener inputListener;
 
-    // Tracks if the player is currently in a dialogue session.
+    /// <summary>
+    /// Tracks if the player is currently in a dialogue session.
+    /// </summary>
     private bool in_dialogue;
 
-    // Stores the currently detected interactable GameObject.
+    /// <summary>
+    /// Stores the currently detected interactable GameObject.
+    /// </summary>
     private GameObject currentInteractable;
 
+    /// <summary>
+    /// Flag indicating if the player is near an interactable object.
+    /// </summary>
     private bool isNearInteractable;
+
+    #endregion
+
+    #region Unity Lifecycle Methods
 
     /// <summary>
     /// Called once on script initialization. Attempts to find the input listener in the scene.
@@ -64,7 +83,7 @@ public class playerScript : MonoBehaviour
         // If no interactables are nearby, hide UI and reset interaction state
         if (!isNearInteractable)
         {
-            // Hide interaction UI if it�s visible
+            // Hide interaction UI if it's visible
             // if (interactionUI.enabled)
             //     UIcontroller.ToggleUI(interactionUI);
 
@@ -90,12 +109,15 @@ public class playerScript : MonoBehaviour
                 break; // Stop after finding the first valid interactable
             }
         }
-        Debug.Log(currentInteractable);
 
         // // Show the interaction UI if it's not already visible
         // if (!interactionUI.enabled)
         //     UIcontroller.ToggleUI(interactionUI);
     }
+
+    #endregion
+
+    #region Detection Methods
 
     /// <summary>
     /// Checks whether the given GameObject is on one of the interactive layers.
@@ -107,7 +129,18 @@ public class playerScript : MonoBehaviour
         return (interactiveLayers.value & (1 << obj.layer)) != 0;
     }
 
+    #endregion
+
+    #region Public Properties
+
+    /// <summary>
+    /// Property indicating if the player is near an NPC or interactable object.
+    /// </summary>
     public bool isNearNPC => isNearInteractable;
+
+    #endregion
+
+    #region Interaction Management Methods
 
     /// <summary>
     /// Gets the currently detected interactable GameObject.
@@ -146,15 +179,31 @@ public class playerScript : MonoBehaviour
         currentInteractable = obj;
     }
 
+    #endregion
+
+    #region Dialogue State Management
+
+    /// <summary>
+    /// Gets the current dialogue state of the player.
+    /// </summary>
+    /// <returns>True if the player is in dialogue, false otherwise.</returns>
     public bool isInDialogue()
     {
         return in_dialogue;
     }
 
+    /// <summary>
+    /// Sets the dialogue state of the player.
+    /// </summary>
+    /// <param name="inDialogue">True to set player in dialogue, false to exit dialogue.</param>
     public void setInDialogue(bool inDialogue)
     {
         in_dialogue = inDialogue;
     }
+
+    #endregion
+
+    #region Debug Visualization
 
     /// <summary>
     /// Unity callback to draw debug gizmos in the Scene view.
@@ -193,4 +242,6 @@ public class playerScript : MonoBehaviour
         // Draw the detection sphere
         Gizmos.DrawWireSphere(detectionPoint.position, detectionRadius);
     }
+
+    #endregion
 }

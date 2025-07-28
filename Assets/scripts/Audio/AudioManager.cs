@@ -12,21 +12,69 @@ using UnityEngine;
 /// </summary>
 public class AudioManager : MonoBehaviour
 {
-    // ===================== Fields =====================
+    #region Private Fields
 
-    private float GlobalVolume = 1f; // Master volume multiplier for all audio
-    private float MusicVolume = 1f; // Volume multiplier for music
-    private float SFXVolume = 1f; // Volume multiplier for sound effects
-    private float EnemyVolume = 1f; // Volume multiplier for enemy sounds
-    private float UIVolume = 1f; // Volume multiplier for UI sounds
+    /// <summary>
+    /// Master volume multiplier for all audio.
+    /// </summary>
+    private float GlobalVolume = 1f;
 
+    /// <summary>
+    /// Volume multiplier for music.
+    /// </summary>
+    private float MusicVolume = 1f;
+
+    /// <summary>
+    /// Volume multiplier for sound effects.
+    /// </summary>
+    private float SFXVolume = 1f;
+
+    /// <summary>
+    /// Volume multiplier for enemy sounds.
+    /// </summary>
+    private float EnemyVolume = 1f;
+
+    /// <summary>
+    /// Volume multiplier for UI sounds.
+    /// </summary>
+    private float UIVolume = 1f;
+
+    /// <summary>
+    /// Reference to audio entries asset.
+    /// </summary>
     [SerializeField]
-    private AudioEnteries audioEntries; // Reference to audio entries asset
-    private Dictionary<string, AudioClip> audioEntriesDict; // Lookup dictionary for audio clips by name
-    private Queue<string> audioQueue = new Queue<string>(); // Queue for UI audio playback
-    private bool isAudioPlaying = false; // Tracks if a UI audio is currently playing
+    private AudioEnteries audioEntries;
 
-    // ===================== Unity Methods =====================
+    /// <summary>
+    /// Lookup dictionary for audio clips by name.
+    /// </summary>
+    private Dictionary<string, AudioClip> audioEntriesDict;
+
+    /// <summary>
+    /// Queue for UI audio playback.
+    /// </summary>
+    private Queue<string> audioQueue = new Queue<string>();
+
+    /// <summary>
+    /// Tracks if a UI audio is currently playing.
+    /// </summary>
+    private bool isAudioPlaying = false;
+
+    #endregion
+
+    #region Unity Lifecycle Methods
+
+    /// <summary>
+    /// Initializes the audio entries dictionary at startup.
+    /// </summary>
+    void Awake()
+    {
+        audioEntriesDict = new Dictionary<string, AudioClip>();
+        foreach (AudioEntry audioEntry in audioEntries.AudioEntries)
+        {
+            audioEntriesDict.Add(audioEntry.AudioName, audioEntry.AudioClip);
+        }
+    }
 
     /// <summary>
     /// Handles runtime input for adjusting global and UI volume using keyboard shortcuts.
@@ -51,19 +99,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Initializes the audio entries dictionary at startup.
-    /// </summary>
-    void Awake()
-    {
-        audioEntriesDict = new Dictionary<string, AudioClip>();
-        foreach (AudioEntry audioEntry in audioEntries.AudioEntries)
-        {
-            audioEntriesDict.Add(audioEntry.AudioName, audioEntry.AudioClip);
-        }
-    }
+    #endregion
 
-    // ===================== Audio Playback Methods =====================
+    #region Audio Playback Methods
 
     /// <summary>
     /// Plays a sound effect (SFX) by name on the given AudioSource.
@@ -145,7 +183,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // ===================== UI Audio Queue =====================
+    #endregion
+
+    #region UI Audio Queue
 
     /// <summary>
     /// Queues a UI audio clip to be played in sequence. Only one UI audio will play at a time.
@@ -174,7 +214,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // ===================== Volume Setters =====================
+    #endregion
+
+    #region Volume Control Methods
 
     /// <summary>
     /// Sets the global (master) volume multiplier.
@@ -220,4 +262,6 @@ public class AudioManager : MonoBehaviour
     {
         EnemyVolume = volume;
     }
+
+    #endregion
 }

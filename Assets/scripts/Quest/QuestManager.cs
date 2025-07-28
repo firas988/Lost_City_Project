@@ -8,13 +8,13 @@ using UnityEngine;
 /// </summary>
 public class QuestManager : MonoBehaviour
 {
+    #region Serialized Fields
+
     /// <summary>
     /// Reference to the player GameObject for quest management.
     /// </summary>
     [SerializeField]
     private GameObject player;
-
-    private AudioSource audioSource;
 
     /// <summary>
     /// Reference to the dialogue manager for quest integration.
@@ -22,13 +22,31 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     private DialogueManager dialogueManager;
 
+    /// <summary>
+    /// Reference to the audio manager for playing quest-related sounds.
+    /// </summary>
     [SerializeField]
     private AudioManager audioManager;
 
     /// <summary>
+    /// List of story quests available in the game.
+    /// </summary>
+    [SerializeField]
+    private List<StoryQuest> storyQuestsList;
+
+    #endregion
+
+    #region Private Fields
+
+    /// <summary>
+    /// Audio source for playing audio clips.
+    /// </summary>
+    private AudioSource audioSource;
+
+    /// <summary>
     /// Queue containing story quests to be processed in order.
     /// </summary>
-    private Queue<StoryQuest> storyQuests;
+    private Queue<StoryQuest> storyQuestListQueue;
 
     /// <summary>
     /// List of currently active quests for the player.
@@ -46,17 +64,31 @@ public class QuestManager : MonoBehaviour
     private List<FindQuest> activeFindQuests;
 
     /// <summary>
+    /// Reference to the player instance for quest management.
+    /// </summary>
+    private Player playerInstance;
+
+    /// <summary>
+    /// Reference to the notifications manager for displaying quest updates.
+    /// </summary>
+    private NotificationsManager notificationsManager;
+
+    #endregion
+
+    #region Events
+
+    /// <summary>
     /// Event triggered when a quest is completed, providing the reward amount.
     /// </summary>
     public event Action<float> onQuestFinish;
 
-    private Player playerInstance;
+    #endregion
+
+    #region Unity Lifecycle Methods
 
     /// <summary>
     /// Initializes quest management system, sets up quest collections, and subscribes to dialogue events.
     /// </summary>
-    private NotificationsManager notificationsManager;
-
     private void Start()
     {
         notificationsManager = GameObject.Find("GameManger").GetComponent<NotificationsManager>();
@@ -64,15 +96,24 @@ public class QuestManager : MonoBehaviour
         initPlayer();
         subscribeToEvents();
         initQuestLists();
-       
     }
 
+    #endregion
+
+    #region Initialization Methods
+
+    /// <summary>
+    /// Subscribes to quest-related events for proper integration.
+    /// </summary>
     private void subscribeToEvents()
     {
         StoryQuest.subscribeToQuestCompletion(nextMainQuest);
         dialogueManager.onDialogueExit += addQuest;
     }
 
+    /// <summary>
+    /// Initializes quest lists and sets up the story quest queue.
+    /// </summary>
     private void initQuestLists()
     {
         activeQuests = playerInstance.ActiveQuest;
@@ -82,16 +123,30 @@ public class QuestManager : MonoBehaviour
         activeFindQuests = new List<FindQuest>().FindAll(quest =>
             quest != null && quest.GetType() == typeof(FindQuest)
         );
-        if (storyQuests != null && storyQuests.Count > 0)
-            playerInstance.setCurrentMainQuest(storyQuests.Dequeue());
+        storyQuestListQueue = new Queue<StoryQuest>(storyQuestsList);
+
+        foreach (StoryQuest quest in storyQuestsList)
+        {
+            storyQuestListQueue.Enqueue(quest);
+        }
+
+        if (storyQuestListQueue != null && storyQuestListQueue.Count > 0)
+            playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
     }
 
+    /// <summary>
+    /// Initializes the player instance reference for quest management.
+    /// </summary>
     private void initPlayer()
     {
         playerInstance = player.GetComponent<StartPlayer>().getPlayer();
         if (playerInstance == null)
             Debug.LogError("Player instance is null");
     }
+
+    #endregion
+
+    #region Quest Management
 
     /// <summary>
     /// Adds a new quest to the player's active quest list and categorizes it by type.
@@ -118,6 +173,10 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Quest Progress Tracking
+
     /// <summary>
     /// Processes a found object for find quests, updates quest progress, and handles quest completion.
     /// </summary>
@@ -130,7 +189,6 @@ public class QuestManager : MonoBehaviour
 
         if (questToInc == null)
         {
-            Debug.Log("Object is not related to any quest");
             return;
         }
 
@@ -139,7 +197,6 @@ public class QuestManager : MonoBehaviour
         if (questToInc.isCompleted)
         {
             activeFindQuests.Remove(questToInc);
-            Debug.Log("Quest Completed: " + questToInc.GetQuestName());
             StartCoroutine(audioManager.queueUI(audioSource, "notification"));
             notificationsManager.queueTopLeftNotification(
                 questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)"
@@ -148,6 +205,10 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Processes a killed object for kill quests, updates quest progress, and handles quest completion.
+    /// </summary>
+    /// <param name="objectKilled">The GameObject that was killed, used to match against quest targets.</param>
     public void addKill(GameObject objectKilled)
     {
         List<KillQuest> questToInc = activeKillQuests.FindAll(questToKill =>
@@ -156,7 +217,6 @@ public class QuestManager : MonoBehaviour
 
         if (questToInc.Count == 0)
         {
-            Debug.Log("Object is not related to any quest");
             return;
         }
 
@@ -179,20 +239,28 @@ public class QuestManager : MonoBehaviour
         onQuestFinish?.Invoke(totalReward);
     }
 
+    #endregion
+
+    #region Story Quest Management
+
+    /// <summary>
+    /// Advances to the next main story quest in the queue.
+    /// </summary>
     public void nextMainQuest()
     {
-        if (playerInstance != null && storyQuests.Count > 0)
+        if (playerInstance != null && storyQuestListQueue.Count > 0)
         {
-            playerInstance.setCurrentMainQuest(storyQuests.Dequeue());
-        }
-        else
-        {
-            Debug.Log("No more quests to complete");
+            playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
         }
     }
 
+    /// <summary>
+    /// Completes the current main quest by setting it to null.
+    /// </summary>
     public void completeMainQuest()
     {
         playerInstance.setCurrentMainQuest(null);
     }
+
+    #endregion
 }
