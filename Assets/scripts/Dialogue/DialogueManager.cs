@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
+
 /// <summary>
 /// Manages dialogue interactions between the player and NPCs, handling conversation flow and quest distribution.
 /// Controls dialogue UI display, input handling, and quest assignment upon conversation completion.
@@ -158,13 +159,9 @@ public class DialogueManager : MonoBehaviour
         Debug.Log(inputListener.isInteracting());
 
         // Check if input is valid, interaction is happening, and quest is not already completed
-        if (
-            inputListener != null
-            && inputListener.isInteracting()
-        
-        )
+        if (inputListener != null && inputListener.isInteracting())
         {
-          startDialogue();
+            startDialogue();
         }
     }
 
@@ -183,7 +180,10 @@ public class DialogueManager : MonoBehaviour
             UIcontroller.SetText(
                 textContainer,
                 talkingTo.layer == LayerMask.NameToLayer("QuestGiver")
-                    ? response.Replace("TARGET", ((QuestGiver) this.npc).GetQuestToGive().QuestTarget)
+                    ? response.Replace(
+                        "TARGET",
+                        ((QuestGiver)this.npc).GetQuestToGive().QuestTarget
+                    )
                     : response
             );
 
@@ -195,7 +195,6 @@ public class DialogueManager : MonoBehaviour
         }
         catch (KeyNotFoundException)
         {
-
             // Dialogue has ended - no more options available
             if (npc.GetType() == typeof(TalkativeNpc))
             {
@@ -204,33 +203,51 @@ public class DialogueManager : MonoBehaviour
                 return;
             }
 
-            if(npc.GetType() == typeof(QuestGiver))
+            if (npc.GetType() == typeof(QuestGiver))
             {
-            // Get the quest to be assigned to the player
-            Quest questToGive = ((QuestGiver)npc).GetQuestToGive();
+                // Get the quest to be assigned to the player
+                Quest questToGive = ((QuestGiver)npc).GetQuestToGive();
 
-            // Trigger the dialogue exit event with the quest
-            onDialogueExit?.Invoke(questToGive);
+                // Trigger the dialogue exit event with the quest
+                onDialogueExit?.Invoke(questToGive);
+            }
+            // Close the dialogue UI and restore gameplay state
+            closeDialogue();
+        }
+        catch (IndexOutOfRangeException)
+        {
+            // Dialogue has ended - no more options available
+            if (npc.GetType() == typeof(TalkativeNpc))
+            {
+                levelManager.addXP(100f);
+                closeDialogue();
+                return;
+            }
+
+            if (npc.GetType() == typeof(QuestGiver))
+            {
+                // Get the quest to be assigned to the player
+                Quest questToGive = ((QuestGiver)npc).GetQuestToGive();
+
+                // Trigger the dialogue exit event with the quest
+                onDialogueExit?.Invoke(questToGive);
             }
             // Close the dialogue UI and restore gameplay state
             closeDialogue();
         }
     }
 
-
     public void startDialogue()
     {
-        if(npc.GetType() == typeof(QuestGiver))
+        if (npc.GetType() == typeof(QuestGiver))
         {
-            if(((QuestGiver)npc).GetQuestToGive().isCompleted)
+            if (((QuestGiver)npc).GetQuestToGive().isCompleted)
             {
                 return;
             }
-          
         }
 
-
-          // Set the NPC name
+        // Set the NPC name
         UIcontroller.SetText(npcName.GetComponent<TextMeshProUGUI>(), talkingTo.tag);
 
         // Find the text container component for displaying dialogue
@@ -252,8 +269,7 @@ public class DialogueManager : MonoBehaviour
         continueSentence = options[0];
 
         // Show the dialogue UI and enter dialogue mode
-            showDialogue();
-       
+        showDialogue();
     }
 
     /// <summary>

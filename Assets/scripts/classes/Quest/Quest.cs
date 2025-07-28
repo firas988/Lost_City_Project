@@ -65,6 +65,8 @@ public abstract class Quest : ScriptableObject
         this.completed = false;
     }
 
+    
+
 
 
     /// <summary>

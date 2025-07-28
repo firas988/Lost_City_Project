@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// NPC class specialized for giving quests to players.
@@ -11,16 +11,21 @@ public class QuestGiver : TalkativeNpc
     /// The starting dialogue key for initiating conversation with this quest giver.
     /// </summary>
     private string start;
-    
+
     /// <summary>
     /// Dictionary containing all dialogue exchanges available with this quest giver.
     /// </summary>
     private Dictionary<string, Dialogue> dialogues;
-    
+
     /// <summary>
     /// The quest that this NPC will give to the player upon dialogue completion.
     /// </summary>
     private Quest questToGive;
+
+    /// <summary>
+    /// The story quest that this NPC will give to the player upon dialogue completion.
+    /// </summary>
+    private StoryQuest storyQuestToGive;
 
     /// <summary>
     /// Initializes a new instance of the QuestGiver class.
@@ -37,7 +42,8 @@ public class QuestGiver : TalkativeNpc
     /// <param name="start">The starting dialogue key.</param>
     /// <param name="dialogues">Dictionary of available dialogues.</param>
     /// <param name="questToGive">The quest to be given to the player.</param>
-    public QuestGiver(int id,
+    public QuestGiver(
+        int id,
         string name,
         string type,
         float walkRadius,
@@ -45,21 +51,68 @@ public class QuestGiver : TalkativeNpc
         Vector2 waitTimeRange,
         string navMeshAreaName,
         float speed,
-        float maxSpeed, string start, Dictionary<string, Dialogue> dialogues, Quest questToGive) : base(id,name, type, walkRadius,areaMask,waitTimeRange,navMeshAreaName,speed,maxSpeed,dialogues,start){
-       
+        float maxSpeed,
+        string start,
+        Dictionary<string, Dialogue> dialogues,
+        Quest questToGive
+    )
+        : base(
+            id,
+            name,
+            type,
+            walkRadius,
+            areaMask,
+            waitTimeRange,
+            navMeshAreaName,
+            speed,
+            maxSpeed,
+            dialogues,
+            start
+        )
+    {
         this.questToGive = questToGive;
         this.questToGive.SetGiverID(this.id);
-
     }
 
-
+    public QuestGiver(
+        int id,
+        string name,
+        string type,
+        float walkRadius,
+        int areaMask,
+        Vector2 waitTimeRange,
+        string navMeshAreaName,
+        float speed,
+        float maxSpeed,
+        string start,
+        Dictionary<string, Dialogue> dialogues,
+        StoryQuest storyQuestToGive
+    )
+        : base(
+            id,
+            name,
+            type,
+            walkRadius,
+            areaMask,
+            waitTimeRange,
+            navMeshAreaName,
+            speed,
+            maxSpeed,
+            dialogues,
+            start
+        )
+    {
+        this.storyQuestToGive = storyQuestToGive;
+        this.storyQuestToGive.SetGiverID(this.id);
+    }
 
     /// <summary>
     /// Gets the dictionary of dialogues associated with this quest giver.
     /// </summary>
     /// <returns>Dictionary containing dialogue keys and their corresponding Dialogue objects.</returns>
-    public Dictionary<string, Dialogue> getDialogues() {
-    return this.dialogues;
+    public Dictionary<string, Dialogue> getDialogues()
+    {
+        return this.dialogues;
     }
 
     /// <summary>
@@ -90,9 +143,13 @@ public class QuestGiver : TalkativeNpc
     /// Gets the quest that this quest giver is currently giving.
     /// </summary>
     /// <returns>The quest that this quest giver is currently giving.</returns>
-    public Quest GetQuestToGive() {
+    public Quest GetQuestToGive()
+    {
         return this.questToGive;
     }
+
+    public StoryQuest GetStoryQuestToGive()
+    {
+        return this.storyQuestToGive;
+    }
 }
-
-

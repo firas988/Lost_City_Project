@@ -21,8 +21,16 @@
         "navMeshAreaName": "",
         "speed": 1,
         "maxSpeed": 1
+      },
+      {
+        "name": "Robert",
+        "walkRadius": 100,
+        "areaMask": 1,
+        "waitTimeRange": [2, 4],
+        "navMeshAreaName": "",
+        "speed": 1,
+        "maxSpeed": 1
       }
-      
     ],
     "TalkativePerson": [
       {

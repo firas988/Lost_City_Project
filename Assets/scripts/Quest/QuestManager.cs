@@ -28,7 +28,7 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Queue containing story quests to be processed in order.
     /// </summary>
-    private Queue<Quest> storyQuests;
+    private Queue<StoryQuest> storyQuests;
 
     /// <summary>
     /// List of currently active quests for the player.
@@ -50,6 +50,8 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     public event Action<float> onQuestFinish;
 
+    private Player playerInstance;
+
     /// <summary>
     /// Initializes quest management system, sets up quest collections, and subscribes to dialogue events.
     /// </summary>
@@ -58,22 +60,37 @@ public class QuestManager : MonoBehaviour
     private void Start()
     {
         notificationsManager = GameObject.Find("GameManger").GetComponent<NotificationsManager>();
-        Debug.Log(player.GetComponent<StartPlayer>().getPlayer());
-        dialogueManager.onDialogueExit += addQuest;
-        initQuestLists();
         audioSource = this.gameObject.GetComponent<AudioSource>();
+        initPlayer();
+        subscribeToEvents();
+        initQuestLists();
+       
+    }
+
+    private void subscribeToEvents()
+    {
+        StoryQuest.subscribeToQuestCompletion(nextMainQuest);
+        dialogueManager.onDialogueExit += addQuest;
     }
 
     private void initQuestLists()
     {
-        storyQuests = new Queue<Quest>();
-        activeQuests = player.GetComponent<StartPlayer>().getPlayer().ActiveQuest;
+        activeQuests = playerInstance.ActiveQuest;
         activeKillQuests = new List<KillQuest>().FindAll(quest =>
             quest != null && quest.GetType() == typeof(KillQuest)
         );
         activeFindQuests = new List<FindQuest>().FindAll(quest =>
             quest != null && quest.GetType() == typeof(FindQuest)
         );
+        if (storyQuests != null && storyQuests.Count > 0)
+            playerInstance.setCurrentMainQuest(storyQuests.Dequeue());
+    }
+
+    private void initPlayer()
+    {
+        playerInstance = player.GetComponent<StartPlayer>().getPlayer();
+        if (playerInstance == null)
+            Debug.LogError("Player instance is null");
     }
 
     /// <summary>
@@ -82,14 +99,14 @@ public class QuestManager : MonoBehaviour
     /// <param name="quest">The quest to be added to the player's active quests.</param>
     public void addQuest(Quest quest)
     {
-        if (player.GetComponent<StartPlayer>().getPlayer() == null)
+        if (playerInstance == null)
             return;
         if (dialogueManager == null)
             return;
         if (quest == null)
             return;
 
-        if (player.GetComponent<StartPlayer>().getPlayer().addQuest(quest))
+        if (playerInstance.addQuest(quest))
         {
             notificationsManager.queueTopLeftNotification("New Quest Added");
             StartCoroutine(audioManager.queueUI(audioSource, "notification"));
@@ -164,11 +181,18 @@ public class QuestManager : MonoBehaviour
 
     public void nextMainQuest()
     {
-        player.GetComponent<StartPlayer>().getPlayer().setCurrentMainQuest(storyQuests.Dequeue());
+        if (playerInstance != null && storyQuests.Count > 0)
+        {
+            playerInstance.setCurrentMainQuest(storyQuests.Dequeue());
+        }
+        else
+        {
+            Debug.Log("No more quests to complete");
+        }
     }
 
     public void completeMainQuest()
     {
-        player.GetComponent<StartPlayer>().getPlayer().setCurrentMainQuest(null);
+        playerInstance.setCurrentMainQuest(null);
     }
 }

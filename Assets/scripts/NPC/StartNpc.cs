@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -19,6 +19,12 @@ public class StartNpc : MonoBehaviour
 
     [SerializeField]
     private ExpFindQuests findQuests;
+
+    [SerializeField]
+    private StoryQuest storyQuest;
+
+
+    private int questIndex = 0;
 
     /// <summary>
     /// The tag/name of the NPC GameObject, used to look up type data.
@@ -59,6 +65,7 @@ public class StartNpc : MonoBehaviour
 
         if (typeInstance != null)
         {
+            Debug.Log(npcName);
             createNpcInstance();
         }
         // Output the NPC instance information to the console
@@ -107,28 +114,21 @@ public class StartNpc : MonoBehaviour
             case "QuestGiver":
                 {
                     ConvertDialouges dialogueConv = FindAnyObjectByType<ConvertDialouges>();
-                    Dictionary<string, Dialogue> dialogueData = dialogueConv.GetDialogueByNpcName(
-                        typeInstance.name
-                    );
+                    Dictionary<string, Dialogue> dialogueData = dialogueConv.GetDialogueByNpcName(typeInstance.name);
+                    Quest quest = null;
+                    
+                     if (npcName == "ConfusedPerson")
+                    {
+                        quest = new FindQuest(findQuests.RandomQuest);
+                    }
+                    else if (npcName == "KillPerson")
+                    {
+                        quest = new KillQuest(killQuests.RandomQuest);
+                    }
 
-                    npcsInstance = new QuestGiver(
-                        gameObject.GetInstanceID(),
-                        typeInstance.name,
-                        layerName,
-                        typeInstance.walkRadius,
-                        typeInstance.areaMask,
-                        new Vector2(typeInstance.waitTimeRange[0], typeInstance.waitTimeRange[1]),
-                        "",
-                        typeInstance.speed,
-                        typeInstance.maxSpeed,
-                        "start",
-                        dialogueData,
-                        npcName == "ConfusedPerson"
-                            ? new FindQuest(findQuests.RandomQuest)
-                            : new KillQuest(killQuests.RandomQuest)
-                    );
+                    npcsInstance = createQuestGiver(typeInstance.name, dialogueData, quest);
 
-                    Debug.Log(npcsInstance);
+                    Debug.Log(npcsInstance.GetName());
                 }
                 break;
             case "TalkativePerson":
@@ -158,6 +158,26 @@ public class StartNpc : MonoBehaviour
         }
     }
 
+
+
+    private QuestGiver createQuestGiver(string npcName, Dictionary<string, Dialogue> dialogueData, Quest quest)
+    {
+        return new QuestGiver(
+            gameObject.GetInstanceID(),
+            npcName,
+            layerName,
+            typeInstance.walkRadius,
+            typeInstance.areaMask,
+            new Vector2(typeInstance.waitTimeRange[0], typeInstance.waitTimeRange[1]),
+            "",
+            typeInstance.speed,
+            typeInstance.maxSpeed,
+            "start",
+            dialogueData,
+            quest
+        );
+
+    }
     /// <summary>
     /// Returns the initialized NPC instance.
     /// </summary>

@@ -109,7 +109,7 @@ public class Player
     /// <summary>
     /// List of all active quests the player has accepted
     /// </summary>
-    private Quest currentMainQuest;
+    private StoryQuest currentMainQuest;
 
     /// <summary>
     /// Initializes a new Player instance with default stats and empty quest list.
@@ -322,12 +322,12 @@ public class Player
         get { return this.activeSideQuests; }
     }
 
-    public Quest getCurrentMainQuest()
+    public StoryQuest getCurrentMainQuest()
     {
         return this.currentMainQuest;
     }
 
-    public void setCurrentMainQuest(Quest quest)
+    public void setCurrentMainQuest(StoryQuest quest)
     {
         this.currentMainQuest = quest;
     }

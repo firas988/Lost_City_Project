@@ -221,6 +221,7 @@ MonoBehaviour:
   waitTimeRange: {x: 0, y: 0}
   navMeshAreaName: 
   isWandering: 1
+  isWaiting: 0
 --- !u!114 &7432385108754615253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +235,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcPrefab: {fileID: 0}
+  killQuests: {fileID: 11400000, guid: ea69a980ca274f84ba0770a192314a6c, type: 2}
+  findQuests: {fileID: 11400000, guid: 64163c6e29a6a43449feb71eeaa0e67e, type: 2}
 --- !u!136 &8103143687247080162
 CapsuleCollider:
   m_ObjectHideFlags: 0
