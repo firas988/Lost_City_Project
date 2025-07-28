@@ -109,7 +109,6 @@ public class Enemyspawner : MonoBehaviour
 
     private void putChestInPlaceHolder()
     {
-        Debug.Log("putChestInPlaceHolder");
         if (chest != null)
         {
             Destroy(chest);
