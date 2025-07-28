@@ -40,22 +40,6 @@ public class InventoryManager : MonoBehaviour
     [SerializeField]
     private ItemDatabase AllItems;
 
-    /// ===== TEST CODE =====
-    /// <summary>
-    /// Test item to be added via keyboard input.
-    /// </summary>
-    public Item item;
-
-    /// <summary>
-    /// Test item to be added via keyboard input.
-    /// </summary>
-    public Item item3;
-
-    /// <summary>
-    /// Second test item to be added via keyboard input.
-    /// </summary>
-    public Item item2;
-
     /// <summary>
     /// Reference to the NotificationsManager.
     /// </summary>
@@ -82,9 +66,6 @@ public class InventoryManager : MonoBehaviour
         inventory = player.getInventory();
         LoadInventory();
         notificationsManager = FindAnyObjectByType<NotificationsManager>();
-        // Add a test item to the hotbar
-        Item newItem = ScriptableObject.Instantiate(item);
-        ((WeaponItem)newItem).setDamage(GiveWeaponDamage.getDamage(newItem.rarity));
     }
 
     /// <summary>
@@ -95,41 +76,6 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J))
         {
             SaveInventory();
-        }
-
-        // [Test] Add item to inventory with Space key
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // AddItemToInventory(item);
-            AddItemToInventory(item3);
-        }
-
-        // // [Test] Log items in slot (0,0) with A key
-        // if (Input.GetKeyDown(KeyCode.A))
-        // {
-        //     List<Item> items = inventory.GetItem(0, 0);
-        //     Debug.Log(items.Count);
-        //     foreach (Item item in items)
-        //     {
-        //         Debug.Log(item.itemName);
-        //     }
-        // }
-
-        // // [Test] Add item2 to inventory with C key
-        // if (Input.GetKeyDown(KeyCode.C))
-        // {
-        //     if (inventory.TryAddItem(item2, out int row, out int column))
-        //     {
-        //         List<Item> items = inventory.GetItem(row, column);
-        //         slotManager.SetSlot(item2, items.Count, row, column);
-        //     }
-        // }
-
-        // [Test] Unlock mouse with B key
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
         }
     }
 
