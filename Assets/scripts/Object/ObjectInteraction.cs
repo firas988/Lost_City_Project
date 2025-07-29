@@ -147,11 +147,11 @@ public class ObjectInteraction : MonoBehaviour
 
         inputListener = GameObject
             .FindGameObjectWithTag(gameManagerTag)
-            .GetComponent<InputListener>();
+            .GetComponentInChildren<InputListener>();
 
         questManager = GameObject
             .FindGameObjectWithTag(gameManagerTag)
-            .GetComponent<QuestManager>();
+            .GetComponentInChildren<QuestManager>();
 
         if (isAchect)
         {
@@ -160,7 +160,7 @@ public class ObjectInteraction : MonoBehaviour
             audioSource = GetComponent<AudioSource>();
             audioManager = GameObject
                 .FindGameObjectWithTag(gameManagerTag)
-                .GetComponent<AudioManager>();
+                .GetComponentInChildren<AudioManager>();
             canvas.enabled = false;
             openChestEffectParticleSystem = openChestEffect.GetComponent<ParticleSystem>();
         }

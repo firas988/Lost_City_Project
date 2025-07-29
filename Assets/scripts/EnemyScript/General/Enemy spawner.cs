@@ -58,11 +58,11 @@ public class Enemyspawner : MonoBehaviour
 
     private void checkIfAllEnemiesAreDead()
     {
-        foreach (Entity entity in entities)
+        for (int i = entities.Count - 1; i >= 0; i--)
         {
-            if (entity.isDead())
+            if (entities[i].isDead())
             {
-                entities.Remove(entity);
+                entities.RemoveAt(i);
                 enemyCount--;
             }
         }
@@ -147,9 +147,6 @@ public class Enemyspawner : MonoBehaviour
                 {
                     spawnPosition = hit.position;
                     foundSpot = true;
-                    Debug.Log(
-                        $"Enemy {i} spawn position found at attempt {attempt}: {spawnPosition}"
-                    );
                     break;
                 }
             }

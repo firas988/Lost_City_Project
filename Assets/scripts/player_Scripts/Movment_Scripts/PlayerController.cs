@@ -126,7 +126,10 @@ public class PlayerController : MonoBehaviour
         }
 
         // Move the character in the world
-        characterController.Move(move * Time.deltaTime);
+        if (characterController.enabled)
+        {
+            characterController.Move(move * Time.deltaTime);
+        }
     }
 
     private void CameraRotation()
@@ -162,7 +165,6 @@ public class PlayerController : MonoBehaviour
         {
             // Keep grounded with slight downward force
             verticalVelocity = -1f;
-
 
             if (inputListener.isJumping() && animateController.isReadyToJump())
             {

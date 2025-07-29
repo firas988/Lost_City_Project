@@ -1,106 +1,123 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TriggerZone : MonoBehaviour
 {
-    [SerializeField] private Transform[] waypoints;
-    [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float rotationSpeed = 5f;
-    [SerializeField] private LayerMask groundLayer;
-    private float groundCheckDistance = 1f;
-    private int currentWaypointIndex = 0;
-    private PlayerController playerController;
+    [SerializeField]
+    private Transform PointToMoveTo;
+    private InputListener inputListener;
 
     private Animator animator;
 
+    private NavMeshAgent navMeshAgent;
+
+    private AudioManager audioManager;
+
+    private string gameManagerTag = "GameManager";
+    private string playerTag = "Player";
 
     private bool isMoving = false;
-    private float threshold = 0.2f; 
+
+    private GameObject player;
+
+    [SerializeField]
+    private GameObject Portal; //10
+
+    [SerializeField]
+    private GameObject magicCircle; //30
+
+    [SerializeField]
+    private GameObject star; //20
+
+    [SerializeField]
+    private AudioSource audioSourcePortal;
+
+    [SerializeField]
+    private AudioSource audioSourceMagicCircle;
+
+    [SerializeField]
+    private AudioSource audioSourceStar;
+
+    private void Awake()
+    {
+        inputListener = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<InputListener>();
+        player = GameObject.FindGameObjectWithTag(playerTag);
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
+    }
+
+    void Update()
+    {
+        if (isMoving)
+        {
+            checkTheProgressToPlayTheEffect();
+            followThePlayer();
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !isMoving)
+        if (other.CompareTag(playerTag) && !isMoving)
         {
-            playerController = other.GetComponent<PlayerController>();
             animator = other.GetComponent<Animator>();
-            if (playerController != null)
+            if (inputListener != null)
             {
+                other.gameObject.GetComponent<CharacterController>().enabled = false;
+                isMoving = true;
                 animator.SetBool("isWalking", true); // Set the animation trigger
-                playerController.enabled = false; 
-                StartCoroutine(MoveAlongPath(other.transform));
+                inputListener.setCanMove(false);
+                other.gameObject.AddComponent<NavMeshAgent>();
+                navMeshAgent = other.gameObject.GetComponent<NavMeshAgent>();
+                navMeshAgent.agentTypeID = -1372625422;
+                navMeshAgent.speed = 1.7f;
+                MoveThePlayerToTheBridge();
             }
         }
     }
 
-    private IEnumerator MoveAlongPath(Transform player)
+    private void MoveThePlayerToTheBridge()
     {
-        isMoving = true;
-
-        while (currentWaypointIndex < waypoints.Length)
-        {
-            Vector3 targetPosition = waypoints[currentWaypointIndex].position;
-
-            while (Vector3.Distance(player.position, targetPosition) > threshold)
-            {
-                Vector3 moveDirection = (targetPosition - player.position).normalized;
-                Vector3 newPosition = player.position + moveDirection * moveSpeed * Time.deltaTime;
-
-                float groundY = newPosition.y;
-                if (Mathf.Abs(newPosition.y - groundY) < groundCheckDistance)
-                {
-                    newPosition.y = groundY;
-                }
-
-                player.position = newPosition;
-
-                RotateTowardsTarget(player, targetPosition);
-
-                yield return null;
-            }
-
-            currentWaypointIndex++;
-        }
-
-        playerController.enabled = true;
-        isMoving = false;
-        animator.SetBool("isWalking", false); // Set the animation trigger
-
-        currentWaypointIndex = 0;
+        navMeshAgent.SetDestination(PointToMoveTo.position);
     }
 
-    private void RotateTowardsTarget(Transform player, Vector3 targetPosition)
+    private void checkTheProgressToPlayTheEffect()
     {
-        Vector3 direction = (targetPosition - player.position).normalized;
-        direction.y = 0; 
-
-        if (direction != Vector3.zero)
+        if (navMeshAgent.remainingDistance <= 8f && !Portal.activeSelf)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            player.rotation = Quaternion.Slerp(player.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            Portal.SetActive(true);
+            audioManager.playSFX(audioSourcePortal, "Portal");
+        }
+
+        if (navMeshAgent.remainingDistance <= 20f && !star.activeSelf)
+        {
+            star.SetActive(true);
+            audioManager.playSFX(audioSourceStar, "Star", true);
+        }
+        if (navMeshAgent.remainingDistance <= 25f && !magicCircle.activeSelf)
+        {
+            magicCircle.SetActive(true);
+            audioManager.playSFX(audioSourceMagicCircle, "MagicCircle");
         }
     }
 
-    private float GetGroundY(Vector3 position)
+    private void followThePlayer()
     {
-        //RaycastHit hit;
-        //if (Physics.Raycast(position + Vector3.up, Vector3.down, out hit, groundCheckDistance, groundLayer))
-        //{
-        //    Debug.Log(hit.point.y);
-        //    return hit.point.y;
-        //}
+        if (magicCircle.activeSelf)
+        {
+            Vector3 pos = player.transform.position;
+            pos.y += 0.5f;
+            magicCircle.transform.position = pos;
+        }
 
-        return position.y;
+        if (star.activeSelf)
+        {
+            Vector3 pos = player.transform.position;
+            pos.y += 0.5f;
+            star.transform.position = pos;
+        }
     }
-
-    //// Start is called once before the first execution of Update after the MonoBehaviour is created
-    //void Start()
-    //{
-
-    //}
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-
-    //}
 }

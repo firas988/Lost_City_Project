@@ -108,13 +108,21 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     /// <param name="audioSource">The AudioSource to play the clip on.</param>
     /// <param name="audioName">The name of the audio clip to play.</param>
-    public void playSFX(AudioSource audioSource, string audioName)
+    public void playSFX(AudioSource audioSource, string audioName, bool loop = false)
     {
         try
         {
             audioEntriesDict.TryGetValue(audioName, out AudioClip audioClip);
             audioSource.volume = SFXVolume * GlobalVolume;
-            audioSource.PlayOneShot(audioClip);
+            if (loop)
+            {
+                audioSource.clip = audioClip;
+                audioSource.Play();
+            }
+            else
+            {
+                audioSource.PlayOneShot(audioClip);
+            }
         }
         catch (KeyNotFoundException e)
         {
