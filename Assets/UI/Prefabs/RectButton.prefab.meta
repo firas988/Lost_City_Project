@@ -10,5 +10,5 @@ AssetOrigin:
   productId: 195933
   packageName: SharpUI GUI
   packageVersion: 1.0
-  assetPath: Assets/SharpUI/Prefabs/UI/Button/RectButton.prefab
+  assetPath: Assets/UI/Prefabs/RectButton.prefab
   uploadId: 452711

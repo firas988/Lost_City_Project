@@ -73,18 +73,10 @@ public static class SaveSystem
     public static void SaveSkills(SkillTreeManager skillTreeManager)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(SkillsPath));
-        Debug.Log("Saving skills to: " + Path.GetDirectoryName(SkillsPath));
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream Stream = new FileStream(SkillsPath, FileMode.Create);
 
         SkillTreeData skillTreeData = new SkillTreeData(skillTreeManager);
-        //logging the skill tree data manually
-        Debug.Log("Skill tree data: " + skillTreeData.totalSkillPoints);
-        Debug.Log("Skill tree data: " + skillTreeData.spent);
-        Debug.Log("Skill tree data: " + skillTreeData.strengthLevel);
-        Debug.Log("Skill tree data: " + skillTreeData.speedLevel);
-        Debug.Log("Skill tree data: " + skillTreeData.defenseLevel);
-        Debug.Log("Skill tree data: " + skillTreeData.healthLevel);
 
         formatter.Serialize(Stream, skillTreeData);
         Stream.Close();

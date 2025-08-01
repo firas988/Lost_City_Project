@@ -74,6 +74,19 @@ public class AudioManager : MonoBehaviour
         {
             audioEntriesDict.Add(audioEntry.AudioName, audioEntry.AudioClip);
         }
+
+        //load the volume from the player prefs
+        GlobalVolume = PlayerPrefs.GetFloat("GlobalVolume", 1f);
+        UIVolume = PlayerPrefs.GetFloat("UIVolume", 1f);
+        MusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        SFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        EnemyVolume = PlayerPrefs.GetFloat("EnemyVolume", 1f);
+
+        Debug.Log("GlobalVolume: " + GlobalVolume);
+        Debug.Log("UIVolume: " + UIVolume);
+        Debug.Log("MusicVolume: " + MusicVolume);
+        Debug.Log("SFXVolume: " + SFXVolume);
+        Debug.Log("EnemyVolume: " + EnemyVolume);
     }
 
     /// <summary>
@@ -136,13 +149,21 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     /// <param name="audioSource">The AudioSource to play the clip on.</param>
     /// <param name="audioName">The name of the music clip to play.</param>
-    public void playMusic(AudioSource audioSource, string audioName)
+    public void playMusic(AudioSource audioSource, string audioName, bool loop = false)
     {
         try
         {
             audioEntriesDict.TryGetValue(audioName, out AudioClip audioClip);
             audioSource.volume = MusicVolume * GlobalVolume;
-            audioSource.PlayOneShot(audioClip);
+            if (loop)
+            {
+                audioSource.clip = audioClip;
+                audioSource.Play();
+            }
+            else
+            {
+                audioSource.PlayOneShot(audioClip);
+            }
         }
         catch (KeyNotFoundException e)
         {
@@ -193,36 +214,6 @@ public class AudioManager : MonoBehaviour
 
     #endregion
 
-    #region UI Audio Queue
-
-    /// <summary>
-    /// Queues a UI audio clip to be played in sequence. Only one UI audio will play at a time.
-    /// </summary>
-    /// <param name="audioSource">The AudioSource to play the clip on.</param>
-    /// <param name="audioName">The name of the UI audio clip to queue.</param>
-    /// <returns>IEnumerator for coroutine.</returns>
-    public IEnumerator queueUI(AudioSource audioSource, string audioName)
-    {
-        audioQueue.Enqueue(audioName);
-        while (audioQueue.Count > 0)
-        {
-            if (!isAudioPlaying)
-            {
-                isAudioPlaying = true;
-                playUI(audioSource, audioQueue.Peek());
-                // Wait for the audio clip to finish (plus extra time for animation sync)
-                yield return new WaitForSeconds(audioEntriesDict[audioQueue.Peek()].length + 4f);
-                isAudioPlaying = false;
-                audioQueue.Dequeue();
-            }
-            else
-            {
-                yield return null;
-            }
-        }
-    }
-
-    #endregion
 
     #region Volume Control Methods
 
@@ -233,6 +224,7 @@ public class AudioManager : MonoBehaviour
     public void setGlobalVolume(float volume)
     {
         GlobalVolume = volume;
+        PlayerPrefs.SetFloat("GlobalVolume", GlobalVolume);
     }
 
     /// <summary>
@@ -242,6 +234,7 @@ public class AudioManager : MonoBehaviour
     public void setUIVolume(float volume)
     {
         UIVolume = volume;
+        PlayerPrefs.SetFloat("UIVolume", UIVolume);
     }
 
     /// <summary>
@@ -251,6 +244,7 @@ public class AudioManager : MonoBehaviour
     public void setMusicVolume(float volume)
     {
         MusicVolume = volume;
+        PlayerPrefs.SetFloat("MusicVolume", MusicVolume);
     }
 
     /// <summary>
@@ -260,6 +254,7 @@ public class AudioManager : MonoBehaviour
     public void setSFXVolume(float volume)
     {
         SFXVolume = volume;
+        PlayerPrefs.SetFloat("SFXVolume", SFXVolume);
     }
 
     /// <summary>
@@ -269,6 +264,41 @@ public class AudioManager : MonoBehaviour
     public void setEnemyVolume(float volume)
     {
         EnemyVolume = volume;
+        PlayerPrefs.SetFloat("EnemyVolume", EnemyVolume);
+    }
+
+    #endregion
+
+    #region Getters
+
+    public float getAudioClipLength(string audioName)
+    {
+        return audioEntriesDict[audioName].length;
+    }
+
+    public float getGlobalVolume()
+    {
+        return GlobalVolume;
+    }
+
+    public float getUIVolume()
+    {
+        return UIVolume;
+    }
+
+    public float getMusicVolume()
+    {
+        return MusicVolume;
+    }
+
+    public float getSFXVolume()
+    {
+        return SFXVolume;
+    }
+
+    public float getEnemyVolume()
+    {
+        return EnemyVolume;
     }
 
     #endregion

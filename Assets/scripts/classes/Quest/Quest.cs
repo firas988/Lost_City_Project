@@ -11,6 +11,12 @@ public abstract class Quest : ScriptableObject
     #region Serialized Fields
 
     /// <summary>
+    /// The parent quest of this quest.
+    /// </summary>
+    [SerializeField]
+    private StoryQuest parentQuest;
+
+    /// <summary>
     /// The name of the quest displayed to the player.
     /// </summary>
     [SerializeField]
@@ -53,7 +59,7 @@ public abstract class Quest : ScriptableObject
     /// <summary>
     /// The unique identifier of the NPC that gave this quest.
     /// </summary>
-    private int giverId;
+    private GameObject giver;
 
     #endregion
 
@@ -71,7 +77,7 @@ public abstract class Quest : ScriptableObject
         this.questTarget = quest.questTarget;
         this.rewardType = quest.rewardType;
         this.rewards = quest.rewards;
-        this.giverId = quest.giverId;
+        this.giver = quest.giver;
         this.completed = false;
     }
 
@@ -83,17 +89,17 @@ public abstract class Quest : ScriptableObject
     /// Sets the ID of the NPC that gave this quest.
     /// </summary>
     /// <param name="giverId">The unique identifier of the quest giver NPC.</param>
-    public void SetGiverID(int giverId)
+    public void SetGiver(GameObject giver)
     {
-        this.giverId = giverId;
+        this.giver = giver;
     }
 
     /// <summary>
     /// Gets the ID of the NPC that gave this quest.
     /// </summary>
-    public int GiverId
+    public GameObject Giver
     {
-        get { return giverId; }
+        get { return giver; }
     }
 
     #endregion
@@ -133,6 +139,14 @@ public abstract class Quest : ScriptableObject
     }
 
     /// <summary>
+    /// Gets the parent quest of this quest.
+    /// </summary>
+    public StoryQuest ParentQuest
+    {
+        get { return this.parentQuest; }
+    }
+
+    /// <summary>
     /// Gets the name of this quest.
     /// </summary>
     /// <returns>The quest name.</returns>
@@ -141,6 +155,13 @@ public abstract class Quest : ScriptableObject
         return this.questName;
     }
 
+
+    public void setParentQuest(StoryQuest parentQuest)
+    {
+        this.parentQuest = parentQuest;
+    }
+
+    
     #endregion
 
     #region Abstract Methods

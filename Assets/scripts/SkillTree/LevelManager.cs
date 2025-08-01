@@ -88,8 +88,9 @@ public class LevelManager : MonoBehaviour
             {
                 level = levelData.level;
                 setLevel(levelData.level);
-                setCurrentXP(levelData.currentXP);
                 setXPtoNextLevel(levelData.XPtoNextLevel);
+                setCurrentXP(levelData.currentXP);
+
                 player.GetComponent<StartPlayer>().getPlayer().setLevel(levelData.level);
             }
         }
@@ -123,10 +124,10 @@ public class LevelManager : MonoBehaviour
         if (levelsToAdd == 0)
             return;
         player.GetComponent<StartPlayer>().getPlayer().addLevel(levelsToAdd);
-        StartCoroutine(audioManager.queueUI(audioSource, "levelup"));
         notificationsManager.queueTopLeftNotification(
             "Level Up! You are now level "
-                + player.GetComponent<StartPlayer>().getPlayer().getLevel()
+                + player.GetComponent<StartPlayer>().getPlayer().getLevel(),
+            "levelup"
         );
         levelText.text = (player.GetComponent<StartPlayer>().getPlayer().getLevel() + 1).ToString();
         level = player.GetComponent<StartPlayer>().getPlayer().getLevel();

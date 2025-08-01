@@ -54,7 +54,8 @@ public class QuestGiver : TalkativeNpc
         float maxSpeed,
         string start,
         Dictionary<string, Dialogue> dialogues,
-        Quest questToGive
+        Quest questToGive,
+        GameObject giver
     )
         : base(
             id,
@@ -73,7 +74,7 @@ public class QuestGiver : TalkativeNpc
         if (questToGive != null)
         {
             this.questToGive = questToGive;
-            this.questToGive.SetGiverID(this.id);
+            this.questToGive.SetGiver(giver);
         }
     }
 
@@ -89,7 +90,8 @@ public class QuestGiver : TalkativeNpc
         float maxSpeed,
         string start,
         Dictionary<string, Dialogue> dialogues,
-        StoryQuest storyQuestToGive
+        StoryQuest storyQuestToGive,
+        GameObject giver
     )
         : base(
             id,
@@ -108,7 +110,7 @@ public class QuestGiver : TalkativeNpc
         if (storyQuestToGive != null)
         {
             this.storyQuestToGive = storyQuestToGive;
-            this.storyQuestToGive.SetGiverID(this.id);
+            this.storyQuestToGive.SetGiver(giver);
         }
     }
 
@@ -143,6 +145,20 @@ public class QuestGiver : TalkativeNpc
         options = this.dialogues[dialogue].GetOptions();
 
         return this.dialogues[dialogue].GetText();
+    }
+
+    public void setQuestToGive(Quest quest, GameObject giver)
+    {
+        if (quest.GetType() == typeof(FindQuest))
+        {
+            this.questToGive = new FindQuest(quest as FindQuest);
+            this.questToGive.SetGiver(giver);
+        }
+        else if (quest.GetType() == typeof(KillQuest))
+        {
+            this.questToGive = new KillQuest(quest as KillQuest);
+            this.questToGive.SetGiver(giver);
+        }
     }
 
     /// <summary>

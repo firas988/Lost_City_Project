@@ -83,7 +83,8 @@ public class SkillTreeButton : MonoBehaviour
         GetComponent<Button>()
             .onClick.AddListener(() =>
                 notificationsManager.queueTopLeftNotification(
-                    "Skill Already Upgraded/Not Enough Points/Not Enough XP"
+                    "Skill Already Upgraded/Not Enough Points/Not Enough XP",
+                    "notification"
                 )
             );
 
@@ -94,8 +95,7 @@ public class SkillTreeButton : MonoBehaviour
         if (isSkillPurchased && skillList.getCurrentLevel() < skillList.getMaxLevel())
         {
             skillList.getSkillTreeButtons()[skillList.getCurrentLevel()].interactable = true;
-            audioManager.playUI(audioSource, "skillupgraded");
-            notificationsManager.queueTopLeftNotification("Skill Upgraded");
+            notificationsManager.queueTopLeftNotification("Skill Upgraded", "skillupgraded");
         }
 
         if (lineToUpdate != null)

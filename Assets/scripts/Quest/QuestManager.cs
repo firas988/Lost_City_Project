@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -163,8 +164,7 @@ public class QuestManager : MonoBehaviour
 
         if (playerInstance.addQuest(quest))
         {
-            notificationsManager.queueTopLeftNotification("New Quest Added");
-            StartCoroutine(audioManager.queueUI(audioSource, "notification"));
+            notificationsManager.queueTopLeftNotification("New Quest Added", "notification");
             if (quest.GetType() == typeof(KillQuest))
                 activeKillQuests.Add((KillQuest)quest);
 
@@ -197,11 +197,14 @@ public class QuestManager : MonoBehaviour
         if (questToInc.isCompleted)
         {
             activeFindQuests.Remove(questToInc);
-            StartCoroutine(audioManager.queueUI(audioSource, "notification"));
+            playerInstance.removeQuest(questToInc);
             notificationsManager.queueTopLeftNotification(
-                questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)"
+                questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)",
+                "notification"
             );
             onQuestFinish?.Invoke(float.Parse(questToInc.Reward));
+            //find quest giver by gameobject ID
+            StartCoroutine(refreshQuestGiver(questToInc.Giver));
         }
     }
 
@@ -225,20 +228,34 @@ public class QuestManager : MonoBehaviour
         foreach (KillQuest quest in questToInc)
         {
             quest.progress();
+
             if (quest.isCompleted)
             {
                 totalReward += float.Parse(quest.Reward);
+                playerInstance.removeQuest(quest);
                 activeKillQuests.Remove(quest);
                 notificationsManager.queueTopLeftNotification(
-                    quest.GetQuestName() + " Completed! (+" + quest.Reward + " EXP)"
+                    quest.GetQuestName() + " Completed! (+" + quest.Reward + " EXP)",
+                    "notification"
                 );
-                StartCoroutine(audioManager.queueUI(audioSource, "notification"));
             }
         }
 
         onQuestFinish?.Invoke(totalReward);
     }
 
+    private IEnumerator refreshQuestGiver(GameObject giver)
+    {
+        yield return new WaitForSeconds(1.5f);
+        if (giver != null)
+        {
+            giver.GetComponent<StartNpc>().refreshQuestGiver();
+        }
+        else
+        {
+            Debug.LogError("Quest giver not found");
+        }
+    }
     #endregion
 
     #region Story Quest Management

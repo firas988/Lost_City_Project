@@ -18,6 +18,12 @@ public class NotificationsManager : MonoBehaviour
     [SerializeField]
     private Notification topLeftnotification;
 
+    [SerializeField]
+    private AudioManager audioManager;
+
+    [SerializeField]
+    private AudioSource audioSource;
+
     /// <summary>
     /// Reference to the Notification UI element for the middle of the screen.
     /// </summary>
@@ -75,22 +81,22 @@ public class NotificationsManager : MonoBehaviour
     /// Queues a message for display in the top-left notification area.
     /// </summary>
     /// <param name="message">The message to display.</param>
-    public void queueTopLeftNotification(string message)
+    public void queueTopLeftNotification(string message, string audioName)
     {
         topLeftNotificationQueue.Enqueue(message);
 
         if (!isTopLeftNotificationActive)
-            StartCoroutine(showTopLeftNotification());
+            StartCoroutine(showTopLeftNotification(audioName));
     }
 
     /// <summary>
     /// Coroutine to show a notification in the top-left corner with a message.
     /// </summary>
     /// <returns>IEnumerator for coroutine execution.</returns>
-    public IEnumerator showTopLeftNotification()
+    public IEnumerator showTopLeftNotification(string audioName)
     {
         isTopLeftNotificationActive = true;
-
+        Debug.Log("Showing top left notification " + audioName);
         while (topLeftNotificationQueue.Count > 0)
         {
             string message = topLeftNotificationQueue.Dequeue();
@@ -98,12 +104,14 @@ public class NotificationsManager : MonoBehaviour
             topLeftnotification.SetSubtitle(message);
             // Show the notification UI
             topLeftnotification.Show();
+            audioManager.playUI(audioSource, audioName);
 
-            // Wait for 3 seconds before hiding the notification
-            yield return new WaitForSeconds(3f);
+            // Wait for 3 seconds before hiding the no tification
+            yield return new WaitForSeconds(audioManager.getAudioClipLength(audioName) + 3f);
+
             // Hide the notification UI
             topLeftnotification.Hide();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(5f);
             isTopLeftNotificationActive = false;
         }
     }

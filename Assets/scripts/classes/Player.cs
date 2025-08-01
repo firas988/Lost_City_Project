@@ -261,10 +261,20 @@ public class Player
     /// <param name="quest">The quest to add to the active quests</param>
     public bool addQuest(Quest quest)
     {
-        if (activeSideQuests.Find(questToFind => questToFind.GiverId == quest.GiverId) == null)
+        if (activeSideQuests.Find(questToFind => questToFind.Giver == quest.Giver) == null)
         {
             this.activeSideQuests.Add(quest);
             Debug.Log(this.activeSideQuests[0]);
+            return true;
+        }
+        return false;
+    }
+
+    public bool removeQuest(Quest quest)
+    {
+        if (activeSideQuests.Find(questToFind => questToFind.Giver == quest.Giver) != null)
+        {
+            this.activeSideQuests.Remove(quest);
             return true;
         }
         return false;

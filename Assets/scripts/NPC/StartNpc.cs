@@ -221,7 +221,8 @@ public class StartNpc : MonoBehaviour
             typeInstance.maxSpeed,
             "start",
             dialogueData,
-            quest
+            quest,
+            this.gameObject
         );
     }
 
@@ -239,4 +240,17 @@ public class StartNpc : MonoBehaviour
     }
 
     #endregion
+
+
+    public void refreshQuestGiver()
+    {
+        if (npcName == "ConfusedPerson")
+        {
+            (npcsInstance as QuestGiver).setQuestToGive(findQuests.RandomQuest, this.gameObject);
+        }
+        else if (npcName == "KillPerson")
+        {
+            (npcsInstance as QuestGiver).setQuestToGive(killQuests.RandomQuest, this.gameObject);
+        }
+    }
 }
