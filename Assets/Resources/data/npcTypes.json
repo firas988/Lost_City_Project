@@ -114,6 +114,16 @@
         "health": 300,
         "speed": 2,
         "maxSpeed": 4.5
+      },
+      {
+        "name": "FinalBoss",
+        "walkRadius": 50,
+        "areaMask": 1,
+        "waitTimeRange": [5, 7],
+        "navMeshAreaName": "",
+        "health": 10000,
+        "speed": 1,
+        "maxSpeed": 1
       }
     ]
   }
