@@ -103,5 +103,23 @@
         "attackRadius": 0.4
       }
     ]
+  },
+  {
+    "Drakonit_monster": [
+      {
+        "attackName": "AttackHand",
+        "attackRange": 0.8,
+        "attackTime": 1,
+        "attackDamage": 10.0,
+        "attackRadius": 0.6
+      },
+      {
+        "attackName": "AttackDoubleHand",
+        "attackRange": 0.8,
+        "attackTime": 1,
+        "attackDamage": 20.0,
+        "attackRadius": 1
+      }
+    ]
   }
 ]

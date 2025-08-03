@@ -45,6 +45,9 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     private AudioSource audioSource;
 
+    /// <summary>Tag for the GameManager object.</summary>
+    private string gameManagerTag = "GameManager";
+
     /// <summary>
     /// Initializes references and loads attack data on start.
     /// </summary>
@@ -53,9 +56,13 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
         // Get references to movement and animation scripts.
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
-        audioManager = FindAnyObjectByType<AudioManager>();
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
         audioSource = GetComponent<AudioSource>();
-        enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
+        enemyAttackesConvert = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<EnemyAttackesConvert>();
 
         // Retrieve the list of attacks for this enemy based on its tag.
         monsterMutantAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);

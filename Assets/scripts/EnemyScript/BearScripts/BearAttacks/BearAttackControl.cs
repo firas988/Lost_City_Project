@@ -49,6 +49,9 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Reference to the AudioManager script for playing attack sounds.</summary>
     private AudioManager audioManager;
 
+    /// <summary>Tag for the GameManager object.</summary>
+    private string gameManagerTag = "GameManager";
+
     /// <summary>
     /// Initializes components and loads attack data on start.
     /// </summary>
@@ -58,13 +61,17 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
         audioSource = GetComponent<AudioSource>();
 
-        enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
+        enemyAttackesConvert = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<EnemyAttackesConvert>();
 
         bearAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);
 
         currentAttack = bearAttacks.Find(attack => attack.attackName == "attackHand");
 
-        audioManager = FindAnyObjectByType<AudioManager>();
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
     }
 
     /// <summary>

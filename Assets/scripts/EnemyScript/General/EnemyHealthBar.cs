@@ -105,4 +105,19 @@ public class EnemyHealthBar : MonoBehaviour
     {
         transform.LookAt(Camera.main.transform);
     }
+
+
+    public void showHealthBar()
+    {
+        healthSlider.gameObject.SetActive(true);
+        easeHealthSlider.gameObject.SetActive(true);
+        healthText.gameObject.SetActive(true);
+    }
+
+    public void hideHealthBar()
+    {
+        healthSlider.gameObject.SetActive(false);
+        easeHealthSlider.gameObject.SetActive(false);
+        healthText.gameObject.SetActive(false);
+    }
 }

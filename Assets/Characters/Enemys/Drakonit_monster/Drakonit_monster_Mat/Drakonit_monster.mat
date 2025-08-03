@@ -75,13 +75,13 @@ Material:
     - _DissolveScale: 40
     - _DissolveWidth: 0.02
     - _DstBlend: 0
-    - _Metallic: 0
+    - _Metallic: 0.147
     - _NoramsStrength: 0.5
-    - _OcclusionStrength: 0.427
+    - _OcclusionStrength: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smothness: 0.378
+    - _Smothness: 0.532
     - _SrcBlend: 1
     - _Surface: 0
     - _WorkflowMode: 1
