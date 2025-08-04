@@ -47,6 +47,9 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Reference to the AudioSource component.</summary>
     private AudioSource audioSource;
 
+    /// <summary>Tag for the GameManager object.</summary>
+    private string gameManagerTag = "GameManager";
+
     /// <summary>
     /// Initializes components and loads attack data for the wolf.
     /// </summary>
@@ -54,10 +57,14 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
-        enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
+        enemyAttackesConvert = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<EnemyAttackesConvert>();
         wolfAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);
         currentAttack = wolfAttacks.Find(attack => attack.attackName == "attackBite");
-        audioManager = FindAnyObjectByType<AudioManager>();
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
         audioSource = GetComponent<AudioSource>();
     }
 

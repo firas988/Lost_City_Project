@@ -34,6 +34,9 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// <summary>Reference to the AudioSource component.</summary>
     private AudioSource audioSource;
 
+    /// <summary>Tag for the GameManager object.</summary>
+    private string gameManagerTag = "GameManager";
+
     /// <summary>
     /// Initializes references to components.
     /// </summary>
@@ -45,7 +48,9 @@ public class EnemyAnimatorControl : MonoBehaviour
         startNpc = GetComponent<StartNpc>();
         entity = (Entity)startNpc.GetNpcsInstance();
         dissolvingController = GetComponent<DissolvingController>();
-        audioManager = FindAnyObjectByType<AudioManager>();
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
         audioSource = GetComponent<AudioSource>();
         // Log warning if attack behavior not found (interface not attached).
         if (enemyAttackBehavior == null)

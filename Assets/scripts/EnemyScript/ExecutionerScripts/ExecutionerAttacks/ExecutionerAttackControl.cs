@@ -51,6 +51,9 @@ public class ExecutionerAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Flag indicating if the attack rotation animation is playing.</summary>
     private bool isAttackRotationPlaying = false;
 
+    /// <summary>Tag for the GameManager object.</summary>
+    private string gameManagerTag = "GameManager";
+
     /// <summary>
     /// Initializes components and loads attack data on start.
     /// </summary>
@@ -59,8 +62,8 @@ public class ExecutionerAttackControl : MonoBehaviour, EnemyAttackBehavior
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
         audioSource = GetComponent<AudioSource>();
-        audioManager = FindAnyObjectByType<AudioManager>();
-        enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
+        audioManager = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<AudioManager>();
+        enemyAttackesConvert = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<EnemyAttackesConvert>();
 
         executionerAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);
 

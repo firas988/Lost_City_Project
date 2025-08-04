@@ -16,7 +16,10 @@ public class DissolvingController : MonoBehaviour
 
     private AudioManager audioManager;
 
-    void Start()
+    /// <summary>Tag for the GameManager object.</summary>
+    private string gameManagerTag = "GameManager";
+
+    void Awake()
     {
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
 
@@ -29,7 +32,9 @@ public class DissolvingController : MonoBehaviour
         skinnesMaterials = mats.ToArray();
 
         audioSource = GetComponent<AudioSource>();
-        audioManager = FindAnyObjectByType<AudioManager>();
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
     }
 
     public void StartDissolve()
@@ -55,5 +60,40 @@ public class DissolvingController : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    public void StartDeDissolve()
+    {
+        StartCoroutine(DeDissolve());
+    }
+
+    public void setDissolveAmount(float dissolveAmount = 1f)
+    {
+        for (int i = 0; i < skinnesMaterials.Length; i++)
+        {
+            skinnesMaterials[i].SetFloat("_DissolveAmount", dissolveAmount);
+        }
+    }
+
+    IEnumerator DeDissolve()
+    {
+        if (skinnesMaterials.Length > 0)
+        {
+            float counter = 1f;
+            for (int i = 0; i < skinnesMaterials.Length; i++)
+            {
+                skinnesMaterials[i].SetFloat("_DissolveAmount", counter);
+            }
+
+            while (counter > 0f)
+            {
+                counter -= dissolveRate;
+                for (int i = 0; i < skinnesMaterials.Length; i++)
+                {
+                    skinnesMaterials[i].SetFloat("_DissolveAmount", counter);
+                }
+                yield return new WaitForSeconds(refreshRate);
+            }
+        }
     }
 }

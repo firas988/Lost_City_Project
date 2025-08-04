@@ -46,6 +46,9 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     private AudioSource audioSource;
 
+    /// <summary>Tag for the GameManager object.</summary>
+    private string gameManagerTag = "GameManager";
+
     /// <summary>
     /// Initializes components and loads attack data on start.
     /// </summary>
@@ -53,10 +56,10 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
-        audioManager = FindAnyObjectByType<AudioManager>();
+        audioManager = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<AudioManager>();
         audioSource = GetComponent<AudioSource>();
 
-        enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
+        enemyAttackesConvert = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<EnemyAttackesConvert>();
 
         goblinAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);
 

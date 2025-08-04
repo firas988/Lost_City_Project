@@ -45,6 +45,9 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     private AudioSource audioSource;
 
+    /// <summary>Tag for the GameManager object.</summary>
+    private string gameManagerTag = "GameManager";
+
     /// <summary>
     /// Initializes references and loads attack data based on the enemy's tag.
     /// </summary>
@@ -52,10 +55,14 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
-        audioManager = FindAnyObjectByType<AudioManager>();
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
         audioSource = GetComponent<AudioSource>();
 
-        enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
+        enemyAttackesConvert = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<EnemyAttackesConvert>();
 
         // Get the list of attacks based on this enemy's tag.
         trollAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);

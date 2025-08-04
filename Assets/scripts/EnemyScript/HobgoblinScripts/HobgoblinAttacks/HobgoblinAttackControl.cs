@@ -46,6 +46,9 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     private AudioSource audioSource;
 
+    /// <summary>Tag for the GameManager object.</summary>
+    private string gameManagerTag = "GameManager";
+
     /// <summary>
     /// Initializes components and retrieves the list of available attacks at start.
     /// </summary>
@@ -53,10 +56,10 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
-        audioManager = FindAnyObjectByType<AudioManager>();
+        audioManager = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<AudioManager>();
         audioSource = GetComponent<AudioSource>();
 
-        enemyAttackesConvert = FindAnyObjectByType<EnemyAttackesConvert>();
+        enemyAttackesConvert = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<EnemyAttackesConvert>();
 
         // Load the list of attacks for this enemy based on its tag.
         hobgoblinAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);

@@ -133,6 +133,16 @@
         "health": 10000,
         "speed": 1,
         "maxSpeed": 1
+      },
+      {
+        "name": "Drakonit_monster",
+        "walkRadius": 50,
+        "areaMask": 1,
+        "waitTimeRange": [5, 7],
+        "navMeshAreaName": "",
+        "health": 200,
+        "speed": 1.5,
+        "maxSpeed": 4
       }
     ]
   }
