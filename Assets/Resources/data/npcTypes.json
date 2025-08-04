@@ -30,6 +30,15 @@
         "navMeshAreaName": "",
         "speed": 1,
         "maxSpeed": 1
+      },
+      {
+        "name": "MysteriousMan",
+        "walkRadius": 0,
+        "areaMask": 0,
+        "waitTimeRange": [0, 0],
+        "navMeshAreaName": "",
+        "speed": 0,
+        "maxSpeed": 0
       }
     ],
     "TalkativePerson": [
