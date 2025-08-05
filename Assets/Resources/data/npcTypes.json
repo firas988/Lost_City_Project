@@ -132,7 +132,7 @@
         "navMeshAreaName": "",
         "health": 10000,
         "speed": 3,
-        "maxSpeed": 1
+        "maxSpeed": 4.5
       },
       {
         "name": "Drakonit_monster",

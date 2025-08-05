@@ -121,5 +121,16 @@
         "attackRadius": 1
       }
     ]
+  },
+  {
+    "FinalBoss": [
+      {
+        "attackName": "Final_Boss_attack",
+        "attackRange": 1.5,
+        "attackTime": 1,
+        "attackDamage": 25.0,
+        "attackRadius": 1.5
+      }
+    ]
   }
 ]
