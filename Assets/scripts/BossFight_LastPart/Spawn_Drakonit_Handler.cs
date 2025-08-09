@@ -26,8 +26,6 @@ public class Spawn_Drakonit_Handler : MonoBehaviour
 
     private bool isEnemiesSpawned = false;
 
-
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,18 +36,26 @@ public class Spawn_Drakonit_Handler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-if (Input.GetKeyDown(KeyCode.Y))
-        {
-            spawnEnemy(10, 10f);
-        }
-
         checkIfAllEnemiesAreDead();
     }
 
+    public bool getIsCrystalSpawned()
+    {
+        return isCrystalSpawned;
+    }
+
+    public bool getIsEnemiesSpawned()
+    {
+        return isEnemiesSpawned;
+    }
+
+    public void startSpawnEnemies(int numberOfEnemiesToSpawn, float spawnRadius)
+    {
+        spawnEnemy(numberOfEnemiesToSpawn, spawnRadius);
+    }
 
     private void spawnEnemy(int numberOfEnemiesToSpawn, float spawnRadius)
     {
-
         Vector3 center = enemyPlaceHolder.transform.position;
 
         for (int i = 0; i < numberOfEnemiesToSpawn; i++)
@@ -136,26 +142,35 @@ if (Input.GetKeyDown(KeyCode.Y))
         isEnemiesSpawned = true;
     }
 
-     private void checkIfAllEnemiesAreDead()
+    private void checkIfAllEnemiesAreDead()
     {
         for (int i = enemies.Count - 1; i >= 0; i--)
         {
-          Entity entity = enemies[i].GetComponent<StartNpc>().GetNpcsInstance() as Entity;
+            Entity entity = enemies[i].GetComponent<StartNpc>().GetNpcsInstance() as Entity;
             if (entity != null && entity.isDead())
-
             {
                 lastEnemyPosition = enemies[i].transform.position;
                 enemies.RemoveAt(i);
             }
         }
-        if ( enemies.Count == 0 && !isCrystalSpawned && isEnemiesSpawned)
+        if (enemies.Count == 0 && !isCrystalSpawned && isEnemiesSpawned)
         {
-          Debug.Log("Crystal Spawned");
-          Debug.Log(lastEnemyPosition);
-          lastEnemyPosition.y += 1f;
-          isCrystalSpawned = true;
-          GameObject crystalClone = Instantiate(crystal, lastEnemyPosition, Quaternion.identity);
-          crystalClone.transform.SetParent(enemyPlaceHolder.transform, worldPositionStays: true);
+            isEnemiesSpawned = false;
+            lastEnemyPosition.y += 1f;
+            isCrystalSpawned = true;
+            GameObject crystalClone = Instantiate(crystal, lastEnemyPosition, Quaternion.identity);
+            crystalClone.transform.SetParent(enemyPlaceHolder.transform, worldPositionStays: true);
+            crystalClone.GetComponent<DashToTarget>().subscribeToCrystal(removeCrystal);
         }
+    }
+
+    public void removeCrystal()
+    {
+        isCrystalSpawned = false;
+    }
+
+    public void setEnemiesPlaceHolder(GameObject enemiesPlaceHolder)
+    {
+        enemyPlaceHolder = enemiesPlaceHolder;
     }
 }
