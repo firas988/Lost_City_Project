@@ -46,6 +46,11 @@ public class InventoryManager : MonoBehaviour
     private NotificationsManager notificationsManager;
 
     /// <summary>
+    /// Reference to the HotBarHandler.
+    /// </summary>
+    private HotBarHandler hotBarHandler;
+
+    /// <summary>
     /// Returns the current Inventory instance.
     /// </summary>
     /// <returns>The inventory object.</returns>
@@ -66,6 +71,7 @@ public class InventoryManager : MonoBehaviour
         inventory = player.getInventory();
         LoadInventory();
         notificationsManager = FindAnyObjectByType<NotificationsManager>();
+        hotBarHandler = GetComponent<HotBarHandler>();
     }
 
     /// <summary>
@@ -76,6 +82,10 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J))
         {
             SaveInventory();
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -158,6 +168,7 @@ public class InventoryManager : MonoBehaviour
         {
             inventory.getHotbar().removeConsumable(index);
         }
+        hotBarHandler.updateHotBar();
     }
 
     /// <summary>
@@ -203,11 +214,11 @@ public class InventoryManager : MonoBehaviour
         }
         if (inventory.TryAddItem(newItem, out int row, out int column))
         {
+            List<Item> items = inventory.GetItem(row, column);
+            slotManager.SetSlot(newItem, items.Count, row, column);
             notificationsManager.ShowBottomLeftNotificationInventory(
                 $"You have added {newItem.itemName} to your inventory."
             );
-            List<Item> items = inventory.GetItem(row, column);
-            slotManager.SetSlot(newItem, items.Count, row, column);
         }
     }
 
@@ -272,13 +283,16 @@ public class InventoryManager : MonoBehaviour
             inventory.getHotbar().setWeapon(item);
             player.setWeapon();
             player.calculateStrengthAndDefenseBonus();
+            hotBarHandler.updateHotBar();
             return true;
         }
         else if (index > 0 && index < 4 && item is ConsumableItem)
         {
             inventory.getHotbar().setConsumable(item, count, index);
+            hotBarHandler.updateHotBar();
             return true;
         }
+        hotBarHandler.updateHotBar();
         return false;
     }
 
@@ -288,6 +302,7 @@ public class InventoryManager : MonoBehaviour
         {
             return false;
         }
+        hotBarHandler.updateHotBar();
         return inventory.getHotbar().addToConsumable(item, count, index);
     }
 

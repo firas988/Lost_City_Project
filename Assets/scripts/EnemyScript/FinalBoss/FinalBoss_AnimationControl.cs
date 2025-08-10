@@ -16,16 +16,22 @@ public class FinalBoss_AnimationControl : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         finalBossControl = GetComponent<FinalBossControl>();
-        entity = (Entity)finalBossControl.getNpcsInstance();
+        entity = finalBossControl.getNpcsInstance();
         finalBoss_AttackControl = GetComponent<FinalBoss_AttackControl>();
         audioManager = GameObject
             .FindGameObjectWithTag(gameManagerTag)
             .GetComponentInChildren<AudioManager>();
         audioSource = GetComponent<AudioSource>();
+
     }
 
     void Update()
     {
+        if (entity == null)
+        {
+            entity = finalBossControl.getNpcsInstance();
+            return;
+        }
         animashionIsRunning();
         animashionIsAttacking();
         animashionIsDead();

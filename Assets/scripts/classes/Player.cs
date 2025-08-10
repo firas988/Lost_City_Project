@@ -188,6 +188,12 @@ public class Player
         calculateStrength();
     }
 
+    public void resetStrengthPotionBuff()
+    {
+        this.currentStrengthPotionBuff = 0f;
+        calculateStrength();
+    }
+
     public void addDefensePotionBuff(float bonus)
     {
         this.currentDefensePotionBuff += bonus;
@@ -239,8 +245,12 @@ public class Player
     /// <param name="bonus">The speed bonus to add</param>
     public void addSpeedBonus(float bonus)
     {
-        this.currentSpeedBonus += bonus;
-        this.currentSpeed = Mathf.Min(this.maxSpeed, this.currentSpeed + this.currentSpeedBonus);
+        this.currentSpeed = Mathf.Min(this.maxSpeed, this.currentSpeed + bonus);
+    }
+
+    public void removeSpeedPotionBuff(float bonus)
+    {
+        this.currentSpeed = Mathf.Max(0, this.currentSpeed - bonus);
     }
 
     /// <summary>
@@ -252,6 +262,11 @@ public class Player
     {
         this.currentHealthBonus += bonus;
         this.maxHealth = 100f * this.currentHealthBonus;
+    }
+
+    public void addHealth(float health)
+    {
+        this.currentHealth = Mathf.Min(this.maxHealth, this.currentHealth + health);
     }
 
     /// <summary>
@@ -310,7 +325,10 @@ public class Player
 
     public void setWeapon()
     {
-        this.weapon = (WeaponItem)inventory.getHotbar().getWeapon()[0];
+        if (inventory.getHotbar().getWeapon().Count > 0)
+        {
+            this.weapon = (WeaponItem)inventory.getHotbar().getWeapon()[0];
+        }
     }
 
     public WeaponItem getWeapon()

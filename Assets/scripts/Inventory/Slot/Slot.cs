@@ -209,7 +209,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (item != null && !isEmpty)
         {
             Vector2 mousePos = Input.mousePosition;
-            tooltip.ShowTooltip(item, mousePos);
+            if (tooltip != null)
+                tooltip.ShowTooltip(item, mousePos);
         }
     }
 
@@ -219,6 +220,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// <param name="eventData">Pointer event data.</param>
     public void OnPointerExit(PointerEventData eventData)
     {
-        tooltip.HideTooltip();
+        if (tooltip != null)
+            tooltip.HideTooltip();
     }
 }

@@ -29,6 +29,10 @@ public class FinalBossControl : MonoBehaviour
     private bool getHit = false;
     private Coroutine ControlBossStateCoroutine;
 
+    private float dashToTargetDamage = 100f;
+
+    private BossBarHandler bossBarHandler;
+
     private void Start()
     {
         startNpc = GetComponent<StartNpc>();
@@ -39,6 +43,7 @@ public class FinalBossControl : MonoBehaviour
         finalBoss_AttackControl = GetComponent<FinalBoss_AttackControl>();
         spawn_Drakonit_Handler = GetComponent<Spawn_Drakonit_Handler>();
         npcNavigation = GetComponent<NPCnavigation>();
+        bossBarHandler = FindAnyObjectByType<BossBarHandler>();
     }
 
     private void Update()
@@ -106,6 +111,11 @@ public class FinalBossControl : MonoBehaviour
     public void setGetHit(bool getHit)
     {
         this.getHit = getHit;
+        if (getHit)
+        {
+            entity.takeDamage(dashToTargetDamage);
+            bossBarHandler.TakeDamage(entity.getHealth() / entity.getMaxHealth());
+        }
     }
 
     private IEnumerator controlBossStateCoroutine()
@@ -203,8 +213,8 @@ public class FinalBossControl : MonoBehaviour
         return MoveToPlayerToAttack;
     }
 
-    public NPC getNpcsInstance()
+    public Entity getNpcsInstance()
     {
-        return startNpc.GetNpcsInstance();
+        return entity;
     }
 }
