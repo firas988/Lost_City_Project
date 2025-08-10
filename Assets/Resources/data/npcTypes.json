@@ -143,6 +143,16 @@
         "health": 200,
         "speed": 1.5,
         "maxSpeed": 4
+      },
+      {
+        "name": "WolfBoss",
+        "walkRadius": 0,
+        "areaMask": 0,
+        "waitTimeRange": [0, 0],
+        "navMeshAreaName": "",
+        "health": 5000,
+        "speed": 4.5,
+        "maxSpeed": 6
       }
     ]
   }

@@ -164,6 +164,7 @@ Transform:
   - {fileID: 2742785868201353129}
   - {fileID: 6357506514229117858}
   - {fileID: 1765027014960758519}
+  - {fileID: 3495775981914577624}
   m_Father: {fileID: 4634009704910848414}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3608689726571634651
@@ -211,6 +212,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   topLeftnotification: {fileID: 4952888183297427080}
+  audioManager: {fileID: 0}
+  audioSource: {fileID: 0}
   middlenotification: {fileID: 0}
   bottomLeftnotificationInventory: {fileID: 0}
   parentBottomLeftnotificationInventory: {fileID: 0}
@@ -274,6 +277,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jsonFile: {fileID: 4900000, guid: 73937b6ade658a549942cb9cc9c221c3, type: 3}
+--- !u!1 &5648317315698380736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3495775981914577624}
+  - component: {fileID: 5411829627985804044}
+  m_Layer: 0
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3495775981914577624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5648317315698380736}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5252056085525530077}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5411829627985804044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5648317315698380736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e99f893e6bcca44b23e73633d8e118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1507731602361876451, guid: f8b38168b213cad4d9b4fee40a448bb7, type: 3}
+  dialogueManager: {fileID: 748210087948307737}
+  audioManager: {fileID: 4344384274597286903}
+  storyQuestsList:
+  - {fileID: 11400000, guid: 2f6500e53a50838479a23f837d40e023, type: 2}
 --- !u!1 &6363130672258910741
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,6 +644,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 510caeca37803c9419f5aced97c79c42, type: 3}
+--- !u!114 &748210087948307737 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 911532530642940848, guid: 510caeca37803c9419f5aced97c79c42, type: 3}
+  m_PrefabInstance: {fileID: 487592851952811689}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621157cc78edbc3478babc6ec44e455f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4952888183297427080 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4789708573783816225, guid: 510caeca37803c9419f5aced97c79c42, type: 3}

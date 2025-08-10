@@ -173,6 +173,7 @@ public class Player
     public void addStrengthBonusSkill(float bonus)
     {
         this.currentStrengthBonusSkill += bonus;
+        Debug.Log("Strength Bonus Skill: " + this.currentStrengthBonusSkill);
         calculateStrength();
     }
 
@@ -264,7 +265,6 @@ public class Player
         if (activeSideQuests.Find(questToFind => questToFind.Giver == quest.Giver) == null)
         {
             this.activeSideQuests.Add(quest);
-            Debug.Log(this.activeSideQuests[0]);
             return true;
         }
         return false;
@@ -365,5 +365,10 @@ public class Player
     public void addLevel(int level)
     {
         this.level += level;
+    }
+
+    public float getCurrentStrengthBonusSkill()
+    {
+        return this.currentStrengthBonusSkill;
     }
 }
