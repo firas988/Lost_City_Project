@@ -3,6 +3,7 @@ using UnityEngine;
 public class Entity : NPC
 {
     private float health;
+    private float maxHealth;
     private float currentDamage;
     private static readonly float MIN_HEALTH = 0f;
 
@@ -21,6 +22,7 @@ public class Entity : NPC
         : base(id, name, type, walkRadius, areaMask, waitTimeRange, navMeshAreaName, speed, maxSpeed)
     {
         this.health = health;
+        this.maxHealth = health;
     }
 
     public float getCurrentDamage()
@@ -41,6 +43,11 @@ public class Entity : NPC
     public float getHealth()
     {
         return this.health;
+    }
+
+    public float getMaxHealth()
+    {
+        return this.maxHealth;
     }
 
     public void setHealth(float health)

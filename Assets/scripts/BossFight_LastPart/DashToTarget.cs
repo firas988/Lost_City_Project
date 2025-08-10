@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class DashToTarget : MonoBehaviour
 {
-
     [SerializeField]
     private GameObject HitEffect;
     private float chargeTime = 1.5f;
@@ -18,6 +18,7 @@ public class DashToTarget : MonoBehaviour
 
     private Transform target;
     private string targetTag = "FinalBoss";
+    private static event Action OnCrystalRemoved;
 
     void Start()
     {
@@ -41,7 +42,6 @@ public class DashToTarget : MonoBehaviour
 
         Vector3 center = transform.position;
 
-
         while (elapsed < chargeTime)
         {
             float t = elapsed / chargeTime;
@@ -63,33 +63,53 @@ public class DashToTarget : MonoBehaviour
             yield return null;
         }
 
-
         isCharging = false;
         isDashing = true;
 
-    Vector3 targetPos = target.position + Vector3.up * 3f;
+        Vector3 targetPos = target.position + Vector3.up * 3f;
 
-    while (Vector3.Distance(transform.position, targetPos) > 0.1f)
-    {
-        Vector3 direction = (targetPos - transform.position).normalized;
+        while (Vector3.Distance(transform.position, targetPos) > 0.1f)
+        {
+            Vector3 direction = (targetPos - transform.position).normalized;
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 50f);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                Quaternion.LookRotation(direction),
+                Time.deltaTime * 50f
+            );
 
-        transform.rotation *= Quaternion.Euler(0f, 0f, 75f);
+            transform.rotation *= Quaternion.Euler(0f, 0f, 75f);
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, dashSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                targetPos,
+                dashSpeed * Time.deltaTime
+            );
 
-        yield return null;
-    }
-
-
+            yield return null;
+        }
 
         isDashing = false;
-
+        target.GetComponent<FinalBossControl>().setGetHit(true);
+        removeCrystal();
         GameObject hitEffect = Instantiate(HitEffect, transform.position, Quaternion.identity);
         float hitEffectDuration = hitEffect.GetComponent<ParticleSystem>().main.duration;
         Destroy(hitEffect, hitEffectDuration);
         Destroy(this.gameObject);
+    }
 
+    public void removeCrystal()
+    {
+        OnCrystalRemoved?.Invoke();
+    }
+
+    public void subscribeToCrystal(Action action)
+    {
+        OnCrystalRemoved += action;
+    }
+
+    public void unsubscribeToCrystal(Action action)
+    {
+        OnCrystalRemoved -= action;
     }
 }

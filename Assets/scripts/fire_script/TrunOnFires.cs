@@ -2,12 +2,14 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-
+using UnityEngine.Playables;
 
 public class TrunOnFires : MonoBehaviour
 {
-    //private Transform[] braziers;
     private List<Transform> fires;
+    private List<Transform> sortedFires;
+    [SerializeField]
+    private PlayableDirector playableDirector;
 
     void Start()
     {
@@ -21,16 +23,15 @@ public class TrunOnFires : MonoBehaviour
             }
         }
 
-        List<Transform> sortedFires = fires.OrderBy(fire => int.Parse(fire.name)).ToList();
-
-        StartCoroutine(playFires(sortedFires));
+        sortedFires = fires.OrderBy(fire => int.Parse(fire.name)).ToList();
 
 
     }
 
-    void Update()
+    public void TurnOnFires()
     {
-        
+        playableDirector.Pause();
+        StartCoroutine(playFires(sortedFires));
     }
 
     private IEnumerator playFires(List<Transform> sortedFires)
@@ -48,9 +49,10 @@ public class TrunOnFires : MonoBehaviour
                     fireParticleSystem2.Play();
 
                 }
-                yield return new WaitForSeconds(0.8f);
+                yield return new WaitForSeconds(0.4f);
             }
         }
+        playableDirector.Resume();
     }
 
 }
