@@ -63,6 +63,9 @@ public class PlayerAttackController : MonoBehaviour
     /// <summary>Tracks whether the player is dead.</summary>
     private bool isDead = false;
 
+    /// <summary>Tracks whether the player can deal damage.</summary>
+    private bool canDealDamage = true;
+
     /// ===== METHODS =====
     /// <summary>Initializes player, animator, and references.</summary>
     void Start()
@@ -201,7 +204,7 @@ public class PlayerAttackController : MonoBehaviour
     /// <param name="other">The collider hit by the weapon.</param>
     private void OnWeaponHit(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") && !isHit)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") && !isHit && canDealDamage)
         {
             StartNpc startNpc = other.gameObject.GetComponent<StartNpc>();
             Entity enemy = (Entity)startNpc.GetNpcsInstance();
