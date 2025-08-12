@@ -23,11 +23,6 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     private DialogueManager dialogueManager;
 
-    /// <summary>
-    /// Reference to the audio manager for playing quest-related sounds.
-    /// </summary>
-    [SerializeField]
-    private AudioManager audioManager;
 
     /// <summary>
     /// List of story quests available in the game.
