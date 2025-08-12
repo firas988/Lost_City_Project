@@ -46,7 +46,6 @@ public class DialogueManager : MonoBehaviour
     /// <summary>
     /// Reference to the level manager for XP distribution.
     /// </summary>
-    [SerializeField]
     private LevelManager levelManager;
 
     #endregion
@@ -98,6 +97,11 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private bool onCoolDown;
 
+    /// <summary>
+    /// Tag for the GameManager GameObject.
+    /// </summary>
+    private string gameManagerTag = "GameManager";
+
     #endregion
 
     #region Events
@@ -118,7 +122,7 @@ public class DialogueManager : MonoBehaviour
     {
         // Find the input listener component from the GameManager GameObject
         inputListener = GameObject
-            .FindWithTag("GameManager")
+            .FindWithTag(gameManagerTag)
             .GetComponentInChildren<InputListener>();
 
         // Find the player script component in the scene
@@ -132,6 +136,11 @@ public class DialogueManager : MonoBehaviour
 
         // Get the NPC the player is currently interacting with
         talkingTo = playerStateManager.getInteractingWith();
+
+        // Get the level manager component in the scene
+        levelManager = GameObject
+            .FindWithTag(gameManagerTag)
+            .GetComponentInChildren<LevelManager>();
 
         // If there's an NPC to talk to, get its QuestGiver component
         if (talkingTo != null)
@@ -223,6 +232,7 @@ public class DialogueManager : MonoBehaviour
                     if (
                         ((QuestGiver)npc).GetQuestToGive() is MysteriousManQuest
                         || ((QuestGiver)npc).GetQuestToGive() is RobertQuest
+                        || ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToGetWeapon
                     )
                     {
                         ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();

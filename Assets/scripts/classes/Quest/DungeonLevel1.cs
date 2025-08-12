@@ -4,9 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DungeonLevel1", menuName = "Quests/DungeonLevel1")]
 public class DungeonLevel1 : StoryQuest
 {
-    [SerializeField]
-    private GameObject levelExit;
-
     public DungeonLevel1(Quest quest)
         : base(quest) { }
 

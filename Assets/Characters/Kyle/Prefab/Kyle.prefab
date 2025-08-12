@@ -815,7 +815,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: d4984b0da993e9c479386d6f761b27fc, type: 3}
+  m_Texture: {fileID: 2800000, guid: 7b6ad49d3e0a5e74db78c62ee98ad1ef, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -3095,8 +3095,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5556993530167776111}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.22441465, y: -0.3589567, z: -0.089351155, w: 0.90155673}
-  m_LocalPosition: {x: 89.12804, y: 0.4659495, z: -108.76743}
+  m_LocalRotation: {x: -0.22725433, y: -0.35818776, z: -0.09033846, w: 0.9010528}
+  m_LocalPosition: {x: 1.7856326, y: 0.17094952, z: -1.920044}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

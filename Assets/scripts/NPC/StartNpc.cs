@@ -153,7 +153,7 @@ public class StartNpc : MonoBehaviour
 
                     Quest quest = null;
 
-                    if (npcName == "Robert" || npcName == "MysteriousMan")
+                    if (npcName == "Robert" || npcName == "MysteriousMan" || npcName == "John")
                     {
                         quest = storyQuest;
                     }
