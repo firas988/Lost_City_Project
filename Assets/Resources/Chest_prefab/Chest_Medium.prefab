@@ -25507,7 +25507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponDatabase: {fileID: 11400000, guid: 0244248d38068674ba74b9c6ba757002, type: 2}
   cosmeticDatabase: {fileID: 11400000, guid: 8502b7a954d2f5742a4e2bc4804413a8, type: 2}
-  consumableDatabase: {fileID: 0}
+  consumableDatabase: {fileID: 11400000, guid: 6a91293f7edae254a97e4dad4514612c, type: 2}
   minXP: 20
   maxXP: 40
   weaponDropChance: 0.5
