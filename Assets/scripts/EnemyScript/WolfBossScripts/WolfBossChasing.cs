@@ -22,7 +22,7 @@ public class WolfBossChasing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player != null && navMeshAgent.enabled && canMove)
+        if (player != null && navMeshAgent.enabled && !navMeshAgent.isStopped && canMove)
         {
             navMeshAgent.SetDestination(player.transform.position);
             animator.SetBool("IsChasing", true);
