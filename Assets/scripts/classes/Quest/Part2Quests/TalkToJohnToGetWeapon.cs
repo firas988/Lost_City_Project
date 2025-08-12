@@ -7,7 +7,6 @@ using UnityEngine;
 )]
 public class TalkToJohnToGetWeapon : StoryQuest
 {
-    private string gameManagerTag = "GameManager";
 
     public TalkToJohnToGetWeapon(Quest quest)
         : base(quest) { }
@@ -30,9 +29,8 @@ public class TalkToJohnToGetWeapon : StoryQuest
         (
             (TalkativeNpc)GameObject.FindWithTag("John").GetComponent<StartNpc>().GetNpcsInstance()
         ).setDialogue(dialogueData);
-
         RewardManager rewardManager = GameObject
-            .FindGameObjectWithTag(gameManagerTag)
+            .FindWithTag("GameManager")
             .GetComponentInChildren<RewardManager>();
         rewardManager.GiveReward(base.Reward);
 
