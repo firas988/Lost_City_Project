@@ -55,7 +55,9 @@ public class NotificationsManager : MonoBehaviour
     /// <summary>
     /// Queue to store messages for the top-left notification, ensuring they are shown one after another.
     /// </summary>
-    private Queue<string> topLeftNotificationQueue = new Queue<string>();
+    private Queue<string> topLeftNotificationQueueText = new Queue<string>();
+
+    private Queue<string> topLeftNotificationQueueAudio = new Queue<string>();
 
     /// <summary>
     /// Queue to store messages for the middle notification (not used for sequential display in this script).
@@ -75,6 +77,16 @@ public class NotificationsManager : MonoBehaviour
 
     #endregion
 
+    #region Unity Lifecycle Methods
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindWithTag("GameManager").GetComponentInChildren<AudioManager>();
+        audioSource = this.gameObject.GetComponent<AudioSource>();
+    }
+
+    #endregion
+
     #region Top-Left Notification Methods
 
     /// <summary>
@@ -83,23 +95,24 @@ public class NotificationsManager : MonoBehaviour
     /// <param name="message">The message to display.</param>
     public void queueTopLeftNotification(string message, string audioName)
     {
-        topLeftNotificationQueue.Enqueue(message);
+        topLeftNotificationQueueText.Enqueue(message);
+        topLeftNotificationQueueAudio.Enqueue(audioName);
 
         if (!isTopLeftNotificationActive)
-            StartCoroutine(showTopLeftNotification(audioName));
+            StartCoroutine(showTopLeftNotification());
     }
 
     /// <summary>
     /// Coroutine to show a notification in the top-left corner with a message.
     /// </summary>
     /// <returns>IEnumerator for coroutine execution.</returns>
-    public IEnumerator showTopLeftNotification(string audioName)
+    public IEnumerator showTopLeftNotification()
     {
         isTopLeftNotificationActive = true;
-        Debug.Log("Showing top left notification " + audioName);
-        while (topLeftNotificationQueue.Count > 0)
+        while (topLeftNotificationQueueText.Count > 0)
         {
-            string message = topLeftNotificationQueue.Dequeue();
+            string message = topLeftNotificationQueueText.Dequeue();
+            string audioName = topLeftNotificationQueueAudio.Dequeue();
             // Set the message text in the notification UI
             topLeftnotification.SetSubtitle(message);
             // Show the notification UI

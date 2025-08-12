@@ -96,6 +96,7 @@ public class QuestManager : MonoBehaviour
             .FindWithTag("GameManager")
             .GetComponentInChildren<NotificationsManager>();
         audioSource = this.gameObject.GetComponent<AudioSource>();
+        dialogueManager = GameObject.FindAnyObjectByType<DialogueManager>();
         initPlayer();
         subscribeToEvents();
         initQuestLists();
@@ -111,7 +112,9 @@ public class QuestManager : MonoBehaviour
     private void subscribeToEvents()
     {
         StoryQuest.subscribeToQuestCompletion(nextMainQuest);
-        dialogueManager.onDialogueExit += addQuest;
+
+        if (dialogueManager != null)
+            dialogueManager.onDialogueExit += addQuest;
         KillEnemyHandler.Subscribe(addKill);
     }
 
@@ -174,8 +177,7 @@ public class QuestManager : MonoBehaviour
     {
         if (playerInstance == null)
             return;
-        if (dialogueManager == null)
-            return;
+
         if (quest == null)
             return;
 
@@ -251,6 +253,7 @@ public class QuestManager : MonoBehaviour
             questToKill != null && string.Join(", ", questToKill.QuestTarget).Contains(objectKilled)
         );
         Debug.Log("killed: " + objectKilled);
+        Debug.Log("questToInc: " + questToInc.Count);
 
         if (questToInc.Count == 0)
         {

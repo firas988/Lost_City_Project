@@ -59,13 +59,20 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        skillTree = GameObject.Find("GameManger").GetComponent<SkillTreeManager>();
-        questManager = gameObject.GetComponent<QuestManager>();
+        skillTree = GameObject
+            .FindWithTag("GameManager")
+            .GetComponentInChildren<SkillTreeManager>();
+
+        questManager = GameObject.FindAnyObjectByType<QuestManager>();
+        audioManager = GameObject.FindWithTag("GameManager").GetComponentInChildren<AudioManager>();
         currentXP = 0;
         XPtoNextLevel = 1000;
         level = 0;
         questManager.onQuestFinish += addXP;
-        notificationsManager = GameObject.Find("GameManger").GetComponent<NotificationsManager>();
+        notificationsManager = GameObject
+            .FindWithTag("GameManager")
+            .GetComponentInChildren<NotificationsManager>();
+
         player = GameObject.FindGameObjectWithTag("Player");
         Debug.Log(level);
         audioSource = this.gameObject.GetComponent<AudioSource>();
@@ -124,7 +131,6 @@ public class LevelManager : MonoBehaviour
         if (levelsToAdd == 0)
             return;
         player.GetComponent<StartPlayer>().getPlayer().addLevel(levelsToAdd);
-        audioManager.playUI(audioSource, "levelup");
         notificationsManager.queueTopLeftNotification(
             "Level Up! You are now level "
                 + player.GetComponent<StartPlayer>().getPlayer().getLevel(),

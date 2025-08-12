@@ -67,7 +67,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !isTest)
+        if (Input.GetKeyDown(KeyCode.E) && !isTest)
         {
             entity.setHealth(0);
             StartCoroutine(startCoolDown());

@@ -1,6 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
+
 public class DungeonManager : MonoBehaviour
 {
     [SerializeField]
@@ -9,7 +10,6 @@ public class DungeonManager : MonoBehaviour
     private int currentRoomIndex;
 
     private GameObject boss;
-
 
     void Start()
     {
@@ -25,8 +25,10 @@ public class DungeonManager : MonoBehaviour
                     child.gameObject.GetComponent<DissolvingController>().setDissolveAmount(1f);
 
                     EnemyMovement enemyMovement = child.gameObject.GetComponent<EnemyMovement>();
-                     EnemyHealthBar enemyHealthBar =  child.gameObject.GetComponentInChildren<EnemyHealthBar>();
-                    if(enemyMovement != null && enemyHealthBar != null){
+                    EnemyHealthBar enemyHealthBar =
+                        child.gameObject.GetComponentInChildren<EnemyHealthBar>();
+                    if (enemyMovement != null && enemyHealthBar != null)
+                    {
                         enemyMovement.setCanMove(false);
                         enemyHealthBar.hideHealthBar();
                     }
@@ -42,11 +44,12 @@ public class DungeonManager : MonoBehaviour
 
     public void StartDungeon()
     { //find the levelExit in the current room
-        if (currentRoomIndex < rooms.Count){
-            if(currentRoomIndex == rooms.Count - 1){
+        if (currentRoomIndex < rooms.Count)
+        {
+            if (currentRoomIndex == rooms.Count - 1)
+            {
                 StartFinallBossScene();
-                
-                
+
                 return;
             }
             foreach (Transform child in rooms[currentRoomIndex].transform)
@@ -57,59 +60,56 @@ public class DungeonManager : MonoBehaviour
                 }
             }
 
-        GameObject enemies = rooms[currentRoomIndex].transform.Find("Enemies").gameObject;
-        if (enemies != null)
-        {
-
-            foreach (Transform child in enemies.transform)
+            GameObject enemies = rooms[currentRoomIndex].transform.Find("Enemies").gameObject;
+            if (enemies != null)
             {
-                child.gameObject.SetActive(true);
-               
-               StartCoroutine(WaitForEnemiesToDeDissolve(child.gameObject));
-                 
+                foreach (Transform child in enemies.transform)
+                {
+                    child.gameObject.SetActive(true);
+
+                    StartCoroutine(WaitForEnemiesToDeDissolve(child.gameObject));
+                }
             }
-        }
         }
     }
 
-    public IEnumerator WaitForEnemiesToDeDissolve(GameObject enemy){
- 
+    public IEnumerator WaitForEnemiesToDeDissolve(GameObject enemy)
+    {
         enemy.GetComponent<DissolvingController>().StartDeDissolve();
-        
 
         yield return new WaitForSeconds(2.5f);
-     
-          EnemyMovement enemyMovement = enemy.GetComponent<EnemyMovement>();
-          EnemyHealthBar enemyHealthBar =  enemy.GetComponentInChildren<EnemyHealthBar>();
-        if(enemyMovement != null && enemyHealthBar != null){
+
+        EnemyMovement enemyMovement = enemy.GetComponent<EnemyMovement>();
+        EnemyHealthBar enemyHealthBar = enemy.GetComponentInChildren<EnemyHealthBar>();
+        if (enemyMovement != null && enemyHealthBar != null)
+        {
             enemyHealthBar.showHealthBar();
             enemyMovement.setCanMove(true);
         }
-        else{
-
-
+        else
+        {
             WolfBossChasing wolfBossChasing = enemy.GetComponent<WolfBossChasing>();
-            if(wolfBossChasing != null){
+            if (wolfBossChasing != null)
+            {
                 wolfBossChasing.setCanMove(true);
             }
 
-            UnityEngine.AI.NavMeshAgent navMeshAgent = enemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
-            if(navMeshAgent != null){
+            UnityEngine.AI.NavMeshAgent navMeshAgent =
+                enemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            if (navMeshAgent != null)
+            {
                 navMeshAgent.enabled = true;
             }
-           
         }
-       
-
     }
 
-
-        public void spawnBoss(){
+    public void spawnBoss()
+    {
         boss.SetActive(true);
         boss.GetComponent<WolfBossChasing>().setCanMove(false);
         StartCoroutine(WaitForEnemiesToDeDissolve(boss));
     }
-   
+
     public void NextRoom()
     {
         //find the levelExit in the current room
@@ -126,10 +126,13 @@ public class DungeonManager : MonoBehaviour
         Debug.Log("currentRoomIndex: " + currentRoomIndex);
     }
 
-    public void StartFinallBossScene(){
-       GameObject.Find("dungeon").transform.Find("FinalBossEnter").gameObject.SetActive(true);
+    public void StartFinallBossScene()
+    {
+        GameObject.Find("dungeon").transform.Find("FinalBossEnter").gameObject.SetActive(true);
     }
-    public void StopFinallBossScene(){
+
+    public void StopFinallBossScene()
+    {
         GameObject.Find("dungeon").transform.Find("FinalBossEnter").gameObject.SetActive(false);
     }
 }

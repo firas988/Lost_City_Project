@@ -56,8 +56,16 @@ public class SkillTreeButton : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        notificationsManager = GameObject.Find("GameManger").GetComponent<NotificationsManager>();
-        audioManager = GameObject.Find("GameManger").GetComponent<AudioManager>();
+        notificationsManager = GameObject
+            .FindWithTag("GameManager")
+            .GetComponentInChildren<NotificationsManager>();
+
+        audioManager = GameObject.FindWithTag("GameManager").GetComponentInChildren<AudioManager>();
+
+        skillTreeManager = GameObject
+            .FindWithTag("GameManager")
+            .GetComponentInChildren<SkillTreeManager>();
+
         audioSource = GetComponent<AudioSource>();
         SetSkillAmountLimit(skillLimit);
         isSkillPurchased = false;
@@ -79,12 +87,12 @@ public class SkillTreeButton : MonoBehaviour
         Debug.Log("Incrementing skill " + skillList.getCurrentLevel());
 
         GetComponent<Button>().onClick.RemoveAllListeners();
-        GetComponent<Button>().onClick.AddListener(() => audioManager.playUI(audioSource, "Error"));
+        // GetComponent<Button>().onClick.AddListener(() => audioManager.playUI(audioSource, "Error"));
         GetComponent<Button>()
             .onClick.AddListener(() =>
                 notificationsManager.queueTopLeftNotification(
                     "Skill Already Upgraded/Not Enough Points/Not Enough XP",
-                    "notification"
+                    "Error"
                 )
             );
 

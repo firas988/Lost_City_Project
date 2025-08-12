@@ -118,14 +118,14 @@ public class DialogueManager : MonoBehaviour
     {
         // Find the input listener component from the GameManager GameObject
         inputListener = GameObject
-            .FindGameObjectWithTag("GameManager")
-            .GetComponent<InputListener>();
+            .FindWithTag("GameManager")
+            .GetComponentInChildren<InputListener>();
 
         // Find the player script component in the scene
-        playerStateManager = FindAnyObjectByType<playerScript>();
+        playerStateManager = GameObject.FindWithTag("Player").GetComponent<playerScript>();
 
         // Find the animation controller component in the scene
-        animateController = FindAnyObjectByType<AnimateController>();
+        animateController = GameObject.FindWithTag("Player").GetComponent<AnimateController>();
 
         // Get the Canvas component attached to this GameObject for UI management
         dialUI = GetComponent<Canvas>();
@@ -148,6 +148,7 @@ public class DialogueManager : MonoBehaviour
     void Update()
     {
         // Early return if player is not near NPC, already in dialogue, or not pressing interaction key
+
         if (
             !playerStateManager.isNearNPC
             || playerStateManager.isInDialogue()
