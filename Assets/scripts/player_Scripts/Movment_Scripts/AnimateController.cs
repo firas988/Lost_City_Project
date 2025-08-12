@@ -177,7 +177,7 @@ public class AnimateController : MonoBehaviour
         {
             currentVelocityY = targetMaxSpeed;
         }
-        if (!isMovingForward && !isMovingBackward && Mathf.Abs(currentVelocityY) < 0.05f)
+        if (!isMovingForward && !isMovingBackward && Mathf.Abs(currentVelocityY) < 0.09f)
         {
             currentVelocityY = 0.0f;
         }

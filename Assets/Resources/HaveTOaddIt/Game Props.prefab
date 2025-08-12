@@ -367,6 +367,7 @@ GameObject:
   - component: {fileID: 7781618630529209854}
   - component: {fileID: 8859824607265001815}
   - component: {fileID: 9066898579093347545}
+  - component: {fileID: 6703221588450902914}
   m_Layer: 0
   m_Name: InventoryManager
   m_TagString: Untagged
@@ -451,6 +452,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AllItems: {fileID: 11400000, guid: fe9df442cbaaf9248a9729a0780790b8, type: 2}
+--- !u!114 &6703221588450902914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266491526907406674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db1fc5e8b2967164ea6e131c213acef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slots:
+  - {fileID: 4129335157843024503}
+  - {fileID: 2027377491001405617}
+  - {fileID: 421406068554723725}
+  - {fileID: 7324579758689834732}
 --- !u!1 &396284044425246000
 GameObject:
   m_ObjectHideFlags: 0
@@ -11891,7 +11909,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 1110632983274905550}
-  audioManager: {fileID: 7557688499933807526}
   storyQuestsList:
   - {fileID: 11400000, guid: 381f1be72e3e1a54485aa00faa1316fe, type: 2}
 --- !u!82 &977470598933129512
