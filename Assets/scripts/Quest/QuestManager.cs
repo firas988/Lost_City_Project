@@ -93,7 +93,7 @@ public class QuestManager : MonoBehaviour
     private void Awake()
     {
         notificationsManager = GameObject
-            .Find("GameManager")
+            .FindWithTag("GameManager")
             .GetComponentInChildren<NotificationsManager>();
         audioSource = this.gameObject.GetComponent<AudioSource>();
         initPlayer();
