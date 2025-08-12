@@ -135,4 +135,15 @@ public class DungeonManager : MonoBehaviour
     {
         GameObject.Find("dungeon").transform.Find("FinalBossEnter").gameObject.SetActive(false);
     }
+
+    public void closeFinalRoom()
+    {
+        foreach (Transform child in rooms[rooms.Count - 1].transform)
+        {
+            if (child.gameObject.tag == "RoomExit")
+            {
+                child.gameObject.SetActive(true);
+            }
+        }
+    }
 }
