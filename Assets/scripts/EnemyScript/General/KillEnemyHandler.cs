@@ -4,7 +4,7 @@ using UnityEngine;
 public static class KillEnemyHandler
 {
     private static Action<string> onKilledEnemy;
-
+   
     public static void KilledEnemy(string enemyTag)
     {
         onKilledEnemy?.Invoke(enemyTag);

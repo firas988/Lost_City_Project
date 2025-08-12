@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class StoryQuest : Quest
 {
     public static event Action onCompleted;
-   
+
+    [SerializeField]
+    protected List<Quest> childQuests;
 
     public StoryQuest(Quest quest)
         : base(quest) { }
@@ -21,7 +24,13 @@ public abstract class StoryQuest : Quest
 
     public virtual void CompleteQuest()
     {
+        this.completed = true;
+
         onCompleted?.Invoke();
     }
 
+    public List<Quest> GetChildQuests()
+    {
+        return childQuests;
+    }
 }

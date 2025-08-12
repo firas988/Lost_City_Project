@@ -813,6 +813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: aac9d404ef65fd14db2c127ac3dbf488, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 5575800100111689679}
   slotImage: {fileID: 3733502229392581355}
   slotCountText: {fileID: 3445549112042817784}
@@ -907,6 +908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 541a88167b2289c4e84784b4dc544d5b, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 8110275610415658617}
   slotImage: {fileID: 3009175345370391179}
   slotCountText: {fileID: 7032957395531177015}
@@ -1212,6 +1214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: d6854bfe7a55ca14ab705ec4814fe7c8, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 1705102196017633660}
   slotImage: {fileID: 1888247399950589584}
   slotCountText: {fileID: 2246985386840474815}
@@ -1419,6 +1422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: c3179a60be4d2f94e972182fd51927f7, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 206646454139570539}
   slotImage: {fileID: 4827719743404659494}
   slotCountText: {fileID: 2324392526059223626}
@@ -1513,6 +1517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 7258582b905791543970b76890210aa6, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 5645987028035297136}
   slotImage: {fileID: 7674823909554546422}
   slotCountText: {fileID: 5755704148777705983}
@@ -1720,6 +1725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: e1e1d2fb827f5314a9d8c764de486a86, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 1213434539175232877}
   slotImage: {fileID: 7947952564326347949}
   slotCountText: {fileID: 3263158872027351021}
@@ -2199,6 +2205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: b40dec8388fa93c4583fa0b3f56208a2, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 6679679234671763372}
   slotImage: {fileID: 6557134856412669406}
   slotCountText: {fileID: 6075675571949641703}
@@ -2368,6 +2375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 4596cbaa3b145a44da6f784e0bc7dad0, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 8770561886721639845}
   slotImage: {fileID: 2901647764545278244}
   slotCountText: {fileID: 8810027930111317001}
@@ -2537,6 +2545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 4d64cb1b5b9aa31419b30f843aac12af, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 3069410745577114135}
   slotImage: {fileID: 4814861901569105842}
   slotCountText: {fileID: 155691998951367842}
@@ -2992,6 +3001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 68670f662fd999c41b1961e0cda62cc4, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 3224044304212567543}
   slotImage: {fileID: 9016641798636232267}
   slotCountText: {fileID: 2558729474005177928}
@@ -3969,6 +3979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 22a3580916dcb8b42a401d63be584d02, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 7767524627366495790}
   slotImage: {fileID: 7121967493887092424}
   slotCountText: {fileID: 1197581167634477548}
@@ -4138,6 +4149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 57bb035113f5765458797171298909a1, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 6392179794469800154}
   slotImage: {fileID: 5785580480620007058}
   slotCountText: {fileID: 2543379289070816419}
@@ -4382,6 +4394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: d1a261670ed9b244893ca42ea5b75d15, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 3632315354776591953}
   slotImage: {fileID: 2640630331599234343}
   slotCountText: {fileID: 8260898361133460303}
@@ -4664,6 +4677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 3c59a42f026fc1640ae855318fe3f8f9, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 276877788509615703}
   slotImage: {fileID: 8342783853223068319}
   slotCountText: {fileID: 969479691740383337}
@@ -5045,6 +5059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 22159a1910646a345a64164c6b91fd03, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 1437597678493717580}
   slotImage: {fileID: 4278903606365723755}
   slotCountText: {fileID: 531928331824478869}
@@ -5327,6 +5342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: fe8f47d7de403644280c2c21ccb5bedb, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 7776981775047859673}
   slotImage: {fileID: 2802308884115597853}
   slotCountText: {fileID: 2758027920133240349}
@@ -5632,6 +5648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: a2394cef549842547b568fc357cc0655, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 5169949171344683427}
   slotImage: {fileID: 1540351567839315964}
   slotCountText: {fileID: 2028968754509461436}
@@ -6224,6 +6241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 541a88167b2289c4e84784b4dc544d5b, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 0}
   slotImage: {fileID: 0}
   slotCountText: {fileID: 0}
@@ -6529,6 +6547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: a4276b28a4e910649874e8d542f8428f, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 9167085091785477991}
   slotImage: {fileID: 2862466409153987203}
   slotCountText: {fileID: 8344966897235611449}
@@ -7544,6 +7563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 4c242d3f6a7888c4facca72c352a2def, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 4399365210340800893}
   slotImage: {fileID: 891219145413836487}
   slotCountText: {fileID: 5875310062516784331}
@@ -8393,6 +8413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: bd4adef519dc41b4da8355a58c9da3da, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 7857351858785399685}
   slotImage: {fileID: 694386717169015187}
   slotCountText: {fileID: 4532338465164274371}

@@ -150,7 +150,7 @@
         "areaMask": 0,
         "waitTimeRange": [0, 0],
         "navMeshAreaName": "",
-        "health": 5000,
+        "health": 700,
         "speed": 4.5,
         "maxSpeed": 6
       }

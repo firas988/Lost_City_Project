@@ -339,6 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: {fileID: 11400000, guid: 541a88167b2289c4e84784b4dc544d5b, type: 2}
+  hotBarIndex: 0
   isEmptyObject: {fileID: 1102865195117459092}
   slotImage: {fileID: 3847148338596448253}
   slotCountText: {fileID: 1847869793660840150}

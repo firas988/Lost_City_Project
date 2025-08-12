@@ -1,20 +1,49 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class TalkativeNpc : NPC
 {
-  private Dictionary<string, Dialogue> dialogues;
-  public string start;
-  public TalkativeNpc(int id, string name, string type, float walkRadius, int areaMask, Vector2 waitTimeRange, string navMeshAreaName, float speed, float maxSpeed, Dictionary<string, Dialogue> dialogues, string start) : base(id, name, type, walkRadius, areaMask, waitTimeRange, navMeshAreaName, speed, maxSpeed)
-  {
-    this.dialogues = dialogues;
-    this.start = start;
-  }
+    private Dictionary<string, Dialogue> dialogues;
+    public string start;
 
-  public Dictionary<string, Dialogue> getDialogues()
-  {
-    return this.dialogues;
-  }
+    public TalkativeNpc(
+        int id,
+        string name,
+        string type,
+        float walkRadius,
+        int areaMask,
+        Vector2 waitTimeRange,
+        string navMeshAreaName,
+        float speed,
+        float maxSpeed,
+        Dictionary<string, Dialogue> dialogues,
+        string start
+    )
+        : base(
+            id,
+            name,
+            type,
+            walkRadius,
+            areaMask,
+            waitTimeRange,
+            navMeshAreaName,
+            speed,
+            maxSpeed
+        )
+    {
+        this.dialogues = dialogues;
+        this.start = start;
+    }
+
+    public Dictionary<string, Dialogue> getDialogues()
+    {
+        return this.dialogues;
+    }
+
+    public void setDialogue(Dictionary<string, Dialogue> dialogues)
+    {
+        this.dialogues = dialogues;
+    }
 
     /// <summary>
     /// Responds to a dialogue interaction by providing the dialogue text and options.

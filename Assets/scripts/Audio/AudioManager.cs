@@ -81,12 +81,6 @@ public class AudioManager : MonoBehaviour
         MusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
         SFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
         EnemyVolume = PlayerPrefs.GetFloat("EnemyVolume", 1f);
-
-        Debug.Log("GlobalVolume: " + GlobalVolume);
-        Debug.Log("UIVolume: " + UIVolume);
-        Debug.Log("MusicVolume: " + MusicVolume);
-        Debug.Log("SFXVolume: " + SFXVolume);
-        Debug.Log("EnemyVolume: " + EnemyVolume);
     }
 
     /// <summary>

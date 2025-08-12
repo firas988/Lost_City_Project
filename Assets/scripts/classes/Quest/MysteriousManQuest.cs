@@ -1,26 +1,37 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MysteriousManQuest", menuName = "Quests/MysteriousManQuest")]
 public class MysteriousManQuest : StoryQuest
 {
-    [SerializeField]
-    private FindQuest findArtifactQuest;
-
     public MysteriousManQuest(Quest quest)
-        : base(quest) {
-            findArtifactQuest.setParentQuest(this);
-        }
+        : base(quest) { }
 
     public override void progress()
     {
-        if (findArtifactQuest.isCompleted)
-        {
-            findArtifactQuest.progress();
-        }
+        return;
     }
 
     public override void CompleteQuest()
     {
+        Player player = GameObject
+            .FindGameObjectWithTag("Player")
+            .GetComponent<StartPlayer>()
+            .getPlayer();
+        ConvertDialouges dialogueConv = FindAnyObjectByType<ConvertDialouges>();
+        Dictionary<string, Dialogue> dialogueData = dialogueConv.GetDialogueByNpcName(
+            "MysteriousManDidntFindArtifact"
+        );
+        (
+            (TalkativeNpc)
+                GameObject.Find("MysteriousMan").GetComponent<StartNpc>().GetNpcsInstance()
+        ).setDialogue(dialogueData);
         base.CompleteQuest();
+        Debug.Log(player.getCurrentMainQuest().GetDescription());
+        GameObject mysteriousMan = GameObject.Find("MysteriousMan");
+        QuestGiver questGiver = (QuestGiver)
+            mysteriousMan.GetComponent<StartNpc>().GetNpcsInstance();
+        questGiver.setQuestToGive(player.getCurrentMainQuest(), mysteriousMan);
+        Debug.Log(questGiver.GetQuestToGive().GetDescription());
     }
 }

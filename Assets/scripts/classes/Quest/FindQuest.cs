@@ -9,7 +9,8 @@ using UnityEngine;
 [System.Serializable]
 public class FindQuest : Quest
 {
-    public FindQuest(FindQuest quest) : base(quest)
+    public FindQuest(FindQuest quest)
+        : base(quest)
     {
         this.found = quest.found;
         this.findTarget = quest.findTarget;
@@ -22,7 +23,7 @@ public class FindQuest : Quest
     /// </summary>
     [SerializeField]
     private int found;
-    
+
     /// <summary>
     /// Target number of objects that must be found to complete this quest.
     /// </summary>
@@ -45,15 +46,15 @@ public class FindQuest : Quest
     /// Increments the found count and checks if the quest is complete.
     /// Called when the player successfully finds and interacts with a target object.
     /// </summary>
-    override
-    public void progress()
+    override public void progress()
     {
+        found = Mathf.Min(found + 1, findTarget);
+
         Debug.Log(this.found);
 
-        found += 1;
-
         // Check if the quest is complete based on found count
-        if (found >= findTarget) {
+        if (found == findTarget)
+        {
             this.completed = true;
         }
         else

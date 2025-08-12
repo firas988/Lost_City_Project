@@ -124,6 +124,7 @@ public class LevelManager : MonoBehaviour
         if (levelsToAdd == 0)
             return;
         player.GetComponent<StartPlayer>().getPlayer().addLevel(levelsToAdd);
+        audioManager.playUI(audioSource, "levelup");
         notificationsManager.queueTopLeftNotification(
             "Level Up! You are now level "
                 + player.GetComponent<StartPlayer>().getPlayer().getLevel(),

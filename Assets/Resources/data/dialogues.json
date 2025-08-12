@@ -32,10 +32,9 @@
         }
       ]
     }
-  }
-  ,
-  "A guy that loves parks":{
-    "start":{
+  },
+  "A guy that loves parks": {
+    "start": {
       "dialogue": [
         {
           "text": "Don't you love coming everyday to chill in a park?",
@@ -43,7 +42,7 @@
         }
       ]
     },
-    "Have you seen a guy named Robert?":{
+    "Have you seen a guy named Robert?": {
       "dialogue": [
         {
           "text": "Ah, He's a usual guy here, abit weird that he always wears a tuxedo, but he's a good guy.",
@@ -51,7 +50,7 @@
         }
       ]
     },
-    "Alright, thanks for the info":{
+    "Alright, thanks for the info": {
       "dialogue": [
         {
           "text": "My pleasure, say hi to him for me.",
@@ -59,11 +58,10 @@
         }
       ]
     }
-
   },
 
-  "Robert":{
-    "start":{
+  "Robert": {
+    "start": {
       "dialogue": [
         {
           "text": "Can I help you with something?",
@@ -71,7 +69,7 @@
         }
       ]
     },
-    "Are you robet perchance?":{
+    "Are you robet perchance?": {
       "dialogue": [
         {
           "text": "Yes, I'm Robert, what can I do for you?",
@@ -79,11 +77,65 @@
         }
       ]
     },
-    "**Show him the letter**":{
+    "**Show him the letter**": {
       "dialogue": [
         {
           "text": "Oh you're Adrians disciple, that's enough for me, follow me.",
           "options": ["**Follow him**", "Mom said don't go with strangers"]
+        }
+      ]
+    }
+  },
+  "MysteriousMan": {
+    "start": {
+      "dialogue": [
+        {
+          "text": "Hello, can I help you with something?",
+          "options": ["I heard you have a piece of the map", "no"]
+        }
+      ]
+    },
+    "I heard you have a piece of the map": {
+      "dialogue": [
+        {
+          "text": "Yes, I have a piece of the map, but I need something in return.",
+          "options": ["What do you want?", "no"]
+        }
+      ]
+    },
+    "What do you want?": {
+      "dialogue": [
+        {
+          "text": "I've been looking for an artifact, but I can't find it.",
+          "options": ["I'll help you find it", "no"]
+        }
+      ]
+    },
+    "I'll help you find it": {
+      "dialogue": [
+        {
+          "text": "Thank you, I'll give you a piece of the map in return.",
+          "options": ["okay, thanks", ""]
+        }
+      ]
+    }
+  },
+  "MysteriousManDidntFindArtifact": {
+    "start": {
+      "dialogue": [
+        {
+          "text": "Find me the artifact, and I'll give you a piece of the map in return.",
+          "options": ["okay", ""]
+        }
+      ]
+    }
+  },
+  "MysteriousManFoundArtifact": {
+    "start": {
+      "dialogue": [
+        {
+          "text": "Thank you for finding the artifact, here's a piece of the map in return.",
+          "options": ["Thanks", ""]
         }
       ]
     }

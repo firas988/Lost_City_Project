@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -32,7 +33,7 @@ public abstract class Quest : ScriptableObject
     /// The target or objective of the quest (e.g., enemy type to kill, item to find).
     /// </summary>
     [SerializeField]
-    private string questTarget;
+    private List<string> questTarget;
 
     /// <summary>
     /// The type of reward given upon quest completion (e.g., "XP", "Gold", "Item").
@@ -106,10 +107,15 @@ public abstract class Quest : ScriptableObject
 
     #region Quest Properties
 
+    public string GetDescription()
+    {
+        return this.description;
+    }
+
     /// <summary>
     /// Gets the target or objective of this quest.
     /// </summary>
-    public string QuestTarget
+    public List<string> QuestTarget
     {
         get { return this.questTarget; }
     }
@@ -155,13 +161,11 @@ public abstract class Quest : ScriptableObject
         return this.questName;
     }
 
-
     public void setParentQuest(StoryQuest parentQuest)
     {
         this.parentQuest = parentQuest;
     }
 
-    
     #endregion
 
     #region Abstract Methods

@@ -198,7 +198,7 @@ public class DialogueManager : MonoBehaviour
                 && response.Contains("TARGET")
                     ? response.Replace(
                         "TARGET",
-                        ((QuestGiver)this.npc).GetQuestToGive().QuestTarget
+                        string.Join(", ", ((QuestGiver)this.npc).GetQuestToGive().QuestTarget)
                     )
                     : response
             );
@@ -219,8 +219,15 @@ public class DialogueManager : MonoBehaviour
             {
                 if (((QuestGiver)npc).GetQuestToGive() is StoryQuest)
                 {
-                    ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
-                    levelManager.addXP(200f);
+                    if (
+                        ((QuestGiver)npc).GetQuestToGive() is MysteriousManQuest
+                        || ((QuestGiver)npc).GetQuestToGive() is RobertQuest
+                    )
+                    {
+                        ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
+                        levelManager.addXP(200f);
+                    }
+
                     closeDialogue();
                     return;
                 }
@@ -249,8 +256,14 @@ public class DialogueManager : MonoBehaviour
                 && ((QuestGiver)npc).GetQuestToGive().GetType() == typeof(StoryQuest)
             )
             {
-                ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
-                levelManager.addXP(200f);
+                if (
+                    ((QuestGiver)npc).GetQuestToGive() is MysteriousManQuest
+                    || ((QuestGiver)npc).GetQuestToGive() is RobertQuest
+                )
+                {
+                    ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
+                    levelManager.addXP(200f);
+                }
 
                 closeDialogue();
                 return;

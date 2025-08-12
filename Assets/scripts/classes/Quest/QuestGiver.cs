@@ -159,6 +159,12 @@ public class QuestGiver : TalkativeNpc
             this.questToGive = new KillQuest(quest as KillQuest);
             this.questToGive.SetGiver(giver);
         }
+        else if (quest is StoryQuest)
+        {
+            Debug.Log(quest.GetDescription());
+            this.questToGive = quest;
+            this.questToGive.SetGiver(giver);
+        }
     }
 
     /// <summary>

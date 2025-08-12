@@ -7,8 +7,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newQuest", menuName = "Quests/ExpQuest/KillQuest")]
 public class KillQuest : Quest
 {
-
-    public KillQuest(KillQuest quest) : base(quest)
+    public KillQuest(KillQuest quest)
+        : base(quest)
     {
         this.targetKills = quest.targetKills;
         this.kills = quest.kills;
@@ -30,10 +30,14 @@ public class KillQuest : Quest
     /// Increments the kill count for this quest.
     /// Called when the player successfully kills an enemy of the target type.
     /// </summary>
-    override
-    public void progress()
+    override public void progress()
     {
-        kills+=1;
+        kills = Mathf.Min(kills + 1, targetKills);
+        Debug.Log(this.kills);
+
+        if (kills == targetKills)
+        {
+            completed = true;
+        }
     }
-    
 }

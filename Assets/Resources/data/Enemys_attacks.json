@@ -132,5 +132,30 @@
         "attackRadius": 1.5
       }
     ]
+  },
+  {
+    "WolfBoss": [
+      {
+        "attackName": "Roar",
+        "attackRange": 1,
+        "attackTime": 1,
+        "attackDamage": 10.0,
+        "attackRadius": 0
+      },
+      {
+        "attackName": "JumpAttack",
+        "attackRange": 1.5,
+        "attackTime": 1,
+        "attackDamage": 20.0,
+        "attackRadius": 0
+      },
+      {
+        "attackName": "Swing",
+        "attackRange": 0.5,
+        "attackTime": 1,
+        "attackDamage": 40.0,
+        "attackRadius": 0
+      }
+    ]
   }
 ]

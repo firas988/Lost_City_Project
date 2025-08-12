@@ -90,9 +90,11 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Initializes quest management system, sets up quest collections, and subscribes to dialogue events.
     /// </summary>
-    private void Start()
+    private void Awake()
     {
-        notificationsManager = GameObject.Find("GameManger").GetComponent<NotificationsManager>();
+        notificationsManager = GameObject
+            .Find("GameManager")
+            .GetComponentInChildren<NotificationsManager>();
         audioSource = this.gameObject.GetComponent<AudioSource>();
         initPlayer();
         subscribeToEvents();
@@ -110,6 +112,7 @@ public class QuestManager : MonoBehaviour
     {
         StoryQuest.subscribeToQuestCompletion(nextMainQuest);
         dialogueManager.onDialogueExit += addQuest;
+        KillEnemyHandler.Subscribe(addKill);
     }
 
     /// <summary>
@@ -133,6 +136,20 @@ public class QuestManager : MonoBehaviour
 
         if (storyQuestListQueue != null && storyQuestListQueue.Count > 0)
             playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
+        if (
+            playerInstance.getCurrentMainQuest() != null
+            && playerInstance.getCurrentMainQuest().GetChildQuests().Count > 0
+        )
+        {
+            playerInstance
+                .getCurrentMainQuest()
+                .GetChildQuests()
+                .ForEach(quest =>
+                {
+                    Debug.Log("quest: " + quest.GetQuestName());
+                    addQuest(quest);
+                });
+        }
     }
 
     /// <summary>
@@ -164,13 +181,16 @@ public class QuestManager : MonoBehaviour
 
         if (playerInstance.addQuest(quest))
         {
-            notificationsManager.queueTopLeftNotification("New Quest Added", "notification");
-            if (quest.GetType() == typeof(KillQuest))
+            if (quest.ParentQuest == null)
+                notificationsManager.queueTopLeftNotification("New Quest Added", "notification");
+            if (quest is KillQuest)
                 activeKillQuests.Add((KillQuest)quest);
 
-            if (quest.GetType() == typeof(FindQuest))
+            if (quest is FindQuest)
                 activeFindQuests.Add((FindQuest)quest);
         }
+        Debug.Log("activeKillQuests: " + activeKillQuests.Count);
+        Debug.Log("activeFindQuests: " + activeFindQuests.Count);
     }
 
     #endregion
@@ -184,7 +204,8 @@ public class QuestManager : MonoBehaviour
     public void addFind(GameObject objectFound)
     {
         FindQuest questToInc = activeFindQuests.Find(questToFind =>
-            questToFind != null && questToFind.QuestTarget == objectFound.tag
+            questToFind != null
+            && string.Join(", ", questToFind.QuestTarget).Contains(objectFound.tag)
         );
 
         if (questToInc == null)
@@ -198,13 +219,25 @@ public class QuestManager : MonoBehaviour
         {
             activeFindQuests.Remove(questToInc);
             playerInstance.removeQuest(questToInc);
-            notificationsManager.queueTopLeftNotification(
-                questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)",
-                "notification"
-            );
+
+            if (questToInc.ParentQuest == null)
+                notificationsManager.queueTopLeftNotification(
+                    questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)",
+                    "notification"
+                );
+
+            if (questToInc.ParentQuest != null)
+            {
+                questToInc.ParentQuest.CompleteQuest();
+            }
+
             onQuestFinish?.Invoke(float.Parse(questToInc.Reward));
-            //find quest giver by gameobject ID
-            StartCoroutine(refreshQuestGiver(questToInc.Giver));
+
+            if (!(questToInc.ParentQuest is StoryQuest))
+            {
+                //find quest giver by gameobject ID
+                StartCoroutine(refreshQuestGiver(questToInc.Giver));
+            }
         }
     }
 
@@ -212,11 +245,12 @@ public class QuestManager : MonoBehaviour
     /// Processes a killed object for kill quests, updates quest progress, and handles quest completion.
     /// </summary>
     /// <param name="objectKilled">The GameObject that was killed, used to match against quest targets.</param>
-    public void addKill(GameObject objectKilled)
+    public void addKill(string objectKilled)
     {
         List<KillQuest> questToInc = activeKillQuests.FindAll(questToKill =>
-            questToKill != null && questToKill.QuestTarget == objectKilled.tag
+            questToKill != null && string.Join(", ", questToKill.QuestTarget).Contains(objectKilled)
         );
+        Debug.Log("killed: " + objectKilled);
 
         if (questToInc.Count == 0)
         {
@@ -234,10 +268,15 @@ public class QuestManager : MonoBehaviour
                 totalReward += float.Parse(quest.Reward);
                 playerInstance.removeQuest(quest);
                 activeKillQuests.Remove(quest);
-                notificationsManager.queueTopLeftNotification(
-                    quest.GetQuestName() + " Completed! (+" + quest.Reward + " EXP)",
-                    "notification"
-                );
+                if (quest.ParentQuest == null)
+                    notificationsManager.queueTopLeftNotification(
+                        quest.GetQuestName() + " Completed! (+" + quest.Reward + " EXP)",
+                        "notification"
+                    );
+                if (quest.ParentQuest != null)
+                {
+                    quest.ParentQuest.CompleteQuest();
+                }
             }
         }
 
@@ -268,6 +307,20 @@ public class QuestManager : MonoBehaviour
         if (playerInstance != null && storyQuestListQueue.Count > 0)
         {
             playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
+
+            if (
+                playerInstance.getCurrentMainQuest() != null
+                && playerInstance.getCurrentMainQuest().GetChildQuests().Count > 0
+            )
+            {
+                playerInstance
+                    .getCurrentMainQuest()
+                    .GetChildQuests()
+                    .ForEach(quest =>
+                    {
+                        addQuest(quest);
+                    });
+            }
         }
     }
 

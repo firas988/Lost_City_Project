@@ -251,4 +251,14 @@ public class PlayerAttackController : MonoBehaviour
         WeaponHolder.SetActive(true);
         WeaponHand.SetActive(false);
     }
+
+    public bool GetCanDealDamage()
+    {
+        return this.canDealDamage;
+    }
+
+    public void SetCanDealDamage(bool other)
+    {
+        canDealDamage = other;
+    }
 }

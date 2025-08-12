@@ -37,6 +37,9 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// <summary>Tag for the GameManager object.</summary>
     private string gameManagerTag = "GameManager";
 
+    //test field
+    private bool isTest = false;
+
     /// <summary>
     /// Initializes references to components.
     /// </summary>
@@ -64,9 +67,10 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !isTest)
         {
             entity.setHealth(0);
+            StartCoroutine(startCoolDown());
         }
         animashionIsChassing();
         animashionIsAttacking();
@@ -162,5 +166,12 @@ public class EnemyAnimatorControl : MonoBehaviour
     {
         yield return new WaitForSeconds(4f);
         dissolvingController.StartDissolve();
+    }
+
+    private IEnumerator startCoolDown()
+    {
+        isTest = true;
+        yield return new WaitForSeconds(2f);
+        isTest = false;
     }
 }
