@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3290262544547020150}
   - component: {fileID: 7747434962648596239}
   - component: {fileID: 7111386646026059159}
+  - component: {fileID: -688254735400465951}
+  - component: {fileID: 4023578109105181224}
   m_Layer: 0
   m_Name: Broad Axe
   m_TagString: Untagged
@@ -86,3 +88,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-688254735400465951
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4389846742595409677}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -791016679856315136, guid: 0b6972c5d436d7f459b24311732cd2b3, type: 3}
+--- !u!114 &4023578109105181224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4389846742595409677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56cd941b4d9a4ed40988f899bdb43cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
