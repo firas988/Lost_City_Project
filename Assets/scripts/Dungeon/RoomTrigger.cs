@@ -14,7 +14,7 @@ public class RoomTrigger : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             dungeonManager.StartDungeon();
+            this.GetComponent<BoxCollider>().enabled = false;
         }
-        this.GetComponent<BoxCollider>().enabled = false;
     }
 }

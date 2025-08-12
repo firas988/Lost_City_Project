@@ -87,9 +87,17 @@ public class SkillTreeManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        audioManager = GameObject.Find("GameManger").GetComponent<AudioManager>();
-        notificationsManager = GameObject.Find("GameManger").GetComponent<NotificationsManager>();
+        audioManager = GameObject.FindWithTag("GameManager").GetComponentInChildren<AudioManager>();
+
+        notificationsManager = GameObject
+            .FindWithTag("GameManager")
+            .GetComponentInChildren<NotificationsManager>();
         audioSource = GetComponent<AudioSource>();
+
+        levelSystem = GameObject.FindWithTag("GameManager").GetComponentInChildren<LevelManager>();
+
+        playerObject = GameObject.FindWithTag("Player");
+        startPlayer = playerObject.GetComponent<StartPlayer>();
 
         SkillTreeData skillTreeData = SaveSystem.LoadSkills();
         if (skillTreeData != null)
@@ -100,7 +108,7 @@ public class SkillTreeManager : MonoBehaviour
         }
 
         startPlayer = playerObject.GetComponent<StartPlayer>();
-        Init(GetComponent<LevelManager>());
+        Init(levelSystem);
         strengthSkillList.Init(
             strengthSkillList.getCurrentLevel(),
             strengthSkillList.getMaxLevel(),
