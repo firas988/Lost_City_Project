@@ -67,7 +67,7 @@ public class TriggerZone : MonoBehaviour
             if (inputListener != null)
             {
                 other.gameObject.GetComponent<CharacterController>().enabled = false;
-                isMoving = true;
+
                 animator.SetBool("isWalking", true); // Set the animation trigger
                 inputListener.setCanMove(false);
                 other.gameObject.AddComponent<NavMeshAgent>();
@@ -75,6 +75,7 @@ public class TriggerZone : MonoBehaviour
                 navMeshAgent.agentTypeID = -1372625422;
                 navMeshAgent.speed = 1.7f;
                 MoveThePlayerToTheBridge();
+                isMoving = true;
             }
         }
     }

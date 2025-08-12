@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 458602933529708033}
   - component: {fileID: 6889696179240239863}
   - component: {fileID: 1228866356709789406}
+  - component: {fileID: 508643251374883276}
+  - component: {fileID: 2178330371617080646}
   m_Layer: 0
   m_Name: Tomahawk
   m_TagString: Untagged
@@ -86,3 +88,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &508643251374883276
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2255802061165634412}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6021345296589344886, guid: 0b6972c5d436d7f459b24311732cd2b3, type: 3}
+--- !u!114 &2178330371617080646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2255802061165634412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56cd941b4d9a4ed40988f899bdb43cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
