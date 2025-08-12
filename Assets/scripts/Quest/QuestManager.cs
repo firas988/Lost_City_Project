@@ -14,7 +14,6 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Reference to the player GameObject for quest management.
     /// </summary>
-    [SerializeField]
     private GameObject player;
 
     /// <summary>
@@ -92,6 +91,7 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        player = GameObject.FindWithTag("Player");
         notificationsManager = GameObject
             .FindWithTag("GameManager")
             .GetComponentInChildren<NotificationsManager>();
@@ -233,7 +233,7 @@ public class QuestManager : MonoBehaviour
                 questToInc.ParentQuest.CompleteQuest();
             }
 
-            onQuestFinish?.Invoke(float.Parse(questToInc.Reward));
+            onQuestFinish?.Invoke(questToInc.Reward);
 
             if (!(questToInc.ParentQuest is StoryQuest))
             {
@@ -268,7 +268,7 @@ public class QuestManager : MonoBehaviour
 
             if (quest.isCompleted)
             {
-                totalReward += float.Parse(quest.Reward);
+                totalReward += quest.Reward;
                 playerInstance.removeQuest(quest);
                 activeKillQuests.Remove(quest);
                 if (quest.ParentQuest == null)

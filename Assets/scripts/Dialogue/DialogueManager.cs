@@ -222,7 +222,8 @@ public class DialogueManager : MonoBehaviour
                 {
                     if (
                         ((QuestGiver)npc).GetQuestToGive() is MysteriousManQuest
-                        || ((QuestGiver)npc).GetQuestToGive() is RobertQuest
+                        || ((QuestGiver)npc).GetQuestToGive() is RobertQuest ||
+                        ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToGetWeapon
                     )
                     {
                         ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();

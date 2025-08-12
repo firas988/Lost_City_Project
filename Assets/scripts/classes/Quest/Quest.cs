@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RewardType
+{
+    XP,
+    Weapon,
+}
+
 /// <summary>
 /// Abstract base class for all quest types in the game.
 /// Defines common quest properties and functionality that all quest implementations must provide.
@@ -39,13 +45,13 @@ public abstract class Quest : ScriptableObject
     /// The type of reward given upon quest completion (e.g., "XP", "Gold", "Item").
     /// </summary>
     [SerializeField]
-    private string rewardType;
+    private RewardType rewardType;
 
     /// <summary>
     /// The specific reward value or description given upon quest completion.
     /// </summary>
     [SerializeField]
-    private string rewards;
+    private int rewards;
 
     /// <summary>
     /// Flag indicating whether this quest has been completed by the player.
@@ -131,7 +137,7 @@ public abstract class Quest : ScriptableObject
     /// <summary>
     /// Gets the type of reward given upon quest completion.
     /// </summary>
-    public string RewardType
+    public RewardType RewardType
     {
         get { return this.rewardType; }
     }
@@ -139,7 +145,7 @@ public abstract class Quest : ScriptableObject
     /// <summary>
     /// Gets the specific reward value or description for this quest.
     /// </summary>
-    public string Reward
+    public int Reward
     {
         get { return this.rewards; }
     }

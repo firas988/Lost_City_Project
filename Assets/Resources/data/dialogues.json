@@ -139,5 +139,41 @@
         }
       ]
     }
+  },
+  "John": {
+    "start": {
+      "dialogue": [
+        {
+          "text": "Hello Kyle to start Your Adventure you have to get a weapon",
+          "options": ["Can you give me a weapon?", ""]
+        }
+      ]
+    },
+    "Can you give me a weapon?": {
+      "dialogue": [
+        {
+          "text": "Yes, here's the weapon you wanted",
+          "options": ["Thanks", ""]
+        }
+      ]
+    }
+  },
+  "TalkToJohnToKnowWhereToGo": {
+    "start": {
+      "dialogue": [
+        {
+          "text": "Hello, Can i help you with something?",
+          "options": ["I need to know where to go", ""]
+        }
+      ]
+    },
+    "I need to know where to go": {
+      "dialogue": [
+        {
+          "text": "You need to go to the the second part of the island there a man that can help you",
+          "options": ["Thanks", ""]
+        }
+      ]
+    }
   }
 }
