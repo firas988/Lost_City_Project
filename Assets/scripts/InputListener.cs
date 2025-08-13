@@ -69,12 +69,16 @@ public class InputListener : MonoBehaviour
 
     private void Awake()
     {
-        uiManager = GameObject.Find("UI_Manager").GetComponent<UIManager>();
-        keybinds = new Dictionary<string, KeyCode>();
-        foreach (var keybind in keybindList.Keybinds)
+        uiManager = GameObject.Find("UI_Manager")?.GetComponent<UIManager>();
+
+        if (keybinds == null)
         {
-            keybinds.Add(keybind.Key, keybind.Keycode);
-            Debug.Log(keybind.Key + " " + keybind.Keycode);
+            keybinds = new Dictionary<string, KeyCode>();
+            foreach (var keybind in keybindList.Keybinds)
+            {
+                keybinds.Add(keybind.Key, keybind.Keycode);
+                Debug.Log(keybind.Key + " " + keybind.Keycode);
+            }
         }
     }
 
@@ -126,15 +130,15 @@ public class InputListener : MonoBehaviour
             interact_input = false;
         }
 
-        if (Input.GetKeyDown(keybinds["Inventory"]))
+        if (Input.GetKeyDown(keybinds["Inventory"]) && uiManager != null)
         {
             uiManager.toggleInventory();
         }
-        if (Input.GetKeyDown(keybinds["SkillTree"]))
+        if (Input.GetKeyDown(keybinds["SkillTree"]) && uiManager != null)
         {
             uiManager.toggleSkillTreeMenu();
         }
-        if (Input.GetKeyDown(keybinds["FullMap"]))
+        if (Input.GetKeyDown(keybinds["FullMap"]) && uiManager != null)
         {
             uiManager.toggleFullMapMenu();
         }
@@ -201,11 +205,27 @@ public class InputListener : MonoBehaviour
         return canJump;
     }
 
-    public void setKeybind(string key, KeyCode keycode)
+    public static bool setKeybind(string key, KeyCode keycode)
     {
-        
+        Debug.Log(key + " " + keycode);
 
-        
+        foreach (string keybind in keybinds.Keys)
+        {
+            if (keybind != key && keybinds[keybind] == keycode)
+            {
+                return false;
+            }
+        }
         keybinds[key] = keycode;
+        Debug.Log(key + " " + keybinds[key]);
+        return true;
+    }
+
+    public void resetAllKeybinds()
+    {
+        foreach (Keybind keybind in keybindList.Keybinds)
+        {
+            keybinds[keybind.Key] = keybind.Keycode;
+        }
     }
 }
