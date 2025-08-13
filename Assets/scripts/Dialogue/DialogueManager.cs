@@ -357,6 +357,7 @@ public class DialogueManager : MonoBehaviour
 
         // Lock the cursor for normal gameplay
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         // Set player state to not in dialogue
         playerStateManager.setInDialogue(false);
@@ -382,6 +383,8 @@ public class DialogueManager : MonoBehaviour
 
         // Unlock cursor for UI interaction
         Cursor.lockState = CursorLockMode.None;
+
+        Cursor.visible = true;
 
         // Set player state to in dialogue
         playerStateManager.setInDialogue(true);

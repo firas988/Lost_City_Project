@@ -155,7 +155,7 @@ public class StartNpc : MonoBehaviour
 
                     if (npcName == "Robert" || npcName == "MysteriousMan" || npcName == "John")
                     {
-                        quest = storyQuest;
+                        quest = ScriptableObject.Instantiate(storyQuest);
                     }
 
                     if (npcName == "ConfusedPerson")

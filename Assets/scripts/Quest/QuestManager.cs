@@ -22,7 +22,6 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     private DialogueManager dialogueManager;
 
-
     /// <summary>
     /// List of story quests available in the game.
     /// </summary>
@@ -129,7 +128,7 @@ public class QuestManager : MonoBehaviour
 
         foreach (StoryQuest quest in storyQuestsList)
         {
-            storyQuestListQueue.Enqueue(quest);
+            storyQuestListQueue.Enqueue(ScriptableObject.Instantiate(quest));
         }
 
         if (storyQuestListQueue != null && storyQuestListQueue.Count > 0)

@@ -13,4 +13,14 @@ public class BossBarHandler : MonoBehaviour
     {
         progressBar.SetProgress(health);
     }
+
+    public void hideBar()
+    {
+        this.gameObject.SetActive(false);
+    }
+
+    public void showBar()
+    {
+        this.gameObject.SetActive(true);
+    }
 }

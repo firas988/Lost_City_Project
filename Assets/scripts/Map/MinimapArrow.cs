@@ -5,10 +5,13 @@ public class MinimapArrow : MonoBehaviour
     private string minimapCameraTag = "MiniMapCamera";
 
     private Camera minimapCamera;
+
     [SerializeField]
     private RectTransform minimapRect;
+
     [SerializeField]
     private RectTransform arrowIcon;
+
     [SerializeField]
     private RectTransform dotIcon;
 
@@ -24,8 +27,8 @@ public class MinimapArrow : MonoBehaviour
 
     void Update()
     {
-        player = GameObject.FindGameObjectWithTag(playerTag).transform;
-        minimapCamera = GameObject.FindGameObjectWithTag(minimapCameraTag).GetComponent<Camera>();
+        player = GameObject.FindWithTag(playerTag).transform;
+        minimapCamera = GameObject.FindWithTag(minimapCameraTag).GetComponent<Camera>();
         Vector3 viewportPos = minimapCamera.WorldToViewportPoint(targetPosition);
 
         Vector2 minimapPos = new Vector2(
@@ -57,7 +60,6 @@ public class MinimapArrow : MonoBehaviour
             float cameraYRotation = minimapCamera.transform.eulerAngles.y;
             arrowIcon.localRotation = Quaternion.Euler(0, 0, -(angle - cameraYRotation));
         }
-
     }
 
     public void SetTarget(Vector3 newTarget)

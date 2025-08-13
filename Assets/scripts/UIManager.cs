@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        blackScreen.SetActive(true);
+        blackScreen.SetActive(false);
         blackScreen.GetComponent<RawImage>().color = new Color(0, 0, 0, 0);
         skillTreeMenu.SetActive(false);
         inventoryMenu.SetActive(false);
@@ -67,7 +67,19 @@ public class UIManager : MonoBehaviour
         {
             fullMapMenu.SetActive(false);
             skillTreeMenu.SetActive(false);
-            StartCoroutine(FadeInBlackScreen(inventoryMenu.activeSelf ? 0f : 1f));
+
+            if (inventoryMenu.activeSelf)
+            {
+                StartCoroutine(FadeOutBlackScreen(0f));
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                StartCoroutine(FadeInBlackScreen(0.5f));
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
             StartCoroutine(activateCooldownInventoryOpen(1.5f));
             inventoryMenu.SetActive(!inventoryMenu.activeSelf);
         }
@@ -79,7 +91,18 @@ public class UIManager : MonoBehaviour
         {
             fullMapMenu.SetActive(false);
             inventoryMenu.SetActive(false);
-            StartCoroutine(FadeInBlackScreen(skillTreeMenu.activeSelf ? 0f : 1f));
+            if (skillTreeMenu.activeSelf)
+            {
+                StartCoroutine(FadeOutBlackScreen(0f));
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                StartCoroutine(FadeInBlackScreen(0.5f));
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
             StartCoroutine(activateCooldownSkillTreeOpen(1.5f));
             skillTreeMenu.SetActive(!skillTreeMenu.activeSelf);
         }
@@ -93,7 +116,18 @@ public class UIManager : MonoBehaviour
             inventoryMenu.SetActive(false);
             skillTreeMenu.SetActive(false);
 
-            StartCoroutine(FadeInBlackScreen(fullMapMenu.activeSelf ? 0f : 1f));
+            if (fullMapMenu.activeSelf)
+            {
+                StartCoroutine(FadeOutBlackScreen(0f));
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                StartCoroutine(FadeInBlackScreen(0.5f));
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
             StartCoroutine(activateCooldownFullMapOpen(1.5f));
             fullMapMenu.SetActive(!fullMapMenu.activeSelf);
         }

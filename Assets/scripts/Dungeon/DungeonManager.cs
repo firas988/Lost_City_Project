@@ -107,6 +107,7 @@ public class DungeonManager : MonoBehaviour
     {
         boss.SetActive(true);
         boss.GetComponent<WolfBossChasing>().setCanMove(false);
+        boss.GetComponent<BossBarHandler>().showBar();
         StartCoroutine(WaitForEnemiesToDeDissolve(boss));
     }
 
