@@ -45,8 +45,7 @@ public class NotificationsManager : MonoBehaviour
     /// <summary>
     /// Spacing between inventory notifications when they stack.
     /// </summary>
-    [SerializeField]
-    private float spacing = 500f;
+    private float spacing = 20f;
 
     #endregion
 
@@ -156,27 +155,28 @@ public class NotificationsManager : MonoBehaviour
     /// <param name="message">The message to display.</param>
     public void ShowBottomLeftNotificationInventory(string message)
     {
+        float baseY = bottomLeftnotificationInventory
+            .GetComponent<RectTransform>()
+            .anchoredPosition.y;
+
         Notification newNotification = Instantiate(
             bottomLeftnotificationInventory,
             parentBottomLeftnotificationInventory
         );
         newNotification.SetSubtitle(message);
 
-        List<Vector2> originalPositions = new List<Vector2>();
-
-        foreach (var notif in activeBottomLeftNotificationQueueInventory)
-        {
-            RectTransform r = notif.GetComponent<RectTransform>();
-            originalPositions.Add(r.anchoredPosition);
-        }
+        RectTransform newRect = newNotification.GetComponent<RectTransform>();
+        float height = newRect.sizeDelta.y;
 
         for (int i = 0; i < activeBottomLeftNotificationQueueInventory.Count; i++)
         {
             RectTransform r = activeBottomLeftNotificationQueueInventory[i]
                 .GetComponent<RectTransform>();
-            Vector2 targetPos = originalPositions[i] + new Vector2(0, spacing);
+            Vector2 targetPos = r.anchoredPosition + new Vector2(0, height - spacing);
             StartCoroutine(MoveUpSmoothly(r, targetPos, 0.25f));
         }
+
+        newRect.anchoredPosition = new Vector2(newRect.anchoredPosition.x, baseY);
 
         newNotification.Show();
         activeBottomLeftNotificationQueueInventory.Add(newNotification);
@@ -184,16 +184,6 @@ public class NotificationsManager : MonoBehaviour
         StartCoroutine(RemoveAfterDelay(newNotification, 5f));
     }
 
-    #endregion
-
-    #region Coroutines
-
-    /// <summary>
-    /// Removes a notification after a specified delay.
-    /// </summary>
-    /// <param name="notification">The notification to remove.</param>
-    /// <param name="delay">The delay before removal in seconds.</param>
-    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator RemoveAfterDelay(Notification notification, float delay)
     {
         yield return new WaitForSeconds(delay);
