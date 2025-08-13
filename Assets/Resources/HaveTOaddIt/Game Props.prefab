@@ -6902,8 +6902,8 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2160801664186235493}
-  - {fileID: 3232539991066541001}
   - {fileID: 8764744103876538739}
+  - {fileID: 3232539991066541001}
   m_Father: {fileID: 212637003146408778}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -19434,6 +19434,7 @@ MonoBehaviour:
   dialogueManager: {fileID: 1110632983274905550}
   storyQuestsList:
   - {fileID: 11400000, guid: 381f1be72e3e1a54485aa00faa1316fe, type: 2}
+  minimapArrow: {fileID: 1347360486024414564}
 --- !u!82 &977470598933129512
 AudioSource:
   m_ObjectHideFlags: 0
@@ -25473,7 +25474,6 @@ MonoBehaviour:
   middlenotification: {fileID: 0}
   bottomLeftnotificationInventory: {fileID: 2179564800598631519}
   parentBottomLeftnotificationInventory: {fileID: 8210585874264848182}
-  spacing: 500
 --- !u!82 &1891731576413855701
 AudioSource:
   m_ObjectHideFlags: 0
