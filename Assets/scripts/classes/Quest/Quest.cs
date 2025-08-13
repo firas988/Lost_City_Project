@@ -59,6 +59,9 @@ public abstract class Quest : ScriptableObject
     [SerializeField]
     protected bool completed;
 
+    [SerializeField]
+    private Vector3 targetPosition;
+
     #endregion
 
     #region Private Fields
