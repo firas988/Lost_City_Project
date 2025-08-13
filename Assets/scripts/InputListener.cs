@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InputListener : MonoBehaviour
@@ -6,21 +7,11 @@ public class InputListener : MonoBehaviour
     [SerializeField]
     private UIManager uiManager;
 
+    [SerializeField]
+    private KeybindList keybindList;
+
     [Header("Keys Configuration")]
-    private KeyCode forwardKey = KeyCode.W;
-    private KeyCode backwardKey = KeyCode.S;
-    private KeyCode rightKey = KeyCode.D;
-    private KeyCode leftKey = KeyCode.A;
-    private KeyCode jumpKey = KeyCode.Space;
-    private KeyCode sprintKey = KeyCode.LeftShift;
-    private KeyCode interactKey = KeyCode.E;
-    private KeyCode attackKey = KeyCode.Mouse0;
-    private KeyCode toggleActivateAttackKey = KeyCode.LeftControl;
-    private KeyCode takeOneItemKey = KeyCode.LeftAlt;
-    private KeyCode pauseKey = KeyCode.Escape;
-    private KeyCode inventoryKey = KeyCode.M;
-    private KeyCode skillTreeKey = KeyCode.N;
-    private KeyCode fullMapKey = KeyCode.Tab;
+    private Dictionary<string, KeyCode> keybinds;
     private float horizontal_input = 0f;
     private float vertical_input = 0f;
     private bool jump_input = false;
@@ -33,22 +24,22 @@ public class InputListener : MonoBehaviour
 
     public bool isPressingForward()
     {
-        return Input.GetKey(forwardKey);
+        return Input.GetKey(keybinds["Forward"]);
     }
 
     public bool isPressingBackward()
     {
-        return Input.GetKey(backwardKey);
+        return Input.GetKey(keybinds["Backward"]);
     }
 
     public bool isPressingRight()
     {
-        return Input.GetKey(rightKey);
+        return Input.GetKey(keybinds["Right"]);
     }
 
     public bool isPressingLeft()
     {
-        return Input.GetKey(leftKey);
+        return Input.GetKey(keybinds["Left"]);
     }
 
     public float horizontal()
@@ -79,6 +70,11 @@ public class InputListener : MonoBehaviour
     private void Awake()
     {
         uiManager = GameObject.Find("UI_Manager").GetComponent<UIManager>();
+        keybinds = new Dictionary<string, KeyCode>();
+        foreach (var keybind in keybindList.Keybinds)
+        {
+            keybinds.Add(keybind.Key, keybind.Keycode);
+        }
     }
 
     void Update()
@@ -86,41 +82,41 @@ public class InputListener : MonoBehaviour
         horizontal_input = 0f;
         vertical_input = 0f;
 
-        if (Input.GetKey(forwardKey))
+        if (Input.GetKey(keybinds["Forward"]))
         {
             vertical_input += 1f;
         }
-        if (Input.GetKey(backwardKey))
+        if (Input.GetKey(keybinds["Backward"]))
         {
             vertical_input -= 1f;
         }
-        if (Input.GetKey(rightKey))
+        if (Input.GetKey(keybinds["Right"]))
         {
             horizontal_input += 1f;
         }
-        if (Input.GetKey(leftKey))
+        if (Input.GetKey(keybinds["Left"]))
         {
             horizontal_input -= 1f;
         }
 
-        if (Input.GetKeyUp(jumpKey))
+        if (Input.GetKeyUp(keybinds["Jump"]))
         {
             jump_input = false;
         }
-        if (Input.GetKeyDown(jumpKey))
+        if (Input.GetKeyDown(keybinds["Jump"]))
         {
             jump_input = true;
         }
-        if (Input.GetKeyUp(sprintKey))
+        if (Input.GetKeyUp(keybinds["Sprint"]))
         {
             sprint_input = false;
         }
-        if (Input.GetKeyDown(sprintKey))
+        if (Input.GetKeyDown(keybinds["Sprint"]))
         {
             sprint_input = true;
         }
 
-        if (Input.GetKey(interactKey))
+        if (Input.GetKey(keybinds["Interact"]))
         {
             interact_input = true;
         }
@@ -129,15 +125,15 @@ public class InputListener : MonoBehaviour
             interact_input = false;
         }
 
-        if (Input.GetKeyDown(inventoryKey))
+        if (Input.GetKeyDown(keybinds["Inventory"]))
         {
             uiManager.toggleInventory();
         }
-        if (Input.GetKeyDown(skillTreeKey))
+        if (Input.GetKeyDown(keybinds["SkillTree"]))
         {
             uiManager.toggleSkillTreeMenu();
         }
-        if (Input.GetKeyDown(fullMapKey))
+        if (Input.GetKeyDown(keybinds["FullMap"]))
         {
             uiManager.toggleFullMapMenu();
         }
@@ -152,17 +148,17 @@ public class InputListener : MonoBehaviour
 
     public bool isAttacking()
     {
-        return Input.GetKeyDown(attackKey) && canAttack;
+        return Input.GetKeyDown(keybinds["Attack"]) && canAttack;
     }
 
     public bool isToggleActivateAttack()
     {
-        return Input.GetKeyDown(toggleActivateAttackKey) && canAttack;
+        return Input.GetKeyDown(keybinds["ToggleActivateAttack"]) && canAttack;
     }
 
     public bool isTakingOneItem()
     {
-        return Input.GetKey(takeOneItemKey);
+        return Input.GetKey(keybinds["TakeOneItem"]);
     }
 
     void OnDisable()
