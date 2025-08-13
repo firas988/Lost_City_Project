@@ -156,8 +156,6 @@ public class NotificationsManager : MonoBehaviour
     /// <param name="message">The message to display.</param>
     public void ShowBottomLeftNotificationInventory(string message)
     {
-        Debug.Log("ShowBottomLeftNotificationInventory");
-        Debug.Log(message);
         Notification newNotification = Instantiate(
             bottomLeftnotificationInventory,
             parentBottomLeftnotificationInventory
