@@ -3389,6 +3389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 0}
+  keybindList: {fileID: 11400000, guid: 2b58998824acaf143919ef18ddbe5b24, type: 2}
 --- !u!1 &1145964628664196488
 GameObject:
   m_ObjectHideFlags: 0
@@ -25473,7 +25474,6 @@ MonoBehaviour:
   middlenotification: {fileID: 0}
   bottomLeftnotificationInventory: {fileID: 2179564800598631519}
   parentBottomLeftnotificationInventory: {fileID: 8210585874264848182}
-  spacing: 500
 --- !u!82 &1891731576413855701
 AudioSource:
   m_ObjectHideFlags: 0
