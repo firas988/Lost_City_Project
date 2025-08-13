@@ -3389,6 +3389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 0}
+  keybindList: {fileID: 11400000, guid: 2b58998824acaf143919ef18ddbe5b24, type: 2}
 --- !u!1 &1145964628664196488
 GameObject:
   m_ObjectHideFlags: 0
