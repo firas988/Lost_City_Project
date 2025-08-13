@@ -1676,6 +1676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b94300ec96488459bcc8f5b68d0d9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 0}
 --- !u!1 &1145964628664196488
 GameObject:
   m_ObjectHideFlags: 0
@@ -15912,7 +15913,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   middlenotification: {fileID: 0}
   bottomLeftnotificationInventory: {fileID: 2179564800598631519}
-  parentBottomLeftnotificationInventory: {fileID: 0}
+  parentBottomLeftnotificationInventory: {fileID: 8210585874264848182}
   spacing: 500
 --- !u!82 &1891731576413855701
 AudioSource:
