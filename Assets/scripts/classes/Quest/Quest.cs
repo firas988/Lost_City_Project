@@ -161,6 +161,16 @@ public abstract class Quest : ScriptableObject
         get { return this.parentQuest; }
     }
 
+    public Vector3 TargetPosition
+    {
+        get { return this.targetPosition; }
+    }
+
+    public void SetTargetPosition(Vector3 targetPosition)
+    {
+        this.targetPosition = targetPosition;
+    }
+
     /// <summary>
     /// Gets the name of this quest.
     /// </summary>
