@@ -20,7 +20,7 @@ public class InputListener : MonoBehaviour
     private KeyCode pauseKey = KeyCode.Escape;
     private KeyCode inventoryKey = KeyCode.M;
     private KeyCode skillTreeKey = KeyCode.N;
-
+    private KeyCode fullMapKey = KeyCode.Tab;
     private float horizontal_input = 0f;
     private float vertical_input = 0f;
     private bool jump_input = false;
@@ -136,6 +136,10 @@ public class InputListener : MonoBehaviour
         if (Input.GetKeyDown(skillTreeKey))
         {
             uiManager.toggleSkillTreeMenu();
+        }
+        if (Input.GetKeyDown(fullMapKey))
+        {
+            uiManager.toggleFullMapMenu();
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject pauseMenu;
+    private GameObject fullMapMenu;
 
     [SerializeField]
     private GameObject skillTreeMenu;
@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
     private bool cooldownPauseOpen = false;
     private bool cooldownInventoryOpen = false;
     private bool cooldownSkillTreeOpen = false;
-
+    private bool cooldownFullMapOpen = false;
     private bool menuIsOpen = false;
 
     private void Awake()
@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
         blackScreen.GetComponent<RawImage>().color = new Color(0, 0, 0, 0);
         skillTreeMenu.SetActive(false);
         inventoryMenu.SetActive(false);
+        fullMapMenu.SetActive(false);
     }
 
     public IEnumerator FadeInBlackScreen(float fadeInAmount)
@@ -64,9 +65,10 @@ public class UIManager : MonoBehaviour
     {
         if (!cooldownInventoryOpen)
         {
+            fullMapMenu.SetActive(false);
             skillTreeMenu.SetActive(false);
+            StartCoroutine(FadeInBlackScreen(inventoryMenu.activeSelf ? 0f : 1f));
             StartCoroutine(activateCooldownInventoryOpen(1.5f));
-            StartCoroutine(FadeInBlackScreen(1f));
             inventoryMenu.SetActive(!inventoryMenu.activeSelf);
         }
     }
@@ -75,10 +77,25 @@ public class UIManager : MonoBehaviour
     {
         if (!cooldownSkillTreeOpen)
         {
+            fullMapMenu.SetActive(false);
             inventoryMenu.SetActive(false);
+            StartCoroutine(FadeInBlackScreen(skillTreeMenu.activeSelf ? 0f : 1f));
             StartCoroutine(activateCooldownSkillTreeOpen(1.5f));
-            StartCoroutine(FadeInBlackScreen(1f));
             skillTreeMenu.SetActive(!skillTreeMenu.activeSelf);
+        }
+    }
+
+    public void toggleFullMapMenu()
+    {
+        if (!cooldownFullMapOpen)
+        {
+            //similar logic to the other menus
+            inventoryMenu.SetActive(false);
+            skillTreeMenu.SetActive(false);
+
+            StartCoroutine(FadeInBlackScreen(fullMapMenu.activeSelf ? 0f : 1f));
+            StartCoroutine(activateCooldownFullMapOpen(1.5f));
+            fullMapMenu.SetActive(!fullMapMenu.activeSelf);
         }
     }
 
@@ -102,5 +119,12 @@ public class UIManager : MonoBehaviour
         cooldownPauseOpen = true;
         yield return new WaitForSeconds(cooldownTime);
         cooldownPauseOpen = false;
+    }
+
+    public IEnumerator activateCooldownFullMapOpen(float cooldownTime)
+    {
+        cooldownFullMapOpen = true;
+        yield return new WaitForSeconds(cooldownTime);
+        cooldownFullMapOpen = false;
     }
 }

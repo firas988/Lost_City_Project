@@ -13900,6 +13900,7 @@ GameObject:
   - component: {fileID: 4230659498213764707}
   - component: {fileID: 7477852886466023694}
   - component: {fileID: 4342174312340110234}
+  - component: {fileID: 1737646106381082802}
   m_Layer: 5
   m_Name: UI_Manager
   m_TagString: Untagged
@@ -13993,6 +13994,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1737646106381082802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7009985566351264337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9da7f0615a39d64e8eee62a569aa962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullMapMenu: {fileID: 5098828696763395363}
+  skillTreeMenu: {fileID: 7680137219777340763}
+  inventoryMenu: {fileID: 5400760644251087849}
+  blackScreen: {fileID: 8620935035135249639}
 --- !u!1 &7033824856662291547
 GameObject:
   m_ObjectHideFlags: 0
@@ -14011,7 +14028,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8316774125398830433
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14774,7 +14791,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4680981466611956324
 RectTransform:
   m_ObjectHideFlags: 0
