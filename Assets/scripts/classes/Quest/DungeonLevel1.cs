@@ -14,6 +14,9 @@ public class DungeonLevel1 : StoryQuest
 
     public override void CompleteQuest()
     {
+        if (this.isCompleted)
+            return;
+
         Debug.Log("DungeonLevel1 CompleteQuest");
         if (childQuests == null || childQuests.All(quest => quest.isCompleted))
         {

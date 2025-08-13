@@ -14,6 +14,9 @@ public class DungeonLevel2 : StoryQuest
 
     public override void CompleteQuest()
     {
+        if (this.isCompleted)
+            return;
+
         if (childQuests == null || childQuests.All(quest => quest.isCompleted))
         {
             GameObject.Find("dungeon").GetComponent<DungeonManager>().NextRoom();

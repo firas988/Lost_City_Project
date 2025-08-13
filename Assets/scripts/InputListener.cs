@@ -1,8 +1,11 @@
-using Unity.VisualScripting;
+using System.Collections;
 using UnityEngine;
 
 public class InputListener : MonoBehaviour
 {
+    [SerializeField]
+    private UIManager uiManager;
+
     [Header("Keys Configuration")]
     private KeyCode forwardKey = KeyCode.W;
     private KeyCode backwardKey = KeyCode.S;
@@ -14,6 +17,9 @@ public class InputListener : MonoBehaviour
     private KeyCode attackKey = KeyCode.Mouse0;
     private KeyCode toggleActivateAttackKey = KeyCode.LeftControl;
     private KeyCode takeOneItemKey = KeyCode.LeftAlt;
+    private KeyCode pauseKey = KeyCode.Escape;
+    private KeyCode inventoryKey = KeyCode.M;
+    private KeyCode skillTreeKey = KeyCode.N;
 
     private float horizontal_input = 0f;
     private float vertical_input = 0f;
@@ -24,6 +30,7 @@ public class InputListener : MonoBehaviour
     private bool canMove = true;
     private bool canAttack = true;
     private bool canJump = true;
+
     public bool isPressingForward()
     {
         return Input.GetKey(forwardKey);
@@ -69,10 +76,13 @@ public class InputListener : MonoBehaviour
         return interact_input;
     }
 
+    private void Awake()
+    {
+        uiManager = GameObject.Find("UI_Manager").GetComponent<UIManager>();
+    }
+
     void Update()
     {
-       
-
         horizontal_input = 0f;
         vertical_input = 0f;
 
@@ -110,22 +120,25 @@ public class InputListener : MonoBehaviour
             sprint_input = true;
         }
 
-
         if (Input.GetKey(interactKey))
         {
             interact_input = true;
-
         }
-
         else
         {
             interact_input = false;
-
         }
 
-
-        
+        if (Input.GetKeyDown(inventoryKey))
+        {
+            uiManager.toggleInventory();
+        }
+        if (Input.GetKeyDown(skillTreeKey))
+        {
+            uiManager.toggleSkillTreeMenu();
+        }
     }
+
     void OnEnable()
     {
         jump_input = false;
