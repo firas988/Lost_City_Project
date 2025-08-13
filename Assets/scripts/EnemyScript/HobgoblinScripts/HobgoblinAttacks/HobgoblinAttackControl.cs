@@ -223,6 +223,11 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
         isAttacking = false;
     }
 
+    public bool getIsAttacking()
+    {
+        return isAttacking;
+    }
+
     // enable this to see the attack range in the editor
     /// <summary>
     /// Visualizes the attack radius in the editor with Gizmos.

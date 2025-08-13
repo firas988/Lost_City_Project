@@ -224,6 +224,11 @@ public class TrollAttackControl : MonoBehaviour, EnemyAttackBehavior
         isAttacking = false;
     }
 
+    public bool getIsAttacking()
+    {
+        return isAttacking;
+    }
+
     ///enable this to see the attack range
     /// <summary>
     /// Draws gizmos in the scene view to visualize the attack range.

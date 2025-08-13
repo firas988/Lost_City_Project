@@ -36,6 +36,14 @@ public class Enemyspawner : MonoBehaviour
 
     private bool inTimer = false;
 
+    private bool allEnemiesDead = false;
+
+    [SerializeField]
+    private bool canGetRandomDifficulty = true;
+
+    [SerializeField]
+    private int difficulty = 0;
+
     void Start()
     {
         entities = new List<Entity>();
@@ -68,6 +76,7 @@ public class Enemyspawner : MonoBehaviour
         }
         if (enemyCount == 0 && entities.Count == 0)
         {
+            allEnemiesDead = true;
             chest.GetComponent<ObjectInteraction>().setCanOpen(true);
         }
     }
@@ -80,6 +89,7 @@ public class Enemyspawner : MonoBehaviour
         getNumberOfEnemiesToSpawn();
         putChestInPlaceHolder();
         spawnEnemies();
+        allEnemiesDead = false;
         inTimer = false;
     }
 
@@ -104,7 +114,14 @@ public class Enemyspawner : MonoBehaviour
 
     private void getRandomDifficulty()
     {
-        randomDifficulty = Random.Range(0, 4);
+        if (canGetRandomDifficulty)
+        {
+            randomDifficulty = Random.Range(0, 4);
+        }
+        else
+        {
+            randomDifficulty = difficulty;
+        }
     }
 
     private void putChestInPlaceHolder()
@@ -173,5 +190,10 @@ public class Enemyspawner : MonoBehaviour
                 );
             }
         }
+    }
+
+    public bool getAllEnemiesDead()
+    {
+        return allEnemiesDead;
     }
 }

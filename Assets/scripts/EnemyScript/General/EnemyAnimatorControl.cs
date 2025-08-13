@@ -135,7 +135,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// Sets all boolean parameters in the Animator to false, except the one provided.
     /// </summary>
     /// <param name="ignoreParam">The parameter name to ignore (leave it true).</param>
-    public void setAllBooleanParamToFalse(string ignoreParam)
+    public void setAllBooleanParamToFalse(string ignoreParam = "")
     {
         // Loop through all parameters in the Animator.
         foreach (AnimatorControllerParameter param in animator.parameters)
@@ -174,4 +174,5 @@ public class EnemyAnimatorControl : MonoBehaviour
         yield return new WaitForSeconds(2f);
         isTest = false;
     }
+
 }

@@ -35,4 +35,10 @@ public interface EnemyAttackBehavior
     /// </summary>
     /// <returns>True if the animation is playing, false otherwise.</returns>
     bool isAttackAnimationPlaying();
+
+    /// <summary>
+    /// Checks whether the enemy is currently attacking.
+    /// </summary>
+    /// <returns>True if the enemy is attacking, false otherwise.</returns>
+    bool getIsAttacking();
 }

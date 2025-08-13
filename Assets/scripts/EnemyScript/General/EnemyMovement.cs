@@ -23,6 +23,9 @@ public class EnemyMovement : MonoBehaviour
     /// <summary>Reference to the current enemy attack behavior.</summary>
     private EnemyAttackBehavior enemyAttackBehavior;
 
+    /// <summary>Reference to the enemy animator control.</summary>
+    private EnemyAnimatorControl enemyAnimatorControl;
+
     /// <summary>Distance within which chasing is triggered.</summary>
     [SerializeField]
     private float activateChassingRange = 10f;
@@ -46,6 +49,10 @@ public class EnemyMovement : MonoBehaviour
     /// <summary>Whether the enemy can move.</summary>
     [SerializeField]
     private bool canMove = true;
+
+    /// <summary>Whether the enemy is in cooldown.</summary>
+    [SerializeField]
+    private bool inCooldown = false;
 
     /// <summary>Sets the canMove state.</summary>
     public void setCanMove(bool canMove)
@@ -100,6 +107,9 @@ public class EnemyMovement : MonoBehaviour
         // Get reference to attack logic.
         enemyAttackBehavior = GetComponent<EnemyAttackBehavior>();
 
+        // Get reference to animator control.
+        enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
+
         // Warn if no NavMeshAgent is attached.
         if (agent == null)
         {
@@ -130,7 +140,7 @@ public class EnemyMovement : MonoBehaviour
         }
 
         // If not attacking, allow chasing logic.
-        if (!isAttacking)
+        if (!isAttacking && !inCooldown)
         {
             npcNavigation.itWalk();
             actvateChassing();
@@ -146,6 +156,8 @@ public class EnemyMovement : MonoBehaviour
         {
             activateAttack();
         }
+
+        checkCooldown();
     }
 
     /// <summary>
@@ -234,7 +246,12 @@ public class EnemyMovement : MonoBehaviour
         float visionAngle = 100f; // Field of view angle.
 
         // If within attack range and FOV and not returning, start attacking.
-        if (distance <= enemyAttackBehavior.getAttackRange() && angle <= visionAngle && !isReturn)
+        if (
+            distance <= enemyAttackBehavior.getAttackRange()
+            && angle <= visionAngle
+            && !isReturn
+            && !inCooldown
+        )
         {
             isChassing = false;
             isAttacking = true;
@@ -254,6 +271,26 @@ public class EnemyMovement : MonoBehaviour
         {
             agent.SetDestination(enemyTransform.position);
         }
+        else if (inCooldown)
+        {
+            enemyAnimatorControl.setAllBooleanParamToFalse();
+            agent.SetDestination(enemyTransform.position);
+        }
+    }
+
+    private void checkCooldown()
+    {
+        if (enemyAttackBehavior.getIsAttacking())
+        {
+            inCooldown = true;
+            StartCoroutine(cooldown());
+        }
+    }
+
+    private IEnumerator cooldown()
+    {
+        yield return new WaitForSeconds(enemyAttackBehavior.getAttackTime());
+        inCooldown = false;
     }
 
     ///enable this to see the detection and chase ranges

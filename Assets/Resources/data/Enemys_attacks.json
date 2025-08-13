@@ -4,21 +4,21 @@
       {
         "attackName": "attackHand",
         "attackRange": 2.5,
-        "attackTime": 1,
+        "attackTime": 1.5,
         "attackDamage": 10.0,
         "attackRadius": 0.6
       },
       {
         "attackName": "attackBite",
         "attackRange": 2.5,
-        "attackTime": 1,
+        "attackTime": 1.5,
         "attackDamage": 15.0,
         "attackRadius": 0.6
       },
       {
         "attackName": "attackJump",
         "attackRange": 2,
-        "attackTime": 1,
+        "attackTime": 1.5,
         "attackDamage": 20.0,
         "attackRadius": 1.0
       }
@@ -29,7 +29,7 @@
       {
         "attackName": "attackBite",
         "attackRange": 2.0,
-        "attackTime": 1.2,
+        "attackTime": 2,
         "attackDamage": 8.0,
         "attackRadius": 0.6
       }
@@ -40,7 +40,7 @@
       {
         "attackName": "attackHand",
         "attackRange": 3.0,
-        "attackTime": 3.5,
+        "attackTime": 2,
         "attackDamage": 20.0,
         "attackRadius": 1.0
       }
@@ -51,7 +51,7 @@
       {
         "attackName": "attackHand",
         "attackRange": 1.5,
-        "attackTime": 3.5,
+        "attackTime": 1.8,
         "attackDamage": 15.0,
         "attackRadius": 1.5
       }
@@ -62,7 +62,7 @@
       {
         "attackName": "attackHand",
         "attackRange": 2,
-        "attackTime": 2,
+        "attackTime": 1.8,
         "attackDamage": 10.0,
         "attackRadius": 0.6
       }
@@ -73,14 +73,14 @@
       {
         "attackName": "attackHand",
         "attackRange": 2.6,
-        "attackTime": 2,
+        "attackTime": 1.9,
         "attackDamage": 10.0,
         "attackRadius": 0.6
       },
       {
         "attackName": "attackSpike",
         "attackRange": 2.6,
-        "attackTime": 2,
+        "attackTime": 1.9,
         "attackDamage": 10.0,
         "attackRadius": 0.6
       }
@@ -91,14 +91,14 @@
       {
         "attackName": "AttackOneHandSword",
         "attackRange": 1.5,
-        "attackTime": 2.7,
+        "attackTime": 2,
         "attackDamage": 10.0,
         "attackRadius": 0.4
       },
       {
         "attackName": "AttackOneHandSwordRotation",
         "attackRange": 1.5,
-        "attackTime": 0.8,
+        "attackTime": 2,
         "attackDamage": 10.0,
         "attackRadius": 0.4
       }
@@ -109,14 +109,14 @@
       {
         "attackName": "AttackHand",
         "attackRange": 0.8,
-        "attackTime": 1,
+        "attackTime": 1.5,
         "attackDamage": 10.0,
         "attackRadius": 0.6
       },
       {
         "attackName": "AttackDoubleHand",
         "attackRange": 0.8,
-        "attackTime": 1,
+        "attackTime": 1.5,
         "attackDamage": 20.0,
         "attackRadius": 1
       }

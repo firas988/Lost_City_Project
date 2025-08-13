@@ -235,6 +235,11 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
         isAttacking = false;
     }
 
+    public bool getIsAttacking()
+    {
+        return isAttacking;
+    }
+
     ///enable this to see the detection and chase ranges
     /// <summary>
     /// Draws gizmos in the scene view to visualize the attack range.

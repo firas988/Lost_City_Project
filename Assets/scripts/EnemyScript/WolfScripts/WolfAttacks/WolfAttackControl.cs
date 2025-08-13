@@ -232,6 +232,11 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
         isHitting = false;
     }
 
+    public bool getIsAttacking()
+    {
+        return isAttacking;
+    }
+
     /// enable this to see the attack hit radius in the editor
     /// <summary>
     /// Draws gizmos in the editor to visualize the attack hit radius.

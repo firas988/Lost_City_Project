@@ -245,6 +245,11 @@ public class ExecutionerAttackControl : MonoBehaviour, EnemyAttackBehavior
         isAttacking = false;
     }
 
+    public bool getIsAttacking()
+    {
+        return isAttacking;
+    }
+
     // enable this to see the attack range in the editor
     /// <summary>
     /// Draws Gizmos in the editor to visualize the attack radius.
