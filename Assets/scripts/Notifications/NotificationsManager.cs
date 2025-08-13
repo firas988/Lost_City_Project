@@ -45,8 +45,9 @@ public class NotificationsManager : MonoBehaviour
     /// <summary>
     /// Spacing between inventory notifications when they stack.
     /// </summary>
-    [SerializeField]
-    private float spacing = 500f;
+    private float spacing = 20f;
+
+    private bool isMovingUp = false;
 
     #endregion
 
@@ -156,27 +157,43 @@ public class NotificationsManager : MonoBehaviour
     /// <param name="message">The message to display.</param>
     public void ShowBottomLeftNotificationInventory(string message)
     {
+        StartCoroutine(ShowNotificationWhenReady(message));
+    }
+
+    private IEnumerator ShowNotificationWhenReady(string message)
+    {
+        while (isMovingUp)
+            yield return null;
+
+        float baseY = bottomLeftnotificationInventory
+            .GetComponent<RectTransform>()
+            .anchoredPosition.y;
+
         Notification newNotification = Instantiate(
             bottomLeftnotificationInventory,
             parentBottomLeftnotificationInventory
         );
         newNotification.SetSubtitle(message);
 
-        List<Vector2> originalPositions = new List<Vector2>();
+        RectTransform newRect = newNotification.GetComponent<RectTransform>();
+        float height = newRect.sizeDelta.y;
 
-        foreach (var notif in activeBottomLeftNotificationQueueInventory)
+        if (activeBottomLeftNotificationQueueInventory.Count > 0)
         {
-            RectTransform r = notif.GetComponent<RectTransform>();
-            originalPositions.Add(r.anchoredPosition);
+            isMovingUp = true;
+            for (int i = 0; i < activeBottomLeftNotificationQueueInventory.Count; i++)
+            {
+                RectTransform r = activeBottomLeftNotificationQueueInventory[i]
+                    .GetComponent<RectTransform>();
+
+                Vector2 targetPos = r.anchoredPosition + new Vector2(0, height - spacing);
+
+                yield return MoveUpSmoothly(r, targetPos, 0.25f);
+            }
+            isMovingUp = false;
         }
 
-        for (int i = 0; i < activeBottomLeftNotificationQueueInventory.Count; i++)
-        {
-            RectTransform r = activeBottomLeftNotificationQueueInventory[i]
-                .GetComponent<RectTransform>();
-            Vector2 targetPos = originalPositions[i] + new Vector2(0, spacing);
-            StartCoroutine(MoveUpSmoothly(r, targetPos, 0.25f));
-        }
+        newRect.anchoredPosition = new Vector2(newRect.anchoredPosition.x, baseY);
 
         newNotification.Show();
         activeBottomLeftNotificationQueueInventory.Add(newNotification);
@@ -184,16 +201,6 @@ public class NotificationsManager : MonoBehaviour
         StartCoroutine(RemoveAfterDelay(newNotification, 5f));
     }
 
-    #endregion
-
-    #region Coroutines
-
-    /// <summary>
-    /// Removes a notification after a specified delay.
-    /// </summary>
-    /// <param name="notification">The notification to remove.</param>
-    /// <param name="delay">The delay before removal in seconds.</param>
-    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator RemoveAfterDelay(Notification notification, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -203,29 +210,27 @@ public class NotificationsManager : MonoBehaviour
         Destroy(notification.gameObject);
     }
 
-    /// <summary>
-    /// Smoothly moves a RectTransform to a target position over a specified duration.
-    /// </summary>
-    /// <param name="rect">The RectTransform to move.</param>
-    /// <param name="targetPos">The target position to move to.</param>
-    /// <param name="duration">The duration of the movement in seconds.</param>
-    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator MoveUpSmoothly(RectTransform rect, Vector2 targetPos, float duration)
     {
-        if (rect == null)
+        if (rect == null || rect.Equals(null))
             yield break;
+
         Vector2 startPos = rect.anchoredPosition;
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
+            if (rect == null || rect.Equals(null))
+                yield break;
+
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
             rect.anchoredPosition = Vector2.Lerp(startPos, targetPos, t);
             yield return null;
         }
 
-        rect.anchoredPosition = targetPos;
+        if (rect != null && !rect.Equals(null))
+            rect.anchoredPosition = targetPos;
     }
 
     #endregion

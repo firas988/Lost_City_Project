@@ -43,6 +43,10 @@ public class AnimateController : MonoBehaviour
     private bool isTimeingtoFreeFall = false; // Whether player is timing to free fall
     private bool isFreeFall = false; // Whether player is currently free falling
 
+    private bool inTimer = false;
+
+    private Coroutine activeTimerForIdle;
+
     void Start()
     {
         inputListener = FindAnyObjectByType<InputListener>();
@@ -185,6 +189,32 @@ public class AnimateController : MonoBehaviour
         // Apply updated movement values to Animator
         playerAnimator.SetFloat("VelocityX", currentVelocityX);
         playerAnimator.SetFloat("VelocityY", currentVelocityY);
+
+        if (!isMovingForward && !isMovingBackward && !isMovingLeft && !isMovingRight && !inTimer)
+        {
+            inTimer = true;
+            activeTimerForIdle = StartCoroutine(TimerForIdle(0.7f));
+        }
+        else if ((isMovingForward || isMovingBackward || isMovingLeft || isMovingRight) && inTimer)
+        {
+            stopTimer();
+            inTimer = false;
+        }
+    }
+
+    IEnumerator TimerForIdle(float time)
+    {
+        yield return new WaitForSeconds(time);
+        playerAnimator.SetFloat("VelocityX", 0);
+        playerAnimator.SetFloat("VelocityY", 0);
+    }
+
+    private void stopTimer()
+    {
+        if (activeTimerForIdle != null)
+        {
+            StopCoroutine(activeTimerForIdle);
+        }
     }
 
     private void jumping()

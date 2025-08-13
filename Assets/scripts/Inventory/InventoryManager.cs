@@ -87,6 +87,10 @@ public class InventoryManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
         }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            AddItemToInventory(AllItems.GetItem(1));
+        }
     }
 
     /// <summary>
@@ -219,6 +223,10 @@ public class InventoryManager : MonoBehaviour
             notificationsManager.ShowBottomLeftNotificationInventory(
                 $"You have added {newItem.itemName} to your inventory."
             );
+        }
+        else
+        {
+            notificationsManager.ShowBottomLeftNotificationInventory("Inventory is full");
         }
     }
 
