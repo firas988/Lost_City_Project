@@ -11,7 +11,7 @@ public class InputListener : MonoBehaviour
     private KeybindList keybindList;
 
     [Header("Keys Configuration")]
-    private Dictionary<string, KeyCode> keybinds;
+    private static Dictionary<string, KeyCode> keybinds;
     private float horizontal_input = 0f;
     private float vertical_input = 0f;
     private bool jump_input = false;
@@ -74,6 +74,7 @@ public class InputListener : MonoBehaviour
         foreach (var keybind in keybindList.Keybinds)
         {
             keybinds.Add(keybind.Key, keybind.Keycode);
+            Debug.Log(keybind.Key + " " + keybind.Keycode);
         }
     }
 
@@ -198,5 +199,13 @@ public class InputListener : MonoBehaviour
     public bool getCanJump()
     {
         return canJump;
+    }
+
+    public void setKeybind(string key, KeyCode keycode)
+    {
+        
+
+        
+        keybinds[key] = keycode;
     }
 }
