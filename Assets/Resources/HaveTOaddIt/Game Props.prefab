@@ -19547,7 +19547,6 @@ MonoBehaviour:
   dialogueManager: {fileID: 1110632983274905550}
   storyQuestsList:
   - {fileID: 11400000, guid: 381f1be72e3e1a54485aa00faa1316fe, type: 2}
-  minimapArrow: {fileID: 1347360486024414564}
 --- !u!82 &977470598933129512
 AudioSource:
   m_ObjectHideFlags: 0
