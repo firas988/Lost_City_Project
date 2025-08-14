@@ -261,6 +261,31 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.SetFloat("EnemyVolume", EnemyVolume);
     }
 
+    public void setAudioSourceVolumeToGlobalVolume(AudioSource audioSource)
+    {
+        audioSource.volume = GlobalVolume;
+    }
+
+    public void setAudioSourceVolumeToMusicVolume(AudioSource audioSource)
+    {
+        audioSource.volume = MusicVolume * GlobalVolume;
+    }
+
+    public void setAudioSourceVolumeToSFXVolume(AudioSource audioSource)
+    {
+        audioSource.volume = SFXVolume * GlobalVolume;
+    }
+
+    public void setAudioSourceVolumeToEnemyVolume(AudioSource audioSource)
+    {
+        audioSource.volume = EnemyVolume * GlobalVolume;
+    }
+
+    public void setAudioSourceVolumeToUIVolume(AudioSource audioSource)
+    {
+        audioSource.volume = UIVolume * GlobalVolume;
+    }
+
     #endregion
 
     #region Getters
