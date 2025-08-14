@@ -33,7 +33,9 @@ public class ChestRewardManager : MonoBehaviour
 
     private InventoryManager inventoryManager;
 
-    // private LevelManager levelManager;
+    private string GameManagerTag = "GameManager";
+
+    private LevelManager levelManager;
 
     [SerializeField]
     private List<RarityDropRate> rarityChances;
@@ -49,16 +51,19 @@ public class ChestRewardManager : MonoBehaviour
 
     private void Start()
     {
-        inventoryManager = FindAnyObjectByType<InventoryManager>();
-        // levelManager = FindAnyObjectByType<LevelManager>();
+        inventoryManager = GameObject
+            .FindWithTag(GameManagerTag)
+            .GetComponentInChildren<InventoryManager>();
+        levelManager = GameObject
+            .FindWithTag(GameManagerTag)
+            .GetComponentInChildren<LevelManager>();
     }
 
     public void OpenChest()
     {
         float random = Random.value;
         int xpGained = Random.Range(minXP, maxXP + 1);
-        // levelManager.addXP(xpGained);
-        Debug.Log("xpGained: " + xpGained);
+        levelManager.addXP(xpGained);
         if (weaponDatabase != null && random <= weaponDropChance)
             TryGiveItem<WeaponItem>(weaponDatabase.AllWeapons);
         if (cosmeticDatabase != null && random <= cosmeticDropChance)

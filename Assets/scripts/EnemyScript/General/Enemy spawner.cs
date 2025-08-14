@@ -44,6 +44,10 @@ public class Enemyspawner : MonoBehaviour
     [SerializeField]
     private int difficulty = 0;
 
+    private bool isReadyToRespawn = false;
+
+    private float timerForRespawn = 120f;
+
     void Start()
     {
         entities = new List<Entity>();
@@ -56,12 +60,25 @@ public class Enemyspawner : MonoBehaviour
 
     void Update()
     {
-        if (canMultipleRespawn && chest.GetComponent<ObjectInteraction>().getIsOpen() && !inTimer)
+        readyToRespawn();
+        if (canMultipleRespawn && isReadyToRespawn && !inTimer)
         {
             StartCoroutine(respawnTimer());
         }
 
         checkIfAllEnemiesAreDead();
+    }
+
+    private void readyToRespawn()
+    {
+        if (chest.GetComponent<ObjectInteraction>().getIsOpen())
+        {
+            isReadyToRespawn = true;
+        }
+        else
+        {
+            isReadyToRespawn = false;
+        }
     }
 
     private void checkIfAllEnemiesAreDead()
@@ -84,7 +101,7 @@ public class Enemyspawner : MonoBehaviour
     private IEnumerator respawnTimer()
     {
         inTimer = true;
-        yield return new WaitForSeconds(120f);
+        yield return new WaitForSeconds(timerForRespawn);
         getRandomDifficulty();
         getNumberOfEnemiesToSpawn();
         putChestInPlaceHolder();
@@ -195,5 +212,20 @@ public class Enemyspawner : MonoBehaviour
     public bool getAllEnemiesDead()
     {
         return allEnemiesDead;
+    }
+
+    public void setCanMultipleRespawn(bool canMultipleRespawn)
+    {
+        this.canMultipleRespawn = canMultipleRespawn;
+    }
+
+    public bool getIsReadyToRespawn()
+    {
+        return isReadyToRespawn;
+    }
+
+    public void setTimerForRespawn(float timerForRespawn)
+    {
+        this.timerForRespawn = timerForRespawn;
     }
 }

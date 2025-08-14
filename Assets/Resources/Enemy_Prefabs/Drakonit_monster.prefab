@@ -2459,6 +2459,7 @@ MonoBehaviour:
   isChassing: 0
   isAttacking: 0
   canMove: 1
+  inCooldown: 0
 --- !u!114 &4510107345397608510
 MonoBehaviour:
   m_ObjectHideFlags: 0

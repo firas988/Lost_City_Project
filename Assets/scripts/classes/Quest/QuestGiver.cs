@@ -161,7 +161,6 @@ public class QuestGiver : TalkativeNpc
         }
         else if (quest is StoryQuest)
         {
-            Debug.Log(quest.GetDescription());
             this.questToGive = quest;
             this.questToGive.SetGiver(giver);
         }

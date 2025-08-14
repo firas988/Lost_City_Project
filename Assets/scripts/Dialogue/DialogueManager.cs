@@ -229,15 +229,16 @@ public class DialogueManager : MonoBehaviour
             {
                 if (((QuestGiver)npc).GetQuestToGive() is StoryQuest)
                 {
-                    if (
-                        ((QuestGiver)npc).GetQuestToGive() is MysteriousManQuest
-                        || ((QuestGiver)npc).GetQuestToGive() is RobertQuest
-                        || ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToGetWeapon
-                    )
-                    {
-                        ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
-                        levelManager.addXP(200f);
-                    }
+                    // if (
+                    //     ((QuestGiver)npc).GetQuestToGive() is MysteriousManQuest
+                    //     || ((QuestGiver)npc).GetQuestToGive() is RobertQuest
+                    //     || ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToGetWeapon
+                    //     || ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToKnowWhereToGo
+                    // )
+                    // {
+                    ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
+                    levelManager.addXP(200f);
+                    // }
 
                     closeDialogue();
                     return;

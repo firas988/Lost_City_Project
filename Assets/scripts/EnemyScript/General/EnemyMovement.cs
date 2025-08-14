@@ -166,7 +166,7 @@ public class EnemyMovement : MonoBehaviour
     private IEnumerator returnToPatrolZone()
     {
         // Wait for 5 seconds before allowing wandering again.
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
         npcNavigation.setIsWandering(true);
     }
 

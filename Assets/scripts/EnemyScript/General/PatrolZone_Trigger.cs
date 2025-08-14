@@ -12,7 +12,7 @@ public class PatrolZone_Trigger : MonoBehaviour
     /// The radius of the patrol area.
     /// </summary>
     [SerializeField]
-    private float patrolRange = 30f;
+    private float patrolRange = 20f;
 
     /// <summary>
     /// Sets the capsule collider radius to match the patrol range at start.
@@ -86,20 +86,18 @@ public class PatrolZone_Trigger : MonoBehaviour
         npcNavigation.setWalkTime(0f);
     }
 
-    /*
-    /// enable this to see the patrol zone in the editor
-    /// <summary>
-    /// Draws the patrol zone radius in the editor using Gizmos (for visualization).
-    /// </summary>
-    void OnDrawGizmos()
-    {
-        CapsuleCollider sc = GetComponent<CapsuleCollider>();
-        if (sc != null)
-        {
-            Gizmos.color = Color.blue;
-            Vector3 center = transform.position + sc.center;
-            Gizmos.DrawWireSphere(center, sc.radius * transform.lossyScale.x);
-        }
-    }
-    */
+    // /// enable this to see the patrol zone in the editor
+    // /// <summary>
+    // /// Draws the patrol zone radius in the editor using Gizmos (for visualization).
+    // /// </summary>
+    // void OnDrawGizmos()
+    // {
+    //     CapsuleCollider sc = GetComponent<CapsuleCollider>();
+    //     if (sc != null)
+    //     {
+    //         Gizmos.color = Color.blue;
+    //         Vector3 center = transform.position + sc.center;
+    //         Gizmos.DrawWireSphere(center, sc.radius * transform.lossyScale.x);
+    //     }
+    // }
 }

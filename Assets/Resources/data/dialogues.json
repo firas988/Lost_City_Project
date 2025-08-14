@@ -140,6 +140,24 @@
       ]
     }
   },
+  "MysteriousManWhereToGo": {
+    "start": {
+      "dialogue": [
+        {
+          "text": "Do you need help with something?",
+          "options": ["I need to know where to go", "no, thanks"]
+        }
+      ]
+    },
+    "I need to know where to go": {
+      "dialogue": [
+        {
+          "text": "you need to go to the therd part of the island there a place you can find a piece of the map",
+          "options": ["Thanks", ""]
+        }
+      ]
+    }
+  },
   "John": {
     "start": {
       "dialogue": [

@@ -67,6 +67,11 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     private NotificationsManager notificationsManager;
 
+    [SerializeField]
+    private MinimapArrow minimapArrow;
+
+    private string gameManagerTag = "GameManager";
+
     #endregion
 
     #region Events
@@ -87,7 +92,7 @@ public class QuestManager : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         notificationsManager = GameObject
-            .FindWithTag("GameManager")
+            .FindWithTag(gameManagerTag)
             .GetComponentInChildren<NotificationsManager>();
         audioSource = this.gameObject.GetComponent<AudioSource>();
         dialogueManager = GameObject.FindAnyObjectByType<DialogueManager>();
@@ -124,29 +129,13 @@ public class QuestManager : MonoBehaviour
         activeFindQuests = new List<FindQuest>().FindAll(quest =>
             quest != null && quest.GetType() == typeof(FindQuest)
         );
-        storyQuestListQueue = new Queue<StoryQuest>(storyQuestsList);
-
+        storyQuestListQueue = new Queue<StoryQuest>();
         foreach (StoryQuest quest in storyQuestsList)
         {
             storyQuestListQueue.Enqueue(ScriptableObject.Instantiate(quest));
         }
 
-        if (storyQuestListQueue != null && storyQuestListQueue.Count > 0)
-            playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
-        if (
-            playerInstance.getCurrentMainQuest() != null
-            && playerInstance.getCurrentMainQuest().GetChildQuests().Count > 0
-        )
-        {
-            playerInstance
-                .getCurrentMainQuest()
-                .GetChildQuests()
-                .ForEach(quest =>
-                {
-                    Debug.Log("quest: " + quest.GetQuestName());
-                    addQuest(quest);
-                });
-        }
+        nextMainQuest();
     }
 
     /// <summary>
@@ -185,8 +174,6 @@ public class QuestManager : MonoBehaviour
             if (quest is FindQuest)
                 activeFindQuests.Add((FindQuest)quest);
         }
-        Debug.Log("activeKillQuests: " + activeKillQuests.Count);
-        Debug.Log("activeFindQuests: " + activeFindQuests.Count);
     }
 
     #endregion
@@ -318,6 +305,8 @@ public class QuestManager : MonoBehaviour
                         addQuest(quest);
                     });
             }
+            if (minimapArrow != null)
+                minimapArrow.SetTarget(playerInstance.getCurrentMainQuest().TargetPosition);
         }
     }
 

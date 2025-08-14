@@ -757,6 +757,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Troll
       objectReference: {fileID: 0}
+    - target: {fileID: 8828327880064284257, guid: a07df47d3c95e194294ed9771482af92, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8828327880065263777, guid: a07df47d3c95e194294ed9771482af92, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

@@ -129,14 +129,20 @@ public class ObjectInteraction : MonoBehaviour
     private float holdTimer = 0f;
 
     /// <summary>
+    /// Flag indicating whether the object is a key.
+    /// </summary>
+    private bool isAKey = false;
+
+    /// <summary>
     /// Initializes the object interaction system by finding required components and checking initial player proximity.
     /// </summary>
     void Awake()
     {
         isAchect = transform.CompareTag("Chest");
+        isAKey = transform.CompareTag("KeyToFind");
         playerIsInRange = Physics.CheckSphere(
             gameObject.transform.position,
-            2f,
+            range,
             playerLayer,
             QueryTriggerInteraction.Ignore
         );
@@ -161,8 +167,11 @@ public class ObjectInteraction : MonoBehaviour
             audioManager = GameObject
                 .FindGameObjectWithTag(gameManagerTag)
                 .GetComponentInChildren<AudioManager>();
-            canvas.enabled = false;
             openChestEffectParticleSystem = openChestEffect.GetComponent<ParticleSystem>();
+        }
+        if (isAKey || isAchect)
+        {
+            canvas.enabled = false;
         }
     }
 
@@ -172,6 +181,7 @@ public class ObjectInteraction : MonoBehaviour
     /// </summary>
     void Update()
     {
+        updateText();
         playerIsInRange = Physics.CheckSphere(
             gameObject.transform.position,
             range,
@@ -179,7 +189,7 @@ public class ObjectInteraction : MonoBehaviour
             QueryTriggerInteraction.Ignore
         );
 
-        if (playerIsInRange && inputListener.isInteracting() && !isAchect)
+        if (playerIsInRange && inputListener.isInteracting() && !isAchect && !isAKey)
         {
             questManager.addFind(gameObject);
         }
@@ -196,6 +206,39 @@ public class ObjectInteraction : MonoBehaviour
             }
             lockToThePlayer();
         }
+
+        if (isAKey)
+        {
+            checkIfThePlayerIsNearTheKey();
+
+            if (playerIsInRange && inputListener.isInteracting())
+            {
+                gameObject.GetComponent<ItemToFindTopenTheMiddel_Hnadler>().foundIT();
+                canvas.enabled = false;
+            }
+        }
+    }
+
+    private void checkIfThePlayerIsNearTheKey()
+    {
+        if (playerIsInRange)
+        {
+            Debug.Log("Player is near the key");
+            canvas.enabled = true;
+            lockToThePlayer();
+        }
+        else
+        {
+            canvas.enabled = false;
+        }
+    }
+
+    private void updateText()
+    {
+        // if (isAKey || isAchect)
+        // {
+        //     canvas.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Press  ";
+        // }
     }
 
     private void checkIfThePlayerIsNearTheChest()

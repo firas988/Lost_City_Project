@@ -721,6 +721,10 @@ PrefabInstance:
       propertyPath: InitialModule.startRotationY.minMaxState
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2312845953306737040, guid: 7fcafa3ed7bbc494580a2eefb218aec2, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2312845953307036866, guid: 7fcafa3ed7bbc494580a2eefb218aec2, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
