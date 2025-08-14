@@ -16,6 +16,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject blackScreen;
 
+    private InputListener inputListener;
+
+    private string GameManagerTag = "GameManager";
+
     //cooldown for all toggles (flag for each menu)
     private bool cooldownPauseOpen = false;
     private bool cooldownInventoryOpen = false;
@@ -25,11 +29,31 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        inputListener = GameObject.FindGameObjectWithTag(GameManagerTag)
+            .GetComponentInChildren<InputListener>();
         blackScreen.SetActive(false);
         blackScreen.GetComponent<RawImage>().color = new Color(0, 0, 0, 0);
         skillTreeMenu.SetActive(false);
         inventoryMenu.SetActive(false);
         fullMapMenu.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (inputListener.isPressingInventory())
+        {
+            toggleInventory();
+        }
+
+        if (inputListener.isPressingSkillTree())
+        {
+            toggleSkillTreeMenu();
+        }
+
+        if (inputListener.isPressingFullMap())
+        {
+            toggleFullMapMenu();
+        }
     }
 
     public IEnumerator FadeInBlackScreen(float fadeInAmount)
@@ -60,6 +84,7 @@ public class UIManager : MonoBehaviour
         blackScreen.SetActive(false);
         yield return null;
     }
+
 
     public void toggleInventory()
     {
@@ -160,5 +185,14 @@ public class UIManager : MonoBehaviour
         cooldownFullMapOpen = true;
         yield return new WaitForSeconds(cooldownTime);
         cooldownFullMapOpen = false;
+    }
+
+
+    public void hideAllMenus()
+    {
+        fullMapMenu.SetActive(false);
+        skillTreeMenu.SetActive(false);
+        inventoryMenu.SetActive(false);
+        blackScreen.SetActive(false);
     }
 }

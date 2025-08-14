@@ -5,9 +5,6 @@ using UnityEngine;
 public class InputListener : MonoBehaviour
 {
     [SerializeField]
-    private UIManager uiManager;
-
-    [SerializeField]
     private KeybindList keybindList;
 
     [Header("Keys Configuration")]
@@ -21,6 +18,8 @@ public class InputListener : MonoBehaviour
     private bool canMove = true;
     private bool canAttack = true;
     private bool canJump = true;
+
+    private bool canOpenMenu = true;
 
     public bool isPressingForward()
     {
@@ -67,10 +66,23 @@ public class InputListener : MonoBehaviour
         return interact_input;
     }
 
+    public bool isPressingInventory()
+    {
+        return Input.GetKeyDown(keybinds["Inventory"]) && canOpenMenu;
+    }
+
+    public bool isPressingSkillTree()
+    {
+        return Input.GetKeyDown(keybinds["SkillTree"]) && canOpenMenu;
+    }
+
+    public bool isPressingFullMap()
+    {
+        return Input.GetKeyDown(keybinds["FullMap"]) && canOpenMenu;
+    }
+
     private void Awake()
     {
-        uiManager = GameObject.Find("UI_Manager")?.GetComponent<UIManager>();
-
         if (keybinds == null)
         {
             keybinds = new Dictionary<string, KeyCode>();
@@ -128,19 +140,6 @@ public class InputListener : MonoBehaviour
         else
         {
             interact_input = false;
-        }
-
-        if (Input.GetKeyDown(keybinds["Inventory"]) && uiManager != null)
-        {
-            uiManager.toggleInventory();
-        }
-        if (Input.GetKeyDown(keybinds["SkillTree"]) && uiManager != null)
-        {
-            uiManager.toggleSkillTreeMenu();
-        }
-        if (Input.GetKeyDown(keybinds["FullMap"]) && uiManager != null)
-        {
-            uiManager.toggleFullMapMenu();
         }
     }
 
@@ -203,6 +202,16 @@ public class InputListener : MonoBehaviour
     public bool getCanJump()
     {
         return canJump;
+    }
+
+    public void setCanOpenMenu(bool canOpenMenu)
+    {
+        this.canOpenMenu = canOpenMenu;
+    }
+
+    public bool getCanOpenMenu()
+    {
+        return canOpenMenu;
     }
 
     public static bool setKeybind(string key, KeyCode keycode)
