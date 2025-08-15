@@ -17,6 +17,10 @@ public class UIManager : MonoBehaviour
     private GameObject blackScreen;
 
     [SerializeField]
+    private Camera pauseMenu;
+
+    [SerializeField]
+    private Camera mainCamera;
     private GameObject playerUI;
 
     [SerializeField]
@@ -61,6 +65,11 @@ public class UIManager : MonoBehaviour
         if (inputListener.isPressingFullMap())
         {
             toggleFullMapMenu();
+        }
+
+        if (inputListener.isPressingPause())
+        {
+            togglePauseMenu();
         }
     }
 
@@ -167,6 +176,31 @@ public class UIManager : MonoBehaviour
             }
             StartCoroutine(activateCooldownFullMapOpen(1.5f));
             fullMapMenu.SetActive(!fullMapMenu.activeSelf);
+        }
+    }
+
+    public void togglePauseMenu()
+    {
+        Debug.Log(Time.timeScale);
+        if (!cooldownPauseOpen)
+        {
+            if (pauseMenu.enabled)
+            {
+                mainCamera.enabled = true;
+                pauseMenu.enabled = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Time.timeScale = 1f;
+            }
+            else
+            {
+                mainCamera.enabled = false;
+                pauseMenu.enabled = true;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                Time.timeScale = 0f;
+            }
+            // StartCoroutine(activateCooldownPauseOpen(1.5f));
         }
     }
 
