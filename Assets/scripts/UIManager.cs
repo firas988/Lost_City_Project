@@ -16,6 +16,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject blackScreen;
 
+    [SerializeField]
+    private Camera pauseMenu;
+
+    [SerializeField]
+    private Camera mainCamera;
+
     private InputListener inputListener;
 
     private string GameManagerTag = "GameManager";
@@ -29,7 +35,8 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        inputListener = GameObject.FindGameObjectWithTag(GameManagerTag)
+        inputListener = GameObject
+            .FindGameObjectWithTag(GameManagerTag)
             .GetComponentInChildren<InputListener>();
         blackScreen.SetActive(false);
         blackScreen.GetComponent<RawImage>().color = new Color(0, 0, 0, 0);
@@ -53,6 +60,11 @@ public class UIManager : MonoBehaviour
         if (inputListener.isPressingFullMap())
         {
             toggleFullMapMenu();
+        }
+
+        if (inputListener.isPressingPause())
+        {
+            togglePauseMenu();
         }
     }
 
@@ -84,7 +96,6 @@ public class UIManager : MonoBehaviour
         blackScreen.SetActive(false);
         yield return null;
     }
-
 
     public void toggleInventory()
     {
@@ -158,6 +169,31 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void togglePauseMenu()
+    {
+        Debug.Log(Time.timeScale);
+        if (!cooldownPauseOpen)
+        {
+            if (pauseMenu.enabled)
+            {
+                mainCamera.enabled = true;
+                pauseMenu.enabled = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Time.timeScale = 1f;
+            }
+            else
+            {
+                mainCamera.enabled = false;
+                pauseMenu.enabled = true;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                Time.timeScale = 0f;
+            }
+            // StartCoroutine(activateCooldownPauseOpen(1.5f));
+        }
+    }
+
     //IEnumerator for cooldown for ea ch menu
     public IEnumerator activateCooldownInventoryOpen(float cooldownTime)
     {
@@ -186,7 +222,6 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(cooldownTime);
         cooldownFullMapOpen = false;
     }
-
 
     public void hideAllMenus()
     {
