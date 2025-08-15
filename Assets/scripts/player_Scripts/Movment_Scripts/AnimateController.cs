@@ -279,6 +279,8 @@ public class AnimateController : MonoBehaviour
         isTimeingtoFreeFall = false;
     }
 
+
+
     // Draw gizmo in the editor to visualize ground check sphere
     private void OnDrawGizmosSelected()
     {

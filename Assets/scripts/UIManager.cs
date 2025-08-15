@@ -19,6 +19,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject playerUI;
 
+    [SerializeField]
+    private GameObject bossHealthBar;
+
     private InputListener inputListener;
 
     private string GameManagerTag = "GameManager";
@@ -94,6 +97,9 @@ public class UIManager : MonoBehaviour
     {
         if (!cooldownInventoryOpen)
         {
+            CharacterPrevController characterPrevController = GameObject
+                .FindGameObjectWithTag("Player")
+                .GetComponentInChildren<CharacterPrevController>();
             fullMapMenu.SetActive(false);
             skillTreeMenu.SetActive(false);
 
@@ -102,12 +108,14 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(FadeOutBlackScreen(0f));
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                characterPrevController.hideCharacterPreview();
             }
             else
             {
                 StartCoroutine(FadeInBlackScreen(0.5f));
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                characterPrevController.showCharacterPreview();
             }
             StartCoroutine(activateCooldownInventoryOpen(1.5f));
             inventoryMenu.SetActive(!inventoryMenu.activeSelf);
@@ -213,5 +221,15 @@ public class UIManager : MonoBehaviour
     public void startFadeOutBlackScreen(float fadeOutAmount)
     {
         StartCoroutine(FadeOutBlackScreen(fadeOutAmount));
+    }
+
+    public void showBossHealthBar()
+    {
+        bossHealthBar.SetActive(true);
+    }
+
+    public void hideBossHealthBar()
+    {
+        bossHealthBar.SetActive(false);
     }
 }
