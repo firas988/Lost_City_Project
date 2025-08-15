@@ -27,7 +27,14 @@ public class MinimapArrow : MonoBehaviour
 
     void Update()
     {
-        player = GameObject.FindWithTag(playerTag).transform;
+        try
+        {
+            player = GameObject.FindWithTag(playerTag).transform;
+        }
+        catch (System.Exception)
+        {
+            return;
+        }
         minimapCamera = GameObject.FindWithTag(minimapCameraTag).GetComponent<Camera>();
         Vector3 viewportPos = minimapCamera.WorldToViewportPoint(targetPosition);
 

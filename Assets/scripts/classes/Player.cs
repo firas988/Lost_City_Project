@@ -270,6 +270,11 @@ public class Player
         this.currentHealth = Mathf.Min(this.maxHealth, this.currentHealth + health);
     }
 
+    public void resetHealth()
+    {
+        this.currentHealth = this.maxHealth;
+    }
+
     /// <summary>
     /// Adds a quest to the player's active quest list if it's not already present.
     /// Prevents duplicate quests from the same quest giver.

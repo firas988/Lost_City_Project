@@ -3463,7 +3463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b94300ec96488459bcc8f5b68d0d9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiManager: {fileID: 0}
   keybindList: {fileID: 11400000, guid: 2b58998824acaf143919ef18ddbe5b24, type: 2}
 --- !u!1 &1145964628664196488
 GameObject:
@@ -23263,6 +23262,7 @@ MonoBehaviour:
   skillTreeMenu: {fileID: 7680137219777340763}
   inventoryMenu: {fileID: 5400760644251087849}
   blackScreen: {fileID: 8620935035135249639}
+  playerUI: {fileID: 3247999123034367731}
 --- !u!1 &7016751713367137886
 GameObject:
   m_ObjectHideFlags: 0

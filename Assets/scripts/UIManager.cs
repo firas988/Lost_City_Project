@@ -16,6 +16,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject blackScreen;
 
+    [SerializeField]
+    private GameObject playerUI;
+
     private InputListener inputListener;
 
     private string GameManagerTag = "GameManager";
@@ -29,13 +32,15 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        inputListener = GameObject.FindGameObjectWithTag(GameManagerTag)
+        inputListener = GameObject
+            .FindGameObjectWithTag(GameManagerTag)
             .GetComponentInChildren<InputListener>();
         blackScreen.SetActive(false);
         blackScreen.GetComponent<RawImage>().color = new Color(0, 0, 0, 0);
         skillTreeMenu.SetActive(false);
         inventoryMenu.SetActive(false);
         fullMapMenu.SetActive(false);
+        playerUI.SetActive(true);
     }
 
     private void Update()
@@ -84,7 +89,6 @@ public class UIManager : MonoBehaviour
         blackScreen.SetActive(false);
         yield return null;
     }
-
 
     public void toggleInventory()
     {
@@ -187,12 +191,27 @@ public class UIManager : MonoBehaviour
         cooldownFullMapOpen = false;
     }
 
-
     public void hideAllMenus()
     {
         fullMapMenu.SetActive(false);
         skillTreeMenu.SetActive(false);
         inventoryMenu.SetActive(false);
         blackScreen.SetActive(false);
+        playerUI.SetActive(false);
+    }
+
+    public void showPlayerUI()
+    {
+        playerUI.SetActive(true);
+    }
+
+    public void startFadeInBlackScreen(float fadeInAmount)
+    {
+        StartCoroutine(FadeInBlackScreen(fadeInAmount));
+    }
+
+    public void startFadeOutBlackScreen(float fadeOutAmount)
+    {
+        StartCoroutine(FadeOutBlackScreen(fadeOutAmount));
     }
 }
