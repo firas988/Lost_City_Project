@@ -81,6 +81,11 @@ public class InputListener : MonoBehaviour
         return Input.GetKeyDown(keybinds["FullMap"]) && canOpenMenu;
     }
 
+    public bool isPressingPause()
+    {
+        return Input.GetKeyDown(KeyCode.Escape);
+    }
+
     private void Awake()
     {
         if (keybinds == null)
@@ -96,6 +101,8 @@ public class InputListener : MonoBehaviour
 
     void Update()
     {
+        transform.Rotate(0f, 90 * Time.unscaledDeltaTime, 0f);
+
         horizontal_input = 0f;
         vertical_input = 0f;
 
