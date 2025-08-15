@@ -32,6 +32,7 @@ public class FinalBossControl : MonoBehaviour
     private float dashToTargetDamage = 100f;
 
     private BossBarHandler bossBarHandler;
+    private string gameManagerTag = "GameManager";
 
     private void Start()
     {
@@ -43,11 +44,24 @@ public class FinalBossControl : MonoBehaviour
         finalBoss_AttackControl = GetComponent<FinalBoss_AttackControl>();
         spawn_Drakonit_Handler = GetComponent<Spawn_Drakonit_Handler>();
         npcNavigation = GetComponent<NPCnavigation>();
-        bossBarHandler = FindAnyObjectByType<BossBarHandler>();
+        bossBarHandler = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .transform.parent.GetComponentInChildren<BossBarHandler>();
     }
 
     private void Update()
     {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag(playerTag);
+        }
+        if (bossBarHandler == null)
+        {
+            bossBarHandler = GameObject
+                .FindGameObjectWithTag(gameManagerTag)
+                .transform.parent.GetComponentInChildren<BossBarHandler>();
+        }
+
         controlBossState();
 
         if (LookAtPlayer)
@@ -84,10 +98,10 @@ public class FinalBossControl : MonoBehaviour
             npcNavigation.itWalk();
         }
 
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     entity.setHealth(0);
-        // }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            entity.setHealth(0);
+        }
     }
 
     private void controlBossState()
@@ -135,16 +149,20 @@ public class FinalBossControl : MonoBehaviour
             yield return new WaitForSeconds(8f);
         }
         MoveToPlayerToAttack = true;
-        yield return new WaitForSeconds(Random.Range(30f, 60f));
+        yield return new WaitForSeconds(Random.Range(10f, 30f));
         MoveToPlayerToAttack = false;
         yield return new WaitForSeconds(0.8f);
 
-        if (!spawn_Drakonit_Handler.getIsEnemiesSpawned())
+        if (!spawn_Drakonit_Handler.getIsEnemiesSpawned() && !entity.isDead())
         {
             spawnEnemy(10);
             canMove = false;
             yield return new WaitForSeconds(5f);
             canMove = true;
+        }
+        else if (entity.isDead())
+        {
+            spawn_Drakonit_Handler.killAllEnemies();
         }
         inCoroutine = false;
     }

@@ -6,6 +6,7 @@ public enum RewardType
 {
     XP,
     Weapon,
+    None,
 }
 
 /// <summary>

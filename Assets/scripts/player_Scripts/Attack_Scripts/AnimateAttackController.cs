@@ -63,4 +63,9 @@ public class AnimateAttackController : MonoBehaviour
         animator.SetBool("isAttack", false);
         animator.SetTrigger("StopAttack");
     }
+
+    public void spawnAnimation()
+    {
+        animator.SetTrigger("Spawn");
+    }
 }

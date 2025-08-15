@@ -173,4 +173,15 @@ public class Spawn_Drakonit_Handler : MonoBehaviour
     {
         enemyPlaceHolder = enemiesPlaceHolder;
     }
+
+    public void killAllEnemies()
+    {
+        for (int i = enemies.Count - 1; i >= 0; i--)
+        {
+            Destroy(enemies[i]);
+        }
+        enemies.Clear();
+        isEnemiesSpawned = false;
+        isCrystalSpawned = false;
+    }
 }

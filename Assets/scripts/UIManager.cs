@@ -21,6 +21,10 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Camera mainCamera;
+    private GameObject playerUI;
+
+    [SerializeField]
+    private GameObject bossHealthBar;
 
     private InputListener inputListener;
 
@@ -43,6 +47,7 @@ public class UIManager : MonoBehaviour
         skillTreeMenu.SetActive(false);
         inventoryMenu.SetActive(false);
         fullMapMenu.SetActive(false);
+        playerUI.SetActive(true);
     }
 
     private void Update()
@@ -101,6 +106,9 @@ public class UIManager : MonoBehaviour
     {
         if (!cooldownInventoryOpen)
         {
+            CharacterPrevController characterPrevController = GameObject
+                .FindGameObjectWithTag("Player")
+                .GetComponentInChildren<CharacterPrevController>();
             fullMapMenu.SetActive(false);
             skillTreeMenu.SetActive(false);
 
@@ -109,12 +117,14 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(FadeOutBlackScreen(0f));
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                characterPrevController.hideCharacterPreview();
             }
             else
             {
                 StartCoroutine(FadeInBlackScreen(0.5f));
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                characterPrevController.showCharacterPreview();
             }
             StartCoroutine(activateCooldownInventoryOpen(1.5f));
             inventoryMenu.SetActive(!inventoryMenu.activeSelf);
@@ -229,5 +239,31 @@ public class UIManager : MonoBehaviour
         skillTreeMenu.SetActive(false);
         inventoryMenu.SetActive(false);
         blackScreen.SetActive(false);
+        playerUI.SetActive(false);
+    }
+
+    public void showPlayerUI()
+    {
+        playerUI.SetActive(true);
+    }
+
+    public void startFadeInBlackScreen(float fadeInAmount)
+    {
+        StartCoroutine(FadeInBlackScreen(fadeInAmount));
+    }
+
+    public void startFadeOutBlackScreen(float fadeOutAmount)
+    {
+        StartCoroutine(FadeOutBlackScreen(fadeOutAmount));
+    }
+
+    public void showBossHealthBar()
+    {
+        bossHealthBar.SetActive(true);
+    }
+
+    public void hideBossHealthBar()
+    {
+        bossHealthBar.SetActive(false);
     }
 }

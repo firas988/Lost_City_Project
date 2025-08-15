@@ -43,9 +43,6 @@ public class PlayerAttackController : MonoBehaviour
     [SerializeField]
     private GameObject WeaponHolder;
 
-    /// <summary>Reference to the statistics handler.</summary>
-    private StatisticsHandler statisticsHandler;
-
     /// ===== BOOLEANS =====
     /// <summary>Tracks whether the player is currently attacking.</summary>
     [SerializeField]
@@ -60,11 +57,11 @@ public class PlayerAttackController : MonoBehaviour
     /// <summary>Prevents multiple damage events in one swing.</summary>
     private bool isHit = false;
 
-    /// <summary>Tracks whether the player is dead.</summary>
-    private bool isDead = false;
 
     /// <summary>Tracks whether the player can deal damage.</summary>
     private bool canDealDamage = true;
+
+    private string gameManagerTag = "GameManager";
 
     /// ===== METHODS =====
     /// <summary>Initializes player, animator, and references.</summary>
@@ -73,9 +70,8 @@ public class PlayerAttackController : MonoBehaviour
         animateAttackController = GetComponent<AnimateAttackController>();
         startPlayer = GetComponent<StartPlayer>();
         player = startPlayer.getPlayer();
-        inputListener = FindAnyObjectByType<InputListener>();
+        inputListener = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<InputListener>();
         inventory = player.getInventory();
-        statisticsHandler = FindAnyObjectByType<StatisticsHandler>();
     }
 
     /// <summary>Checks input and weapon state, and handles toggled attack state.</summary>
@@ -95,7 +91,6 @@ public class PlayerAttackController : MonoBehaviour
             }
         }
 
-        checkDeath();
     }
 
     private void checkActivateAttack()
@@ -107,21 +102,6 @@ public class PlayerAttackController : MonoBehaviour
         else if (isToggleActivateAttack && player.getWeapon() == null)
         {
             isToggleActivateAttack = false;
-        }
-    }
-
-    /// <summary>
-    /// Disables input and plays death animation if the player is dead.
-    /// </summary>
-    public void checkDeath()
-    {
-        if (player.isDead() && !isDead)
-        {
-            inputListener.setCanAttack(false);
-            inputListener.setCanMove(false);
-            animateAttackController.DeathAnimation();
-            statisticsHandler.Death();
-            isDead = true;
         }
     }
 
