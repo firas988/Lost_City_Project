@@ -155,7 +155,7 @@ public class FinalBoss_AttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         if (attackCount <= 1)
         {
-            audioManager.playEnemy(audioSource, "Bear_Attack1");
+            audioManager.playEnemy(audioSource, "FinalBoss_Attack");
         }
     }
 

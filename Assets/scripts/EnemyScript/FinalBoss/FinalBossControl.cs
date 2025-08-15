@@ -34,6 +34,12 @@ public class FinalBossControl : MonoBehaviour
     private BossBarHandler bossBarHandler;
     private string gameManagerTag = "GameManager";
 
+    /// <summary>Reference to the AudioSource component for playing attack sounds.</summary>
+    private AudioSource audioSource;
+
+    /// <summary>Reference to the AudioManager script for playing attack sounds.</summary>
+    private AudioManager audioManager;
+
     private void Start()
     {
         startNpc = GetComponent<StartNpc>();
@@ -47,6 +53,10 @@ public class FinalBossControl : MonoBehaviour
         bossBarHandler = GameObject
             .FindGameObjectWithTag(gameManagerTag)
             .transform.parent.GetComponentInChildren<BossBarHandler>();
+        audioSource = GetComponent<AudioSource>();
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .transform.parent.GetComponentInChildren<AudioManager>();
     }
 
     private void Update()
@@ -212,6 +222,7 @@ public class FinalBossControl : MonoBehaviour
 
     private void spawnEnemy(int numberOfEnemiesToSpawn)
     {
+        audioManager.playEnemy(audioSource, "Summon_Enemy_Final_Boss");
         finalBoss_AnimationControl.startSummoningAnimation();
         spawn_Drakonit_Handler.startSpawnEnemies(numberOfEnemiesToSpawn, 10f);
     }

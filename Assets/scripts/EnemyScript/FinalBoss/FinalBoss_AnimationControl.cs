@@ -22,7 +22,6 @@ public class FinalBoss_AnimationControl : MonoBehaviour
             .FindGameObjectWithTag(gameManagerTag)
             .GetComponentInChildren<AudioManager>();
         audioSource = GetComponent<AudioSource>();
-
     }
 
     void Update()
@@ -69,7 +68,7 @@ public class FinalBoss_AnimationControl : MonoBehaviour
         if (entity.isDead() && !isDead)
         {
             audioSource.Stop();
-            audioManager.playEnemy(audioSource, transform.tag + "_Death");
+            audioManager.playEnemy(audioSource, "FinalBosss_Death");
             KillEnemyHandler.KilledEnemy(transform.tag);
             finalBossControl.setCanMove(false);
             animator.SetTrigger("isDead");
