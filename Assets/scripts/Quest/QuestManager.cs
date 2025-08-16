@@ -186,6 +186,7 @@ public class QuestManager : MonoBehaviour
     /// <param name="objectFound">The GameObject that was found, used to match against quest targets.</param>
     public void addFind(GameObject objectFound)
     {
+        Debug.Log("addFind" + objectFound.tag);
         FindQuest questToInc = activeFindQuests.Find(questToFind =>
             questToFind != null
             && string.Join(", ", questToFind.QuestTarget).Contains(objectFound.tag)

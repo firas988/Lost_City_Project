@@ -21,6 +21,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Camera mainCamera;
+
+    [SerializeField]
+    private PlayerController playerController;
+
+    [SerializeField]
     private GameObject playerUI;
 
     [SerializeField]
@@ -47,7 +52,11 @@ public class UIManager : MonoBehaviour
         skillTreeMenu.SetActive(false);
         inventoryMenu.SetActive(false);
         fullMapMenu.SetActive(false);
-        playerUI.SetActive(true);
+        mainCamera = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Camera>();
+        playerController = GameObject
+            .FindGameObjectWithTag("Player")
+            .GetComponent<PlayerController>();
+        playerUI?.SetActive(true);
     }
 
     private void Update()
@@ -118,6 +127,7 @@ public class UIManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 characterPrevController.hideCharacterPreview();
+                playerController.setCameraRotation(true);
             }
             else
             {
@@ -125,6 +135,7 @@ public class UIManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 characterPrevController.showCharacterPreview();
+                playerController.setCameraRotation(false);
             }
             StartCoroutine(activateCooldownInventoryOpen(1.5f));
             inventoryMenu.SetActive(!inventoryMenu.activeSelf);
@@ -142,12 +153,14 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(FadeOutBlackScreen(0f));
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                playerController.setCameraRotation(true);
             }
             else
             {
                 StartCoroutine(FadeInBlackScreen(0.5f));
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                playerController.setCameraRotation(false);
             }
             StartCoroutine(activateCooldownSkillTreeOpen(1.5f));
             skillTreeMenu.SetActive(!skillTreeMenu.activeSelf);
@@ -167,12 +180,14 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(FadeOutBlackScreen(0f));
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                playerController.setCameraRotation(true);
             }
             else
             {
                 StartCoroutine(FadeInBlackScreen(0.5f));
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                playerController.setCameraRotation(false);
             }
             StartCoroutine(activateCooldownFullMapOpen(1.5f));
             fullMapMenu.SetActive(!fullMapMenu.activeSelf);
@@ -191,6 +206,8 @@ public class UIManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 Time.timeScale = 1f;
+                playerUI.SetActive(true);
+                playerController.setCameraRotation(true);
             }
             else
             {
@@ -199,6 +216,8 @@ public class UIManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 Time.timeScale = 0f;
+                playerUI.SetActive(false);
+                playerController.setCameraRotation(false);
             }
             // StartCoroutine(activateCooldownPauseOpen(1.5f));
         }
