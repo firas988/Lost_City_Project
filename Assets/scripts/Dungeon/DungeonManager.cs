@@ -7,6 +7,18 @@ public class DungeonManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> rooms;
 
+    [SerializeField]
+    private string bossTag = "WolfBoss";
+
+    [SerializeField]
+    private string roomExitTag = "RoomExit";
+
+    [SerializeField]
+    private string enemiesName = "Enemies";
+
+    [SerializeField]
+    private string finalBossEnterName = "FinalBossEnter";
+
     private int currentRoomIndex;
 
     private GameObject boss;
@@ -14,10 +26,10 @@ public class DungeonManager : MonoBehaviour
     void Start()
     {
         currentRoomIndex = 0;
-        boss = GameObject.FindWithTag("WolfBoss");
+        boss = GameObject.FindWithTag(bossTag);
         foreach (GameObject room in rooms)
         {
-            GameObject enemies = room.transform.Find("Enemies").gameObject;
+            GameObject enemies = room.transform.Find(enemiesName).gameObject;
             if (enemies != null)
             {
                 foreach (Transform child in enemies.transform)
@@ -52,15 +64,9 @@ public class DungeonManager : MonoBehaviour
 
                 return;
             }
-            foreach (Transform child in rooms[currentRoomIndex].transform)
-            {
-                if (child.gameObject.tag == "RoomExit")
-                {
-                    child.gameObject.SetActive(true);
-                }
-            }
+            blockCurrentRoom();
 
-            GameObject enemies = rooms[currentRoomIndex].transform.Find("Enemies").gameObject;
+            GameObject enemies = rooms[currentRoomIndex].transform.Find(enemiesName).gameObject;
             if (enemies != null)
             {
                 foreach (Transform child in enemies.transform)
@@ -77,7 +83,7 @@ public class DungeonManager : MonoBehaviour
     {
         enemy.GetComponent<DissolvingController>().StartDeDissolve();
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(5f);
 
         EnemyMovement enemyMovement = enemy.GetComponent<EnemyMovement>();
         EnemyHealthBar enemyHealthBar = enemy.GetComponentInChildren<EnemyHealthBar>();
@@ -103,10 +109,26 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
+    public void blockCurrentRoom()
+    {
+        foreach (Transform child in rooms[currentRoomIndex].transform)
+        {
+            if (child.gameObject.tag == roomExitTag)
+            {
+                child.gameObject.SetActive(true);
+            }
+        }
+    }
+
     public void spawnBoss()
     {
         boss.SetActive(true);
         boss.GetComponent<WolfBossChasing>().setCanMove(false);
+        blockCurrentRoom();
+    }
+
+    public void DeDissolveBoss()
+    {
         StartCoroutine(WaitForEnemiesToDeDissolve(boss));
     }
 
@@ -115,7 +137,7 @@ public class DungeonManager : MonoBehaviour
         //find the levelExit in the current room
         foreach (Transform child in rooms[currentRoomIndex].transform)
         {
-            if (child.gameObject.tag == "RoomExit")
+            if (child.gameObject.tag == roomExitTag)
             {
                 child.gameObject.SetActive(false);
             }
@@ -128,19 +150,25 @@ public class DungeonManager : MonoBehaviour
 
     public void StartFinallBossScene()
     {
-        GameObject.Find("dungeon").transform.Find("FinalBossEnter").gameObject.SetActive(true);
+        GameObject player = GameObject.FindWithTag("Player");
+        player.GetComponent<PlayerController>().transform.position = rooms[rooms.Count - 1]
+            .transform.Find("Entrance")
+            .position;
+        player.SetActive(false);
+
+        GameObject.Find("dungeon").transform.Find(finalBossEnterName).gameObject.SetActive(true);
     }
 
     public void StopFinallBossScene()
     {
-        GameObject.Find("dungeon").transform.Find("FinalBossEnter").gameObject.SetActive(false);
+        GameObject.Find("dungeon").transform.Find(finalBossEnterName).gameObject.SetActive(false);
     }
 
     public void closeFinalRoom()
     {
         foreach (Transform child in rooms[rooms.Count - 1].transform)
         {
-            if (child.gameObject.tag == "RoomExit")
+            if (child.gameObject.tag == roomExitTag)
             {
                 child.gameObject.SetActive(true);
             }

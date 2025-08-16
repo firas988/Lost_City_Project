@@ -11101,7 +11101,6 @@ MonoBehaviour:
   themeController: {fileID: 11400000, guid: e00c7d2bc58a2424b8dc09ecdafdb067, type: 2}
   mainCanvas: {fileID: 1375772291185004}
   PanelControls: {fileID: 1232108620229074}
-  PanelVideo: {fileID: 1739252033820432}
   PanelGame: {fileID: 1215913071906008}
   PanelKeyBindings: {fileID: 1355904761473586}
   PanelMovement: {fileID: 1777028094296564}

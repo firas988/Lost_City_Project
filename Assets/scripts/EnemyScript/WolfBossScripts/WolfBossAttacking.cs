@@ -12,6 +12,12 @@ public class WolfBossAttacking : MonoBehaviour
     private GameObject player;
 
     [SerializeField]
+    private AudioManager audioManager;
+
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
     private UnityEngine.AI.NavMeshAgent navMeshAgent;
 
     [SerializeField]
@@ -24,7 +30,7 @@ public class WolfBossAttacking : MonoBehaviour
     private float swingAttackDamage = 40f;
 
     [SerializeField]
-    private bool swingAttackOnCooldown ;
+    private bool swingAttackOnCooldown;
 
     [SerializeField]
     private float roarAttackRange;
@@ -36,7 +42,7 @@ public class WolfBossAttacking : MonoBehaviour
     private float roarAttackDamage = 10f;
 
     [SerializeField]
-    private bool roarAttackOnCooldown ;
+    private bool roarAttackOnCooldown;
 
     [SerializeField]
     private float jumpAttackRange;
@@ -48,7 +54,7 @@ public class WolfBossAttacking : MonoBehaviour
     private float jumpAttackDamage = 20f;
 
     [SerializeField]
-    private bool jumpAttackOnCooldown ;
+    private bool jumpAttackOnCooldown;
 
     [SerializeField]
     private GameObject sphereRange;
@@ -62,9 +68,9 @@ public class WolfBossAttacking : MonoBehaviour
     [SerializeField]
     private bool isHitting = false;
 
+    private string gameManagerTag = "GameManager";
 
-
-    private int [] attackRangeForStun =  {3,6};
+    private int[] attackRangeForStun = { 3, 6 };
     private Vector2 stunTime;
 
     private int attacksTillStun;
@@ -75,8 +81,9 @@ public class WolfBossAttacking : MonoBehaviour
     private HandCollisionObserver handCollisionObserver;
     private JumpAttackColliderObserver jumpAttackColliderObserver;
     private RoarCollideObserver roarColliderObserver;
+
     //lamba expressions for the sphere checks
-  
+
     private List<string> possibleAttacks = new List<string>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -87,9 +94,14 @@ public class WolfBossAttacking : MonoBehaviour
         handCollisionObserver = GetComponentInChildren<HandCollisionObserver>();
         jumpAttackColliderObserver = GetComponentInChildren<JumpAttackColliderObserver>();
         roarColliderObserver = GetComponentInChildren<RoarCollideObserver>();
-        attacks = GameObject.FindObjectOfType<EnemyAttackesConvert>().getEnemyAttacks(gameObject.tag);
+        attacks = GameObject
+            .FindObjectOfType<EnemyAttackesConvert>()
+            .getEnemyAttacks(gameObject.tag);
         player = GameObject.FindObjectOfType<StartPlayer>().gameObject;
-
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
 
         swingAttackRange = attacks.Find(attack => attack.attackName == "Swing").attackRange;
         swingAttackDamage = attacks.Find(attack => attack.attackName == "Swing").attackDamage;
@@ -100,9 +112,8 @@ public class WolfBossAttacking : MonoBehaviour
         jumpAttackRange = attacks.Find(attack => attack.attackName == "JumpAttack").attackRange;
         jumpAttackDamage = attacks.Find(attack => attack.attackName == "JumpAttack").attackDamage;
         jumpAttackOnCooldown = false;
-      
 
-        stunTime = new Vector2(3,5);
+        stunTime = new Vector2(3, 5);
         attacksTillStun = Random.Range(attackRangeForStun[0], attackRangeForStun[1]);
         countAttacks = 0;
     }
@@ -115,15 +126,11 @@ public class WolfBossAttacking : MonoBehaviour
             return;
         }
 
-        
         if (countAttacks >= attacksTillStun)
         {
-                   
             StartCoroutine(StunTime());
             return;
-                   
         }
-       
 
         bool playerInSwingAttackRange = Physics.CheckSphere(
             sphereSwingAttack.transform.position,
@@ -141,7 +148,6 @@ public class WolfBossAttacking : MonoBehaviour
             LayerMask.GetMask("Player")
         );
 
-       
         Debug.Log("playerInJumpAttackRange: " + playerInJumpAttackRange);
 
         if (playerInSwingAttackRange && !swingAttackOnCooldown)
@@ -175,59 +181,70 @@ public class WolfBossAttacking : MonoBehaviour
 
             if (randomAttack == "Swing" && !swingAttackOnCooldown)
             {
-                //double check if player is in range
-                if (
-                    Physics.CheckSphere(
-                        sphereSwingAttack.transform.position,
-                        swingAttackRange,
-                        LayerMask.GetMask("Player")
-                    )
-                )
-                {
-                    //attack player
-                    animator.SetBool("Swing", true);
-                    swingAttackOnCooldown = true;
-                    navMeshAgent.enabled = false;
-                    isAttacking = true;
-                    currentAttack = attacks.Find(attack => attack.attackName == "Swing");
-                    countAttacks++;
-                }
+                doubleCheckSwingRange();
             }
             else if (randomAttack == "Roar" && !roarAttackOnCooldown)
             {
-                //double check if player is in range
-                if (
-                    Physics.CheckSphere(
-                        sphereRange.transform.position,
-                        roarAttackRange,
-                        LayerMask.GetMask("Player")
-                    )
-                )
-                {
-                    //attack player
-                    animator.SetBool("Roar", true);
-                    roarAttackOnCooldown = true;
-                    navMeshAgent.enabled = false;
-                    isAttacking = true;
-                    currentAttack = attacks.Find(attack => attack.attackName == "Roar");
-                    countAttacks++;
-                }
+                doubleCheckRoarRange();
+               
             }
             else if (randomAttack == "JumpAttack" && !jumpAttackOnCooldown)
             {
+               doubleCheckBoltRange();
+            }
+            else
+            {
+                isAttacking = false;
+            }
+        }
 
-                Debug.Log("JumpAttack: " + Physics.CheckSphere(
-                        sphereRange.transform.position,
-                        jumpAttackRange,
-                        LayerMask.GetMask("Player"))
-                    + " \n"+ 
-                    
-                    "Roar Attack: " + Physics.CheckSphere(
-                        sphereRange.transform.position,
-                        roarAttackRange,
-                        LayerMask.GetMask("Player")
-                    ));
-                //double check if player is in range and has no options other than jump attack
+        possibleAttacks.Clear();
+    }
+
+    public void doubleCheckSwingRange()
+    {
+        //double check if player is in range
+        if (
+            Physics.CheckSphere(
+                sphereSwingAttack.transform.position,
+                swingAttackRange,
+                LayerMask.GetMask("Player")
+            )
+        )
+        {
+            //attack player
+            animator.SetBool("Swing", true);
+            swingAttackOnCooldown = true;
+            navMeshAgent.enabled = false;
+            isAttacking = true;
+            currentAttack = attacks.Find(attack => attack.attackName == "Swing");
+            countAttacks++;
+        }
+    }
+
+  public void doubleCheckRoarRange(){
+        //double check if player is in range
+        if (
+            Physics.CheckSphere(
+                sphereRange.transform.position,
+                roarAttackRange,
+                LayerMask.GetMask("Player")
+            )
+        )
+        {
+            //attack player
+            animator.SetBool("Roar", true);
+            roarAttackOnCooldown = true;
+            navMeshAgent.enabled = false;
+            isAttacking = true;
+            currentAttack = attacks.Find(attack => attack.attackName == "Roar");
+            countAttacks++;
+        }
+    }
+
+
+  public void doubleCheckBoltRange(){
+ //double check if player is in range and has no options other than jump attack
                 if (
                     Physics.CheckSphere(
                         sphereRange.transform.position,
@@ -241,7 +258,6 @@ public class WolfBossAttacking : MonoBehaviour
                     )
                 )
                 {
-                   
                     //attack player
                     animator.SetBool("JumpAttack", true);
                     jumpAttackOnCooldown = true;
@@ -250,17 +266,7 @@ public class WolfBossAttacking : MonoBehaviour
                     currentAttack = attacks.Find(attack => attack.attackName == "JumpAttack");
                     countAttacks++;
                 }
-
-            }
-            else
-            {
-                isAttacking = false;
-            }
-        }
-
-        possibleAttacks.Clear();
-    }
-
+  }
     public void activateNavMeshAgent()
     {
         navMeshAgent.enabled = true;
@@ -286,7 +292,7 @@ public class WolfBossAttacking : MonoBehaviour
 
     public IEnumerator StunTime()
     {
-        player.GetComponent<PlayerAttackController>().SetCanDealDamage(false);
+        player.GetComponent<PlayerAttackController>().SetCanDealDamage(true);
         animator.SetBool("IsStun", true);
         navMeshAgent.enabled = false;
         yield return new WaitForSeconds(Random.Range(stunTime.x, stunTime.y));
@@ -294,7 +300,7 @@ public class WolfBossAttacking : MonoBehaviour
         animator.SetBool("IsStun", false);
         attacksTillStun = (int)Random.Range(attackRangeForStun[0], attackRangeForStun[1]);
         countAttacks = 0;
-        player.GetComponent<PlayerAttackController>().SetCanDealDamage(true);
+        player.GetComponent<PlayerAttackController>().SetCanDealDamage(false);
     }
 
     public void enableHandCollider()
@@ -354,5 +360,20 @@ public class WolfBossAttacking : MonoBehaviour
     public float getCurrentAttackDMG()
     {
         return currentAttack.attackDamage;
+    }
+
+    public void playRoarAttackSound()
+    {
+        audioManager.playEnemy(audioSource, "WolfBossRoar");
+    }
+
+    public void playJumpAttackSound()
+    {
+        audioManager.playEnemy(audioSource, "WolfBossBolt");
+    }
+
+    public void playSwingAttackSound()
+    {
+        audioManager.playEnemy(audioSource, "WolfBossSwing");
     }
 }
