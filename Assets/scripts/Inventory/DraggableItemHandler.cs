@@ -78,6 +78,8 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
     /// </summary>
     private string armorSlotTag = "ArmorSlot";
 
+    private string gameManagerTag = "GameManager";
+
     /// <summary>
     /// Initializes references to inventory manager, inventory and input listener.
     /// </summary>
@@ -86,7 +88,9 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
         inventoryManager = FindAnyObjectByType<InventoryManager>();
         inventory = inventoryManager.getInventory();
         inputListener = FindAnyObjectByType<InputListener>();
-        audioManager = FindAnyObjectByType<AudioManager>();
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -134,7 +138,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
             draggableItem = eventData.pointerCurrentRaycast.gameObject;
             if (draggableItem.CompareTag(deleteItemTag))
             {
-                audioManager.playSFX(audioSource, "DeleteItemFromInventory");
+                audioManager.playUI(audioSource, "DeleteItemFromInventory");
                 TryDeleteItem();
             }
             else if (draggableItem.CompareTag(slotTag))
@@ -193,7 +197,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
                     if (isSuccess)
                     {
                         slot.addCount(slotDraggableItem.getCount());
-                        audioManager.playSFX(audioSource, "PutItemInInventory");
+                        audioManager.playUI(audioSource, "PutItemInInventory");
                         slotDraggableItem.ClearSlot();
                         TryDeleteItem();
                     }
@@ -212,7 +216,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
                     {
                         slot.addCount(count);
                         slotDraggableItem.removeCount(count);
-                        audioManager.playSFX(audioSource, "PutItemInInventory");
+                        audioManager.playUI(audioSource, "PutItemInInventory");
                     }
                 }
             }
@@ -230,7 +234,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
         );
         if (isSuccess)
         {
-            audioManager.playSFX(audioSource, "PutItemInInventory");
+            audioManager.playUI(audioSource, "PutItemInInventory");
             slot.SetItem(slotDraggableItem.getItem(), slotDraggableItem.getCount());
             slotDraggableItem.ClearSlot();
             TryDeleteItem();
@@ -249,7 +253,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
             slotDraggableItem.SetItem(item, 1);
             isDraggableItemHaveAPrefab = true;
             // TODO: Play take item from armor slot audio   i have to change the audio controller
-            audioManager.playSFX(audioSource, "TakeItemFromInventory");
+            audioManager.playUI(audioSource, "TakeItemFromInventory");
         }
         else
         {
@@ -273,7 +277,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
             {
                 if (inventoryManager.TryPutItemToArmorSlot(item, cosmeticType))
                 {
-                    audioManager.playSFX(audioSource, "PutItemInInventory");
+                    audioManager.playUI(audioSource, "PutItemInInventory");
                     TryDeleteItem();
                 }
             }
@@ -328,7 +332,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
                     {
                         slot.addCount(slotDraggableItem.getCount());
 
-                        audioManager.playSFX(audioSource, "PutItemInInventory");
+                        audioManager.playUI(audioSource, "PutItemInInventory");
                         slotDraggableItem.ClearSlot();
                         TryDeleteItem();
                     }
@@ -347,7 +351,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
                     );
                     if (isSuccess)
                     {
-                        audioManager.playSFX(audioSource, "PutItemInInventory");
+                        audioManager.playUI(audioSource, "PutItemInInventory");
                     }
                 }
             }
@@ -372,7 +376,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
             );
             if (isSuccess)
             {
-                audioManager.playSFX(audioSource, "PutItemInInventory");
+                audioManager.playUI(audioSource, "PutItemInInventory");
                 slot.setEmpty(false);
                 slot.SetItem(slotDraggableItem.getItem(), slotDraggableItem.getCount());
                 TryDeleteItem();
@@ -410,7 +414,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
                 if (item != null)
                 {
                     slotDraggableItem.addCount(1);
-                    audioManager.playSFX(audioSource, "TakeItemFromInventory");
+                    audioManager.playUI(audioSource, "TakeItemFromInventory");
                 }
             }
         }
@@ -435,7 +439,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
                 draggableItemPrefab.SetActive(true);
                 slotDraggableItem.SetItem(item, 1);
                 isDraggableItemHaveAPrefab = true;
-                audioManager.playSFX(audioSource, "TakeItemFromInventory");
+                audioManager.playUI(audioSource, "TakeItemFromInventory");
             }
         }
         else
@@ -468,7 +472,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
             draggableItemPrefab.SetActive(true);
             slotDraggableItem.SetItem(items[0], items.Count);
             isDraggableItemHaveAPrefab = true;
-            audioManager.playSFX(audioSource, "TakeItemFromInventory");
+            audioManager.playUI(audioSource, "TakeItemFromInventory");
         }
         else
         {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -12,6 +13,9 @@ public class PlayerController : MonoBehaviour
     private AnimateController animateController; // Reference to AnimateController script
     private InputListener inputListener; // Reference to InputListener script
     private StatisticsHandler statisticsHandler; // Reference to StatisticsHandler script
+
+    private AudioSource audioSource;
+    private AudioManager audioManager;
 
     [SerializeField]
     private new Transform camera; // Reference to camera for directional movement
@@ -47,6 +51,17 @@ public class PlayerController : MonoBehaviour
     private float verticalVelocity; // Tracks current Y velocity
     private float currentSpeed; // Current speed, smoothed between walking and sprinting
 
+    private string gameManagerTag = "GameManager";
+
+    [Header("Audio Settings")]
+    [SerializeField]
+    private List<string> footStepSounds;
+
+    [SerializeField]
+    private string landSound;
+
+    private int footStepSoundIndex = 0;
+
     void Start()
     {
         // Lock cursor for gameplay immersion
@@ -57,6 +72,10 @@ public class PlayerController : MonoBehaviour
         animateController = GetComponent<AnimateController>();
         inputListener = FindAnyObjectByType<InputListener>();
         statisticsHandler = FindAnyObjectByType<StatisticsHandler>();
+        audioSource = GetComponent<AudioSource>();
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
     }
 
     void Update()
@@ -195,5 +214,20 @@ public class PlayerController : MonoBehaviour
 
         // Read left/right input (A/D)
         turnInput = inputListener.horizontal();
+    }
+
+    public void PlayFootStepSound()
+    {
+        audioManager.playSFX(audioSource, footStepSounds[footStepSoundIndex]);
+        footStepSoundIndex++;
+        if (footStepSoundIndex >= footStepSounds.Count)
+        {
+            footStepSoundIndex = 0;
+        }
+    }
+
+    public void PlayLandSound()
+    {
+        audioManager.playSFX(audioSource, landSound);
     }
 }
