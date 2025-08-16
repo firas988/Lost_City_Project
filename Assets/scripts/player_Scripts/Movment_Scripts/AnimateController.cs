@@ -279,7 +279,10 @@ public class AnimateController : MonoBehaviour
         isTimeingtoFreeFall = false;
     }
 
-
+    public void stopPlayerAnimation()
+    {
+        StartCoroutine(TimerForIdle(0f));
+    }
 
     // Draw gizmo in the editor to visualize ground check sphere
     private void OnDrawGizmosSelected()

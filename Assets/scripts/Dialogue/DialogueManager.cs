@@ -318,6 +318,8 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
+        // stop player animation
+        animateController.stopPlayerAnimation();
         // Set the NPC name
         UIcontroller.SetText(npcName.GetComponent<TextMeshProUGUI>(), talkingTo.tag);
 
