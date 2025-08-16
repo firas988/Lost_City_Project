@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour
 
     private int footStepSoundIndex = 0;
 
+    private bool cameraRotation = true;
+
     void Start()
     {
         // Lock cursor for gameplay immersion
@@ -89,7 +91,10 @@ public class PlayerController : MonoBehaviour
     {
         // Handles horizontal/vertical movement and facing direction
         GroundMovement();
-        CameraRotation();
+        if (cameraRotation)
+        {
+            CameraRotation();
+        }
     }
 
     private void GroundMovement()
@@ -229,5 +234,15 @@ public class PlayerController : MonoBehaviour
     public void PlayLandSound()
     {
         audioManager.playSFX(audioSource, landSound);
+    }
+
+    public void setCameraRotation(bool value)
+    {
+        cameraRotation = value;
+    }
+
+    public bool getCameraRotation()
+    {
+        return cameraRotation;
     }
 }

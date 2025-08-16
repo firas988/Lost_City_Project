@@ -219,6 +219,7 @@ public class AnimateController : MonoBehaviour
 
     private void jumping()
     {
+      
         readyToJump = false;
     }
 
