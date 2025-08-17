@@ -8443,7 +8443,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 381719102232160136}
-  - component: {fileID: 1519516312525312556}
   - component: {fileID: 8273080906886635958}
   - component: {fileID: 3169133629932247967}
   - component: {fileID: 7819147287305907184}
@@ -8473,14 +8472,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000061035156, y: -4}
   m_SizeDelta: {x: -31.9, y: -22.6}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!33 &1519516312525312556
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2485555809449025041}
-  m_Mesh: {fileID: 0}
 --- !u!23 &8273080906886635958
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15413,7 +15404,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2583648124003931744}
-  - component: {fileID: 8064450901390149223}
   - component: {fileID: 7020234754812625099}
   - component: {fileID: 3053332540691260822}
   - component: {fileID: 4319847066617135784}
@@ -15443,14 +15433,6 @@ RectTransform:
   m_AnchoredPosition: {x: 913.2999, y: -31.999022}
   m_SizeDelta: {x: 781.4, y: 48.4}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!33 &8064450901390149223
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4512569274891932880}
-  m_Mesh: {fileID: 0}
 --- !u!23 &7020234754812625099
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18728,7 +18710,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4879937424289774942}
-  - component: {fileID: 1832170852131462628}
   - component: {fileID: 4793388156849708002}
   - component: {fileID: 2839269851777274902}
   - component: {fileID: 8542020776976336859}
@@ -18759,14 +18740,6 @@ RectTransform:
   m_AnchoredPosition: {x: 208.30028, y: -34.000866}
   m_SizeDelta: {x: 314.9, y: 51.409}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!33 &1832170852131462628
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5437465530902968487}
-  m_Mesh: {fileID: 0}
 --- !u!23 &4793388156849708002
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21893,7 +21866,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4533922250122902714}
-  - component: {fileID: 5418937980252031074}
   - component: {fileID: 4544422408892995118}
   - component: {fileID: 3132524315630691281}
   m_Layer: 0
@@ -21922,14 +21894,6 @@ RectTransform:
   m_AnchoredPosition: {x: 280.60382, y: -160.79613}
   m_SizeDelta: {x: 461, y: 48.4}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!33 &5418937980252031074
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5916497113392361972}
-  m_Mesh: {fileID: 0}
 --- !u!23 &4544422408892995118
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25126,7 +25090,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6106553113653232512}
-  - component: {fileID: 5281221170700431330}
   - component: {fileID: 5867767449130525065}
   - component: {fileID: 7063239810700224690}
   - component: {fileID: 5339289586291953012}
@@ -25157,14 +25120,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000045776367, y: -0.00005722046}
   m_SizeDelta: {x: -86.182, y: -21.483}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!33 &5281221170700431330
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7006390310023791428}
-  m_Mesh: {fileID: 0}
 --- !u!23 &5867767449130525065
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28425,7 +28380,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5521168514754353640}
   - component: {fileID: 6824094992223605622}
-  - component: {fileID: 5810828158720649417}
   - component: {fileID: 2727633804393070224}
   - component: {fileID: 2687644227709283759}
   - component: {fileID: 150038009299231402}
@@ -28509,14 +28463,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &5810828158720649417
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7788465150529714966}
-  m_Enabled: 1
 --- !u!82 &2727633804393070224
 AudioSource:
   m_ObjectHideFlags: 0
@@ -28539,7 +28485,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10000.28
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -30749,7 +30695,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 507553638464162632}
-  - component: {fileID: 5190400531252484193}
   - component: {fileID: 6742724964117966608}
   - component: {fileID: 7558909980276402041}
   - component: {fileID: 5591782816836580884}
@@ -30780,14 +30725,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0.0000076293945}
   m_SizeDelta: {x: -86.18201, y: -21.483002}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!33 &5190400531252484193
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8290511924987149862}
-  m_Mesh: {fileID: 0}
 --- !u!23 &6742724964117966608
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30959,7 +30896,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7711505575916962199}
-  - component: {fileID: 4529958823885097912}
   - component: {fileID: 9057591667775624377}
   - component: {fileID: 2733683022277242295}
   - component: {fileID: 8841269697497437185}
@@ -30989,14 +30925,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000061035156, y: -4}
   m_SizeDelta: {x: -31.9, y: -22.6}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!33 &4529958823885097912
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8291489228250569492}
-  m_Mesh: {fileID: 0}
 --- !u!23 &9057591667775624377
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31521,7 +31449,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1479829056261362885}
-  - component: {fileID: 5340109982889458353}
   - component: {fileID: 2357469452924986773}
   - component: {fileID: 859820179499377435}
   - component: {fileID: 5343160733483199932}
@@ -31552,14 +31479,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000030517578, y: 0.000015258789}
   m_SizeDelta: {x: -86.18201, y: -21.483002}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!33 &5340109982889458353
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8426966594626676886}
-  m_Mesh: {fileID: 0}
 --- !u!23 &2357469452924986773
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33344,7 +33263,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8885151508034830206}
-  - component: {fileID: 6817320449461906143}
   - component: {fileID: 3952247892433561582}
   - component: {fileID: 3293771798495407236}
   - component: {fileID: 1983511848885136269}
@@ -33374,14 +33292,6 @@ RectTransform:
   m_AnchoredPosition: {x: 265.48016, y: -71.045}
   m_SizeDelta: {x: 461.05, y: 66.1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!33 &6817320449461906143
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8797471957606029440}
-  m_Mesh: {fileID: 0}
 --- !u!23 &3952247892433561582
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34642,7 +34552,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 647978233718004195}
-  - component: {fileID: 4910670876208516847}
   - component: {fileID: 1829506251885042096}
   - component: {fileID: 4903370784091131751}
   - component: {fileID: 4580526304367815036}
@@ -34672,14 +34581,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000061035156, y: -4}
   m_SizeDelta: {x: -31.9, y: -22.6}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!33 &4910670876208516847
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9124294324590990204}
-  m_Mesh: {fileID: 0}
 --- !u!23 &1829506251885042096
 MeshRenderer:
   m_ObjectHideFlags: 0
