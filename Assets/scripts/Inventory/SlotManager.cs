@@ -5,9 +5,6 @@ public class SlotManager : MonoBehaviour
     [SerializeField]
     private Slot[] slots;
 
-    void Start() { }
-
-    void Update() { }
 
     public void SetSlot(Item item, int count, int row, int column)
     {

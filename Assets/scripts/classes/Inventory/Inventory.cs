@@ -214,36 +214,104 @@ public class Inventory
     {
         return hotbar;
     }
+
     public List<Item>[,] GetItems()
     {
         return items;
     }
 
-    public void SaveInventory()
-    {
-        SaveSystem.SaveInventory(this);
-    }
-
     public bool LoadInventory(InventroyData inventroyData, ItemDatabase allItems)
     {
-        for (int i = 0; i < inventroyData.row.Count; i++)
-        {
-            this.items[inventroyData.row[i], inventroyData.column[i]] = new List<Item>();
+        bool inventoryLoaded = LoadJustInventory(inventroyData, allItems);
+        bool hotbarLoaded = LoadHotbar(inventroyData, allItems);
+        bool armorSlotsLoaded = LoadArmorSlots(inventroyData, allItems);
 
-            Item item = ScriptableObject.Instantiate(allItems.GetItem(inventroyData.id[i]));
+        return inventoryLoaded && hotbarLoaded && armorSlotsLoaded;
+    }
+
+    public bool LoadJustInventory(InventroyData inventroyData, ItemDatabase allItems)
+    {
+        for (int i = 0; i < inventroyData.getRow.Count; i++)
+        {
+            this.items[inventroyData.getRow[i], inventroyData.getColumn[i]] = new List<Item>();
+
+            Item item = ScriptableObject.Instantiate(allItems.GetItem(inventroyData.getId[i]));
             if (item is WeaponItem)
             {
-                ((WeaponItem)item).setDamage(inventroyData.damage[i].Value);
+                ((WeaponItem)item).setDamage(inventroyData.getDamage[i].Value);
             }
             else if (item is CosmeticItem)
             {
-                ((CosmeticItem)item).setDefense(inventroyData.defence[i].Value);
-                ((CosmeticItem)item).setStrength(inventroyData.strength[i].Value);
+                ((CosmeticItem)item).setDefense(inventroyData.getDefence[i].Value);
+                ((CosmeticItem)item).setStrength(inventroyData.getStrength[i].Value);
             }
 
-            for (int j = 0; j < inventroyData.count[i]; j++)
+            for (int j = 0; j < inventroyData.getCount[i]; j++)
             {
-                this.items[inventroyData.row[i], inventroyData.column[i]].Add(item);
+                this.items[inventroyData.getRow[i], inventroyData.getColumn[i]].Add(item);
+            }
+        }
+        return true;
+    }
+
+    public bool LoadHotbar(InventroyData inventroyData, ItemDatabase allItems)
+    {
+        if (inventroyData.getIdItemInHotbar == null)
+        {
+            return true;
+        }
+        for (int i = 0; i < inventroyData.getIdItemInHotbar.Count; i++)
+        {
+            if (i == 0 && inventroyData.getIdItemInHotbar[i] != -1)
+            {
+                WeaponItem weapon = ScriptableObject.Instantiate(
+                    allItems.GetItem(inventroyData.getIdItemInHotbar[i]) as WeaponItem
+                );
+                weapon.setDamage(inventroyData.getWeaponDamage.Value);
+                this.hotbar.setWeapon(weapon);
+            }
+            else if (inventroyData.getIdItemInHotbar[i] != -1)
+            {
+                ConsumableItem consumable = ScriptableObject.Instantiate(
+                    allItems.GetItem(inventroyData.getIdItemInHotbar[i]) as ConsumableItem
+                );
+                this.hotbar.setConsumable(consumable, inventroyData.getCountItemInHotbar[i], i);
+            }
+        }
+        return true;
+    }
+
+    public bool LoadArmorSlots(InventroyData inventroyData, ItemDatabase allItems)
+    {
+        if (inventroyData.getIdItemInArmorSlots == null)
+        {
+            return true;
+        }
+        for (int i = 0; i < inventroyData.getIdItemInArmorSlots.Count; i++)
+        {
+            if (inventroyData.getIdItemInArmorSlots[i] != -1)
+            {
+                CosmeticItem cosmetic = ScriptableObject.Instantiate(
+                    allItems.GetItem(inventroyData.getIdItemInArmorSlots[i]) as CosmeticItem
+                );
+                cosmetic.setDefense(inventroyData.getArmorSlotsDefence[i].Value);
+                cosmetic.setStrength(inventroyData.getArmorSlotsStrength[i].Value);
+
+                switch (cosmetic.getCosmeticType())
+                {
+                    case CosmeticType.Helmet:
+                        this.armorSlots.setHelmet(cosmetic);
+                        break;
+                    case CosmeticType.Chestplate:
+                        this.armorSlots.setChestplate(cosmetic);
+                        break;
+                    case CosmeticType.Leggings:
+                        this.armorSlots.setLeggings(cosmetic);
+                        break;
+                    case CosmeticType.Boots:
+                        this.armorSlots.setBoots(cosmetic);
+                        break;
+                }
             }
         }
         return true;

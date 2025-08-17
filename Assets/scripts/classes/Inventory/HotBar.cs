@@ -15,7 +15,7 @@ public class HotBar
         }
     }
 
-    public void setWeapon(Item item )
+    public void setWeapon(Item item)
     {
         items[weaponIndex].Add(item);
     }
@@ -25,7 +25,7 @@ public class HotBar
         return items[weaponIndex];
     }
 
-    public void removeWeapon( )
+    public void removeWeapon()
     {
         items[weaponIndex] = new List<Item>();
     }
@@ -73,5 +73,10 @@ public class HotBar
         {
             items[index] = new List<Item>();
         }
+    }
+
+    public List<List<Item>> getItems()
+    {
+        return items;
     }
 }

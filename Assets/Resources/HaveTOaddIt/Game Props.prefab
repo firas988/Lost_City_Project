@@ -1099,6 +1099,7 @@ GameObject:
   - component: {fileID: 8859824607265001815}
   - component: {fileID: 9066898579093347545}
   - component: {fileID: 6703221588450902914}
+  - component: {fileID: 4703603641586183828}
   m_Layer: 0
   m_Name: InventoryManager
   m_TagString: Untagged
@@ -1200,6 +1201,23 @@ MonoBehaviour:
   - {fileID: 2027377491001405617}
   - {fileID: 421406068554723725}
   - {fileID: 7324579758689834732}
+--- !u!114 &4703603641586183828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266491526907406674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a31a2f8abdfc94fa20c96e6d5a596c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slots:
+  - {fileID: 4872658616103696927}
+  - {fileID: 3384774839153279715}
+  - {fileID: 915992445761920280}
+  - {fileID: 7815801794875064351}
 --- !u!1 &316176712447581312
 GameObject:
   m_ObjectHideFlags: 0
@@ -5052,6 +5070,50 @@ MonoBehaviour:
   activeIconColor: {r: 0.80784315, g: 0.9490196, b: 0.7411765, a: 1}
   disabledIconColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   lineToUpdate: {fileID: 2957796946455919121}
+--- !u!1 &1567238220547040036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6383493927792459902}
+  - component: {fileID: 471339098094707906}
+  m_Layer: 0
+  m_Name: SaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6383493927792459902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567238220547040036}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2873768837920768936}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &471339098094707906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567238220547040036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0934659f57259b049b389acfac762a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1700733472635704551
 GameObject:
   m_ObjectHideFlags: 0
@@ -19327,6 +19389,7 @@ Transform:
   - {fileID: 3091104507022681654}
   - {fileID: 344381524582940300}
   - {fileID: 5179823887688957461}
+  - {fileID: 6383493927792459902}
   m_Father: {fileID: 4912728205492152468}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5990357318726177366

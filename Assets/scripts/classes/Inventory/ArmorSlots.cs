@@ -45,7 +45,7 @@ public class ArmorSlots
     /// <param name="item">The item to set in the leggings slot.</param>
     public void setLeggings(Item item)
     {
-        armorSlots[3] = item;
+        armorSlots[2] = item;
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public class ArmorSlots
     /// <param name="item">The item to set in the boots slot.</param>
     public void setBoots(Item item)
     {
-        armorSlots[4] = item;
+        armorSlots[3] = item;
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class ArmorSlots
     /// <returns>The leggings item.</returns>
     public Item getLeggings()
     {
-        return armorSlots[3];
+        return armorSlots[2];
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ public class ArmorSlots
     /// <returns>The boots item.</returns>
     public Item getBoots()
     {
-        return armorSlots[4];
+        return armorSlots[3];
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public class ArmorSlots
     /// </summary>
     public void removeLeggings()
     {
-        armorSlots[3] = null;
+        armorSlots[2] = null;
     }
 
     /// <summary>
@@ -122,7 +122,12 @@ public class ArmorSlots
     /// </summary>
     public void removeBoots()
     {
-        armorSlots[4] = null;
+        armorSlots[3] = null;
+    }
+
+    public List<Item> getArmorSlots()
+    {
+        return armorSlots;
     }
 
     public float getDefenseBonus()
