@@ -67,7 +67,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && !isTest)
+        if (Input.GetKeyDown(KeyCode.R) && !isTest)
         {
             entity.setHealth(0);
             StartCoroutine(startCoolDown());
@@ -174,5 +174,4 @@ public class EnemyAnimatorControl : MonoBehaviour
         yield return new WaitForSeconds(2f);
         isTest = false;
     }
-
 }

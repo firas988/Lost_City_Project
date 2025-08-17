@@ -51,17 +51,26 @@ public class SkillTreeManager : MonoBehaviour
     [SerializeField]
     private SkillList speedSkillList;
 
+    [SerializeField]
+    private List<Button> speedSkillButtons;
+
     /// <summary>
     /// Skill list for defense-based skills and upgrades.
     /// </summary>
     [SerializeField]
     private SkillList defenseSkillList;
 
+    [SerializeField]
+    private List<Button> defenseSkillButtons;
+
     /// <summary>
     /// Skill list for health-based skills and upgrades.
     /// </summary>
     [SerializeField]
     private SkillList healthSkillList;
+
+    [SerializeField]
+    private List<Button> healthSkillButtons;
 
     #endregion
 
@@ -123,22 +132,7 @@ public class SkillTreeManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            UpgradeSkill(strengthSkillList);
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            UpgradeSkill(speedSkillList);
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            UpgradeSkill(defenseSkillList);
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            UpgradeSkill(healthSkillList);
-        }
+       
 
         // Uncomment to enable skill tree save/load debug controls
         if (Input.GetKeyDown(KeyCode.Q))
