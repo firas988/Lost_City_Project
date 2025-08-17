@@ -231,24 +231,24 @@ public class Inventory
 
     public bool LoadJustInventory(InventroyData inventroyData, ItemDatabase allItems)
     {
-        for (int i = 0; i < inventroyData.getRow.Count; i++)
+        for (int i = 0; i < inventroyData.Row.Count; i++)
         {
-            this.items[inventroyData.getRow[i], inventroyData.getColumn[i]] = new List<Item>();
+            this.items[inventroyData.Row[i], inventroyData.Column[i]] = new List<Item>();
 
-            Item item = ScriptableObject.Instantiate(allItems.GetItem(inventroyData.getId[i]));
+            Item item = ScriptableObject.Instantiate(allItems.GetItem(inventroyData.Id[i]));
             if (item is WeaponItem)
             {
-                ((WeaponItem)item).setDamage(inventroyData.getDamage[i].Value);
+                ((WeaponItem)item).setDamage(inventroyData.Damage[i].Value);
             }
             else if (item is CosmeticItem)
             {
-                ((CosmeticItem)item).setDefense(inventroyData.getDefence[i].Value);
-                ((CosmeticItem)item).setStrength(inventroyData.getStrength[i].Value);
+                ((CosmeticItem)item).setDefense(inventroyData.Defence[i].Value);
+                ((CosmeticItem)item).setStrength(inventroyData.Strength[i].Value);
             }
 
-            for (int j = 0; j < inventroyData.getCount[i]; j++)
+            for (int j = 0; j < inventroyData.Count[i]; j++)
             {
-                this.items[inventroyData.getRow[i], inventroyData.getColumn[i]].Add(item);
+                this.items[inventroyData.Row[i], inventroyData.Column[i]].Add(item);
             }
         }
         return true;
@@ -256,26 +256,26 @@ public class Inventory
 
     public bool LoadHotbar(InventroyData inventroyData, ItemDatabase allItems)
     {
-        if (inventroyData.getIdItemInHotbar == null)
+        if (inventroyData.IdItemInHotbar == null)
         {
             return true;
         }
-        for (int i = 0; i < inventroyData.getIdItemInHotbar.Count; i++)
+        for (int i = 0; i < inventroyData.IdItemInHotbar.Count; i++)
         {
-            if (i == 0 && inventroyData.getIdItemInHotbar[i] != -1)
+            if (i == 0 && inventroyData.IdItemInHotbar[i] != -1)
             {
                 WeaponItem weapon = ScriptableObject.Instantiate(
-                    allItems.GetItem(inventroyData.getIdItemInHotbar[i]) as WeaponItem
+                    allItems.GetItem(inventroyData.IdItemInHotbar[i]) as WeaponItem
                 );
-                weapon.setDamage(inventroyData.getWeaponDamage.Value);
+                weapon.setDamage(inventroyData.WeaponDamage.Value);
                 this.hotbar.setWeapon(weapon);
             }
-            else if (inventroyData.getIdItemInHotbar[i] != -1)
+            else if (inventroyData.IdItemInHotbar[i] != -1)
             {
                 ConsumableItem consumable = ScriptableObject.Instantiate(
-                    allItems.GetItem(inventroyData.getIdItemInHotbar[i]) as ConsumableItem
+                    allItems.GetItem(inventroyData.IdItemInHotbar[i]) as ConsumableItem
                 );
-                this.hotbar.setConsumable(consumable, inventroyData.getCountItemInHotbar[i], i);
+                this.hotbar.setConsumable(consumable, inventroyData.CountItemInHotbar[i], i);
             }
         }
         return true;
@@ -283,19 +283,19 @@ public class Inventory
 
     public bool LoadArmorSlots(InventroyData inventroyData, ItemDatabase allItems)
     {
-        if (inventroyData.getIdItemInArmorSlots == null)
+        if (inventroyData.IdItemInArmorSlots == null)
         {
             return true;
         }
-        for (int i = 0; i < inventroyData.getIdItemInArmorSlots.Count; i++)
+        for (int i = 0; i < inventroyData.IdItemInArmorSlots.Count; i++)
         {
-            if (inventroyData.getIdItemInArmorSlots[i] != -1)
+            if (inventroyData.IdItemInArmorSlots[i] != -1)
             {
                 CosmeticItem cosmetic = ScriptableObject.Instantiate(
-                    allItems.GetItem(inventroyData.getIdItemInArmorSlots[i]) as CosmeticItem
+                    allItems.GetItem(inventroyData.IdItemInArmorSlots[i]) as CosmeticItem
                 );
-                cosmetic.setDefense(inventroyData.getArmorSlotsDefence[i].Value);
-                cosmetic.setStrength(inventroyData.getArmorSlotsStrength[i].Value);
+                cosmetic.setDefense(inventroyData.ArmorSlotsDefence[i].Value);
+                cosmetic.setStrength(inventroyData.ArmorSlotsStrength[i].Value);
 
                 switch (cosmetic.getCosmeticType())
                 {

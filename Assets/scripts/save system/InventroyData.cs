@@ -160,25 +160,25 @@ public class InventroyData
     /// <summary>
     /// getters for inventory data
     /// </summary>
-    public List<int> getRow => row;
-    public List<int> getColumn => column;
-    public List<int> getCount => count;
-    public List<float?> getDamage => damage;
-    public List<float?> getDefence => defence;
-    public List<float?> getStrength => strength;
-    public List<int> getId => id;
+    public List<int> Row => row;
+    public List<int> Column => column;
+    public List<int> Count => count;
+    public List<float?> Damage => damage;
+    public List<float?> Defence => defence;
+    public List<float?> Strength => strength;
+    public List<int> Id => id;
 
     /// <summary>
     /// getters for hotbar data
     /// </summary>
-    public List<int> getIdItemInHotbar => idItemInHotbar;
-    public List<int> getCountItemInHotbar => countItemInHotbar;
-    public float? getWeaponDamage => weaponDamage;
+    public List<int> IdItemInHotbar => idItemInHotbar;
+    public List<int> CountItemInHotbar => countItemInHotbar;
+    public float? WeaponDamage => weaponDamage;
 
     /// <summary>
     /// getters for armor slots data
     /// </summary>
-    public List<int> getIdItemInArmorSlots => idItemInArmorSlots;
-    public List<float?> getArmorSlotsDefence => armorSlotsDefence;
-    public List<float?> getArmorSlotsStrength => armorSlotsStrength;
+    public List<int> IdItemInArmorSlots => idItemInArmorSlots;
+    public List<float?> ArmorSlotsDefence => armorSlotsDefence;
+    public List<float?> ArmorSlotsStrength => armorSlotsStrength;
 }

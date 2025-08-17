@@ -265,18 +265,22 @@ public class InventoryManager : MonoBehaviour
         {
             case CosmeticType.Helmet:
                 armorSlotManager.removeHelmet();
+                inventory.getArmorSlots().removeHelmet();
                 player.calculateStrengthAndDefenseBonus();
                 break;
             case CosmeticType.Chestplate:
                 armorSlotManager.removeChestplate();
+                inventory.getArmorSlots().removeChestplate();
                 player.calculateStrengthAndDefenseBonus();
                 break;
             case CosmeticType.Leggings:
                 armorSlotManager.removeLeggings();
+                inventory.getArmorSlots().removeLeggings();
                 player.calculateStrengthAndDefenseBonus();
                 break;
             case CosmeticType.Boots:
                 armorSlotManager.removeBoots();
+                inventory.getArmorSlots().removeBoots();
                 player.calculateStrengthAndDefenseBonus();
                 break;
         }
