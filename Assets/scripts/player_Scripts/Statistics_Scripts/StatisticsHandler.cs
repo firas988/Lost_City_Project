@@ -4,7 +4,6 @@ using UnityEngine;
 public class StatisticsHandler : MonoBehaviour
 {
     private PlayerDistanceTracker playerDistanceTracker;
-    private InputListener inputListener;
 
     private float loadedTotalDistance = 0f;
     private float totalDistance = 0f;
@@ -22,15 +21,9 @@ public class StatisticsHandler : MonoBehaviour
     private int totalMonsterMutantsKilled = 0;
     private int totalExecutionersKilled = 0;
 
-    //in the future we will add more statistics
-    // private int totalItemsCollected;
-    // private int totalItemsUsed;
-    // private int totalItemsDestroyed;
-
     private void Awake()
     {
         playerDistanceTracker = GetComponent<PlayerDistanceTracker>();
-        inputListener = FindAnyObjectByType<InputListener>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -59,7 +52,7 @@ public class StatisticsHandler : MonoBehaviour
 
     private void updateTotalTimePlayed()
     {
-        totalTimePlayed += Time.deltaTime;
+        totalTimePlayed += Time.unscaledDeltaTime;
     }
 
     public void Jumping()

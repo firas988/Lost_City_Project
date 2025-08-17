@@ -12,20 +12,21 @@ public class UIMenuManager : MonoBehaviour
     // campaign button sub menu
     [Header("MENUS")]
     [Tooltip("The Menu for when the MAIN menu buttons")]
-    public GameObject mainMenu;
+    [SerializeField]
+    private GameObject mainMenu;
 
     [Tooltip("THe first list of buttons")]
-    public GameObject firstMenu;
+    [SerializeField]
+    private GameObject firstMenu;
 
     [Tooltip("The Menu for when the PLAY button is clicked")]
     [CanBeNull]
-    public GameObject playMenu;
+    [SerializeField]
+    private GameObject playMenu;
 
     [Tooltip("The Menu for when the EXIT button is clicked")]
-    public GameObject exitMenu;
-
-    [Tooltip("Optional 4th Menu")]
-    public GameObject extrasMenu;
+    [SerializeField]
+    private GameObject exitMenu;
 
     public enum Theme
     {
@@ -35,78 +36,104 @@ public class UIMenuManager : MonoBehaviour
     };
 
     [Header("THEME SETTINGS")]
-    public Theme theme;
+    [SerializeField]
+    private Theme theme;
     private int themeIndex;
-    public ThemedUIData themeController;
+
+    [SerializeField]
+    private ThemedUIData themeController;
 
     [Header("PANELS")]
     [Tooltip("The UI Panel parenting all sub menus")]
-    public GameObject mainCanvas;
+    [SerializeField]
+    private GameObject mainCanvas;
 
     [Tooltip("The UI Panel that holds the CONTROLS window tab")]
-    public GameObject PanelControls;
+    [SerializeField]
+    private GameObject PanelControls;
 
     [Tooltip("The UI Panel that holds the GAME window tab")]
-    public GameObject PanelGame;
+    [SerializeField]
+    private GameObject PanelGame;
 
     [Tooltip("The UI Panel that holds the KEY BINDINGS window tab")]
-    public GameObject PanelKeyBindings;
+    [SerializeField]
+    private GameObject PanelKeyBindings;
 
     [Tooltip("The UI Sub-Panel under KEY BINDINGS for MOVEMENT")]
-    public GameObject PanelMovement;
+    [SerializeField]
+    private GameObject PanelMovement;
 
     [Tooltip("The UI Sub-Panel under KEY BINDINGS for COMBAT")]
-    public GameObject PanelCombat;
+    [SerializeField]
+    private GameObject PanelCombat;
 
     [Tooltip("The UI Sub-Panel under KEY BINDINGS for GENERAL")]
-    public GameObject PanelGeneral;
+    [SerializeField]
+    private GameObject PanelGeneral;
 
     // highlights in settings screen
     [Header("SETTINGS SCREEN")]
     [Tooltip("Highlight Image for when GAME Tab is selected in Settings")]
-    public GameObject lineGame;
+    [SerializeField]
+    private GameObject lineGame;
 
     [Tooltip("Highlight Image for when VIDEO Tab is selected in Settings")]
-    public GameObject lineVideo;
+    [SerializeField]
+    private GameObject lineVideo;
 
     [Tooltip("Highlight Image for when CONTROLS Tab is selected in Settings")]
-    public GameObject lineControls;
+    [SerializeField]
+    private GameObject lineControls;
 
     [Tooltip("Highlight Image for when KEY BINDINGS Tab is selected in Settings")]
-    public GameObject lineKeyBindings;
+    [SerializeField]
+    private GameObject lineKeyBindings;
 
     [Tooltip("Highlight Image for when MOVEMENT Sub-Tab is selected in KEY BINDINGS")]
-    public GameObject lineMovement;
+    [SerializeField]
+    private GameObject lineMovement;
 
     [Tooltip("Highlight Image for when COMBAT Sub-Tab is selected in KEY BINDINGS")]
-    public GameObject lineCombat;
+    [SerializeField]
+    private GameObject lineCombat;
 
     [Tooltip("Highlight Image for when GENERAL Sub-Tab is selected in KEY BINDINGS")]
-    public GameObject lineGeneral;
+    [SerializeField]
+    private GameObject lineGeneral;
 
     [Header("LOADING SCREEN")]
     [Tooltip("If this is true, the loaded scene won't load until receiving user input")]
     public bool waitForInput = true;
-    public GameObject loadingMenu;
+
+    [SerializeField]
+    private GameObject loadingMenu;
 
     [Tooltip("The loading bar Slider UI element in the Loading Screen")]
-    public Slider loadingBar;
-    public TMP_Text loadPromptText;
-    public KeyCode userPromptKey;
+    [SerializeField]
+    private Slider loadingBar;
+
+    [SerializeField]
+    private TMP_Text loadPromptText;
+
+    [SerializeField]
+    private KeyCode userPromptKey;
 
     [Header("SFX")]
     [Tooltip("The GameObject holding the Audio Source component for the HOVER SOUND")]
-    public AudioSource hoverSound;
+    [SerializeField]
+    private AudioSource hoverSound;
 
     [Tooltip("The GameObject holding the Audio Source component for the AUDIO SLIDER")]
-    public AudioSource sliderSound;
+    [SerializeField]
+    private AudioSource sliderSound;
 
     [Tooltip(
         "The GameObject holding the Audio Source component for the SWOOSH SOUND when switching to the Settings Screen"
     )]
-    public AudioSource swooshSound;
-
     [SerializeField]
+    private AudioSource swooshSound;
+
     private AudioManager audioManager;
 
     void Start()
@@ -118,8 +145,6 @@ public class UIMenuManager : MonoBehaviour
 
         playMenu?.SetActive(false);
         exitMenu?.SetActive(false);
-        if (extrasMenu)
-            extrasMenu?.SetActive(false);
         firstMenu?.SetActive(true);
         mainMenu?.SetActive(true);
 
@@ -162,16 +187,12 @@ public class UIMenuManager : MonoBehaviour
     public void PlayCampaign()
     {
         exitMenu?.SetActive(false);
-        if (extrasMenu)
-            extrasMenu?.SetActive(false);
         playMenu?.SetActive(true);
     }
 
     public void ReturnMenu()
     {
         playMenu?.SetActive(false);
-        if (extrasMenu)
-            extrasMenu?.SetActive(false);
         exitMenu?.SetActive(false);
         mainMenu?.SetActive(true);
     }
@@ -200,12 +221,19 @@ public class UIMenuManager : MonoBehaviour
     {
         CameraObject.Update(Time.unscaledDeltaTime);
         CameraObject.SetFloat("Animate", -2);
+        CameraObject.SetBool("Stats", false);
     }
 
     public void Position3()
     {
         CameraObject.Update(Time.unscaledDeltaTime);
         CameraObject.SetFloat("Animate", -0.5f);
+    }
+
+    public void statsPanelPosition()
+    {
+        CameraObject.Update(Time.unscaledDeltaTime);
+        CameraObject.SetBool("Stats", true);
     }
 
     void DisablePanels()
@@ -298,18 +326,10 @@ public class UIMenuManager : MonoBehaviour
     public void AreYouSure()
     {
         exitMenu.SetActive(true);
-        if (extrasMenu)
-            extrasMenu?.SetActive(false);
         DisablePlayCampaign();
     }
 
-    public void ExtrasMenu()
-    {
-        playMenu?.SetActive(false);
-        if (extrasMenu)
-            extrasMenu?.SetActive(true);
-        exitMenu?.SetActive(false);
-    }
+
 
     public void QuitGame()
     {
