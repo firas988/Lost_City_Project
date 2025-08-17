@@ -173,7 +173,6 @@ public class Player
     public void addStrengthBonusSkill(float bonus)
     {
         this.currentStrengthBonusSkill += bonus;
-        Debug.Log("Strength Bonus Skill: " + this.currentStrengthBonusSkill);
         calculateStrength();
     }
 

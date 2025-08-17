@@ -14,6 +14,8 @@ public static class SaveSystem
 
     private static string LevelPath = Application.persistentDataPath + "/gameData/level.dat";
 
+    private static string PlayerPath = Application.persistentDataPath + "/gameData/player.dat";
+
     public static void SaveStatistics(StatisticsHandler statisticsHandler)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(StatisticsPath));
@@ -119,6 +121,34 @@ public static class SaveSystem
             LevelData levelData = (LevelData)formatter.Deserialize(Stream);
             Stream.Close();
             return levelData;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public static void SavePlayer(StartPlayer startPlayer)
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(PlayerPath));
+        BinaryFormatter formatter = new BinaryFormatter();
+        FileStream Stream = new FileStream(PlayerPath, FileMode.Create);
+
+        PlayerData playerData = new PlayerData(startPlayer);
+
+        formatter.Serialize(Stream, playerData);
+        Stream.Close();
+    }
+
+    public static PlayerData LoadPlayer()
+    {
+        if (File.Exists(PlayerPath))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream Stream = new FileStream(PlayerPath, FileMode.Open);
+            PlayerData playerData = (PlayerData)formatter.Deserialize(Stream);
+            Stream.Close();
+            return playerData;
         }
         else
         {

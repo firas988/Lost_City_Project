@@ -355,6 +355,7 @@ public class InventoryManager : MonoBehaviour
             hotBarHandler.updateHotBar();
             hotBarHandlerInInventory.updateHotBarInInventory();
             updateArmorSlotsUI();
+            player.calculateStrengthAndDefenseBonus();
         }
     }
 
