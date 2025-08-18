@@ -13,4 +13,9 @@ public class ExpFindQuests : Quests
     /// </summary>
     /// <returns>A randomly selected FindQuest from the list.</returns>
     public new FindQuest RandomQuest => (FindQuest)quests[Random.Range(0, quests.Count)];
+
+    public FindQuest Find(int questId)
+    {
+        return (FindQuest)quests.Find(quest => quest.QuestId == questId);
+    }
 }

@@ -13,5 +13,10 @@ public class ExpKillQuests : Quests
     /// Gets a random KillQuest from the list of quests.
     /// </summary>
     /// <returns>A randomly selected KillQuest from the list.</returns>
-   public new KillQuest RandomQuest =>  (KillQuest)quests[Random.Range(0,quests.Count)];
+    public new KillQuest RandomQuest => (KillQuest)quests[Random.Range(0, quests.Count)];
+
+    public KillQuest Find(int questId)
+    {
+        return (KillQuest)quests.Find(quest => quest.QuestId == questId);
+    }
 }

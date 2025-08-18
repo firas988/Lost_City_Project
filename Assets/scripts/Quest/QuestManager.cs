@@ -17,6 +17,13 @@ public class QuestManager : MonoBehaviour
     private GameObject player;
 
     /// <summary>
+    /// Reference to the player instance for quest management.
+    /// </summary>
+    private Player playerInstance;
+
+    public Player PlayerInstance => playerInstance;
+
+    /// <summary>
     /// Reference to the dialogue manager for quest integration.
     /// </summary>
     [SerializeField]
@@ -26,7 +33,7 @@ public class QuestManager : MonoBehaviour
     /// List of story quests available in the game.
     /// </summary>
     [SerializeField]
-    private List<StoryQuest> storyQuestsList;
+    private StoryQuests storyQuestsList;
 
     #endregion
 
@@ -42,10 +49,18 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     private Queue<StoryQuest> storyQuestListQueue;
 
+    public Queue<StoryQuest> StoryQuestListQueue => storyQuestListQueue;
+
     /// <summary>
-    /// List of currently active quests for the player.
+    /// List of all quests for efficient processing.
     /// </summary>
-    private List<Quest> activeQuests;
+    [SerializeField]
+    private ExpFindQuests allFindQuests;
+    public ExpFindQuests AllFindQuests => allFindQuests;
+
+    [SerializeField]
+    private ExpKillQuests allKillQuests;
+    public ExpKillQuests AllKillQuests => allKillQuests;
 
     /// <summary>
     /// List of active kill quests for efficient processing.
@@ -58,11 +73,6 @@ public class QuestManager : MonoBehaviour
     private List<FindQuest> activeFindQuests;
 
     /// <summary>
-    /// Reference to the player instance for quest management.
-    /// </summary>
-    private Player playerInstance;
-
-    /// <summary>
     /// Reference to the notifications manager for displaying quest updates.
     /// </summary>
     private NotificationsManager notificationsManager;
@@ -71,6 +81,11 @@ public class QuestManager : MonoBehaviour
     private MinimapArrow minimapArrow;
 
     private string gameManagerTag = "GameManager";
+
+    [SerializeField]
+    private int storyQuestIndex;
+
+    public int StoryQuestIndex => storyQuestIndex;
 
     #endregion
 
@@ -100,7 +115,6 @@ public class QuestManager : MonoBehaviour
         subscribeToEvents();
         initQuestLists();
     }
-
     #endregion
 
     #region Initialization Methods
@@ -122,17 +136,43 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     private void initQuestLists()
     {
-        activeQuests = playerInstance.ActiveQuest;
-        activeKillQuests = new List<KillQuest>().FindAll(quest =>
-            quest != null && quest.GetType() == typeof(KillQuest)
-        );
-        activeFindQuests = new List<FindQuest>().FindAll(quest =>
-            quest != null && quest.GetType() == typeof(FindQuest)
-        );
+        QuestData questData = SaveSystem.LoadQuest();
+
+        activeKillQuests = new List<KillQuest>();
+        activeFindQuests = new List<FindQuest>();
         storyQuestListQueue = new Queue<StoryQuest>();
-        foreach (StoryQuest quest in storyQuestsList)
+
+        storyQuestIndex = questData != null ? questData.StoryQuestIndex : 0;
+
+        if (questData != null)
         {
-            storyQuestListQueue.Enqueue(ScriptableObject.Instantiate(quest));
+            List<int> questIds = questData.ActiveQuestIds;
+
+            foreach (int questId in questIds)
+            {
+                Quest quest = allFindQuests.Find(questId);
+                if (quest == null)
+                {
+                    quest = allKillQuests.Find(questId);
+                }
+                if (quest != null)
+                {
+                    addQuest(quest);
+                }
+            }
+        }
+        else
+        {
+            foreach (Quest quest in playerInstance.ActiveSideQuests)
+            {
+                addQuest(quest);
+            }
+            for (int i = storyQuestIndex; i < storyQuestsList.Quests.Count; i++)
+            {
+                storyQuestListQueue.Enqueue(
+                    ScriptableObject.Instantiate(storyQuestsList.Quests[i])
+                );
+            }
         }
 
         nextMainQuest();
@@ -174,6 +214,7 @@ public class QuestManager : MonoBehaviour
             if (quest is FindQuest)
                 activeFindQuests.Add((FindQuest)quest);
         }
+        SaveSystem.SaveQuest(this);
     }
 
     #endregion
@@ -291,8 +332,17 @@ public class QuestManager : MonoBehaviour
     {
         if (playerInstance != null && storyQuestListQueue.Count > 0)
         {
+            notificationsManager.queueTopLeftNotification(
+                playerInstance.getCurrentMainQuest().GetQuestName() + " Completed",
+                "notification"
+            );
             playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
 
+            notificationsManager.queueTopLeftNotification(
+                playerInstance.getCurrentMainQuest().GetQuestName() + " Started",
+                "notification"
+            );
+            storyQuestIndex++;
             if (
                 playerInstance.getCurrentMainQuest() != null
                 && playerInstance.getCurrentMainQuest().GetChildQuests().Count > 0

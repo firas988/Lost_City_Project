@@ -355,6 +355,12 @@ public class Player
         get { return this.activeSideQuests; }
     }
 
+    public List<Quest> ActiveSideQuests
+    {
+        get { return this.activeSideQuests; }
+        set { this.activeSideQuests = value; }
+    }
+
     public StoryQuest getCurrentMainQuest()
     {
         return this.currentMainQuest;

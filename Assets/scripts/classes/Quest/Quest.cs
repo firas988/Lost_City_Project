@@ -18,6 +18,11 @@ public abstract class Quest : ScriptableObject
 {
     #region Serialized Fields
 
+    [SerializeField]
+    private int questId;
+
+    public int QuestId => questId;
+
     /// <summary>
     /// The parent quest of this quest.
     /// </summary>
@@ -83,6 +88,7 @@ public abstract class Quest : ScriptableObject
     /// <param name="quest">The quest to copy properties from.</param>
     public Quest(Quest quest)
     {
+        this.questId = quest.questId;
         this.questName = quest.questName;
         this.description = quest.description;
         this.questTarget = quest.questTarget;

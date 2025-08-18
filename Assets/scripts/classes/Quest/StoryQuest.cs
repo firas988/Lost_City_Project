@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public abstract class StoryQuest : Quest
 {
     public static event Action onCompleted;

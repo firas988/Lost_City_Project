@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
+
 [CreateAssetMenu(fileName = "RobertQuest", menuName = "Quests/RobertQuest")]
 public class RobertQuest : StoryQuest
 {
     [SerializeField]
     private GameObject cutScenePrefab;
+
     [SerializeField]
     private Transform cutScenePosition;
-   
 
     public RobertQuest(Quest quest)
         : base(quest) { }

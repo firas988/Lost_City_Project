@@ -102,28 +102,14 @@ public class SkillTreeManager : MonoBehaviour
             .FindWithTag("GameManager")
             .GetComponentInChildren<NotificationsManager>();
         audioSource = GetComponent<AudioSource>();
-
+        skillAmountLimit = GetComponentInChildren<SkillAmountLimit>();
+        Debug.Log(skillAmountLimit);
         levelSystem = GameObject.FindWithTag("GameManager").GetComponentInChildren<LevelManager>();
 
         playerObject = GameObject.FindWithTag("Player");
         startPlayer = playerObject.GetComponent<StartPlayer>();
 
-        SkillTreeData skillTreeData = SaveSystem.LoadSkills();
-        if (skillTreeData != null)
-        {
-            skillAmountLimit.setTotalAvailable(skillTreeData.totalSkillPoints);
-            skillAmountLimit.setSpent(skillTreeData.spent);
-            skillAmountLimit.Render();
-        }
-
-        startPlayer = playerObject.GetComponent<StartPlayer>();
         Init(levelSystem);
-        strengthSkillList.Init(
-            strengthSkillList.getCurrentLevel(),
-            strengthSkillList.getMaxLevel(),
-            strengthSkillButtons,
-            skillAmountLimit
-        );
     }
 
     /// <summary>
@@ -132,8 +118,6 @@ public class SkillTreeManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-       
-
         // Uncomment to enable skill tree save/load debug controls
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -145,15 +129,15 @@ public class SkillTreeManager : MonoBehaviour
             SkillTreeData skillTreeData = SaveSystem.LoadSkills();
             if (skillTreeData != null)
             {
-                skillAmountLimit.setTotalAvailable(skillTreeData.totalSkillPoints);
-                skillAmountLimit.setSpent(skillTreeData.spent);
+                skillAmountLimit.setTotalAvailable(skillTreeData.TotalSkillPoints);
+                skillAmountLimit.setSpent(skillTreeData.Spent);
                 skillAmountLimit.Render();
             }
 
             startPlayer = playerObject.GetComponent<StartPlayer>();
             Init(GetComponent<LevelManager>());
             strengthSkillList.Init(
-                skillTreeData.strengthLevel,
+                skillTreeData.StrengthLevel,
                 strengthSkillList.getMaxLevel(),
                 strengthSkillButtons,
                 skillAmountLimit
@@ -262,6 +246,20 @@ public class SkillTreeManager : MonoBehaviour
     public void LoadSkills()
     {
         SkillTreeData skillTreeData = SaveSystem.LoadSkills();
+
+        if (skillTreeData != null)
+        {
+            skillAmountLimit.setTotalAvailable(skillTreeData.TotalSkillPoints);
+            skillAmountLimit.setSpent(skillTreeData.Spent);
+            skillAmountLimit.Render();
+
+            strengthSkillList.Init(
+                skillTreeData.StrengthLevel,
+                strengthSkillList.getMaxLevel(),
+                strengthSkillButtons,
+                skillAmountLimit
+            );
+        }
     }
 
     #endregion

@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
             .GetComponentInChildren<InputListener>();
         blackScreen.SetActive(false);
         blackScreen.GetComponent<RawImage>().color = new Color(0, 0, 0, 0);
-        skillTreeMenu.SetActive(false);
+        skillTreeMenu.GetComponent<Canvas>().enabled = false;
         inventoryMenu.SetActive(false);
         fullMapMenu.SetActive(false);
         mainCamera = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Camera>();
@@ -119,7 +119,7 @@ public class UIManager : MonoBehaviour
                 .FindGameObjectWithTag("Player")
                 .GetComponentInChildren<CharacterPrevController>();
             fullMapMenu.SetActive(false);
-            skillTreeMenu.SetActive(false);
+            skillTreeMenu.GetComponent<Canvas>().enabled = false;
 
             if (inventoryMenu.activeSelf)
             {
@@ -148,7 +148,7 @@ public class UIManager : MonoBehaviour
         {
             fullMapMenu.SetActive(false);
             inventoryMenu.SetActive(false);
-            if (skillTreeMenu.activeSelf)
+            if (skillTreeMenu.GetComponent<Canvas>().enabled)
             {
                 StartCoroutine(FadeOutBlackScreen(0f));
                 Cursor.lockState = CursorLockMode.Locked;
@@ -163,7 +163,9 @@ public class UIManager : MonoBehaviour
                 playerController.setCameraRotation(false);
             }
             StartCoroutine(activateCooldownSkillTreeOpen(1.5f));
-            skillTreeMenu.SetActive(!skillTreeMenu.activeSelf);
+            skillTreeMenu.GetComponent<Canvas>().enabled = !skillTreeMenu
+                .GetComponent<Canvas>()
+                .enabled;
         }
     }
 
@@ -173,7 +175,7 @@ public class UIManager : MonoBehaviour
         {
             //similar logic to the other menus
             inventoryMenu.SetActive(false);
-            skillTreeMenu.SetActive(false);
+            skillTreeMenu.GetComponent<Canvas>().enabled = false;
 
             if (fullMapMenu.activeSelf)
             {
@@ -255,7 +257,7 @@ public class UIManager : MonoBehaviour
     public void hideAllMenus()
     {
         fullMapMenu.SetActive(false);
-        skillTreeMenu.SetActive(false);
+        skillTreeMenu.GetComponent<Canvas>().enabled = false;
         inventoryMenu.SetActive(false);
         blackScreen.SetActive(false);
         playerUI.SetActive(false);

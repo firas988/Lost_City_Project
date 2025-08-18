@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -13,6 +14,8 @@ public static class SaveSystem
     private static string SkillsPath = Application.persistentDataPath + "/gameData/skills.dat";
 
     private static string LevelPath = Application.persistentDataPath + "/gameData/level.dat";
+
+    private static string QuestPath = Application.persistentDataPath + "/gameData/quest.dat";
 
     public static void SaveStatistics(StatisticsHandler statisticsHandler)
     {
@@ -119,6 +122,38 @@ public static class SaveSystem
             LevelData levelData = (LevelData)formatter.Deserialize(Stream);
             Stream.Close();
             return levelData;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public static void SaveQuest(QuestManager questManager)
+    {
+        Debug.Log("SaveQuest");
+        Directory.CreateDirectory(Path.GetDirectoryName(QuestPath));
+        BinaryFormatter formatter = new BinaryFormatter();
+        FileStream Stream = new FileStream(QuestPath, FileMode.Create);
+
+        QuestData questData = new QuestData(questManager);
+        formatter.Serialize(Stream, questData);
+        Stream.Close();
+    }
+
+    public static QuestData LoadQuest()
+    {
+        if (File.Exists(QuestPath))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            FileStream Stream = new FileStream(QuestPath, FileMode.Open);
+
+            QuestData questData = (QuestData)formatter.Deserialize(Stream);
+
+            Stream.Close();
+
+            return questData;
         }
         else
         {
