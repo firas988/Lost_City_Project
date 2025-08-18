@@ -133,7 +133,6 @@ public static class SaveSystem
 
     public static void SaveQuest(QuestManager questManager)
     {
-        Debug.Log("SaveQuest");
         Directory.CreateDirectory(Path.GetDirectoryName(QuestPath));
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream Stream = new FileStream(QuestPath, FileMode.Create);
