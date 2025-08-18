@@ -327,10 +327,6 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     public void nextMainQuest()
     {
-        notificationsManager.queueTopLeftNotification(
-            playerInstance.getCurrentMainQuest().GetQuestName() + " Completed",
-            "notification"
-        );
         if (playerInstance != null && storyQuestListQueue.Count > 0)
         {
             playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
