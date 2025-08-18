@@ -214,7 +214,6 @@ public class QuestManager : MonoBehaviour
             if (quest is FindQuest)
                 activeFindQuests.Add((FindQuest)quest);
         }
-        SaveSystem.SaveQuest(this);
     }
 
     #endregion
@@ -330,12 +329,12 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     public void nextMainQuest()
     {
+        notificationsManager.queueTopLeftNotification(
+            playerInstance.getCurrentMainQuest().GetQuestName() + " Completed",
+            "notification"
+        );
         if (playerInstance != null && storyQuestListQueue.Count > 0)
         {
-            notificationsManager.queueTopLeftNotification(
-                playerInstance.getCurrentMainQuest().GetQuestName() + " Completed",
-                "notification"
-            );
             playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
 
             notificationsManager.queueTopLeftNotification(
