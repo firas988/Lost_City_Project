@@ -228,12 +228,19 @@ public class UIMenuManager : MonoBehaviour
     {
         CameraObject.Update(Time.unscaledDeltaTime);
         CameraObject.SetFloat("Animate", -0.5f);
+        CameraObject.SetBool("WorldList", false);
     }
 
     public void statsPanelPosition()
     {
         CameraObject.Update(Time.unscaledDeltaTime);
         CameraObject.SetBool("Stats", true);
+    }
+
+    public void worldListPanelPosition()
+    {
+        CameraObject.Update(Time.unscaledDeltaTime);
+        CameraObject.SetBool("WorldList", true);
     }
 
     void DisablePanels()
@@ -328,8 +335,6 @@ public class UIMenuManager : MonoBehaviour
         exitMenu.SetActive(true);
         DisablePlayCampaign();
     }
-
-
 
     public void QuitGame()
     {
