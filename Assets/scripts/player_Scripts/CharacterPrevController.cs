@@ -3,26 +3,26 @@ using UnityEngine;
 public class CharacterPrevController : MonoBehaviour
 {
     [SerializeField]
-    private GameObject camera;
+    private GameObject inventoryCamera;
 
     [SerializeField]
     private GameObject light;
 
     private void Awake()
     {
-        camera.SetActive(false);
+        inventoryCamera.SetActive(false);
         light.SetActive(false);
     }
 
     public void showCharacterPreview()
     {
-        camera.SetActive(true);
+        inventoryCamera.SetActive(true);
         light.SetActive(true);
     }
 
     public void hideCharacterPreview()
     {
-        camera.SetActive(false);
+        inventoryCamera.SetActive(false);
         light.SetActive(false);
     }
 }

@@ -94,7 +94,6 @@ public class InputListener : MonoBehaviour
             foreach (var keybind in keybindList.Keybinds)
             {
                 keybinds.Add(keybind.Key, keybind.Keycode);
-                Debug.Log(keybind.Key + " " + keybind.Keycode);
             }
         }
     }

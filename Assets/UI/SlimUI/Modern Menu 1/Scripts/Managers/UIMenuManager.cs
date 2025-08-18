@@ -197,13 +197,13 @@ public class UIMenuManager : MonoBehaviour
         mainMenu?.SetActive(true);
     }
 
-    public void LoadScene(string scene)
-    {
-        if (scene != "")
-        {
-            StartCoroutine(LoadAsynchronously(scene));
-        }
-    }
+    // public void LoadScene(string scene)
+    // {
+    //     if (scene != "")
+    //     {
+    //         StartCoroutine(LoadAsynchronously(scene));
+    //     }
+    // }
 
     public void DisablePlayCampaign()
     {
@@ -243,7 +243,8 @@ public class UIMenuManager : MonoBehaviour
         CameraObject.SetBool("WorldList", true);
     }
 
-    void DisablePanels()
+   
+    public void DisablePanels()
     {
         PanelControls.SetActive(false);
         PanelGame.SetActive(false);
@@ -345,36 +346,47 @@ public class UIMenuManager : MonoBehaviour
 #endif
     }
 
-    // Load Bar synching animation
-    IEnumerator LoadAsynchronously(string sceneName)
-    { // scene name is just the name of the current scene being loaded
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
-        operation.allowSceneActivation = false;
-        mainCanvas?.SetActive(false);
-        loadingMenu?.SetActive(true);
+    public int getThemeIndex()
+    {
+        return themeIndex;
+    }
 
-        while (!operation.isDone)
-        {
-            float progress = Mathf.Clamp01(operation.progress / .95f);
-            loadingBar.value = progress;
+    // // Load Bar synching animation
+    // IEnumerator LoadAsynchronously(string sceneName)
+    // { // scene name is just the name of the current scene being loaded
+    //     AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+    //     operation.allowSceneActivation = false;
+    //     mainCanvas?.SetActive(false);
+    //     loadingMenu?.SetActive(true);
 
-            if (operation.progress >= 0.9f && waitForInput)
-            {
-                loadPromptText.text =
-                    "Press " + userPromptKey.ToString().ToUpper() + " to continue";
-                loadingBar.value = 1;
+    //     while (!operation.isDone)
+    //     {
+    //         float progress = Mathf.Clamp01(operation.progress / .95f);
+    //         loadingBar.value = progress;
 
-                if (Input.GetKeyDown(userPromptKey))
-                {
-                    operation.allowSceneActivation = true;
-                }
-            }
-            else if (operation.progress >= 0.9f && !waitForInput)
-            {
-                operation.allowSceneActivation = true;
-            }
+    //         if (operation.progress >= 0.9f && waitForInput)
+    //         {
+    //             loadPromptText.text =
+    //                 "Press " + userPromptKey.ToString().ToUpper() + " to continue";
+    //             loadingBar.value = 1;
 
-            yield return null;
-        }
+    //             if (Input.GetKeyDown(userPromptKey))
+    //             {
+    //                 operation.allowSceneActivation = true;
+    //             }
+    //         }
+    //         else if (operation.progress >= 0.9f && !waitForInput)
+    //         {
+    //             operation.allowSceneActivation = true;
+    //         }
+
+    //         yield return null;
+    //     }
+    // }
+
+    public void toggleLoadingScreen()
+    {
+        mainCanvas.SetActive(false);
+        loadingMenu.SetActive(true);
     }
 }

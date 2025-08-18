@@ -17,7 +17,7 @@ public class WolfHealthManager : MonoBehaviour
     void Start()
     {
         entity = (Entity)GetComponent<StartNpc>().GetNpcsInstance();
-        bossBar = GameObject.FindObjectOfType<BossBarHandler>();
+        bossBar = GameObject.FindAnyObjectByType<BossBarHandler>();
         Curhealth = entity.getHealth();
     }
 

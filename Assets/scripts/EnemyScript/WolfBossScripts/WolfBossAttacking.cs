@@ -95,9 +95,9 @@ public class WolfBossAttacking : MonoBehaviour
         jumpAttackColliderObserver = GetComponentInChildren<JumpAttackColliderObserver>();
         roarColliderObserver = GetComponentInChildren<RoarCollideObserver>();
         attacks = GameObject
-            .FindObjectOfType<EnemyAttackesConvert>()
+            .FindAnyObjectByType<EnemyAttackesConvert>()
             .getEnemyAttacks(gameObject.tag);
-        player = GameObject.FindObjectOfType<StartPlayer>().gameObject;
+        player = GameObject.FindAnyObjectByType<StartPlayer>().gameObject;
         audioManager = GameObject
             .FindGameObjectWithTag(gameManagerTag)
             .GetComponentInChildren<AudioManager>();
@@ -186,11 +186,10 @@ public class WolfBossAttacking : MonoBehaviour
             else if (randomAttack == "Roar" && !roarAttackOnCooldown)
             {
                 doubleCheckRoarRange();
-               
             }
             else if (randomAttack == "JumpAttack" && !jumpAttackOnCooldown)
             {
-               doubleCheckBoltRange();
+                doubleCheckBoltRange();
             }
             else
             {
@@ -222,7 +221,8 @@ public class WolfBossAttacking : MonoBehaviour
         }
     }
 
-  public void doubleCheckRoarRange(){
+    public void doubleCheckRoarRange()
+    {
         //double check if player is in range
         if (
             Physics.CheckSphere(
@@ -242,31 +242,32 @@ public class WolfBossAttacking : MonoBehaviour
         }
     }
 
+    public void doubleCheckBoltRange()
+    {
+        //double check if player is in range and has no options other than jump attack
+        if (
+            Physics.CheckSphere(
+                sphereRange.transform.position,
+                jumpAttackRange,
+                LayerMask.GetMask("Player")
+            )
+            && !Physics.CheckSphere(
+                sphereRange.transform.position,
+                roarAttackRange,
+                LayerMask.GetMask("Player")
+            )
+        )
+        {
+            //attack player
+            animator.SetBool("JumpAttack", true);
+            jumpAttackOnCooldown = true;
+            navMeshAgent.enabled = false;
+            isAttacking = true;
+            currentAttack = attacks.Find(attack => attack.attackName == "JumpAttack");
+            countAttacks++;
+        }
+    }
 
-  public void doubleCheckBoltRange(){
- //double check if player is in range and has no options other than jump attack
-                if (
-                    Physics.CheckSphere(
-                        sphereRange.transform.position,
-                        jumpAttackRange,
-                        LayerMask.GetMask("Player")
-                    )
-                    && !Physics.CheckSphere(
-                        sphereRange.transform.position,
-                        roarAttackRange,
-                        LayerMask.GetMask("Player")
-                    )
-                )
-                {
-                    //attack player
-                    animator.SetBool("JumpAttack", true);
-                    jumpAttackOnCooldown = true;
-                    navMeshAgent.enabled = false;
-                    isAttacking = true;
-                    currentAttack = attacks.Find(attack => attack.attackName == "JumpAttack");
-                    countAttacks++;
-                }
-  }
     public void activateNavMeshAgent()
     {
         navMeshAgent.enabled = true;

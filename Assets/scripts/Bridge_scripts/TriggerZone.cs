@@ -39,6 +39,10 @@ public class TriggerZone : MonoBehaviour
     [SerializeField]
     private AudioSource audioSourceStar;
 
+    private SceneHandler sceneHandler;
+
+    private bool isLoading = false;
+
     private void Awake()
     {
         inputListener = GameObject
@@ -48,6 +52,9 @@ public class TriggerZone : MonoBehaviour
         audioManager = GameObject
             .FindGameObjectWithTag(gameManagerTag)
             .GetComponentInChildren<AudioManager>();
+        sceneHandler = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<SceneHandler>();
     }
 
     void Update()
@@ -56,6 +63,19 @@ public class TriggerZone : MonoBehaviour
         {
             checkTheProgressToPlayTheEffect();
             followThePlayer();
+        }
+        if (
+            isMoving
+            && !navMeshAgent.pathPending
+            && navMeshAgent.remainingDistance <= 0.1f
+            && !isLoading
+        )
+        {
+            animator.SetBool("isWalking", false);
+            audioSourceStar.Stop();
+            audioSourceMagicCircle.Stop();
+            audioSourcePortal.Stop();
+            LoadScene();
         }
     }
 
@@ -74,15 +94,21 @@ public class TriggerZone : MonoBehaviour
                 navMeshAgent = other.gameObject.GetComponent<NavMeshAgent>();
                 navMeshAgent.agentTypeID = -1372625422;
                 navMeshAgent.speed = 1.7f;
-                MoveThePlayerToTheBridge();
-                isMoving = true;
+                StartCoroutine(StartMovingNextFrame());
             }
         }
+    }
+
+    private IEnumerator StartMovingNextFrame()
+    {
+        yield return new WaitForSeconds(0.1f);
+        MoveThePlayerToTheBridge();
     }
 
     private void MoveThePlayerToTheBridge()
     {
         navMeshAgent.SetDestination(PointToMoveTo.position);
+        isMoving = true;
     }
 
     private void checkTheProgressToPlayTheEffect()
@@ -119,6 +145,15 @@ public class TriggerZone : MonoBehaviour
             Vector3 pos = player.transform.position;
             pos.y += 0.5f;
             star.transform.position = pos;
+        }
+    }
+
+    private void LoadScene()
+    {
+        if (!isLoading)
+        {
+            isLoading = true;
+            sceneHandler.LoadScene(3);
         }
     }
 }
