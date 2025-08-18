@@ -3,18 +3,30 @@ using UnityEngine;
 [System.Serializable]
 public class StatisticsData
 {
-    public float totalDistance;
-    public float totalTimePlayed;
-    public int totalJumps;
-    public int totalDeaths;
-    public int totalEnemiesKilled;
-    public int totalBearsKilled;
-    public int totalWolfesKilled;
-    public int totalTrollsKilled;
-    public int totalHobGoblinsKilled;
-    public int totalGoblinsKilled;
-    public int totalMonsterMutantsKilled;
-    public int totalExecutionersKilled;
+    [SerializeField]
+    private float totalDistance;
+    [SerializeField]
+    private float totalTimePlayed;
+    [SerializeField]
+    private int totalJumps;
+    [SerializeField]
+    private int totalDeaths;
+    [SerializeField]
+    private int totalEnemiesKilled;
+    [SerializeField]
+    private int totalBearsKilled;
+    [SerializeField]
+    private int totalWolfesKilled;
+    [SerializeField]
+    private int totalTrollsKilled;
+    [SerializeField]
+    private int totalHobGoblinsKilled;
+    [SerializeField]
+    private int totalGoblinsKilled;
+    [SerializeField]
+    private int totalMonsterMutantsKilled;
+    [SerializeField]
+    private int totalExecutionersKilled;
 
     public StatisticsData(StatisticsHandler statisticsHandler)
     {
@@ -31,4 +43,17 @@ public class StatisticsData
         totalMonsterMutantsKilled = statisticsHandler.TotalMonsterMutantsKilled;
         totalExecutionersKilled = statisticsHandler.TotalExecutionersKilled;
     }
+
+    public float TotalDistance => totalDistance;
+    public float TotalTimePlayed => totalTimePlayed;
+    public int TotalJumps => totalJumps;
+    public int TotalDeaths => totalDeaths;
+    public int TotalEnemiesKilled => totalEnemiesKilled;
+    public int TotalBearsKilled => totalBearsKilled;
+    public int TotalWolfesKilled => totalWolfesKilled;
+    public int TotalTrollsKilled => totalTrollsKilled;
+    public int TotalHobGoblinsKilled => totalHobGoblinsKilled;
+    public int TotalGoblinsKilled => totalGoblinsKilled;
+    public int TotalMonsterMutantsKilled => totalMonsterMutantsKilled;
+    public int TotalExecutionersKilled => totalExecutionersKilled;
 }

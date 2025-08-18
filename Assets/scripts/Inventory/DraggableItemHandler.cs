@@ -243,6 +243,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
 
     private void tryTakeItemFromArmorSlot()
     {
+        slotDraggableItem = draggableItemPrefab.GetComponent<Slot>();
         if (!isDraggableItemHaveAPrefab && !draggableItem.GetComponent<ArmorSlot>().getIsEmpty())
         {
             Item item = draggableItem.GetComponent<ArmorSlot>().getItem();

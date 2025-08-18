@@ -44,6 +44,11 @@ public class ArmorSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void setItem(Item item)
     {
+        if (item == null)
+        {
+            removeItem();
+            return;
+        }
         this.item = item;
         armorImage.sprite = item.icon;
         isEmptyObject.SetActive(true);

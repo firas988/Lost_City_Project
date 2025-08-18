@@ -29,7 +29,6 @@ public class StatisticsHandler : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        LoadStatistics();
         KillEnemyHandler.Subscribe(KilledEnemy);
     }
 
@@ -38,11 +37,6 @@ public class StatisticsHandler : MonoBehaviour
     {
         updateTotalDistance();
         updateTotalTimePlayed();
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            SaveStatistics();
-        }
     }
 
     private void updateTotalDistance()
@@ -123,23 +117,27 @@ public class StatisticsHandler : MonoBehaviour
         SaveSystem.SaveStatistics(this);
     }
 
-    public void LoadStatistics()
+    public StatisticsHandler GetStatisticsHandler()
     {
-        StatisticsData statisticsData = SaveSystem.LoadStatistics();
+        return this;
+    }
+
+    public void LoadStatistics(StatisticsData statisticsData)
+    {
         if (statisticsData != null)
         {
-            loadedTotalDistance = statisticsData.totalDistance;
-            totalTimePlayed = statisticsData.totalTimePlayed;
-            totalJumps = statisticsData.totalJumps;
-            totalDeaths = statisticsData.totalDeaths;
-            totalEnemiesKilled = statisticsData.totalEnemiesKilled;
-            totalBearsKilled = statisticsData.totalBearsKilled;
-            totalWolfesKilled = statisticsData.totalWolfesKilled;
-            totalTrollsKilled = statisticsData.totalTrollsKilled;
-            totalHobGoblinsKilled = statisticsData.totalHobGoblinsKilled;
-            totalGoblinsKilled = statisticsData.totalGoblinsKilled;
-            totalMonsterMutantsKilled = statisticsData.totalMonsterMutantsKilled;
-            totalExecutionersKilled = statisticsData.totalExecutionersKilled;
+            loadedTotalDistance = statisticsData.TotalDistance;
+            totalTimePlayed = statisticsData.TotalTimePlayed;
+            totalJumps = statisticsData.TotalJumps;
+            totalDeaths = statisticsData.TotalDeaths;
+            totalEnemiesKilled = statisticsData.TotalEnemiesKilled;
+            totalBearsKilled = statisticsData.TotalBearsKilled;
+            totalWolfesKilled = statisticsData.TotalWolfesKilled;
+            totalTrollsKilled = statisticsData.TotalTrollsKilled;
+            totalHobGoblinsKilled = statisticsData.TotalHobGoblinsKilled;
+            totalGoblinsKilled = statisticsData.TotalGoblinsKilled;
+            totalMonsterMutantsKilled = statisticsData.TotalMonsterMutantsKilled;
+            totalExecutionersKilled = statisticsData.TotalExecutionersKilled;
         }
     }
 }

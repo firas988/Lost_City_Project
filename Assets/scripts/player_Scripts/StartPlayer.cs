@@ -14,4 +14,19 @@ public class StartPlayer : MonoBehaviour
     {
         return player;
     }
+
+    public void loadPlayer(PlayerData playerData)
+    {
+        gameObject.transform.position = new Vector3(
+            playerData.Potions[0],
+            playerData.Potions[1],
+            playerData.Potions[2]
+        );
+        gameObject.transform.rotation = new Quaternion(
+            playerData.Rotation[0],
+            playerData.Rotation[1],
+            playerData.Rotation[2],
+            playerData.Rotation[3]
+        );
+    }
 }

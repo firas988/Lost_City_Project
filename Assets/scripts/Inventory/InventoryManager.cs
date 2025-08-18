@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -51,6 +52,11 @@ public class InventoryManager : MonoBehaviour
     private HotBarHandler hotBarHandler;
 
     /// <summary>
+    /// Reference to the HotBarHandlerInInventory.
+    /// </summary>
+    private HotBarHandlerInInventory hotBarHandlerInInventory;
+
+    /// <summary>
     /// Returns the current Inventory instance.
     /// </summary>
     /// <returns>The inventory object.</returns>
@@ -69,9 +75,9 @@ public class InventoryManager : MonoBehaviour
         startPlayer = FindAnyObjectByType<StartPlayer>();
         player = startPlayer.getPlayer();
         inventory = player.getInventory();
-        LoadInventory();
         notificationsManager = FindAnyObjectByType<NotificationsManager>();
         hotBarHandler = GetComponent<HotBarHandler>();
+        hotBarHandlerInInventory = GetComponent<HotBarHandlerInInventory>();
     }
 
     /// <summary>
@@ -79,17 +85,9 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            SaveInventory();
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            AddItemToInventory(AllItems.GetItem(1));
+            AddItemToInventory(AllItems.GetRandomItem());
         }
     }
 
@@ -267,18 +265,22 @@ public class InventoryManager : MonoBehaviour
         {
             case CosmeticType.Helmet:
                 armorSlotManager.removeHelmet();
+                inventory.getArmorSlots().removeHelmet();
                 player.calculateStrengthAndDefenseBonus();
                 break;
             case CosmeticType.Chestplate:
                 armorSlotManager.removeChestplate();
+                inventory.getArmorSlots().removeChestplate();
                 player.calculateStrengthAndDefenseBonus();
                 break;
             case CosmeticType.Leggings:
                 armorSlotManager.removeLeggings();
+                inventory.getArmorSlots().removeLeggings();
                 player.calculateStrengthAndDefenseBonus();
                 break;
             case CosmeticType.Boots:
                 armorSlotManager.removeBoots();
+                inventory.getArmorSlots().removeBoots();
                 player.calculateStrengthAndDefenseBonus();
                 break;
         }
@@ -334,25 +336,26 @@ public class InventoryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Saves the inventory to a file.
-    /// </summary>
-    public void SaveInventory()
-    {
-        inventory.SaveInventory();
-    }
-
-    /// <summary>
     /// Loads the inventory from a file.
     /// </summary>
-    public void LoadInventory()
+    public void LoadInventory(InventroyData inventroyData)
     {
-        InventroyData inventroyData = SaveSystem.LoadInventory();
         if (inventroyData != null)
         {
-            if (inventory.LoadInventory(inventroyData, AllItems))
-            {
-                updateInventoryUI();
-            }
+            StartCoroutine(WaitForInventoryAndLoad(inventroyData));
+        }
+    }
+
+    public IEnumerator WaitForInventoryAndLoad(InventroyData inventroyData)
+    {
+        yield return new WaitUntil(() => inventory != null);
+        if (inventory.LoadInventory(inventroyData, AllItems))
+        {
+            updateInventoryUI();
+            hotBarHandler.updateHotBar();
+            hotBarHandlerInInventory.updateHotBarInInventory();
+            updateArmorSlotsUI();
+            player.calculateStrengthAndDefenseBonus();
         }
     }
 
@@ -369,5 +372,13 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void updateArmorSlotsUI()
+    {
+        armorSlotManager.setHelmet(inventory.getArmorSlots().getHelmet());
+        armorSlotManager.setChestplate(inventory.getArmorSlots().getChestplate());
+        armorSlotManager.setLeggings(inventory.getArmorSlots().getLeggings());
+        armorSlotManager.setBoots(inventory.getArmorSlots().getBoots());
     }
 }
