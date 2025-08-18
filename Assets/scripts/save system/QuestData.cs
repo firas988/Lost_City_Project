@@ -7,10 +7,9 @@ public class QuestData
 {
     [SerializeField]
     private int storyQuestIndex;
-    public int StoryQuestIndex => storyQuestIndex;
 
+    [SerializeField]
     private List<int> activeQuestIds;
-    public List<int> ActiveQuestIds => activeQuestIds;
 
     public QuestData(QuestManager questManager)
     {
@@ -18,6 +17,8 @@ public class QuestData
         activeQuestIds = questManager
             .PlayerInstance.ActiveSideQuests.Select(quest => quest.QuestId)
             .ToList();
-        Debug.Log("QuestData: " + activeQuestIds.Count);
     }
+
+    public int StoryQuestIndex => storyQuestIndex;
+    public List<int> ActiveQuestIds => activeQuestIds;
 }

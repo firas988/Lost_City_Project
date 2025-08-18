@@ -118,30 +118,9 @@ public class SkillTreeManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-        // Uncomment to enable skill tree save/load debug controls
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (startPlayer == null)
         {
-            Debug.Log("Saving skill tree");
-            SaveSystem.SaveSkills(this);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SkillTreeData skillTreeData = SaveSystem.LoadSkills();
-            if (skillTreeData != null)
-            {
-                skillAmountLimit.setTotalAvailable(skillTreeData.TotalSkillPoints);
-                skillAmountLimit.setSpent(skillTreeData.Spent);
-                skillAmountLimit.Render();
-            }
-
             startPlayer = playerObject.GetComponent<StartPlayer>();
-            Init(GetComponent<LevelManager>());
-            strengthSkillList.Init(
-                skillTreeData.StrengthLevel,
-                strengthSkillList.getMaxLevel(),
-                strengthSkillButtons,
-                skillAmountLimit
-            );
         }
     }
 
@@ -238,15 +217,8 @@ public class SkillTreeManager : MonoBehaviour
 
     #region Save/Load
 
-    public void SaveSkills()
+    public void LoadSkills(SkillTreeData skillTreeData)
     {
-        SaveSystem.SaveSkills(this);
-    }
-
-    public void LoadSkills()
-    {
-        SkillTreeData skillTreeData = SaveSystem.LoadSkills();
-
         if (skillTreeData != null)
         {
             skillAmountLimit.setTotalAvailable(skillTreeData.TotalSkillPoints);

@@ -3,19 +3,23 @@ using UnityEngine;
 [System.Serializable]
 public class SkillTreeData
 {
+    [SerializeField]
     private int totalSkillPoints;
-    private int spent;
-    public int strengthLevel;
-    private int speedLevel;
-    private int defenseLevel;
-    private int healthLevel;
 
-    public int TotalSkillPoints => totalSkillPoints;
-    public int Spent => spent;
-    public int StrengthLevel => strengthLevel;
-    public int SpeedLevel => speedLevel;
-    public int DefenseLevel => defenseLevel;
-    public int HealthLevel => healthLevel;
+    [SerializeField]
+    private int spent;
+
+    [SerializeField]
+    private int strengthLevel;
+
+    [SerializeField]
+    private int speedLevel;
+
+    [SerializeField]
+    private int defenseLevel;
+
+    [SerializeField]
+    private int healthLevel;
 
     public SkillTreeData(SkillTreeManager skillTreeManager)
     {
@@ -27,5 +31,10 @@ public class SkillTreeData
         // this.healthLevel = skillTreeManager.getHealthLevel();
     }
 
-
+    public int TotalSkillPoints => totalSkillPoints;
+    public int Spent => spent;
+    public int StrengthLevel => strengthLevel;
+    public int SpeedLevel => speedLevel;
+    public int DefenseLevel => defenseLevel;
+    public int HealthLevel => healthLevel;
 }

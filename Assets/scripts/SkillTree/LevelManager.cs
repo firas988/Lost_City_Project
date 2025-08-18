@@ -82,26 +82,7 @@ public class LevelManager : MonoBehaviour
     /// Handles input for saving and loading level data using keyboard shortcuts.
     /// B: Save, G: Load
     /// </summary>
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            saveLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            LevelData levelData = SaveSystem.LoadLevel();
-            if (levelData != null)
-            {
-                level = levelData.level;
-                setLevel(levelData.level);
-                setXPtoNextLevel(levelData.XPtoNextLevel);
-                setCurrentXP(levelData.currentXP);
-
-                player.GetComponent<StartPlayer>().getPlayer().setLevel(levelData.level);
-            }
-        }
-    }
+    void Update() { }
 
     #endregion
 
@@ -125,7 +106,6 @@ public class LevelManager : MonoBehaviour
             currentXP -= XPtoNextLevel;
             levelsToAdd++;
             XPtoNextLevel *= 1.10f;
-            Debug.Log("Xp till level " + (level + 1) + " currentXP: " + currentXP);
             onLevelUp?.Invoke(level);
         }
         if (levelsToAdd == 0)
@@ -215,13 +195,19 @@ public class LevelManager : MonoBehaviour
         XPtoNextLevel = newXPtoNextLevel;
     }
 
-    /// <summary>
-    /// Saves the current level data using the SaveSystem.
-    /// </summary>
-    public void saveLevel()
-    {
-        SaveSystem.SaveLevel(this);
-    }
-
     #endregion
+
+
+    public void LoadLevel(LevelData levelData)
+    {
+        if (levelData != null)
+        {
+            level = levelData.Level;
+            setLevel(levelData.Level);
+            setXPtoNextLevel(levelData.XPtoNextLevel);
+            setCurrentXP(levelData.CurrentXP);
+
+            player.GetComponent<StartPlayer>().getPlayer().setLevel(levelData.Level);
+        }
+    }
 }

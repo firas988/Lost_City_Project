@@ -19608,8 +19608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 1110632983274905550}
-  storyQuestsList:
-  - {fileID: 11400000, guid: 381f1be72e3e1a54485aa00faa1316fe, type: 2}
+  storyQuestsList: {fileID: 11400000, guid: f80210c493a84e147abab593191339ef, type: 2}
   allFindQuests: {fileID: 11400000, guid: 64163c6e29a6a43449feb71eeaa0e67e, type: 2}
   allKillQuests: {fileID: 11400000, guid: ea69a980ca274f84ba0770a192314a6c, type: 2}
   minimapArrow: {fileID: 1347360486024414564}

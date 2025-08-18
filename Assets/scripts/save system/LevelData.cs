@@ -3,14 +3,23 @@ using UnityEngine;
 [System.Serializable]
 public class LevelData
 {
-    public int level;
-    public float currentXP;
-    public float XPtoNextLevel;
+    [SerializeField]
+    private int level;
+
+    [SerializeField]
+    private float currentXP;
+
+    [SerializeField]
+    private float xPtoNextLevel;
 
     public LevelData(LevelManager levelManager)
     {
         this.level = levelManager.getLevel();
         this.currentXP = levelManager.getCurrentXP();
-        this.XPtoNextLevel = levelManager.getXPtoNextLevel();
+        this.xPtoNextLevel = levelManager.getXPtoNextLevel();
     }
+
+    public int Level => level;
+    public float CurrentXP => currentXP;
+    public float XPtoNextLevel => xPtoNextLevel;
 }

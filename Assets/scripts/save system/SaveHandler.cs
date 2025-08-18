@@ -8,12 +8,19 @@ public class SaveHandler : MonoBehaviour
 
     private StartPlayer startPlayer;
 
+    private QuestManager questManager;
+    private SkillTreeManager skillTreeManager;
+    private LevelManager levelManager;
+
     private string gameManagerTag = "GameManager";
 
     void Start()
     {
         GameObject gameManager = GameObject.FindGameObjectWithTag(gameManagerTag);
         inventoryManager = gameManager.GetComponentInChildren<InventoryManager>();
+        skillTreeManager = gameManager.GetComponentInChildren<SkillTreeManager>();
+        questManager = gameManager.GetComponentInChildren<QuestManager>();
+        levelManager = gameManager.GetComponentInChildren<LevelManager>();
         statisticsHandler = GameObject.FindAnyObjectByType<StatisticsHandler>();
         startPlayer = GameObject.FindAnyObjectByType<StartPlayer>();
         LoadGame();
@@ -32,6 +39,9 @@ public class SaveHandler : MonoBehaviour
         SaveSystem.SaveInventory(inventoryManager.getInventory());
         SaveSystem.SaveStatistics(statisticsHandler.GetStatisticsHandler());
         SaveSystem.SavePlayer(startPlayer);
+        SaveSystem.SaveQuest(questManager);
+        SaveSystem.SaveSkills(skillTreeManager);
+        SaveSystem.SaveLevel(levelManager);
     }
 
     public void LoadGame()
@@ -39,5 +49,8 @@ public class SaveHandler : MonoBehaviour
         inventoryManager.LoadInventory(SaveSystem.LoadInventory());
         statisticsHandler.LoadStatistics(SaveSystem.LoadStatistics());
         startPlayer.loadPlayer(SaveSystem.LoadPlayer());
+        questManager.initQuestLists(SaveSystem.LoadQuest());
+        skillTreeManager.LoadSkills(SaveSystem.LoadSkills());
+        levelManager.LoadLevel(SaveSystem.LoadLevel());
     }
 }

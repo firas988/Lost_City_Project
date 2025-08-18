@@ -113,7 +113,7 @@ public class QuestManager : MonoBehaviour
         dialogueManager = GameObject.FindAnyObjectByType<DialogueManager>();
         initPlayer();
         subscribeToEvents();
-        initQuestLists();
+        initQuestLists(null);
     }
     #endregion
 
@@ -134,10 +134,8 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Initializes quest lists and sets up the story quest queue.
     /// </summary>
-    private void initQuestLists()
+    public void initQuestLists(QuestData questData = null)
     {
-        QuestData questData = SaveSystem.LoadQuest();
-
         activeKillQuests = new List<KillQuest>();
         activeFindQuests = new List<FindQuest>();
         storyQuestListQueue = new Queue<StoryQuest>();
@@ -214,7 +212,6 @@ public class QuestManager : MonoBehaviour
             if (quest is FindQuest)
                 activeFindQuests.Add((FindQuest)quest);
         }
-        SaveSystem.SaveQuest(this);
     }
 
     #endregion
