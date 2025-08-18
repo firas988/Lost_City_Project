@@ -28617,7 +28617,7 @@ MonoBehaviour:
   waitForInput: 1
   loadingMenu: {fileID: 7388073791010907015}
   loadingBar: {fileID: 1817675185722759375}
-  loadPromptText: {fileID: 2945573037769709349}
+  loadPromptText: {fileID: 0}
   userPromptKey: 13
   hoverSound: {fileID: 8555519337243892220}
   sliderSound: {fileID: 4561628784248507262}

@@ -43,14 +43,14 @@ public class StatsUiHandler : MonoBehaviour
 
     private void Awake()
     {
-        statisticsHandler = FindObjectOfType<StatisticsHandler>();
+        statisticsHandler = FindAnyObjectByType<StatisticsHandler>();
     }
 
     private void Update()
     {
         if (statisticsHandler == null)
         {
-            statisticsHandler = FindObjectOfType<StatisticsHandler>();
+            statisticsHandler = FindAnyObjectByType<StatisticsHandler>();
             return;
         }
         UpdateStatsUI();

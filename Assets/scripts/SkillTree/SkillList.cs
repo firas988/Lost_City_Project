@@ -68,7 +68,6 @@ public class SkillList : ScriptableObject
 
         for (int i = 0; i < currentLevel; i++)
         {
-            Debug.Log("Incrementing skill " + i);
             skillTreeButtons[i].GetComponentInParent<SkillTreeButton>().Increment();
         }
     }

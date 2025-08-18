@@ -1,8 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-
-
+using UnityEngine;
 
 [System.Serializable]
 public class DialogueListWrapper
@@ -10,14 +8,10 @@ public class DialogueListWrapper
     public List<Dialogue> dialogue;
 }
 
-
 public class ConvertDialouges : MonoBehaviour
 {
-    
     [SerializeField]
     private TextAsset jsonFile;
-
-
 
     public Dictionary<string, Dialogue> GetDialogueByNpcName(string npcName)
     {
@@ -28,7 +22,9 @@ public class ConvertDialouges : MonoBehaviour
         }
 
         // Deserialize top-level dictionary: npcName => dialogue tree
-        var allNpcData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, DialogueListWrapper>>>(jsonFile.text);
+        var allNpcData = JsonConvert.DeserializeObject<
+            Dictionary<string, Dictionary<string, DialogueListWrapper>>
+        >(jsonFile.text);
 
         if (!allNpcData.TryGetValue(npcName, out var npcDialogues))
         {
@@ -47,15 +43,5 @@ public class ConvertDialouges : MonoBehaviour
         }
 
         return result;
-    }
-
-    // Optional test
-    void Awake()
-    {
-        var dict = GetDialogueByNpcName("ConfusedPerson");
-        if (dict != null)
-        {
-            Debug.Log(dict["start"].GetText());
-        }
     }
 }

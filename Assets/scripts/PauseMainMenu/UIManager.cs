@@ -198,7 +198,6 @@ public class UIManager : MonoBehaviour
 
     public void togglePauseMenu()
     {
-        Debug.Log(Time.timeScale);
         if (!cooldownPauseOpen)
         {
             if (pauseMenu.enabled)
@@ -223,6 +222,16 @@ public class UIManager : MonoBehaviour
             }
             // StartCoroutine(activateCooldownPauseOpen(1.5f));
         }
+    }
+
+    public void toggleLoadingScreen()
+    {
+        mainCamera.enabled = false;
+        pauseMenu.enabled = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        playerUI.SetActive(false);
+        playerController.setCameraRotation(false);
     }
 
     //IEnumerator for cooldown for ea ch menu
@@ -286,5 +295,10 @@ public class UIManager : MonoBehaviour
     public void hideBossHealthBar()
     {
         bossHealthBar.SetActive(false);
+    }
+
+    public bool isMenuOpen()
+    {
+        return menuIsOpen;
     }
 }
