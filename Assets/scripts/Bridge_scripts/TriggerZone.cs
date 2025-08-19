@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class TriggerZone : MonoBehaviour
 {
@@ -59,8 +60,9 @@ public class TriggerZone : MonoBehaviour
 
     void Update()
     {
-        if (isMoving)
+        if (isMoving && !navMeshAgent.pathPending)
         {
+            animator.SetBool("isWalking", true);
             checkTheProgressToPlayTheEffect();
             followThePlayer();
         }
@@ -88,7 +90,6 @@ public class TriggerZone : MonoBehaviour
             {
                 other.gameObject.GetComponent<CharacterController>().enabled = false;
 
-                animator.SetBool("isWalking", true); // Set the animation trigger
                 inputListener.setCanMove(false);
                 other.gameObject.AddComponent<NavMeshAgent>();
                 navMeshAgent = other.gameObject.GetComponent<NavMeshAgent>();
@@ -152,8 +153,12 @@ public class TriggerZone : MonoBehaviour
     {
         if (!isLoading)
         {
+            animator.SetBool("isWalking", false);
             isLoading = true;
-            sceneHandler.LoadScene(3);
+            if (SceneManager.GetActiveScene().buildIndex == 2)
+                sceneHandler.LoadScene(3);
+            else
+                sceneHandler.LoadScene(2);
         }
     }
 }

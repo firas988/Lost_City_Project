@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: f87b863005c8d4abcb743cad9f6566a7
-timeCreated: 1551198544
+guid: 8b7dd0809c7c6498789fa32a61eaa6cb
+timeCreated: 1481203198
 licenseType: Store
-DefaultImporter:
+NativeFormatImporter:
+  mainObjectFileID: -1
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -11,5 +12,5 @@ AssetOrigin:
   productId: 146014
   packageName: AllSky Free - 10 Sky / Skybox Set
   packageVersion: 1.1.0
-  assetPath: Assets/AllSkyFree/Cold Sunset/Cold Sunset.unity
+  assetPath: Assets/AllSkyFree/Epic_GloriousPink/Epic_GloriousPink.mat
   uploadId: 679123

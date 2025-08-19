@@ -31,15 +31,32 @@ public class SceneHandler : MonoBehaviour
         uiMenuManager.DisablePanels();
         uiMenuManager.toggleLoadingScreen();
 
+        float displayedProgress = 0f;
+        float fakeProgressSpeed = 0.5f;
+
         while (!operation.isDone)
         {
-            float progress = Mathf.Clamp01(operation.progress / .95f);
-            loadingBar.value = progress;
+            displayedProgress = Mathf.MoveTowards(
+                displayedProgress,
+                0.9f,
+                fakeProgressSpeed * Time.deltaTime
+            );
+            loadingBar.value = displayedProgress;
 
             if (operation.progress >= 0.9f)
             {
-                loadingBar.value = 1;
-                yield return new WaitForSeconds(2f);
+                while (displayedProgress < 1f)
+                {
+                    displayedProgress = Mathf.MoveTowards(
+                        displayedProgress,
+                        1f,
+                        fakeProgressSpeed * Time.deltaTime
+                    );
+                    loadingBar.value = displayedProgress;
+                    yield return null;
+                }
+
+                // yield return new WaitForSeconds(2f);
                 operation.allowSceneActivation = true;
             }
 

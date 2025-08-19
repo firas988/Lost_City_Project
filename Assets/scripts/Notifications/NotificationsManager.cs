@@ -18,10 +18,8 @@ public class NotificationsManager : MonoBehaviour
     [SerializeField]
     private Notification topLeftnotification;
 
-    [SerializeField]
     private AudioManager audioManager;
 
-    [SerializeField]
     private AudioSource audioSource;
 
     /// <summary>
