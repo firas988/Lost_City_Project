@@ -52,6 +52,7 @@ public class UIManager : MonoBehaviour
         skillTreeMenu.GetComponent<Canvas>().enabled = false;
         inventoryMenu.SetActive(false);
         fullMapMenu.SetActive(false);
+        bossHealthBar.SetActive(false);
         mainCamera = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Camera>();
         playerController = GameObject
             .FindGameObjectWithTag("Player")

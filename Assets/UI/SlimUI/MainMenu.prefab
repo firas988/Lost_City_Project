@@ -20127,8 +20127,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5601619320376136685}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Position1
+        m_TargetAssemblyTypeName: UIMenuManager, Assembly-CSharp
+        m_MethodName: leaveWorldList
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -13,6 +13,7 @@ public class TempleFindMapPart : StoryQuest
 
     public override void CompleteQuest()
     {
+        GameObject.Find("dungeonEntrance").transform.Find("openDoor").gameObject.SetActive(true);
         base.CompleteQuest();
     }
 }

@@ -222,14 +222,12 @@ public class UIMenuManager : MonoBehaviour
         CameraObject.Update(Time.unscaledDeltaTime);
         CameraObject.SetFloat("Animate", -2);
         CameraObject.SetBool("Stats", false);
-        CameraObject.SetBool("WorldListLoad", false);
     }
 
     public void Position3()
     {
         CameraObject.Update(Time.unscaledDeltaTime);
         CameraObject.SetFloat("Animate", -0.5f);
-        CameraObject.SetBool("WorldList", false);
     }
 
     public void statsPanelPosition()
@@ -242,6 +240,13 @@ public class UIMenuManager : MonoBehaviour
     {
         CameraObject.Update(Time.unscaledDeltaTime);
         CameraObject.SetBool("WorldList", true);
+    }
+
+    public void leaveWorldList()
+    {
+        CameraObject.Update(Time.unscaledDeltaTime);
+        CameraObject.SetBool("WorldList", false);
+        CameraObject.SetBool("WorldListLoad", false);
     }
 
     public void worldListLoadPanel()
