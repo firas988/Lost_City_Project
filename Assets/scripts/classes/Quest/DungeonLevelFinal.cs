@@ -4,6 +4,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DungeonLevelFinal", menuName = "Quests/DungeonLevelFinal")]
 public class DungeonLevelFinal : StoryQuest
 {
+    [SerializeField]
+    private GameObject cutscene;
+
+    [SerializeField]
+    private Transform cutscenePosition;
+
     public DungeonLevelFinal(Quest quest)
         : base(quest) { }
 
@@ -16,6 +22,7 @@ public class DungeonLevelFinal : StoryQuest
     {
         if (this.childQuests.All(quest => quest.isCompleted))
         {
+            Instantiate(cutscene, cutscenePosition.position, cutscenePosition.rotation);
             base.CompleteQuest();
         }
     }
