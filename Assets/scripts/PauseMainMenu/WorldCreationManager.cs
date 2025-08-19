@@ -21,6 +21,8 @@ public class WorldCreationManager : MonoBehaviour
 
     private bool isTryingToReplace;
 
+    private bool isLoadingWorldList;
+
     void Update()
     {
         if (isTryingToReplace && !confirmPanel.activeSelf)
@@ -32,6 +34,7 @@ public class WorldCreationManager : MonoBehaviour
     void Awake()
     {
         isTryingToReplace = false;
+        isLoadingWorldList = false;
         Button[] worldNames = worldList.GetComponentsInChildren<Button>();
         confirmPanel.SetActive(false);
         string[] directoryNames = Directory.GetDirectories(
@@ -65,7 +68,6 @@ public class WorldCreationManager : MonoBehaviour
 
     public void goToWorldList()
     {
-        Debug.Log("goToWorldList");
         if (!string.IsNullOrEmpty(worldNameInputField.text))
         {
             GetComponent<UIMenuManager>().worldListPanelPosition();
@@ -117,6 +119,9 @@ public class WorldCreationManager : MonoBehaviour
             string worldPath =
                 Application.persistentDataPath + "/gameData/" + worldNameInputField.text;
             Directory.CreateDirectory(worldPath);
+
+            PlayerPrefs.SetString("worldPath", worldPath);
+            PlayerPrefs.Save();
         }
     }
 
