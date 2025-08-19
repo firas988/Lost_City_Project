@@ -222,6 +222,7 @@ public class UIMenuManager : MonoBehaviour
         CameraObject.Update(Time.unscaledDeltaTime);
         CameraObject.SetFloat("Animate", -2);
         CameraObject.SetBool("Stats", false);
+        CameraObject.SetBool("WorldListLoad", false);
     }
 
     public void Position3()
@@ -243,7 +244,12 @@ public class UIMenuManager : MonoBehaviour
         CameraObject.SetBool("WorldList", true);
     }
 
-   
+    public void worldListLoadPanel()
+    {
+        CameraObject.Update(Time.unscaledDeltaTime);
+        CameraObject.SetBool("WorldListLoad", true);
+    }
+
     public void DisablePanels()
     {
         PanelControls.SetActive(false);
