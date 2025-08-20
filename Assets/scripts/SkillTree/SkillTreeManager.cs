@@ -103,7 +103,6 @@ public class SkillTreeManager : MonoBehaviour
             .GetComponentInChildren<NotificationsManager>();
         audioSource = GetComponent<AudioSource>();
         skillAmountLimit = GetComponentInChildren<SkillAmountLimit>();
-        Debug.Log(skillAmountLimit);
         levelSystem = GameObject.FindWithTag("GameManager").GetComponentInChildren<LevelManager>();
 
         playerObject = GameObject.FindWithTag("Player");

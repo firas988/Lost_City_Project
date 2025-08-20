@@ -118,7 +118,6 @@ public class QuestManager : MonoBehaviour
         dialogueManager = GameObject.FindAnyObjectByType<DialogueManager>();
         initPlayer();
         subscribeToEvents();
-        initQuestLists(null);
     }
     #endregion
 
@@ -145,7 +144,6 @@ public class QuestManager : MonoBehaviour
         activeFindQuests = new List<FindQuest>();
         storyQuestListQueue = new Queue<StoryQuest>();
         completedStoryQuest = new List<StoryQuest>();
-
         storyQuestIndex = questData != null ? questData.StoryQuestIndex : 0;
 
         if (questData != null)
