@@ -17,6 +17,8 @@ public class WorldCreationManager : MonoBehaviour
     [SerializeField]
     private GameObject confirmPanel;
 
+    private SceneHandler sceneHandler;
+
     private GameObject worldToReplace;
 
     private GameObject worldToLoad;
@@ -35,6 +37,7 @@ public class WorldCreationManager : MonoBehaviour
 
     void Awake()
     {
+        sceneHandler = GameObject.Find("SceneManager").GetComponent<SceneHandler>();
         isTryingToReplace = false;
         isLoadingWorldList = false;
         Button[] worldNames = worldList.GetComponentsInChildren<Button>();
@@ -151,11 +154,11 @@ public class WorldCreationManager : MonoBehaviour
         PlayerData playerData = SaveSystem.LoadPlayer();
         if (playerData == null)
         {
-            SceneHandler.LoadScene(1);
+            sceneHandler.LoadScene(1);
         }
         else
         {
-            SceneHandler.LoadScene(playerData.SceneIndex);
+            sceneHandler.LoadScene(playerData.SceneIndex);
         }
     }
 
