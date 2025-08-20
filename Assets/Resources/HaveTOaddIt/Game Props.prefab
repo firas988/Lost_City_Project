@@ -1614,6 +1614,7 @@ MonoBehaviour:
   loadingBar: {fileID: 509510192826165238}
   uiManager: {fileID: 1737646106381082802}
   uiMenuManager: {fileID: 2035209110076677523}
+  saveHandler: {fileID: 471339098094707906}
   inGame: 1
 --- !u!1 &516657438590350251
 GameObject:

@@ -144,6 +144,7 @@ public class QuestManager : MonoBehaviour
         activeKillQuests = new List<KillQuest>();
         activeFindQuests = new List<FindQuest>();
         storyQuestListQueue = new Queue<StoryQuest>();
+        completedStoryQuest = new List<StoryQuest>();
 
         storyQuestIndex = questData != null ? questData.StoryQuestIndex : 0;
 

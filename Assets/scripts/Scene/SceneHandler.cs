@@ -21,6 +21,9 @@ public class SceneHandler : MonoBehaviour
     private UIMenuManager uiMenuManager;
 
     [SerializeField]
+    private SaveHandler saveHandler;
+
+    [SerializeField]
     private bool inGame = true;
 
     public void LoadScene(int index)
@@ -32,6 +35,7 @@ public class SceneHandler : MonoBehaviour
     {
         if (inGame)
         {
+            saveHandler.SaveGame();
             uiManager.hideAllMenus();
             uiManager.toggleLoadingScreen();
             uiMenuManager.DisablePanels();

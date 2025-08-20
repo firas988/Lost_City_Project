@@ -8,7 +8,7 @@ public class HideWhenTimelineEnds : MonoBehaviour
     void Start()
     {
         if (director == null)
-            director = GetComponent<PlayableDirector>();
+            director = GetComponentInChildren<PlayableDirector>();
 
         director.stopped += OnTimelineStopped;
     }
