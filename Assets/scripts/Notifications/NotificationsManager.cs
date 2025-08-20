@@ -97,6 +97,11 @@ public class NotificationsManager : MonoBehaviour
         topLeftNotificationQueueText.Enqueue(message);
         topLeftNotificationQueueAudio.Enqueue(audioName);
 
+        if (this == null || topLeftnotification == null)
+        {
+            return;
+        }
+
         if (!isTopLeftNotificationActive)
             StartCoroutine(showTopLeftNotification());
     }
@@ -124,8 +129,8 @@ public class NotificationsManager : MonoBehaviour
             // Hide the notification UI
             topLeftnotification.Hide();
             yield return new WaitForSeconds(5f);
-            isTopLeftNotificationActive = false;
         }
+        isTopLeftNotificationActive = false;
     }
 
     #endregion
