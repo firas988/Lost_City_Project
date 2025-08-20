@@ -14,15 +14,18 @@ public class SaveHandler : MonoBehaviour
 
     private string gameManagerTag = "GameManager";
 
+    private string playerTag = "Player";
+
     void Start()
     {
         GameObject gameManager = GameObject.FindGameObjectWithTag(gameManagerTag);
+        GameObject player = GameObject.FindGameObjectWithTag(playerTag);
         inventoryManager = gameManager.GetComponentInChildren<InventoryManager>();
         skillTreeManager = gameManager.GetComponentInChildren<SkillTreeManager>();
         questManager = gameManager.GetComponentInChildren<QuestManager>();
         levelManager = gameManager.GetComponentInChildren<LevelManager>();
-        statisticsHandler = GameObject.FindAnyObjectByType<StatisticsHandler>();
-        startPlayer = GameObject.FindAnyObjectByType<StartPlayer>();
+        statisticsHandler = player.GetComponentInChildren<StatisticsHandler>();
+        startPlayer = player.GetComponentInChildren<StartPlayer>();
         LoadGame();
     }
 

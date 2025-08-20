@@ -17,6 +17,9 @@ public class SceneHandler : MonoBehaviour
     [SerializeField]
     private UIMenuManager uiMenuManager;
 
+    [SerializeField]
+    private bool inGame = true;
+
     public void LoadScene(int index)
     {
         StartCoroutine(LoadAsynchronously(index));
@@ -24,10 +27,13 @@ public class SceneHandler : MonoBehaviour
 
     IEnumerator LoadAsynchronously(int index)
     {
-        uiManager.hideAllMenus();
-        uiManager.toggleLoadingScreen();
-        uiMenuManager.DisablePanels();
-        uiMenuManager.toggleLoadingScreen();
+        if (inGame)
+        {
+            uiManager.hideAllMenus();
+            uiManager.toggleLoadingScreen();
+            uiMenuManager.DisablePanels();
+            uiMenuManager.toggleLoadingScreen();
+        }
         AsyncOperation operation = SceneManager.LoadSceneAsync(index);
         operation.allowSceneActivation = false;
         float displayedProgress = 0f;
