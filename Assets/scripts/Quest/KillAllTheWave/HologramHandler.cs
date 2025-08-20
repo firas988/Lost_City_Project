@@ -9,8 +9,17 @@ public class HologramHandler : MonoBehaviour
 
     private string playerTag = "Player";
 
+    private QuestManager questManager;
+
+    private string gameManagerTag = "GameManager";
+
     private bool isQuestIsGoToFinshAllTheWave = false;
     private bool isQuestCompleted = false;
+
+    private void Awake()
+    {
+        questManager = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<QuestManager>();
+    }
 
     private void Update()
     {

@@ -9,6 +9,9 @@ public class SceneHandler : MonoBehaviour
     private GameObject loadingScreen;
 
     [SerializeField]
+    private GameObject loadCreateScene;
+
+    [SerializeField]
     private Slider loadingBar;
 
     [SerializeField]
@@ -33,6 +36,11 @@ public class SceneHandler : MonoBehaviour
             uiManager.toggleLoadingScreen();
             uiMenuManager.DisablePanels();
             uiMenuManager.toggleLoadingScreen();
+        }
+        else
+        {
+            loadCreateScene.SetActive(false);
+            loadingScreen.SetActive(true);
         }
         AsyncOperation operation = SceneManager.LoadSceneAsync(index);
         operation.allowSceneActivation = false;
