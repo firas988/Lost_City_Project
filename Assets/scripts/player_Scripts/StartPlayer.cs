@@ -22,13 +22,21 @@ public class StartPlayer : MonoBehaviour
     {
         if (playerData.SceneIndex != SceneManager.GetActiveScene().buildIndex)
         {
-            gameObject.transform.position = GameObject
-                .FindWithTag(spawnPointTag)
-                .transform.position;
-            gameObject.transform.rotation = GameObject
-                .FindWithTag(spawnPointTag)
-                .transform.rotation;
-            return;
+            try
+            {
+                gameObject.transform.position = GameObject
+                    .FindWithTag(spawnPointTag)
+                    .transform.position;
+                gameObject.transform.rotation = GameObject
+                    .FindWithTag(spawnPointTag)
+                    .transform.rotation;
+                return;
+            }
+            catch (System.Exception)
+            {
+                Debug.Log("No spawn point found");
+                return;
+            }
         }
 
         gameObject.transform.position = new Vector3(

@@ -13,7 +13,7 @@ public class DungeonDoorTrigger : MonoBehaviour
                 GameObject
                     .FindWithTag("GameManager")
                     .GetComponentInChildren<SceneHandler>()
-                    .LoadScene(4);
+                    .LoadScene(5);
             }
         }
     }

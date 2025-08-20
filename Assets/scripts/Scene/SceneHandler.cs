@@ -24,13 +24,12 @@ public class SceneHandler : MonoBehaviour
 
     IEnumerator LoadAsynchronously(int index)
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(index);
-        operation.allowSceneActivation = false;
         uiManager.hideAllMenus();
         uiManager.toggleLoadingScreen();
         uiMenuManager.DisablePanels();
         uiMenuManager.toggleLoadingScreen();
-
+        AsyncOperation operation = SceneManager.LoadSceneAsync(index);
+        operation.allowSceneActivation = false;
         float displayedProgress = 0f;
         float fakeProgressSpeed = 0.5f;
 

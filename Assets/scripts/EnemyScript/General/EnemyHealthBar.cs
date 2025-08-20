@@ -103,9 +103,9 @@ public class EnemyHealthBar : MonoBehaviour
     /// </summary>
     private void rotateHealthBar()
     {
-        transform.LookAt(Camera.main.transform);
+        if (Camera.main != null)
+            transform.LookAt(Camera.main.transform);
     }
-
 
     public void showHealthBar()
     {

@@ -69,9 +69,16 @@ public class DissolvingController : MonoBehaviour
 
     public void setDissolveAmount(float dissolveAmount = 1f)
     {
+        if (skinnesMaterials == null)
+        {
+            return;
+        }
         for (int i = 0; i < skinnesMaterials.Length; i++)
         {
-            skinnesMaterials[i].SetFloat("_DissolveAmount", dissolveAmount);
+            if (skinnesMaterials[i] != null)
+            {
+                skinnesMaterials[i].SetFloat("_DissolveAmount", dissolveAmount);
+            }
         }
     }
 
