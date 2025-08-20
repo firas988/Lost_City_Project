@@ -5,19 +5,58 @@ using UnityEngine;
 
 public static class SaveSystem
 {
-    private static string StatisticsPath =
-        Application.persistentDataPath + "/gameData/statistics.dat";
+    private static string StatisticsPath
+    {
+        get
+        {
+            string currentWord = PlayerPrefs.GetString("worldPath");
+            return Path.Combine(currentWord, "statistics.dat");
+        }
+    }
 
-    private static string InventoryPath =
-        Application.persistentDataPath + "/gameData/inventory.dat";
+    private static string InventoryPath
+    {
+        get
+        {
+            string currentWord = PlayerPrefs.GetString("worldPath");
+            return Path.Combine(currentWord, "inventory.dat");
+        }
+    }
 
-    private static string SkillsPath = Application.persistentDataPath + "/gameData/skills.dat";
+    private static string SkillsPath
+    {
+        get
+        {
+            string currentWord = PlayerPrefs.GetString("worldPath");
+            return Path.Combine(currentWord, "skills.dat");
+        }
+    }
 
-    private static string LevelPath = Application.persistentDataPath + "/gameData/level.dat";
+    private static string LevelPath
+    {
+        get
+        {
+            string currentWord = PlayerPrefs.GetString("worldPath");
+            return Path.Combine(currentWord, "level.dat");
+        }
+    }
 
-    private static string PlayerPath = Application.persistentDataPath + "/gameData/player.dat";
-
-    private static string QuestPath = Application.persistentDataPath + "/gameData/quest.dat";
+    private static string PlayerPath
+    {
+        get
+        {
+            string currentWord = PlayerPrefs.GetString("worldPath");
+            return Path.Combine(currentWord, "player.dat");
+        }
+    }
+    private static string QuestPath
+    {
+        get
+        {
+            string currentWord = PlayerPrefs.GetString("worldPath");
+            return Path.Combine(currentWord, "quest.dat");
+        }
+    }
 
     public static void SaveStatistics(StatisticsHandler statisticsHandler)
     {
