@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -50,6 +51,10 @@ public class QuestManager : MonoBehaviour
     private Queue<StoryQuest> storyQuestListQueue;
 
     public Queue<StoryQuest> StoryQuestListQueue => storyQuestListQueue;
+
+    private List<StoryQuest> completedStoryQuest;
+
+    public List<StoryQuest> CompletedStoryQuest => completedStoryQuest;
 
     /// <summary>
     /// List of all quests for efficient processing.
@@ -165,12 +170,14 @@ public class QuestManager : MonoBehaviour
             {
                 addQuest(quest);
             }
-            for (int i = storyQuestIndex; i < storyQuestsList.Quests.Count; i++)
-            {
-                storyQuestListQueue.Enqueue(
-                    ScriptableObject.Instantiate(storyQuestsList.Quests[i])
-                );
-            }
+        }
+        for (int i = 0; i < storyQuestIndex; i++)
+        {
+            completedStoryQuest.Add(storyQuestsList.Quests[i]);
+        }
+        for (int i = storyQuestIndex; i < storyQuestsList.Quests.Count; i++)
+        {
+            storyQuestListQueue.Enqueue(ScriptableObject.Instantiate(storyQuestsList.Quests[i]));
         }
 
         nextMainQuest();
@@ -360,6 +367,20 @@ public class QuestManager : MonoBehaviour
     public void completeMainQuest()
     {
         playerInstance.setCurrentMainQuest(null);
+    }
+
+    public bool checkingCompletedStoryQuest(Type type)
+    {
+        if (completedStoryQuest == null)
+            return false;
+        foreach (StoryQuest quest in completedStoryQuest)
+        {
+            if (quest != null && type.IsInstanceOfType(quest))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     #endregion

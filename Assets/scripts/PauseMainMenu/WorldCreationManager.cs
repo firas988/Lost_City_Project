@@ -42,6 +42,7 @@ public class WorldCreationManager : MonoBehaviour
         isLoadingWorldList = false;
         Button[] worldNames = worldList.GetComponentsInChildren<Button>();
         confirmPanel.SetActive(false);
+        Directory.CreateDirectory(Application.persistentDataPath + "/gameData/");
         string[] directoryNames = Directory.GetDirectories(
             Application.persistentDataPath + "/gameData/"
         );

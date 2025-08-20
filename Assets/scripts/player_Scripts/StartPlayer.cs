@@ -20,7 +20,7 @@ public class StartPlayer : MonoBehaviour
 
     public void loadPlayer(PlayerData playerData)
     {
-        if (playerData.SceneIndex != SceneManager.GetActiveScene().buildIndex)
+        if (playerData == null || playerData.SceneIndex != SceneManager.GetActiveScene().buildIndex)
         {
             try
             {
