@@ -24531,7 +24531,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -29497,7 +29497,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 224293662585446736, guid: 4d60074dd110e4fdda7cd238bb49b116, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5174841921080292467}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1665593283481074, guid: 4d60074dd110e4fdda7cd238bb49b116, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1196357231661162294}
   m_SourcePrefab: {fileID: 100100000, guid: 4d60074dd110e4fdda7cd238bb49b116, type: 3}
 --- !u!224 &3258447869603029840 stripped
 RectTransform:
@@ -29509,6 +29512,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 224460312967798606, guid: 4d60074dd110e4fdda7cd238bb49b116, type: 3}
   m_PrefabInstance: {fileID: 3324937417812066816}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3324050348554276850 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1665593283481074, guid: 4d60074dd110e4fdda7cd238bb49b116, type: 3}
+  m_PrefabInstance: {fileID: 3324937417812066816}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1196357231661162294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3324050348554276850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 0
 --- !u!114 &3437082906959726304 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114406687190877408, guid: 4d60074dd110e4fdda7cd238bb49b116, type: 3}

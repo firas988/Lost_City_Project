@@ -19,6 +19,8 @@ public class WorldCreationManager : MonoBehaviour
 
     private GameObject worldToReplace;
 
+    private GameObject worldToLoad;
+
     private bool isTryingToReplace;
 
     private bool isLoadingWorldList;
@@ -90,7 +92,8 @@ public class WorldCreationManager : MonoBehaviour
             worldNameInputField.text;
         string worldPath = Application.persistentDataPath + "/gameData/" + worldNameInputField.text;
         Directory.CreateDirectory(worldPath);
-        hideConfirmPanel();
+
+        loadWorld(worldPath);
     }
 
     public void createWorld()
@@ -119,9 +122,60 @@ public class WorldCreationManager : MonoBehaviour
             string worldPath =
                 Application.persistentDataPath + "/gameData/" + worldNameInputField.text;
             Directory.CreateDirectory(worldPath);
+            loadWorld(worldPath);
+        }
+    }
 
-            PlayerPrefs.SetString("worldPath", worldPath);
-            PlayerPrefs.Save();
+    public void loadWorld()
+    {
+        worldToLoad = EventSystem.current.currentSelectedGameObject;
+
+        string worldPath =
+            Application.persistentDataPath
+            + "/gameData/"
+            + worldToLoad.transform.Find("WorldName").GetComponent<TMP_Text>().text;
+
+        if (Directory.Exists(worldPath))
+        {
+            loadWorld(worldPath);
+        }
+        else
+        {
+            Debug.Log("World does not exist");
+        }
+    }
+
+    public void loadWorld(string worldPath)
+    {
+        PlayerPrefs.SetString("worldPath", worldPath);
+        PlayerData playerData = SaveSystem.LoadPlayer();
+        if (playerData == null)
+        {
+            SceneHandler.LoadScene(1);
+        }
+        else
+        {
+            SceneHandler.LoadScene(playerData.SceneIndex);
+        }
+    }
+
+    public void switchToLoadMode()
+    {
+        Button[] worldNames = worldList.GetComponentsInChildren<Button>();
+        foreach (Button worldName in worldNames)
+        {
+            worldName.onClick.RemoveAllListeners();
+            worldName.onClick.AddListener(() => loadWorld());
+        }
+    }
+
+    public void switchToCreateMode()
+    {
+        Button[] worldNames = worldList.GetComponentsInChildren<Button>();
+        foreach (Button worldName in worldNames)
+        {
+            worldName.onClick.RemoveAllListeners();
+            worldName.onClick.AddListener(() => createWorld());
         }
     }
 
