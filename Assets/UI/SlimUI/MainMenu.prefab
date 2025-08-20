@@ -3271,19 +3271,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5383770210558721022}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5445596730883784921}
-        m_TargetAssemblyTypeName: WorldCreationManager, Assembly-CSharp
-        m_MethodName: createWorld
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &7700948562136495108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4686,19 +4674,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1650121983088268173}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5445596730883784921}
-        m_TargetAssemblyTypeName: WorldCreationManager, Assembly-CSharp
-        m_MethodName: createWorld
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &272722714859407954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11004,19 +10980,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7364263056884860123}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5445596730883784921}
-        m_TargetAssemblyTypeName: WorldCreationManager, Assembly-CSharp
-        m_MethodName: createWorld
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &4403960915476699450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13116,19 +13080,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1157280456706933837}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5445596730883784921}
-        m_TargetAssemblyTypeName: WorldCreationManager, Assembly-CSharp
-        m_MethodName: createWorld
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &5754864280046563720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27276,6 +27228,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 5445596730883784921}
+        m_TargetAssemblyTypeName: WorldCreationManager, Assembly-CSharp
+        m_MethodName: switchToLoadMode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 5601619320376136685}
         m_TargetAssemblyTypeName: UIMenuManager, Assembly-CSharp
         m_MethodName: worldListLoadPanel
@@ -29915,6 +29879,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 5445596730883784921}
+        m_TargetAssemblyTypeName: WorldCreationManager, Assembly-CSharp
+        m_MethodName: switchToCreateMode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 5601619320376136685}
         m_TargetAssemblyTypeName: SlimUI.ModernMenu.UIMenuManager, Assembly-CSharp
         m_MethodName: Position3
@@ -29925,18 +29901,6 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: TheLostIslandPart1 2
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &4331645612671538866
