@@ -11,19 +11,16 @@ public class PedestrianSpawner : MonoBehaviour
     [SerializeField]
     private string prefabPath;
 
-    private GameObject [] prefab;
+    private GameObject[] prefab;
     private int spawnCount = 0;
 
     private int robertCount = 0;
 
-    private bool waitForSpawn=false;
-
-
+    private bool waitForSpawn = false;
 
     void Start()
     {
-       prefab = Resources.LoadAll<GameObject>(prefabPath);
-
+        prefab = Resources.LoadAll<GameObject>(prefabPath);
     }
 
     // Update is called once per frame
@@ -32,39 +29,41 @@ public class PedestrianSpawner : MonoBehaviour
         if (waitForSpawn)
             return;
 
-        if (spawnCount == 30)
+        if (spawnCount == 20)
             return;
-            
-      StartCoroutine(SpawnPedestrians());
+
+        StartCoroutine(SpawnPedestrians());
     }
 
-
-   private IEnumerator SpawnPedestrians()
+    private IEnumerator SpawnPedestrians()
     {
-       
-            GameObject spawnPoint = spawnPoints[getRandomNumber(0, spawnPoints.Length)];
-            NavMeshHit hit;
-            GameObject pedestrian = Instantiate(prefab[getRandomNumber(0, prefab.Length)], spawnPoint.transform.position, Quaternion.identity);
-            if ( pedestrian.tag == "Robert" && robertCount >= 1)
+        GameObject spawnPoint = spawnPoints[getRandomNumber(0, spawnPoints.Length)];
+        NavMeshHit hit;
+        GameObject pedestrian = Instantiate(
+            prefab[getRandomNumber(0, prefab.Length)],
+            spawnPoint.transform.position,
+            Quaternion.identity
+        );
+        if (pedestrian.CompareTag("Robert") && robertCount >= 1)
+        {
+            Destroy(pedestrian);
+            yield return null;
+        }
+        if (NavMesh.SamplePosition(pedestrian.transform.position, out hit, 2.0f, NavMesh.AllAreas))
+        {
+            pedestrian.transform.position = hit.position;
+            spawnCount++;
+            if (pedestrian.CompareTag("Robert"))
             {
-                Destroy(pedestrian);
-                yield return null;
+                robertCount++;
             }
-            if (NavMesh.SamplePosition(pedestrian.transform.position, out hit, 2.0f, NavMesh.AllAreas))
-            {
-                pedestrian.transform.position = hit.position;
-                spawnCount++;
-                if (pedestrian.name == "Robert")
-                {
-                    robertCount++;
-                }
-            }
+        }
         waitForSpawn = true;
-            yield return new WaitForSeconds(1.0f); // Wait 1 second between spawns
+        yield return new WaitForSeconds(1.0f); // Wait 1 second between spawns
         waitForSpawn = false;
-        
     }
-    private int getRandomNumber (int min, int max)
+
+    private int getRandomNumber(int min, int max)
     {
         return Random.Range(min, max);
     }
