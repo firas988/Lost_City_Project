@@ -18,7 +18,9 @@ public class HologramHandler : MonoBehaviour
 
     private void Awake()
     {
-        questManager = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<QuestManager>();
+        questManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<QuestManager>();
     }
 
     private void Update()
@@ -26,6 +28,7 @@ public class HologramHandler : MonoBehaviour
         if (isQuestCompleted || isQuestIsGoToFinshAllTheWave)
             return;
         checkThecurrentQuest();
+        checkIfTheQuestIsCompleted();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -70,6 +73,14 @@ public class HologramHandler : MonoBehaviour
                 setSphereHologramOut(false);
                 isQuestIsGoToFinshAllTheWave = true;
             }
+        }
+    }
+
+    private void checkIfTheQuestIsCompleted()
+    {
+        if (questManager.checkingCompletedStoryQuest(typeof(GoToFinshAllTheWave)))
+        {
+            isQuestCompleted = true;
         }
     }
 }

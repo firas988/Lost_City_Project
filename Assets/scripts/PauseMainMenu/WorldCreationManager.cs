@@ -151,11 +151,11 @@ public class WorldCreationManager : MonoBehaviour
         PlayerData playerData = SaveSystem.LoadPlayer();
         if (playerData == null)
         {
-            SceneHandler.LoadScene(1);
+            // SceneHandler.LoadScene(1);
         }
         else
         {
-            SceneHandler.LoadScene(playerData.SceneIndex);
+            // SceneHandler.LoadScene(playerData.SceneIndex);
         }
     }
 
