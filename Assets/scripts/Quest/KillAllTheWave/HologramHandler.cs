@@ -28,14 +28,13 @@ public class HologramHandler : MonoBehaviour
         if (isQuestCompleted || isQuestIsGoToFinshAllTheWave)
             return;
         checkThecurrentQuest();
-        checkIfTheQuestIsCompleted();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(playerTag) && !isQuestCompleted)
         {
-            if (isQuestIsGoToFinshAllTheWave)
+            if (isQuestIsGoToFinshAllTheWave || checkIfTheQuestIsCompleted())
             {
                 (currentQuest as GoToFinshAllTheWave).CompleteQuest();
                 isQuestCompleted = true;
@@ -76,11 +75,12 @@ public class HologramHandler : MonoBehaviour
         }
     }
 
-    private void checkIfTheQuestIsCompleted()
+    private bool checkIfTheQuestIsCompleted()
     {
         if (questManager.checkingCompletedStoryQuest(typeof(GoToFinshAllTheWave)))
         {
-            isQuestCompleted = true;
+            return true;
         }
+        return false;
     }
 }

@@ -149,6 +149,12 @@ public class QuestGiver : TalkativeNpc
 
     public void setQuestToGive(Quest quest, GameObject giver)
     {
+        if (quest == null)
+        {
+            this.questToGive = null;
+            return;
+        }
+
         if (quest.GetType() == typeof(FindQuest))
         {
             this.questToGive = new FindQuest(quest as FindQuest);

@@ -262,6 +262,7 @@ public class DialogueManager : MonoBehaviour
                 closeDialogue();
                 return;
             }
+            closeDialogue();
         }
         catch (IndexOutOfRangeException)
         {

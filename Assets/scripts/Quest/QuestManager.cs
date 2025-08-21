@@ -92,6 +92,10 @@ public class QuestManager : MonoBehaviour
 
     public int StoryQuestIndex => storyQuestIndex;
 
+    private bool isReadyToStartQuest = false;
+
+    public bool IsReadyToStartQuest => isReadyToStartQuest;
+
     #endregion
 
     #region Events
@@ -178,7 +182,7 @@ public class QuestManager : MonoBehaviour
         {
             storyQuestListQueue.Enqueue(ScriptableObject.Instantiate(storyQuestsList.Quests[i]));
         }
-
+        isReadyToStartQuest = true;
         nextMainQuest();
     }
 
