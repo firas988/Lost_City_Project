@@ -66,6 +66,10 @@ public class SkillTreeButton : MonoBehaviour
             .FindWithTag("GameManager")
             .GetComponentInChildren<SkillTreeManager>();
 
+        skillLimit = GameObject
+            .FindWithTag("GameManager")
+            .GetComponentInChildren<SkillAmountLimit>();
+
         audioSource = GetComponent<AudioSource>();
         SetSkillAmountLimit(skillLimit);
         isSkillPurchased = false;
@@ -80,10 +84,11 @@ public class SkillTreeButton : MonoBehaviour
     /// Attempts to increment (purchase/upgrade) the skill if possible.
     /// Updates UI and listeners accordingly.
     /// </summary>
-    public void Increment()
+    public void Increment(bool withoutNotification = false)
     {
         if (!CanIncrement())
             return;
+
         Debug.Log("Incrementing skill " + skillList.getCurrentLevel());
 
         GetComponent<Button>().onClick.RemoveAllListeners();
@@ -103,7 +108,8 @@ public class SkillTreeButton : MonoBehaviour
         if (isSkillPurchased && skillList.getCurrentLevel() < skillList.getMaxLevel())
         {
             skillList.getSkillTreeButtons()[skillList.getCurrentLevel()].interactable = true;
-            notificationsManager.queueTopLeftNotification("Skill Upgraded", "skillupgraded");
+            if (!withoutNotification)
+                notificationsManager.queueTopLeftNotification("Skill Upgraded", "skillupgraded");
         }
 
         if (lineToUpdate != null)
@@ -115,8 +121,8 @@ public class SkillTreeButton : MonoBehaviour
     /// </summary>
     private bool CanIncrement() =>
         !skillList.isMaxLevel()
-        && _skillAmountLimit.CanSpend(skillList.currentCost)
-        && !isSkillPurchased;
+        && !isSkillPurchased
+        && _skillAmountLimit.CanSpend(skillList.currentCost);
 
     #endregion
 
@@ -135,6 +141,7 @@ public class SkillTreeButton : MonoBehaviour
     {
         if (isSkillPurchased)
         {
+            Debug.Log("Skill is purchased");
             Debug.Log("Setting skill color to active");
             frameImage.color = activeFrameColor;
             iconImage.color = activeIconColor;

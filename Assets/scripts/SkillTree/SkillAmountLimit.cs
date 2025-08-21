@@ -11,20 +11,25 @@ public class SkillAmountLimit : MonoBehaviour, ISkillAmountLimit
 {
     #region Inspector Fields
 
-    [SerializeField] public int totalAvailable;         // Initial total available skill points
-    [SerializeField] public int totalSpent;             // Initial total spent skill points
-    [SerializeField] public TMP_Text availableText;     // UI text for available points
-    [SerializeField] public TMP_Text spentText;         // UI text for spent points
+    [SerializeField]
+    public int totalAvailable; // Initial total available skill points
 
+    [SerializeField]
+    public int totalSpent; // Initial total spent skill points
+
+    [SerializeField]
+    public TMP_Text availableText; // UI text for available points
+
+    [SerializeField]
+    public TMP_Text spentText; // UI text for spent points
     #endregion
 
     #region Private Fields
 
     private readonly Subject<Unit> _amountChangedObserver = new Subject<Unit>(); // Observable for amount changes
-    private int _totalAvailable;    // Current total available points
-    private int _available;         // Current available points
-    private int _spent;             // Current spent points
-
+    private int _totalAvailable; // Current total available points
+    private int _available; // Current available points
+    private int _spent; // Current spent points
     #endregion
 
     #region Unity Methods

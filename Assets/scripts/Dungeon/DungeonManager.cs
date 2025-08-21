@@ -19,6 +19,9 @@ public class DungeonManager : MonoBehaviour
     [SerializeField]
     private string finalBossEnterName = "FinalBossEnter";
 
+    private QuestManager questManager;
+    private Player player;
+
     private int currentRoomIndex;
 
     private GameObject boss;
@@ -26,6 +29,13 @@ public class DungeonManager : MonoBehaviour
     void Start()
     {
         currentRoomIndex = 0;
+
+        player = GameObject.FindWithTag("Player").GetComponent<StartPlayer>().getPlayer();
+
+        questManager = GameObject
+            .FindGameObjectWithTag("GameManager")
+            .GetComponentInChildren<QuestManager>();
+
         boss = GameObject.FindWithTag(bossTag);
         foreach (GameObject room in rooms)
         {
@@ -62,6 +72,12 @@ public class DungeonManager : MonoBehaviour
             {
                 StartFinallBossScene();
 
+                return;
+            }
+
+            if (questManager.checkingCompletedStoryQuest(player.getCurrentMainQuest().GetType()))
+            {
+                NextRoom();
                 return;
             }
             blockCurrentRoom();
@@ -134,6 +150,8 @@ public class DungeonManager : MonoBehaviour
 
     public void NextRoom()
     {
+        GameObject enemies = rooms[currentRoomIndex].transform.Find(enemiesName).gameObject;
+        enemies.SetActive(false);
         //find the levelExit in the current room
         foreach (Transform child in rooms[currentRoomIndex].transform)
         {

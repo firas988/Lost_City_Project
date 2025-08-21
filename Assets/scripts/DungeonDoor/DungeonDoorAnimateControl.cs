@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class DungeonDoorAnimateControl : MonoBehaviour
 {
-    [SerializeField]
     private Animator animatorLeft;
 
-    [SerializeField]
     private Animator animatorRight;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

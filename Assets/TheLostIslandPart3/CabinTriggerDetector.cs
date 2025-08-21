@@ -1,16 +1,21 @@
 using UnityEngine;
 
-
 public class CabinTriggerDetector : MonoBehaviour
 {
     private GameObject hint;
+    private QuestManager questManager;
+    private string gameManagerTag = "GameManager";
+
     void Start()
     {
         hint = transform.Find("Hint").gameObject;
-      
-        hint.SetActive(false);
+        questManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<QuestManager>();
+        this.enabled = !questManager.checkingCompletedStoryQuest(typeof(FindMapPartInCabin));
     }
-   void OnTriggerEnter(Collider other)
+
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -25,10 +30,6 @@ public class CabinTriggerDetector : MonoBehaviour
                 BoxCollider boxCollider = gameObject.GetComponent<BoxCollider>();
                 boxCollider.enabled = false;
             }
-
-
         }
     }
-
-    
 }

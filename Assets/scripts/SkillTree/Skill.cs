@@ -3,7 +3,13 @@ using UnityEngine;
 /// <summary>
 /// Defines the different types of skills available in the skill tree system.
 /// </summary>
-public enum SkillType { Strength, Accuracy, Speed, Health, Defense }
+public enum SkillType
+{
+    Strength,
+    Speed,
+    Health,
+    Defense,
+}
 
 /// <summary>
 /// ScriptableObject representing a skill that can be purchased and applied to the player.
@@ -39,15 +45,24 @@ public class Skill : ScriptableObject
     /// <summary>
     /// Gets the type/category of this skill.
     /// </summary>
-    public SkillType SkillType { get { return this.type; } }
+    public SkillType SkillType
+    {
+        get { return this.type; }
+    }
 
     /// <summary>
     /// Gets the bonus value this skill provides when applied.
     /// </summary>
-    public float Bonus { get { return this.bonus; } }
+    public float Bonus
+    {
+        get { return this.bonus; }
+    }
 
     /// <summary>
     /// Gets the cost in skill points required to purchase this skill.
     /// </summary>
-    public int Cost { get { return this.cost; } }
+    public int Cost
+    {
+        get { return this.cost; }
+    }
 }

@@ -182,6 +182,7 @@ public class Player
         calculateDefense();
     }
 
+
     public void addStrengthPotionBuff(float bonus)
     {
         this.currentStrengthPotionBuff += bonus;

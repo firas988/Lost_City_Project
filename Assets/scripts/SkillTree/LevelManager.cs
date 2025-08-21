@@ -106,10 +106,10 @@ public class LevelManager : MonoBehaviour
             currentXP -= XPtoNextLevel;
             levelsToAdd++;
             XPtoNextLevel *= 1.10f;
-            onLevelUp?.Invoke(level);
         }
         if (levelsToAdd == 0)
             return;
+        onLevelUp?.Invoke(levelsToAdd);
         player.GetComponent<StartPlayer>().getPlayer().addLevel(levelsToAdd);
         notificationsManager.queueTopLeftNotification(
             "Level Up! You are now level "

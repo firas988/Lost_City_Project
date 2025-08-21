@@ -147,15 +147,33 @@ public class SkillTreeManager : MonoBehaviour
     /// <param name="skillList">The skill list to upgrade.</param>
     public bool UpgradeSkill(SkillList skillList)
     {
-        try
+        if (skillList == strengthSkillList)
         {
             startPlayer.getPlayer().addStrengthBonusSkill(skillList.currentBonus);
+
             skillList.Upgrade();
             return true;
         }
-        catch (Exception e)
+        else if (skillList == healthSkillList)
         {
-            Debug.LogError("Error upgrading skill: " + e.Message);
+            startPlayer.getPlayer().addHealthBonus(skillList.currentBonus);
+
+            skillList.Upgrade();
+            return true;
+        }
+        else if (skillList == speedSkillList)
+        {
+            startPlayer.getPlayer().addSpeedBonus(skillList.currentBonus);
+
+            skillList.Upgrade();
+            return true;
+        }
+        else if (skillList == defenseSkillList)
+        {
+            startPlayer.getPlayer().addDefenseBonusSkill(skillList.currentBonus);
+
+            skillList.Upgrade();
+            return true;
         }
         return false;
     }
@@ -166,8 +184,8 @@ public class SkillTreeManager : MonoBehaviour
     /// <param name="newLevel">The new level the player has reached.</param>
     private void HandleLevelUp(int newLevel)
     {
-        if (newLevel % 10 == 0)
-            skillAmountLimit.AddTotalAvailable(2);
+        Debug.Log("Level Up: " + newLevel);
+        skillAmountLimit.AddTotalAvailable((newLevel / 10) * 2);
     }
 
     #endregion
@@ -190,19 +208,20 @@ public class SkillTreeManager : MonoBehaviour
         return strengthSkillList.getCurrentLevel();
     }
 
-    // Uncomment and implement if needed for other skill types
-    // public int getSpeedLevel()
-    // {
-    //     return speedSkillList.getCurrentLevel();
-    // }
-    // public int getDefenseLevel()
-    // {
-    //     return defenseSkillList.getCurrentLevel();
-    // }
-    // public int getHealthLevel()
-    // {
-    //     return healthSkillList.getCurrentLevel();
-    // }
+    public int getSpeedLevel()
+    {
+        return speedSkillList.getCurrentLevel();
+    }
+
+    public int getDefenseLevel()
+    {
+        return defenseSkillList.getCurrentLevel();
+    }
+
+    public int getHealthLevel()
+    {
+        return healthSkillList.getCurrentLevel();
+    }
 
     /// <summary>
     /// Gets the SkillAmountLimit instance for skill point management.
@@ -218,19 +237,36 @@ public class SkillTreeManager : MonoBehaviour
 
     public void LoadSkills(SkillTreeData skillTreeData)
     {
-        if (skillTreeData != null)
-        {
-            skillAmountLimit.setTotalAvailable(skillTreeData.TotalSkillPoints);
-            skillAmountLimit.setSpent(skillTreeData.Spent);
-            skillAmountLimit.Render();
+        skillAmountLimit.setTotalAvailable(
+            skillTreeData != null ? skillTreeData.TotalSkillPoints : 0
+        );
+     
+        skillAmountLimit.Render();
 
-            strengthSkillList.Init(
-                skillTreeData.StrengthLevel,
-                strengthSkillList.getMaxLevel(),
-                strengthSkillButtons,
-                skillAmountLimit
-            );
-        }
+        strengthSkillList.Init(
+            skillTreeData != null ? skillTreeData.StrengthLevel : 0,
+            strengthSkillList.getMaxLevel(),
+            strengthSkillButtons,
+            skillAmountLimit
+        );
+        healthSkillList.Init(
+            skillTreeData != null ? skillTreeData.HealthLevel : 0,
+            healthSkillList.getMaxLevel(),
+            healthSkillButtons,
+            skillAmountLimit
+        );
+        speedSkillList.Init(
+            skillTreeData != null ? skillTreeData.SpeedLevel : 0,
+            speedSkillList.getMaxLevel(),
+            speedSkillButtons,
+            skillAmountLimit
+        );
+        defenseSkillList.Init(
+            skillTreeData != null ? skillTreeData.DefenseLevel : 0,
+            defenseSkillList.getMaxLevel(),
+            defenseSkillButtons,
+            skillAmountLimit
+        );
     }
 
     #endregion

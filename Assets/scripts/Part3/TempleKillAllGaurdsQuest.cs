@@ -11,29 +11,58 @@ public class TempleKillAllGaurdsQuest : MonoBehaviour
     [SerializeField]
     private List<GameObject> forceFields;
 
+    private bool isCompleted;
+    private string gameManagerTag = "GameManager";
+    private QuestManager questManager;
     private Player player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<StartPlayer>().getPlayer();
+        questManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<QuestManager>();
+        isCompleted = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isCompleted)
+        {
+            return;
+        }
+
         if (
-            player.getCurrentMainQuest() is TempleKillAllGaurds
-            && gaurdZones.All(gaurdZone =>
-                gaurdZone.GetComponent<Enemyspawner>().getAllEnemiesDead()
+            (
+                player.getCurrentMainQuest() is TempleKillAllGaurds
+                && gaurdZones.All(gaurdZone =>
+                    gaurdZone.GetComponent<Enemyspawner>().getAllEnemiesDead()
+                )
             )
         )
         {
-            foreach (GameObject forceField in forceFields)
-            {
-                forceField.SetActive(false);
-            }
+            deactivateHolograms();
             player.getCurrentMainQuest().CompleteQuest();
+            isCompleted = true;
+        }
+        else if (questManager.checkingCompletedStoryQuest(typeof(TempleKillAllGaurds)))
+        {
+            foreach (GameObject gaurdZone in gaurdZones)
+            {
+                gaurdZone.GetComponent<Enemyspawner>().setCanMultipleRespawn(true);
+            }
+            deactivateHolograms();
+            isCompleted = true;
+        }
+    }
+
+    public void deactivateHolograms()
+    {
+        foreach (GameObject forceField in forceFields)
+        {
+            forceField.SetActive(false);
         }
     }
 }

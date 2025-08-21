@@ -111,8 +111,11 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 268435456
-  playerTag: Player
-  gameManagerTag: GameManager
+  range: 2
+  progressBar: {fileID: 0}
+  canvas: {fileID: 0}
+  openChestEffect: {fileID: 0}
+  holdTime: 2
 --- !u!135 &1578881759771155957
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -132,5 +135,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 5.26
+  m_Center: {x: 0, y: 3.62, z: 0}
