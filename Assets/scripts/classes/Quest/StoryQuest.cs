@@ -15,7 +15,7 @@ public abstract class StoryQuest : Quest
 
     public static void subscribeToQuestCompletion(Action action)
     {
-        onCompleted += action;
+        onCompleted = action;
     }
 
     public static void UnsubscribeFromQuestCompletion(Action action)

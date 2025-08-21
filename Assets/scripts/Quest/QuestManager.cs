@@ -144,7 +144,7 @@ public class QuestManager : MonoBehaviour
         activeFindQuests = new List<FindQuest>();
         storyQuestListQueue = new Queue<StoryQuest>();
         completedStoryQuest = new List<StoryQuest>();
-        storyQuestIndex = questData != null ? questData.StoryQuestIndex : 0;
+        storyQuestIndex = questData != null ? questData.StoryQuestIndex - 1 : -1;
 
         if (questData != null)
         {
@@ -170,11 +170,11 @@ public class QuestManager : MonoBehaviour
                 addQuest(quest);
             }
         }
-        for (int i = 0; i < storyQuestIndex; i++)
+        for (int i = 0; i < storyQuestIndex + 1; i++)
         {
             completedStoryQuest.Add(storyQuestsList.Quests[i]);
         }
-        for (int i = storyQuestIndex; i < storyQuestsList.Quests.Count; i++)
+        for (int i = storyQuestIndex + 1; i < storyQuestsList.Quests.Count; i++)
         {
             storyQuestListQueue.Enqueue(ScriptableObject.Instantiate(storyQuestsList.Quests[i]));
         }
@@ -189,7 +189,9 @@ public class QuestManager : MonoBehaviour
     {
         playerInstance = player.GetComponent<StartPlayer>().getPlayer();
         if (playerInstance == null)
+        {
             Debug.LogError("Player instance is null");
+        }
     }
 
     #endregion
@@ -230,7 +232,6 @@ public class QuestManager : MonoBehaviour
     /// <param name="objectFound">The GameObject that was found, used to match against quest targets.</param>
     public void addFind(GameObject objectFound)
     {
-        Debug.Log("addFind" + objectFound.tag);
         FindQuest questToInc = activeFindQuests.Find(questToFind =>
             questToFind != null
             && string.Join(", ", questToFind.QuestTarget).Contains(objectFound.tag)
@@ -278,8 +279,6 @@ public class QuestManager : MonoBehaviour
         List<KillQuest> questToInc = activeKillQuests.FindAll(questToKill =>
             questToKill != null && string.Join(", ", questToKill.QuestTarget).Contains(objectKilled)
         );
-        Debug.Log("killed: " + objectKilled);
-        Debug.Log("questToInc: " + questToInc.Count);
 
         if (questToInc.Count == 0)
         {
