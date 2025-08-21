@@ -236,8 +236,11 @@ public class DialogueManager : MonoBehaviour
                     //     || ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToKnowWhereToGo
                     // )
                     // {
-                    ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
-                    levelManager.addXP(200f);
+                    if (((QuestGiver)npc).GetQuestToGive() != null)
+                    {
+                        ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
+                        levelManager.addXP(200f);
+                    }
                     // }
 
                     closeDialogue();
@@ -262,16 +265,19 @@ public class DialogueManager : MonoBehaviour
         }
         catch (IndexOutOfRangeException)
         {
+            if (((QuestGiver)npc).GetQuestToGive() == null)
+            {
+                closeDialogue();
+                return;
+            }
+
             if (
                 npc.GetType() == typeof(QuestGiver)
                 && ((QuestGiver)npc).GetQuestToGive() != null
                 && ((QuestGiver)npc).GetQuestToGive().GetType() == typeof(StoryQuest)
             )
             {
-                if (
-                    ((QuestGiver)npc).GetQuestToGive() is MysteriousManQuest
-                    || ((QuestGiver)npc).GetQuestToGive() is RobertQuest
-                )
+                if (((QuestGiver)npc).GetQuestToGive() != null)
                 {
                     ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
                     levelManager.addXP(200f);
