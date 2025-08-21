@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class EnemySpawnQuestHandler : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class EnemySpawnQuestHandler : MonoBehaviour
     private KillAllWaveMapColider killAllWaveMapColider;
 
     private Quest quest;
+    private QuestManager questManager;
 
     private int numberOfWaves = 3;
     private int currentWave = 0;
@@ -33,8 +35,13 @@ public class EnemySpawnQuestHandler : MonoBehaviour
     [SerializeField]
     private List<GameObject> canvasWave;
 
+    private string gameManagerTag = "GameManager";
+
     void Start()
     {
+        questManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<QuestManager>();
         setAllEnemySpawnersToCanMultipleRespawn(false);
         setTimerForRespawn();
         killAllWaveMapColider.subscribeToOnEnter(CompleteQuest);
@@ -42,6 +49,10 @@ public class EnemySpawnQuestHandler : MonoBehaviour
 
     void Update()
     {
+        if (checkIfTheQuestIsFinshAllTheWaveIsCompleted())
+        {
+            return;
+        }
         if (!isQuestIsFinshAllTheWave)
         {
             checkThecurrentQuest();
@@ -57,11 +68,21 @@ public class EnemySpawnQuestHandler : MonoBehaviour
 
         if (isReadyToSpawn && !inTimer && !quest.isCompleted)
         {
+            isReadyToSpawn = false;
             currentWave++;
             updateCanvasWave();
             inTimer = true;
             StartCoroutine(spawnEnemies());
         }
+
+        // //test
+        // if (Input.GetKeyDown(KeyCode.T))
+        // {
+        //     foreach (Enemyspawner enemySpawner in enemySpawners)
+        //     {
+        //         enemySpawner.killAllEnemies();
+        //     }
+        // }
     }
 
     private void updateCanvasWave()
@@ -157,5 +178,29 @@ public class EnemySpawnQuestHandler : MonoBehaviour
     private void CompleteQuest()
     {
         (quest as FinshAllTheWave).CompleteQuest();
+    }
+
+    private bool checkIfTheQuestIsFinshAllTheWaveIsCompleted()
+    {
+        if (questManager.checkingCompletedStoryQuest(typeof(FinshAllTheWave)))
+        {
+            Destroy(GameObject.FindWithTag("FinshAllTheWaveMapPiece"));
+            foreach (Enemyspawner enemySpawner in enemySpawners)
+            {
+                enemySpawner.destroyEnemies();
+            }
+            PlayableDirector director = GameObject
+                .FindWithTag("GhostCutScene")
+                .GetComponent<PlayableDirector>();
+            director.time = director.duration;
+            director.Evaluate();
+            Destroy(hologram);
+            foreach (GameObject canvas in canvasWave)
+            {
+                Destroy(canvas);
+            }
+            return true;
+        }
+        return false;
     }
 }

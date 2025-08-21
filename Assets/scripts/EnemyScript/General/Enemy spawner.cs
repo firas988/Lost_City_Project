@@ -23,6 +23,8 @@ public class Enemyspawner : MonoBehaviour
 
     private List<Entity> entities;
 
+    private List<GameObject> enemiesToObject;
+
     private int randomDifficulty;
 
     private int numberOfEnemiesToSpawn;
@@ -50,6 +52,7 @@ public class Enemyspawner : MonoBehaviour
 
     void Start()
     {
+        enemiesToObject = new List<GameObject>();
         entities = new List<Entity>();
         getRandomDifficulty();
         getNumberOfEnemiesToSpawn();
@@ -93,6 +96,8 @@ public class Enemyspawner : MonoBehaviour
         }
         if (enemyCount == 0 && entities.Count == 0)
         {
+            enemiesToObject.Clear();
+
             allEnemiesDead = true;
             chest.GetComponent<ObjectInteraction>().setCanOpen(true);
         }
@@ -199,6 +204,7 @@ public class Enemyspawner : MonoBehaviour
                 );
                 entities.Add((Entity)cloneEnemy.GetComponent<StartNpc>().GetNpcsInstance());
                 enemyCount++;
+                enemiesToObject.Add(cloneEnemy);
             }
             else
             {
@@ -207,6 +213,26 @@ public class Enemyspawner : MonoBehaviour
                 );
             }
         }
+    }
+
+    public void destroyEnemies()
+    {
+        foreach (GameObject enemy in enemiesToObject)
+        {
+            Destroy(enemy);
+        }
+        enemiesToObject.Clear();
+        Destroy(enemyPlaceHolder);
+        chest.GetComponent<ObjectInteraction>().setCanOpen(false);
+    }
+
+    public void killAllEnemies()
+    {
+        foreach (Entity entity in entities)
+        {
+            entity.setHealth(0);
+        }
+        enemiesToObject.Clear();
     }
 
     public bool getAllEnemiesDead()

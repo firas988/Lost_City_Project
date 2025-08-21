@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(
@@ -17,6 +18,10 @@ public class MysteriousArtifact : StoryQuest
 
     public override void CompleteQuest()
     {
+        if (!childQuests.All(quest => quest.isCompleted))
+        {
+            return;
+        }
         Player player = GameObject
             .FindGameObjectWithTag("Player")
             .GetComponent<StartPlayer>()
@@ -30,7 +35,6 @@ public class MysteriousArtifact : StoryQuest
                 GameObject.Find("MysteriousMan").GetComponent<StartNpc>().GetNpcsInstance()
         ).setDialogue(dialogueData);
         base.CompleteQuest();
-        Debug.Log(player.getCurrentMainQuest().GetDescription());
         GameObject mysteriousMan = GameObject.Find("MysteriousMan");
         QuestGiver questGiver = (QuestGiver)
             mysteriousMan.GetComponent<StartNpc>().GetNpcsInstance();
