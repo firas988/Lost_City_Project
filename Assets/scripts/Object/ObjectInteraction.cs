@@ -133,6 +133,8 @@ public class ObjectInteraction : MonoBehaviour
     /// </summary>
     private bool isAKey = false;
 
+    private bool isFinshed = false;
+
     /// <summary>
     /// Initializes the object interaction system by finding required components and checking initial player proximity.
     /// </summary>
@@ -181,6 +183,10 @@ public class ObjectInteraction : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (isFinshed)
+        {
+            return;
+        }
         updateText();
         playerIsInRange = Physics.CheckSphere(
             gameObject.transform.position,
@@ -214,6 +220,7 @@ public class ObjectInteraction : MonoBehaviour
             if (playerIsInRange && inputListener.isInteracting())
             {
                 gameObject.GetComponent<ItemToFindTopenTheMiddel_Hnadler>().foundIT();
+                setIsFinshed(true);
                 canvas.enabled = false;
             }
         }
@@ -221,9 +228,8 @@ public class ObjectInteraction : MonoBehaviour
 
     private void checkIfThePlayerIsNearTheKey()
     {
-        if (playerIsInRange)
+        if (playerIsInRange && !isFinshed)
         {
-            Debug.Log("Player is near the key");
             canvas.enabled = true;
             lockToThePlayer();
         }
@@ -290,6 +296,11 @@ public class ObjectInteraction : MonoBehaviour
         }
     }
 
+    public void hideCanvas()
+    {
+        canvas.enabled = false;
+    }
+
     private void openChestProgressDone()
     {
         chestRewardManager.OpenChest();
@@ -308,5 +319,10 @@ public class ObjectInteraction : MonoBehaviour
     public void setCanOpen(bool canOpen)
     {
         this.canOpen = canOpen;
+    }
+
+    public void setIsFinshed(bool isFinshed)
+    {
+        this.isFinshed = isFinshed;
     }
 }

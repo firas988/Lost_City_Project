@@ -32,6 +32,8 @@ public class EnemySpawnQuestHandler : MonoBehaviour
 
     private bool isQuestIsFinshAllTheWave = false;
 
+    private bool isQuestIsCompleted = false;
+
     [SerializeField]
     private List<GameObject> canvasWave;
 
@@ -45,11 +47,12 @@ public class EnemySpawnQuestHandler : MonoBehaviour
         setAllEnemySpawnersToCanMultipleRespawn(false);
         setTimerForRespawn();
         killAllWaveMapColider.subscribeToOnEnter(CompleteQuest);
+        StartCoroutine(checkIfTheQuestIsCompletedLood());
     }
 
     void Update()
     {
-        if (checkIfTheQuestIsFinshAllTheWaveIsCompleted())
+        if (isQuestIsCompleted)
         {
             return;
         }
@@ -202,5 +205,14 @@ public class EnemySpawnQuestHandler : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private IEnumerator checkIfTheQuestIsCompletedLood()
+    {
+        yield return new WaitUntil(() => questManager.IsReadyToStartQuest);
+        if (checkIfTheQuestIsFinshAllTheWaveIsCompleted())
+        {
+            isQuestIsCompleted = true;
+        }
     }
 }

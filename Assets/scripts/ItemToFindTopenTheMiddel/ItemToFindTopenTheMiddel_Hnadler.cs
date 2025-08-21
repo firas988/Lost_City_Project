@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ItemToFindTopenTheMiddel_Hnadler : MonoBehaviour
@@ -8,30 +9,42 @@ public class ItemToFindTopenTheMiddel_Hnadler : MonoBehaviour
     [SerializeField]
     private GameObject hologram;
 
+    private QuestManager questManager;
+    private ObjectInteraction objectInteraction;
+
     private bool isMovingUp = false;
     private Vector3 targetPosition;
 
     private string playerTag = "Player";
-
+    private string gameManagerTag = "GameManager";
     private bool isQuestIsGoToActivateTheKey = false;
     private bool isQuestIsActivateTheKey = false;
+    private bool isQuestIsCompleted = false;
     private Quest currentQuest;
 
     void Start()
     {
         crystal.SetActive(false);
+        questManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<QuestManager>();
+        objectInteraction = GetComponent<ObjectInteraction>();
+        StartCoroutine(checkIfTheQuestIsCompleted());
     }
 
     void Update()
     {
+        if (isQuestIsCompleted)
+        {
+            return;
+        }
+        moveUp();
         checkIfTheQuestIsGoToActivateTheKey();
         checkIfTheQuestIsActivateTheKey();
         if (currentQuest == null)
         {
             return;
         }
-
-        moveUp();
     }
 
     public void moveUp()
@@ -57,6 +70,7 @@ public class ItemToFindTopenTheMiddel_Hnadler : MonoBehaviour
                     (currentQuest as ActivateTheKey).CompleteQuest();
                     isQuestIsActivateTheKey = false;
                 }
+                isQuestIsCompleted = true;
             }
         }
     }
@@ -128,5 +142,44 @@ public class ItemToFindTopenTheMiddel_Hnadler : MonoBehaviour
                 Destroy(hologram);
             }
         }
+    }
+
+    private IEnumerator checkIfTheQuestIsCompleted()
+    {
+        yield return new WaitUntil(() => questManager.IsReadyToStartQuest);
+        checkIfTheQuestIsGoToActivateTheKeyIsCompleted();
+        checkIfTheQuestIsActivateTheKeyIsCompleted();
+    }
+
+    public bool checkIfTheQuestIsGoToActivateTheKeyIsCompleted()
+    {
+        if (questManager.checkingCompletedStoryQuest(typeof(GoToActivateTheKey)))
+        {
+            if (hologram != null)
+            {
+                hologram.SetActive(false);
+                Destroy(hologram);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public bool checkIfTheQuestIsActivateTheKeyIsCompleted()
+    {
+        if (questManager.checkingCompletedStoryQuest(typeof(ActivateTheKey)))
+        {
+            if (hologram != null)
+            {
+                hologram.SetActive(false);
+                Destroy(hologram);
+                isQuestIsActivateTheKey = true;
+                foundIT();
+                objectInteraction.setIsFinshed(true);
+                objectInteraction.hideCanvas();
+            }
+            return true;
+        }
+        return false;
     }
 }

@@ -72,7 +72,6 @@ public class MysteriousManQuestChecker : MonoBehaviour
                 questGiver.setQuestToGive(player.getCurrentMainQuest(), this.gameObject);
             }
         }
-        Debug.Log("MysteriousManQuestChecker");
     }
 
     private bool checkIfTheQuestIsMysteriousManQuestCompleted()

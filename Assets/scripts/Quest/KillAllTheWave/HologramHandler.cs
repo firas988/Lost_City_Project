@@ -32,7 +32,7 @@ public class HologramHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(playerTag) && !isQuestCompleted)
+        if (other.CompareTag(playerTag) && !isQuestCompleted && currentQuest != null)
         {
             if (isQuestIsGoToFinshAllTheWave || checkIfTheQuestIsCompleted())
             {

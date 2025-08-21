@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class CastelKillQuestHandler : MonoBehaviour
     private GameObject mapParts;
 
     private Quest currentQuest;
+    private QuestManager questManager;
 
     private bool isQuestIsGoToCastel = false;
 
@@ -25,10 +27,24 @@ public class CastelKillQuestHandler : MonoBehaviour
 
     private bool isQuestIsFindTheMapPart = false;
 
-    void Start() { }
+    private bool isQuestIsCompleted = false;
+
+    private string gameManagerTag = "GameManager";
+
+    void Start()
+    {
+        questManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<QuestManager>();
+        StartCoroutine(checkIfTheQuestIsCompleted());
+    }
 
     void Update()
     {
+        if (isQuestIsCompleted)
+        {
+            return;
+        }
         checkIfTheQuestIsGotToTheCastel();
         checkIfTheQuestIsKillAllTheEnemyInTheCastel();
         checkIfTheQuestIsFindTheMapPart();
@@ -39,6 +55,13 @@ public class CastelKillQuestHandler : MonoBehaviour
         else
         {
             TryCompleteTheKillAllTheEnemyInTheCastelQuest();
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            foreach (Enemyspawner enemySpawner in enemySpawners)
+            {
+                enemySpawner.killAllEnemies();
+            }
         }
     }
 
@@ -155,5 +178,44 @@ public class CastelKillQuestHandler : MonoBehaviour
                     .subscribeToOnTriggerEnter(TryCompleteTheFindTheMapPartQuest);
             }
         }
+    }
+
+    private void CheckIfGoToCastelIsCompleted()
+    {
+        if (questManager.checkingCompletedStoryQuest(typeof(GoToCastel)))
+        {
+            isQuestIsGoToCastel = true;
+            openTheOutDoor();
+            subscribeToTheQuest();
+        }
+    }
+
+    private void CheckIfKillAllTheEnemyInTheCastelIsCompleted()
+    {
+        if (questManager.checkingCompletedStoryQuest(typeof(KillAllTheEnemyInTheCastel)))
+        {
+            foreach (Enemyspawner enemySpawner in enemySpawners)
+            {
+                enemySpawner.destroyEnemies();
+            }
+            inDoor.GetComponent<CastelDoorHandler>().openTheDoor();
+        }
+    }
+
+    private void CheckIfFindTheMapPartIsCompleted()
+    {
+        if (questManager.checkingCompletedStoryQuest(typeof(FindTheMapPart)))
+        {
+            Destroy(mapParts);
+            isQuestIsCompleted = true;
+        }
+    }
+
+    private IEnumerator checkIfTheQuestIsCompleted()
+    {
+        yield return new WaitUntil(() => questManager.IsReadyToStartQuest);
+        CheckIfGoToCastelIsCompleted();
+        CheckIfKillAllTheEnemyInTheCastelIsCompleted();
+        CheckIfFindTheMapPartIsCompleted();
     }
 }
