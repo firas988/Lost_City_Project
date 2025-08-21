@@ -225,7 +225,7 @@ public class DialogueManager : MonoBehaviour
         catch (KeyNotFoundException)
         {
             // Dialogue has ended - no more options available
-            if (npc.GetType() == typeof(QuestGiver))
+            if (npc.GetType() == typeof(QuestGiver) && ((QuestGiver)npc).GetQuestToGive() != null)
             {
                 if (((QuestGiver)npc).GetQuestToGive() is StoryQuest)
                 {
@@ -287,7 +287,7 @@ public class DialogueManager : MonoBehaviour
                 return;
             }
 
-            if (npc.GetType() == typeof(QuestGiver))
+            if (npc.GetType() == typeof(QuestGiver) && ((QuestGiver)npc).GetQuestToGive() != null)
             {
                 // Get the quest to be assigned to the player
                 Quest questToGive = ((QuestGiver)npc).GetQuestToGive();
