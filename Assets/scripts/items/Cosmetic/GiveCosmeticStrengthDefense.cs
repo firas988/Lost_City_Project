@@ -2,15 +2,15 @@ using UnityEngine;
 
 public static class GiveCosmeticStrengthDefense
 {
-    private static float[] defenceCommon = { 0.01f, 0.05f };
-    private static float[] defenceRare = { 0.05f, 0.1f };
-    private static float[] defenceEpic = { 0.1f, 0.2f };
-    private static float[] defenceLegendary = { 0.2f, 0.5f };
+    private static float[] defenceCommon = { 0.11f, 0.15f };
+    private static float[] defenceRare = { 0.15f, 0.2f };
+    private static float[] defenceEpic = { 0.2f, 0.3f };
+    private static float[] defenceLegendary = { 0.3f, 0.6f };
 
-    private static float[] strengthCommon = { 0f, 0.03f };
-    private static float[] strengthRare = { 0.03f, 0.08f };
-    private static float[] strengthEpic = { 0.08f, 0.13f };
-    private static float[] strengthLegendary = { 0.13f, 0.25f };
+    private static float[] strengthCommon = { 0.1f, 0.2f };
+    private static float[] strengthRare = { 0.2f, 0.3f };
+    private static float[] strengthEpic = { 0.3f, 0.4f };
+    private static float[] strengthLegendary = { 0.4f, 0.5f };
 
     public static float getStrength(ItemRarity rarity)
     {
