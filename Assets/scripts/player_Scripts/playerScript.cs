@@ -58,14 +58,6 @@ public class playerScript : MonoBehaviour
     /// </summary>
     private static bool isInCutscene;
 
-    /// <summary>
-    /// Property to get and set the cutscene state.
-    /// </summary>
-    public static bool IsInCutscene
-    {
-        get { return isInCutscene; }
-        set { isInCutscene = value; }
-    }
     #endregion
 
     #region Unity Lifecycle Methods
@@ -257,4 +249,15 @@ public class playerScript : MonoBehaviour
     }
 
     #endregion
+
+
+    public static void setIsInCutscene(bool isInCutscene)
+    {
+        isInCutscene = isInCutscene;
+    }
+
+    public static bool getIsInCutscene()
+    {
+        return isInCutscene;
+    }
 }
