@@ -53,6 +53,19 @@ public class playerScript : MonoBehaviour
     /// </summary>
     private bool isNearInteractable;
 
+    /// <summary>
+    /// Flag indicating if the player is in a cutscene.
+    /// </summary>
+    private static bool isInCutscene;
+
+    /// <summary>
+    /// Property to get and set the cutscene state.
+    /// </summary>
+    public static bool IsInCutscene
+    {
+        get { return isInCutscene; }
+        set { isInCutscene = value; }
+    }
     #endregion
 
     #region Unity Lifecycle Methods
