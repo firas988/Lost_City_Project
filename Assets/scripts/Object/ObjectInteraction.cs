@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -241,10 +242,16 @@ public class ObjectInteraction : MonoBehaviour
 
     private void updateText()
     {
-        // if (isAKey || isAchect)
-        // {
-        //     canvas.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Press  ";
-        // }
+        if (isAchect)
+        {
+            canvas.gameObject.GetComponentInChildren<TextMeshProUGUI>().text =
+                "Press     " + inputListener.getKeybind("Interact").ToString();
+        }
+        if (isAKey)
+        {
+            canvas.gameObject.GetComponentInChildren<TextMeshProUGUI>().text =
+                "Press " + inputListener.getKeybind("Interact").ToString();
+        }
     }
 
     private void checkIfThePlayerIsNearTheChest()
