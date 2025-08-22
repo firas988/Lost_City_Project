@@ -953,6 +953,7 @@ GameObject:
   - component: {fileID: 638679820307231200}
   - component: {fileID: 7182240874841409050}
   - component: {fileID: 8139946391921833454}
+  - component: {fileID: 6568789075726358449}
   m_Layer: 28
   m_Name: Kyle
   m_TagString: Player
@@ -1274,6 +1275,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6568789075726358449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507731602361876451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5ed50a9e3224a42b4b720368331bd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPotion: {fileID: 11400000, guid: 63e875a680e59364485d814aa85b2abf, type: 2}
+  strengthPotion: {fileID: 11400000, guid: 9e8b06cd538c8b943a1f6c35c3b61883, type: 2}
+  speedPotion: {fileID: 11400000, guid: 4b5d563ae5020fc44819da8b4fa9e9f4, type: 2}
+  healthInstantPotion: {fileID: 11400000, guid: fba155ac40c4b1c4684eab25907749e4, type: 2}
 --- !u!1 &1593916190238706446
 GameObject:
   m_ObjectHideFlags: 0

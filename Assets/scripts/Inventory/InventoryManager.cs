@@ -335,6 +335,11 @@ public class InventoryManager : MonoBehaviour
         return inventory.GetItem(row, column);
     }
 
+    public ConsumableItem UseConsumableFromHotBar(int index)
+    {
+        return inventory.getHotbar().useConsumable(index);
+    }
+
     /// <summary>
     /// Loads the inventory from a file.
     /// </summary>

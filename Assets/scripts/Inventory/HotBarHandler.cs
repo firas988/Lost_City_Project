@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class HotBarHandler : MonoBehaviour
 {
@@ -8,9 +8,52 @@ public class HotBarHandler : MonoBehaviour
 
     private InventoryManager inventoryManager;
 
+    private HotBarHandlerInInventory hotBarHandlerInInventory;
+
+    private InputListener inputListener;
+
+    private PotionHandler potionHandler;
+
+    private string playerTag = "Player";
+
     void Start()
     {
         inventoryManager = GetComponent<InventoryManager>();
+        inputListener = transform.parent.GetComponentInChildren<InputListener>();
+        potionHandler = GameObject.FindGameObjectWithTag(playerTag).GetComponent<PotionHandler>();
+        hotBarHandlerInInventory = GetComponent<HotBarHandlerInInventory>();
+    }
+
+    void Update()
+    {
+        if (inputListener.isPressingP1())
+        {
+            tryUsePotion(1);
+        }
+        if (inputListener.isPressingP2())
+        {
+            tryUsePotion(2);
+        }
+        if (inputListener.isPressingP3())
+        {
+            tryUsePotion(3);
+        }
+    }
+
+    private void tryUsePotion(int index)
+    {
+        ConsumableItem item = inventoryManager.UseConsumableFromHotBar(index);
+
+        if (item != null)
+        {
+            potionHandler.UsePotion(item);
+            updateHotBarUI(index);
+            hotBarHandlerInInventory.updateHotBarInInventoryUI(index);
+        }
+        else
+        {
+            Debug.Log("No item in hotbar");
+        }
     }
 
     public void updateHotBar()
@@ -26,6 +69,20 @@ public class HotBarHandler : MonoBehaviour
             {
                 slots[i].ClearSlot();
             }
+        }
+    }
+
+    public void updateHotBarUI(int index)
+    {
+        List<Item> items = inventoryManager.GetItemFromHotBar(index);
+        Slot slot = slots.Find(slot => slot.getHotBarIndex() == index);
+        if (items.Count > 0)
+        {
+            slot.SetItem(items[0], items.Count);
+        }
+        else
+        {
+            slot.ClearSlot();
         }
     }
 }

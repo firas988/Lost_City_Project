@@ -28,4 +28,18 @@ public class HotBarHandlerInInventory : MonoBehaviour
             }
         }
     }
+
+    public void updateHotBarInInventoryUI(int index)
+    {
+        List<Item> items = inventoryManager.GetItemFromHotBar(index);
+        Slot slot = slots.Find(slot => slot.getHotBarIndex() == index);
+        if (items.Count > 0)
+        {
+            slot.SetItem(items[0], items.Count);
+        }
+        else
+        {
+            slot.ClearSlot();
+        }
+    }
 }

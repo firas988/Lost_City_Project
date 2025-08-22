@@ -86,6 +86,21 @@ public class InputListener : MonoBehaviour
         return Input.GetKeyDown(KeyCode.Escape);
     }
 
+    public bool isPressingP1()
+    {
+        return Input.GetKeyDown(keybinds["P1"]);
+    }
+
+    public bool isPressingP2()
+    {
+        return Input.GetKeyDown(keybinds["P2"]);
+    }
+
+    public bool isPressingP3()
+    {
+        return Input.GetKeyDown(keybinds["P3"]);
+    }
+
     private void Awake()
     {
         if (keybinds == null)

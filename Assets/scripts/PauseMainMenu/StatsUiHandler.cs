@@ -58,7 +58,15 @@ public class StatsUiHandler : MonoBehaviour
 
     private void UpdateStatsUI()
     {
-        totalDistanceText.text = statisticsHandler.TotalDistance.ToString("F2") + " m";
+        float totalDistance = statisticsHandler.TotalDistance;
+        if (totalDistance > 1000)
+        {
+            totalDistanceText.text = (totalDistance / 1000).ToString("F2") + " km";
+        }
+        else
+        {
+            totalDistanceText.text = totalDistance.ToString("F2") + " m";
+        }
         float totalTimePlayed = statisticsHandler.TotalTimePlayed;
         int hours = Mathf.FloorToInt(totalTimePlayed / 3600);
         int minutes = Mathf.FloorToInt((totalTimePlayed % 3600) / 60);

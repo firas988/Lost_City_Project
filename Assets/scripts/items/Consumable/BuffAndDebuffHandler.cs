@@ -1,32 +1,22 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class BuffAndDebuffHandler : MonoBehaviour
 {
+    private Coroutine HealthRegen;
+    private Coroutine StrengthRegen;
+    private Coroutine SpeedRegen;
 
-  private Coroutine HealthRegen;
-  private Coroutine StrengthRegen;
-  private Coroutine SpeedRegen;
-
-
-  private string playerTag = "Player";
-  private Player player;
+    private string playerTag = "Player";
+    private Player player;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag(playerTag).GetComponent<StartPlayer>().getPlayer();
+        player = GameObject
+            .FindGameObjectWithTag(playerTag)
+            .GetComponent<StartPlayer>()
+            .getPlayer();
     }
-
-
-
-
-
-
-
-
-
-
-
 
     public void StartAddHealthBerSecond(float health, bool isRegen = true)
     {
@@ -57,7 +47,6 @@ public class BuffAndDebuffHandler : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
     }
-
 
     public void addStrength(float strength)
     {

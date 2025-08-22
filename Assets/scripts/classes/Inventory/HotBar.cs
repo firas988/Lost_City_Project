@@ -79,4 +79,22 @@ public class HotBar
     {
         return items;
     }
+
+    public ConsumableItem useConsumable(int index)
+    {
+        if (index > 0 && index < items.Count)
+        {
+            if (items[index].Count > 0)
+            {
+                ConsumableItem item = (ConsumableItem)items[index][0];
+                items[index].RemoveAt(0);
+                return item;
+            }
+            else
+            {
+                items[index] = new List<Item>();
+            }
+        }
+        return null;
+    }
 }

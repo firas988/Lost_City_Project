@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private AnimateController animateController; // Reference to AnimateController script
     private InputListener inputListener; // Reference to InputListener script
     private StatisticsHandler statisticsHandler; // Reference to StatisticsHandler script
-
+    private Player player;
     private AudioSource audioSource;
     private AudioManager audioManager;
 
@@ -25,8 +25,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float walkSpeed = 1.5f; // Speed while walking
 
+    private float walkSpeedBase = 1.5f;
+
     [SerializeField]
     private float sprintSpeed = 6f; // Speed while sprinting
+
+    private float sprintSpeedBase = 6f;
 
     [SerializeField]
     private float sprintTransitSpeed = 2.5f; // How quickly we switch between walk/sprint speeds
@@ -78,6 +82,7 @@ public class PlayerController : MonoBehaviour
         audioManager = GameObject
             .FindGameObjectWithTag(gameManagerTag)
             .GetComponentInChildren<AudioManager>();
+        player = GetComponent<StartPlayer>().getPlayer();
     }
 
     void Update()
@@ -85,6 +90,12 @@ public class PlayerController : MonoBehaviour
         // Gather input and process movement every frame
         InputMangagement();
         Movement();
+    }
+
+    public void updateSpeed()
+    {
+        walkSpeed = walkSpeedBase + player.getCurrentSpeed();
+        sprintSpeed = sprintSpeedBase + player.getCurrentSpeed();
     }
 
     private void Movement()

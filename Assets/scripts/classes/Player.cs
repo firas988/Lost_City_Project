@@ -132,7 +132,8 @@ public class Player
         this.currentStrengthPotionBuff = 0f;
 
         // Set maximum stat values
-        this.maxSpeed = 5f; // to remove
+        this.maxSpeed = 10f; // to remove
+        this.currentSpeed = 0f;
 
         // Calculate health based on bonus multiplier
         this.maxHealth = 100f * this.currentHealthBonus;
@@ -181,7 +182,6 @@ public class Player
         this.currentDefenseBonusSkill += bonus;
         calculateDefense();
     }
-
 
     public void addStrengthPotionBuff(float bonus)
     {
@@ -246,7 +246,7 @@ public class Player
     /// <param name="bonus">The speed bonus to add</param>
     public void addSpeedBonus(float bonus)
     {
-        this.currentSpeed = Mathf.Min(this.maxSpeed, this.currentSpeed + bonus);
+        this.currentSpeed += bonus;
     }
 
     public void removeSpeedPotionBuff(float bonus)
@@ -381,6 +381,11 @@ public class Player
         return this.currentHealth;
     }
 
+    public float getMaxHealth()
+    {
+        return this.maxHealth;
+    }
+
     public int getLevel()
     {
         return this.level;
@@ -399,5 +404,10 @@ public class Player
     public float getCurrentStrengthBonusSkill()
     {
         return this.currentStrengthBonusSkill;
+    }
+
+    public float getCurrentSpeed()
+    {
+        return this.currentSpeed;
     }
 }

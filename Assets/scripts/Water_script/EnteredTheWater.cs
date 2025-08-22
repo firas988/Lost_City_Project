@@ -36,8 +36,6 @@ public class EnteredTheWater : MonoBehaviour
     {
         if (other.CompareTag("Player")&& player!=null &&respawn!=null)
         {
-            Debug.Log(player.transform.position);
-            Debug.Log("Player entered water!");
             player.GetComponent<CharacterController>().enabled = false;
             player.transform.position = respawn.transform.position;
             player.transform.rotation = respawn.transform.rotation;

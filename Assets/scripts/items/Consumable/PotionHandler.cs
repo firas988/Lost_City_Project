@@ -6,7 +6,8 @@ public class PotionHandler : MonoBehaviour
 {
     private string gameManagerTag = "GameManager";
     private BuffAndDebuffHandler buffAndDebuffHandler;
-
+    private PotionUIHandler potionUIHandler;
+    private PlayerController playerController;
     private Dictionary<ConsumableType, Coroutine> activePotionCoroutines =
         new Dictionary<ConsumableType, Coroutine>();
 
@@ -15,6 +16,10 @@ public class PotionHandler : MonoBehaviour
         buffAndDebuffHandler = GameObject
             .FindGameObjectWithTag(gameManagerTag)
             .GetComponentInChildren<BuffAndDebuffHandler>();
+        potionUIHandler = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .transform.parent.GetComponentInChildren<PotionUIHandler>();
+        playerController = GetComponent<PlayerController>();
     }
 
     public void UsePotion(ConsumableItem potion)
@@ -36,14 +41,17 @@ public class PotionHandler : MonoBehaviour
         {
             case ConsumableType.HealthRegenerationPotion:
                 StartHealthRegen(potion);
+                potionUIHandler.StartHealthRegen(potion.EffectDuration);
                 break;
 
             case ConsumableType.StrengthPotion:
                 IncreaseStrength(potion);
+                potionUIHandler.StartStrengthRegen(potion.EffectDuration);
                 break;
 
             case ConsumableType.SpeedPotion:
                 IncreaseSpeed(potion);
+                potionUIHandler.StartSpeedRegen(potion.EffectDuration);
                 break;
 
             case ConsumableType.HealthInstantPotion:
@@ -64,14 +72,17 @@ public class PotionHandler : MonoBehaviour
         {
             case ConsumableType.HealthRegenerationPotion:
                 StopHealthRegen();
+                potionUIHandler.StopHealthRegen();
                 break;
 
             case ConsumableType.StrengthPotion:
                 ResetStrength();
+                potionUIHandler.StopStrengthRegen();
                 break;
 
             case ConsumableType.SpeedPotion:
                 ResetSpeed(potion);
+                potionUIHandler.StopSpeedRegen();
                 break;
         }
     }
@@ -99,11 +110,13 @@ public class PotionHandler : MonoBehaviour
     void IncreaseSpeed(ConsumableItem potion)
     {
         buffAndDebuffHandler.addSpeed(potion.SpeedAmount);
+        playerController.updateSpeed();
     }
 
     void ResetSpeed(ConsumableItem potion)
     {
         buffAndDebuffHandler.resetSpeed(potion.SpeedAmount);
+        playerController.updateSpeed();
     }
 
     void InstantHeal(ConsumableItem potion)
