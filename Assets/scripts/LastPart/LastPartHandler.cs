@@ -19,6 +19,8 @@ public class LastPartHandler : MonoBehaviour
     [SerializeField]
     private GameObject gate;
 
+    private QuestManager questManager;
+
     private Quest currentQuest;
 
     private bool isEnterCutScene = false;
@@ -36,6 +38,7 @@ public class LastPartHandler : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag(playerTag);
         gameManager = GameObject.FindGameObjectWithTag(gameManagerTag);
+        questManager = gameManager.GetComponentInChildren<QuestManager>();
         enterCutSceneCollider
             .GetComponent<ColiderCutScene>()
             .subscribeToOnTriggerEnter(EnterCutScene);
@@ -48,6 +51,7 @@ public class LastPartHandler : MonoBehaviour
     {
         checkIfTheQuestIsGoToTheCenter();
         checkIfTheQuestIsTimeToGetTheItem();
+        checkIfTheQuestIsKillTheFinalBossCompleted();
     }
 
     private void completeTheQuest(PlayableDirector director)
@@ -73,7 +77,11 @@ public class LastPartHandler : MonoBehaviour
 
     private void EnterCutScene()
     {
-        if (isEnterCutScene && !isEnterCutSceneCompleted)
+        if (
+            isEnterCutScene
+            && !isEnterCutSceneCompleted
+            && !checkIfTheQuestIsGoToTheCenterCompleted()
+        )
         {
             player.SetActive(false);
             enterCutScene.SetActive(true);
@@ -120,6 +128,23 @@ public class LastPartHandler : MonoBehaviour
             currentQuest = quest;
             openGate();
             isGetHitCutScene = true;
+        }
+    }
+
+    private bool checkIfTheQuestIsGoToTheCenterCompleted()
+    {
+        if (questManager.checkingCompletedStoryQuest(typeof(GoToTheCenter)))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void checkIfTheQuestIsKillTheFinalBossCompleted()
+    {
+        if (questManager.checkingCompletedStoryQuest(typeof(KillTheFinalBoss)))
+        {
+            openGate();
         }
     }
 }
