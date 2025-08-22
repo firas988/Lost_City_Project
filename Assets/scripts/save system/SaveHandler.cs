@@ -16,7 +16,7 @@ public class SaveHandler : MonoBehaviour
 
     private string playerTag = "Player";
 
-    void Start()
+    void Awake()
     {
         GameObject gameManager = GameObject.FindGameObjectWithTag(gameManagerTag);
         GameObject player = GameObject.FindGameObjectWithTag(playerTag);

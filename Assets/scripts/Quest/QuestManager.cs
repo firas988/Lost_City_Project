@@ -123,6 +123,7 @@ public class QuestManager : MonoBehaviour
         initPlayer();
         subscribeToEvents();
     }
+
     #endregion
 
     #region Initialization Methods
@@ -132,7 +133,7 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     private void subscribeToEvents()
     {
-        StoryQuest.subscribeToQuestCompletion(nextMainQuest);
+        StoryQuest.subscribeToQuestCompletion(nextStoryQuest);
 
         if (dialogueManager != null)
             dialogueManager.onDialogueExit += addQuest;
@@ -144,6 +145,10 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     public void initQuestLists(QuestData questData = null)
     {
+        if (playerInstance == null)
+        {
+            initPlayer();
+        }
         activeKillQuests = new List<KillQuest>();
         activeFindQuests = new List<FindQuest>();
         storyQuestListQueue = new Queue<StoryQuest>();
@@ -183,7 +188,7 @@ public class QuestManager : MonoBehaviour
             storyQuestListQueue.Enqueue(ScriptableObject.Instantiate(storyQuestsList.Quests[i]));
         }
         isReadyToStartQuest = true;
-        nextMainQuest();
+        nextStoryQuest();
     }
 
     /// <summary>
@@ -191,6 +196,11 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     private void initPlayer()
     {
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+        }
+
         playerInstance = player.GetComponent<StartPlayer>().getPlayer();
         if (playerInstance == null)
         {
@@ -333,15 +343,26 @@ public class QuestManager : MonoBehaviour
 
     #region Story Quest Management
 
+
+    public void nextStoryQuest()
+    {
+        StartCoroutine(nextMainQuest());
+    }
+
     /// <summary>
     /// Advances to the next main story quest in the queue.
     /// </summary>
-    public void nextMainQuest()
+    public IEnumerator nextMainQuest()
     {
+        yield return new WaitForSeconds(3f);
+        while (playerScript.getIsInCutscene())
+        {
+            yield return null;
+        }
+
         if (playerInstance != null && storyQuestListQueue.Count > 0)
         {
             playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
-
             notificationsManager.queueTopLeftNotification(
                 playerInstance.getCurrentMainQuest().GetQuestName() + " Started",
                 "notification"

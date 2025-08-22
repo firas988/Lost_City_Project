@@ -253,7 +253,7 @@ public class playerScript : MonoBehaviour
 
     public static void setIsInCutscene(bool isInCutscene)
     {
-        isInCutscene = isInCutscene;
+        playerScript.isInCutscene = isInCutscene;
     }
 
     public static bool getIsInCutscene()

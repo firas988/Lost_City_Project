@@ -10,7 +10,7 @@ MonoImporter:
   - speedSkillList: {instanceID: 0}
   - defenseSkillList: {instanceID: 0}
   - healthSkillList: {instanceID: 0}
-  executionOrder: 10
+  executionOrder: 20
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

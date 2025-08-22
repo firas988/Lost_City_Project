@@ -54,8 +54,20 @@ public class StartPlayer : MonoBehaviour
             );
         }
 
-        this.isCutScenePart1Completed = playerData.IsCutScenePart1Completed;
-        this.isCutScenePart2Completed = playerData.IsCutScenePart2Completed;
+        this.isCutScenePart1Completed =
+            playerData != null ? playerData.IsCutScenePart1Completed : false;
+        this.isCutScenePart2Completed =
+            playerData != null ? playerData.IsCutScenePart2Completed : false;
+
+        if (SceneManager.GetActiveScene().buildIndex == 1 && !isCutScenePart1Completed)
+        {
+            playerScript.setIsInCutscene(true);
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex == 2 && !isCutScenePart2Completed)
+        {
+            playerScript.setIsInCutscene(true);
+        }
     }
 
     public void setIsCutScenePart1Completed(bool isCutScenePart1Completed)
