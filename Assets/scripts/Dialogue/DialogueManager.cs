@@ -58,6 +58,11 @@ public class DialogueManager : MonoBehaviour
     private AnimateController animateController;
 
     /// <summary>
+    /// Reference to the player controller for managing player animations during dialogue.
+    /// </summary>
+    private PlayerController playerController;
+
+    /// <summary>
     /// Reference to the input listener for detecting interaction input.
     /// </summary>
     private InputListener inputListener;
@@ -102,6 +107,11 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private string gameManagerTag = "GameManager";
 
+    /// <summary>
+    /// Tag for the Player GameObject.
+    /// </summary>
+    private string playerTag = "Player";
+
     #endregion
 
     #region Events
@@ -126,10 +136,13 @@ public class DialogueManager : MonoBehaviour
             .GetComponentInChildren<InputListener>();
 
         // Find the player script component in the scene
-        playerStateManager = GameObject.FindWithTag("Player").GetComponent<playerScript>();
+        playerStateManager = GameObject.FindWithTag(playerTag).GetComponent<playerScript>();
 
         // Find the animation controller component in the scene
-        animateController = GameObject.FindWithTag("Player").GetComponent<AnimateController>();
+        animateController = GameObject.FindWithTag(playerTag).GetComponent<AnimateController>();
+
+        // Find the player controller component in the scene
+        playerController = GameObject.FindWithTag(playerTag).GetComponent<PlayerController>();
 
         // Get the Canvas component attached to this GameObject for UI management
         dialUI = GetComponent<Canvas>();
@@ -327,6 +340,7 @@ public class DialogueManager : MonoBehaviour
 
         // stop player animation
         animateController.stopPlayerAnimation();
+        playerController.stopCameraRotation();
         // Set the NPC name
         UIcontroller.SetText(npcName.GetComponent<TextMeshProUGUI>(), talkingTo.tag);
 
@@ -377,6 +391,9 @@ public class DialogueManager : MonoBehaviour
 
         // Re-enable animation controller for player animations
         animateController.enabled = true;
+
+        // Re-enable player controller to prevent player movement during dialogue
+        playerController.startCameraRotation();
 
         // Clear the reference to the NPC being talked to
         playerStateManager.setInteractingWith(null);

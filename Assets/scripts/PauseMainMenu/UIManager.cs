@@ -128,7 +128,7 @@ public class UIManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 characterPrevController.hideCharacterPreview();
-                playerController.setCameraRotation(true);
+                playerController.startCameraRotation();
             }
             else
             {
@@ -136,7 +136,7 @@ public class UIManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 characterPrevController.showCharacterPreview();
-                playerController.setCameraRotation(false);
+                playerController.stopCameraRotation();
             }
             StartCoroutine(activateCooldownInventoryOpen(1.5f));
             inventoryMenu.SetActive(!inventoryMenu.activeSelf);
@@ -154,14 +154,14 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(FadeOutBlackScreen(0f));
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
-                playerController.setCameraRotation(true);
+                playerController.startCameraRotation();
             }
             else
             {
                 StartCoroutine(FadeInBlackScreen(0.5f));
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                playerController.setCameraRotation(false);
+                playerController.stopCameraRotation();
             }
             StartCoroutine(activateCooldownSkillTreeOpen(1.5f));
             skillTreeMenu.GetComponent<Canvas>().enabled = !skillTreeMenu
@@ -183,14 +183,14 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(FadeOutBlackScreen(0f));
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
-                playerController.setCameraRotation(true);
+                playerController.startCameraRotation();
             }
             else
             {
                 StartCoroutine(FadeInBlackScreen(0.5f));
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                playerController.setCameraRotation(false);
+                playerController.stopCameraRotation();
             }
             StartCoroutine(activateCooldownFullMapOpen(1.5f));
             fullMapMenu.SetActive(!fullMapMenu.activeSelf);
@@ -209,7 +209,7 @@ public class UIManager : MonoBehaviour
                 Cursor.visible = false;
                 Time.timeScale = 1f;
                 playerUI.SetActive(true);
-                playerController.setCameraRotation(true);
+                playerController.startCameraRotation();
             }
             else
             {
@@ -219,7 +219,7 @@ public class UIManager : MonoBehaviour
                 Cursor.visible = true;
                 Time.timeScale = 0f;
                 playerUI.SetActive(false);
-                playerController.setCameraRotation(false);
+                playerController.stopCameraRotation();
             }
             // StartCoroutine(activateCooldownPauseOpen(1.5f));
         }
@@ -232,7 +232,7 @@ public class UIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         playerUI.SetActive(false);
-        playerController.setCameraRotation(false);
+        playerController.stopCameraRotation();
     }
 
     //IEnumerator for cooldown for ea ch menu
