@@ -7,6 +7,7 @@ public class BridgeHandler : MonoBehaviour
     private GameObject Hologram;
 
     private QuestManager questManager;
+    private Quest quest;
 
     private string gameManagerTag = "GameManager";
     private bool isQuestIsCompleted = false;
@@ -34,10 +35,23 @@ public class BridgeHandler : MonoBehaviour
             .FindGameObjectWithTag("Player")
             .GetComponent<StartPlayer>()
             .getPlayer();
-        Quest quest = player.getCurrentMainQuest();
+        quest = player.getCurrentMainQuest();
         if (quest is GoToBridge)
         {
             Destroy(Hologram);
+        }
+        else
+        {
+            quest = null;
+        }
+    }
+
+    public void completeQuest()
+    {
+        if (!isQuestIsCompleted && quest != null)
+        {
+            (quest as GoToBridge).CompleteQuest();
+            isQuestIsCompleted = true;
         }
     }
 

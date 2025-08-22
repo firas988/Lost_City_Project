@@ -77,6 +77,8 @@ public class TriggerZone : MonoBehaviour
             audioSourceStar.Stop();
             audioSourceMagicCircle.Stop();
             audioSourcePortal.Stop();
+            BridgeHandler bridgeHandler = gameObject.transform.parent.GetComponent<BridgeHandler>();
+            bridgeHandler.completeQuest();
             LoadScene();
         }
     }
