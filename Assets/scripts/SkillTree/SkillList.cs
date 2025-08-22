@@ -37,6 +37,9 @@ public class SkillList : ScriptableObject
     [SerializeField]
     private int currentLevel;
 
+    [SerializeField]
+    private SkillType skillType;
+
     private SkillAmountLimit skillAmountLimit;
 
     private List<Button> skillTreeButtons;
@@ -54,7 +57,7 @@ public class SkillList : ScriptableObject
     /// <param name="skillTreeButtons">List of UI buttons for the skill tree.</param>
     /// <param name="skillAmountLimit">Reference to the skill amount limit.</param>
     public void Init(
-        int currentLevel,
+        int currentSavedLevel,
         int maxLevel,
         List<Button> skillTreeButtons,
         SkillAmountLimit skillAmountLimit
@@ -63,14 +66,12 @@ public class SkillList : ScriptableObject
         this.maxLevel = maxLevel;
         this.skillAmountLimit = skillAmountLimit;
         this.skillTreeButtons = skillTreeButtons;
-        this.currentLevel = currentLevel;
+        this.currentLevel = 1;
         this.totalBonus = 0;
-        Debug.Log("Init SkillList: " + GetType() + " " + currentLevel);
 
-        for (int i = 0; i < currentLevel; i++)
+        for (int i = 0; i < currentSavedLevel; i++)
         {
             skillTreeButtons[i].GetComponentInParent<SkillTreeButton>().Increment(true);
-            Debug.Log("Incrementing skill " + i);
         }
     }
 
@@ -85,14 +86,9 @@ public class SkillList : ScriptableObject
     /// <returns>True if the upgrade was successful, false if already at max level.</returns>
     public bool Upgrade()
     {
-        if (currentLevel < maxLevel && skillAmountLimit.CanSpend(currentCost))
-        {
-            skillAmountLimit.UpdateSpent(currentCost);
-            currentLevel++;
-
-            return true;
-        }
-        return false;
+        skillAmountLimit.UpdateSpent(currentCost);
+        currentLevel++;
+        return true;
     }
 
     #endregion
@@ -104,7 +100,7 @@ public class SkillList : ScriptableObject
     /// </summary>
     public int currentCost
     {
-        get { return this.skills[currentLevel].Cost; }
+        get { return this.skills[currentLevel - 1].Cost; }
     }
 
     /// <summary>
@@ -112,7 +108,7 @@ public class SkillList : ScriptableObject
     /// </summary>
     public float currentBonus
     {
-        get { return this.skills[currentLevel].Bonus; }
+        get { return this.skills[currentLevel - 1].Bonus; }
     }
 
     #endregion
@@ -158,5 +154,9 @@ public class SkillList : ScriptableObject
         return this.currentLevel >= this.maxLevel;
     }
 
+    public SkillType getSkillType()
+    {
+        return this.skillType;
+    }
     #endregion
 }

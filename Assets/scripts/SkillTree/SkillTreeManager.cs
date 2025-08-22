@@ -147,35 +147,30 @@ public class SkillTreeManager : MonoBehaviour
     /// <param name="skillList">The skill list to upgrade.</param>
     public bool UpgradeSkill(SkillList skillList)
     {
-        if (skillList == strengthSkillList)
+        if (skillList.isMaxLevel() || !skillAmountLimit.CanSpend(skillList.currentCost))
+        {
+            return false;
+        }
+
+        skillList.Upgrade();
+
+        if (skillList.getSkillType() == SkillType.Strength)
         {
             startPlayer.getPlayer().addStrengthBonusSkill(skillList.currentBonus);
-
-            skillList.Upgrade();
-            return true;
         }
-        else if (skillList == healthSkillList)
+        else if (skillList.getSkillType() == SkillType.Health)
         {
             startPlayer.getPlayer().addHealthBonus(skillList.currentBonus);
-
-            skillList.Upgrade();
-            return true;
         }
-        else if (skillList == speedSkillList)
+        else if (skillList.getSkillType() == SkillType.Speed)
         {
             startPlayer.getPlayer().addSpeedBonus(skillList.currentBonus);
-
-            skillList.Upgrade();
-            return true;
         }
-        else if (skillList == defenseSkillList)
+        else if (skillList.getSkillType() == SkillType.Defense)
         {
             startPlayer.getPlayer().addDefenseBonusSkill(skillList.currentBonus);
-
-            skillList.Upgrade();
-            return true;
         }
-        return false;
+        return true;
     }
 
     /// <summary>
@@ -237,10 +232,11 @@ public class SkillTreeManager : MonoBehaviour
 
     public void LoadSkills(SkillTreeData skillTreeData)
     {
+        skillAmountLimit.setSpent(0);
+
         skillAmountLimit.setTotalAvailable(
             skillTreeData != null ? skillTreeData.TotalSkillPoints : 0
         );
-     
         skillAmountLimit.Render();
 
         strengthSkillList.Init(

@@ -263,6 +263,7 @@ public class Player
     {
         this.currentHealthBonus += bonus;
         this.maxHealth = 100f * this.currentHealthBonus;
+        this.currentHealth += bonus;
     }
 
     public void addHealth(float health)

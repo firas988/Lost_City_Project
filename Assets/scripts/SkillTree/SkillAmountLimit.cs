@@ -11,11 +11,6 @@ public class SkillAmountLimit : MonoBehaviour, ISkillAmountLimit
 {
     #region Inspector Fields
 
-    [SerializeField]
-    public int totalAvailable; // Initial total available skill points
-
-    [SerializeField]
-    public int totalSpent; // Initial total spent skill points
 
     [SerializeField]
     public TMP_Text availableText; // UI text for available points
@@ -27,8 +22,14 @@ public class SkillAmountLimit : MonoBehaviour, ISkillAmountLimit
     #region Private Fields
 
     private readonly Subject<Unit> _amountChangedObserver = new Subject<Unit>(); // Observable for amount changes
+
+    [SerializeField]
     private int _totalAvailable; // Current total available points
+
+    [SerializeField]
     private int _available; // Current available points
+
+    [SerializeField]
     private int _spent; // Current spent points
     #endregion
 
@@ -39,9 +40,6 @@ public class SkillAmountLimit : MonoBehaviour, ISkillAmountLimit
     /// </summary>
     public void Awake()
     {
-        _totalAvailable = totalAvailable;
-        _spent = totalSpent;
-        _available = _totalAvailable - _spent;
         Render();
     }
 
@@ -55,21 +53,14 @@ public class SkillAmountLimit : MonoBehaviour, ISkillAmountLimit
     /// <param name="spent">Amount to add to spent points.</param>
     public void UpdateSpent(int spent)
     {
-        if (!AreValidAmounts())
-            return;
-
         _spent += spent;
-        Debug.Log(_spent);
         _available = _totalAvailable - _spent;
-        _amountChangedObserver.OnNext(Unit.Default);
         Render();
     }
 
     /// <summary>
     /// Checks if the spent amount does not exceed the total available.
     /// </summary>
-    private bool AreValidAmounts() => _spent <= _totalAvailable;
-
     /// <summary>
     /// Returns true if at least one point can be spent.
     /// </summary>
@@ -78,12 +69,10 @@ public class SkillAmountLimit : MonoBehaviour, ISkillAmountLimit
     /// <summary>
     /// Returns true if the specified amount can be spent.
     /// </summary>
-    public bool CanSpend(int amount) => _available >= amount;
-
-    /// <summary>
-    /// Returns true if any points have been spent (can take back).
-    /// </summary>
-    public bool CanTakeBack() => _spent > 0;
+    public bool CanSpend(int amount)
+    {
+        return _available > 0 && _available >= amount;
+    }
 
     #endregion
 
@@ -155,7 +144,7 @@ public class SkillAmountLimit : MonoBehaviour, ISkillAmountLimit
     /// </summary>
     public void Render()
     {
-        availableText.text = (_totalAvailable - _spent).ToString();
+        availableText.text = _available.ToString();
         spentText.text = _spent.ToString();
     }
 

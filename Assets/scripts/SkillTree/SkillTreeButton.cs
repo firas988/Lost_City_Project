@@ -73,7 +73,6 @@ public class SkillTreeButton : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         SetSkillAmountLimit(skillLimit);
         isSkillPurchased = false;
-        SetColors();
     }
 
     #endregion
@@ -86,43 +85,28 @@ public class SkillTreeButton : MonoBehaviour
     /// </summary>
     public void Increment(bool withoutNotification = false)
     {
-        if (!CanIncrement())
+        if (isSkillPurchased)
             return;
 
-        Debug.Log("Incrementing skill " + skillList.getCurrentLevel());
-
-        GetComponent<Button>().onClick.RemoveAllListeners();
-        // GetComponent<Button>().onClick.AddListener(() => audioManager.playUI(audioSource, "Error"));
-        GetComponent<Button>()
-            .onClick.AddListener(() =>
-                notificationsManager.queueTopLeftNotification(
-                    "Skill Already Upgraded/Not Enough Points/Not Enough XP",
-                    "Error"
-                )
-            );
-
         isSkillPurchased = skillTreeManager.UpgradeSkill(skillList);
-        Debug.Log("Skill upgraded " + isSkillPurchased);
+
         SetColors();
 
-        if (isSkillPurchased && skillList.getCurrentLevel() < skillList.getMaxLevel())
+        if (isSkillPurchased && !skillList.isMaxLevel())
         {
-            skillList.getSkillTreeButtons()[skillList.getCurrentLevel()].interactable = true;
+            skillList.getSkillTreeButtons()[skillList.getCurrentLevel()].interactable = false;
             if (!withoutNotification)
                 notificationsManager.queueTopLeftNotification("Skill Upgraded", "skillupgraded");
-        }
 
-        if (lineToUpdate != null)
-            lineToUpdate.SetSkillProgressBar(1f);
+            if (lineToUpdate != null)
+                lineToUpdate.SetSkillProgressBar(1f);
+        }
     }
 
     /// <summary>
     /// Checks if the skill can be incremented (enough points and not already purchased).
     /// </summary>
-    private bool CanIncrement() =>
-        !skillList.isMaxLevel()
-        && !isSkillPurchased
-        && _skillAmountLimit.CanSpend(skillList.currentCost);
+    private bool CanIncrement() => !isSkillPurchased;
 
     #endregion
 
@@ -141,8 +125,6 @@ public class SkillTreeButton : MonoBehaviour
     {
         if (isSkillPurchased)
         {
-            Debug.Log("Skill is purchased");
-            Debug.Log("Setting skill color to active");
             frameImage.color = activeFrameColor;
             iconImage.color = activeIconColor;
         }

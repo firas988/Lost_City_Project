@@ -50,10 +50,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc3647bd7490124aad99f4efe68d3f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalAvailable: 0
-  totalSpent: 0
   availableText: {fileID: 7714351624382601613}
   spentText: {fileID: 5305222997695919016}
+  _totalAvailable: 0
+  _available: 0
+  _spent: 0
 --- !u!1 &1787191137822264
 GameObject:
   m_ObjectHideFlags: 0
