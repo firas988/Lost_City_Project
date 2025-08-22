@@ -2,10 +2,10 @@ using UnityEngine;
 
 public static class GiveWeaponDamage
 {
-    private static float[] damageCommon = { 5f, 15f };
-    private static float[] damageRare = { 15f, 20f };
-    private static float[] damageEpic = { 20f, 30f };
-    private static float[] damageLegendary = { 30f, 50f };
+    private static float[] damageCommon = { 15f, 25f };
+    private static float[] damageRare = { 25f, 35f };
+    private static float[] damageEpic = { 35f, 45f };
+    private static float[] damageLegendary = { 45f, 55f };
 
     public static float getDamage(ItemRarity rarity)
     {

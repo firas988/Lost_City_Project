@@ -69,7 +69,7 @@
         "areaMask": 1,
         "waitTimeRange": [5, 7],
         "navMeshAreaName": "",
-        "health": 250,
+        "health": 150,
         "speed": 1,
         "maxSpeed": 4
       },
@@ -79,7 +79,7 @@
         "areaMask": 1,
         "waitTimeRange": [5, 7],
         "navMeshAreaName": "",
-        "health": 200,
+        "health": 175,
         "speed": 2.5,
         "maxSpeed": 6
       },
@@ -89,7 +89,7 @@
         "areaMask": 1,
         "waitTimeRange": [5, 7],
         "navMeshAreaName": "",
-        "health": 750,
+        "health": 400,
         "speed": 1.5,
         "maxSpeed": 4
       },
@@ -99,7 +99,7 @@
         "areaMask": 1,
         "waitTimeRange": [5, 7],
         "navMeshAreaName": "",
-        "health": 300,
+        "health": 200,
         "speed": 1.5,
         "maxSpeed": 4
       },
@@ -109,7 +109,7 @@
         "areaMask": 1,
         "waitTimeRange": [5, 7],
         "navMeshAreaName": "",
-        "health": 150,
+        "health": 80,
         "speed": 1.5,
         "maxSpeed": 4
       },
@@ -119,7 +119,7 @@
         "areaMask": 1,
         "waitTimeRange": [5, 7],
         "navMeshAreaName": "",
-        "health": 400,
+        "health": 200,
         "speed": 2,
         "maxSpeed": 4
       },
@@ -129,7 +129,7 @@
         "areaMask": 1,
         "waitTimeRange": [5, 7],
         "navMeshAreaName": "",
-        "health": 300,
+        "health": 150,
         "speed": 2,
         "maxSpeed": 4.5
       },
@@ -149,7 +149,7 @@
         "areaMask": 1,
         "waitTimeRange": [5, 7],
         "navMeshAreaName": "",
-        "health": 200,
+        "health": 100,
         "speed": 1.5,
         "maxSpeed": 4
       },
