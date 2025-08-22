@@ -14,6 +14,12 @@ public class PlayerData
     [SerializeField]
     private int sceneIndex;
 
+    [SerializeField]
+    private bool isCutScenePart1Completed;
+
+    [SerializeField]
+    private bool isCutScenePart2Completed;
+
     public PlayerData(StartPlayer startPlayer)
     {
         this.potions = new List<float>();
@@ -29,9 +35,14 @@ public class PlayerData
         this.rotation.Add(startPlayer.gameObject.transform.rotation.w);
 
         this.sceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        this.isCutScenePart1Completed = startPlayer.getIsCutScenePart1Completed();
+        this.isCutScenePart2Completed = startPlayer.getIsCutScenePart2Completed();
     }
 
     public List<float> Potions => potions;
     public List<float> Rotation => rotation;
     public int SceneIndex => sceneIndex;
+    public bool IsCutScenePart1Completed => isCutScenePart1Completed;
+    public bool IsCutScenePart2Completed => isCutScenePart2Completed;
 }
