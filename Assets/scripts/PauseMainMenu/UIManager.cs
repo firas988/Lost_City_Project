@@ -62,17 +62,17 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (inputListener.isPressingInventory())
+        if (inputListener.isPressingInventory() && !menuIsOpen)
         {
             toggleInventory();
         }
 
-        if (inputListener.isPressingSkillTree())
+        if (inputListener.isPressingSkillTree() && !menuIsOpen)
         {
             toggleSkillTreeMenu();
         }
 
-        if (inputListener.isPressingFullMap())
+        if (inputListener.isPressingFullMap() && !menuIsOpen)
         {
             toggleFullMapMenu();
         }
@@ -203,6 +203,7 @@ public class UIManager : MonoBehaviour
         {
             if (pauseMenu.enabled)
             {
+                menuIsOpen = false;
                 mainCamera.enabled = true;
                 pauseMenu.enabled = false;
                 Cursor.lockState = CursorLockMode.Locked;
@@ -213,6 +214,7 @@ public class UIManager : MonoBehaviour
             }
             else
             {
+                menuIsOpen = true;
                 mainCamera.enabled = false;
                 pauseMenu.enabled = true;
                 Cursor.lockState = CursorLockMode.None;

@@ -7,8 +7,5 @@ public class KeybindList : ScriptableObject
     [SerializeField]
     private List<Keybind> keybinds;
 
-    public List<Keybind> Keybinds
-    {
-        get { return keybinds; }
-    }
+    public List<Keybind> Keybinds => keybinds;
 }

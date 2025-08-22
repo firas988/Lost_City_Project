@@ -1,11 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class InputListener : MonoBehaviour
 {
     [SerializeField]
     private KeybindList keybindList;
+
+    private static KeybindList keybindListStatic;
+
+    [SerializeField]
+    private KeybindList keybindListDefault;
+
+    [SerializeField]
+    private List<GameObject> keyCanvas;
 
     [Header("Keys Configuration")]
     private static Dictionary<string, KeyCode> keybinds;
@@ -103,6 +112,8 @@ public class InputListener : MonoBehaviour
 
     private void Awake()
     {
+        keybindListStatic = keybindList;
+
         if (keybinds == null)
         {
             keybinds = new Dictionary<string, KeyCode>();
@@ -111,6 +122,7 @@ public class InputListener : MonoBehaviour
                 keybinds.Add(keybind.Key, keybind.Keycode);
             }
         }
+        setKeyCanvas();
     }
 
     void Update()
@@ -247,15 +259,59 @@ public class InputListener : MonoBehaviour
             }
         }
         keybinds[key] = keycode;
+
+        updateKeybinds(key, keycode);
+
         Debug.Log(key + " " + keybinds[key]);
         return true;
     }
 
+    public static void updateKeybinds(string key, KeyCode keycode)
+    {
+        foreach (Keybind keybind in keybindListStatic.Keybinds)
+        {
+            if (keybind.Key == key)
+            {
+                keybind.SetKeycode(keycode);
+                break;
+            }
+        }
+    }
+
+    public KeyCode getKeybind(string key)
+    {
+        if (keybinds.ContainsKey(key))
+        {
+            return keybinds[key];
+        }
+        else
+        {
+            return KeyCode.None;
+        }
+    }
+
     public void resetAllKeybinds()
     {
-        foreach (Keybind keybind in keybindList.Keybinds)
+        foreach (Keybind keybind in keybindListDefault.Keybinds)
         {
             keybinds[keybind.Key] = keybind.Keycode;
+        }
+    }
+
+    private void setKeyCanvas()
+    {
+        foreach (GameObject keyCanvas in keyCanvas)
+        {
+            try
+            {
+                keyCanvas.GetComponent<TextMeshPro>().text = keybindList
+                    .Keybinds.Find(x => x.Key == keyCanvas.name)
+                    .Keycode.ToString();
+            }
+            catch (System.Exception)
+            {
+                Debug.Log("Error setting key canvas: " + keyCanvas.name);
+            }
         }
     }
 }
