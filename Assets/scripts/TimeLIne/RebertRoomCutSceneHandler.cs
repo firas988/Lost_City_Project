@@ -17,4 +17,9 @@ public class RebertRoomCutSceneHandler : MonoBehaviour
     {
         sceneHandler.LoadScene(2);
     }
+
+    public void SetIsInCutscene(bool inCutScene)
+    {
+        playerScript.setIsInCutscene(inCutScene);
+    }
 }

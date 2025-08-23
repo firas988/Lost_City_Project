@@ -206,8 +206,14 @@ public class LevelManager : MonoBehaviour
             setLevel(levelData.Level);
             setXPtoNextLevel(levelData.XPtoNextLevel);
             setCurrentXP(levelData.CurrentXP);
-
-            player.GetComponent<StartPlayer>().getPlayer().setLevel(levelData.Level);
+            StartCoroutine(setLevelCoroutine(levelData.Level));
         }
+    }
+
+    private IEnumerator setLevelCoroutine(int level)
+    {
+        yield return new WaitUntil(() => GameObject.FindGameObjectWithTag("Player") != null);
+        player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<StartPlayer>().getPlayer().setLevel(level);
     }
 }

@@ -36,10 +36,12 @@ public class HideWhenTimelineEnds : MonoBehaviour
         }
         if (uiManager.isMenuOpen())
         {
+            director.Pause();
             objectsToHide.ForEach(obj => obj.SetActive(false));
         }
         else
         {
+            director.Resume();
             objectsToHide.ForEach(obj => obj.SetActive(true));
         }
     }

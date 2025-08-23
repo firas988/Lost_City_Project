@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,9 @@ public class CutSceneHandlerDone : MonoBehaviour
     private PlayableDirector director;
 
     private StartPlayer startPlayer;
+
+    [SerializeField]
+    private List<GameObject> objectsToHide;
 
     void Start()
     {
@@ -24,7 +28,15 @@ public class CutSceneHandlerDone : MonoBehaviour
         }
         else if (sceneIndex == 2)
         {
-            gameObject.SetActive(!startPlayer.getIsCutScenePart2Completed());
+            if (!startPlayer.getIsCutScenePart2Completed())
+            {
+                gameObject.SetActive(true);
+            }
+            else
+            {
+                objectsToHide.ForEach(obj => obj.SetActive(false));
+                gameObject.SetActive(false);
+            }
         }
     }
 
