@@ -33,6 +33,9 @@ public class SceneHandler : MonoBehaviour
 
     IEnumerator LoadAsynchronously(int index)
     {
+        float displayedProgress = 0f;
+        loadingBar.value = 0f;
+        float fakeProgressSpeed = 0.5f;
         if (inGame)
         {
             if (index != 0)
@@ -43,16 +46,16 @@ public class SceneHandler : MonoBehaviour
             uiManager.toggleLoadingScreen();
             uiMenuManager.DisablePanels();
             uiMenuManager.toggleLoadingScreen();
+            yield return new WaitForSecondsRealtime(1f);
         }
         else
         {
             loadCreateScene.SetActive(false);
             loadingScreen.SetActive(true);
+            yield return new WaitForSecondsRealtime(0.5f);
         }
         AsyncOperation operation = SceneManager.LoadSceneAsync(index);
         operation.allowSceneActivation = false;
-        float displayedProgress = 0f;
-        float fakeProgressSpeed = 0.5f;
 
         while (!operation.isDone)
         {

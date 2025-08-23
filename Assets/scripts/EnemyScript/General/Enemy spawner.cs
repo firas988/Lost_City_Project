@@ -51,7 +51,7 @@ public class Enemyspawner : MonoBehaviour
 
     private bool isReadyToRespawn = false;
 
-    private float timerForRespawn = 20f;
+    private float timerForRespawn = 120f;
 
     private bool isEnemyNeedSpawned = true;
 
