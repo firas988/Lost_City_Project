@@ -58,7 +58,8 @@ public class WorldCreationManager : MonoBehaviour
                     .transform.Find("LastModified")
                     .GetComponent<TMP_Text>();
                 worldNameText.text = Path.GetFileName(directoryNames[i]);
-                worldModifiedText.text = "Last Modified: " + lastModifiedTime(directoryNames[i]);
+                worldModifiedText.text =
+                    "Last Modified: " + GetFolderLastModified(directoryNames[i]);
             }
         }
         else
@@ -67,9 +68,27 @@ public class WorldCreationManager : MonoBehaviour
         }
     }
 
-    public string lastModifiedTime(string path)
+    public string GetFolderLastModified(string path)
     {
-        return new FileInfo(path).LastWriteTime.ToString("dd/MM/yyyy HH:mm:ss");
+        if (!Directory.Exists(path))
+            return "Folder does not exist";
+
+        var dirInfo = new DirectoryInfo(path);
+
+        var lastWriteTime = dirInfo.LastWriteTime;
+
+        var fileTimes = dirInfo
+            .GetFiles("*", SearchOption.AllDirectories)
+            .Select(f => f.LastWriteTime);
+
+        if (fileTimes.Any())
+        {
+            var latestFileTime = fileTimes.Max();
+            if (latestFileTime > lastWriteTime)
+                lastWriteTime = latestFileTime;
+        }
+
+        return lastWriteTime.ToString("dd/MM/yyyy HH:mm:ss");
     }
 
     public void goToWorldList()
