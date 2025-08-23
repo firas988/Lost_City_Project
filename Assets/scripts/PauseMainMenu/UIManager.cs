@@ -19,11 +19,11 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Camera pauseMenu;
 
-    [SerializeField]
     private Camera mainCamera;
 
-    [SerializeField]
     private PlayerController playerController;
+
+    private playerScript playerScript;
 
     [SerializeField]
     private GameObject playerUI;
@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
     private InputListener inputListener;
 
     private string GameManagerTag = "GameManager";
+    private string PlayerTag = "Player";
 
     //cooldown for all toggles (flag for each menu)
     private bool cooldownPauseOpen = false;
@@ -53,9 +54,10 @@ public class UIManager : MonoBehaviour
         inventoryMenu.SetActive(false);
         fullMapMenu.SetActive(false);
         bossHealthBar.SetActive(false);
-        mainCamera = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Camera>();
+        mainCamera = GameObject.FindGameObjectWithTag(PlayerTag).GetComponentInChildren<Camera>();
+        playerScript = GameObject.FindGameObjectWithTag(PlayerTag).GetComponent<playerScript>();
         playerController = GameObject
-            .FindGameObjectWithTag("Player")
+            .FindGameObjectWithTag(PlayerTag)
             .GetComponent<PlayerController>();
         playerUI?.SetActive(true);
     }
@@ -117,7 +119,7 @@ public class UIManager : MonoBehaviour
         if (!cooldownInventoryOpen)
         {
             CharacterPrevController characterPrevController = GameObject
-                .FindGameObjectWithTag("Player")
+                .FindGameObjectWithTag(PlayerTag)
                 .GetComponentInChildren<CharacterPrevController>();
             fullMapMenu.SetActive(false);
             skillTreeMenu.GetComponent<Canvas>().enabled = false;
@@ -209,7 +211,7 @@ public class UIManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 Time.timeScale = 1f;
-                playerUI.SetActive(true);
+                showPlayerUI();
                 playerController.startCameraRotation();
             }
             else
@@ -277,7 +279,10 @@ public class UIManager : MonoBehaviour
 
     public void showPlayerUI()
     {
-        playerUI.SetActive(true);
+        if (!playerScript.getIsInCutscene())
+        {
+            playerUI.SetActive(true);
+        }
     }
 
     public void startFadeInBlackScreen(float fadeInAmount)

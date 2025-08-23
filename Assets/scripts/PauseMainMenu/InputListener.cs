@@ -308,10 +308,7 @@ public class InputListener : MonoBehaviour
                     .Keybinds.Find(x => x.Key == keyCanvas.name)
                     .Keycode.ToString();
             }
-            catch (System.Exception)
-            {
-                Debug.Log("Error setting key canvas: " + keyCanvas.name);
-            }
+            catch (System.Exception) { }
         }
     }
 }
