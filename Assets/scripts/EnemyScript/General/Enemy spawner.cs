@@ -19,6 +19,9 @@ public class Enemyspawner : MonoBehaviour
     [SerializeField]
     private GameObject enemyPlaceHolder;
 
+    [SerializeField]
+    private SphereCollider colliderPlayerRange;
+
     private GameObject chest;
 
     private List<Entity> entities;
@@ -38,7 +41,7 @@ public class Enemyspawner : MonoBehaviour
 
     private bool inTimer = false;
 
-    private bool allEnemiesDead = false;
+    private bool allEnemiesDead = true;
 
     [SerializeField]
     private bool canGetRandomDifficulty = true;
@@ -48,24 +51,56 @@ public class Enemyspawner : MonoBehaviour
 
     private bool isReadyToRespawn = false;
 
-    private float timerForRespawn = 120f;
+    private float timerForRespawn = 20f;
+
+    private bool isEnemyNeedSpawned = true;
+
+    private bool isPlayerInRange = false;
+
+    private bool isTheSpawnerActiveToSpawn = true;
 
     void Start()
     {
         enemiesToObject = new List<GameObject>();
         entities = new List<Entity>();
+        spawnRadius = patrolZoneTrigger.getPatrolRange() - 5f;
+        if (colliderPlayerRange != null)
+        {
+            colliderPlayerRange.radius = patrolZoneTrigger.getPatrolRange() + 170f;
+        }
         getRandomDifficulty();
         getNumberOfEnemiesToSpawn();
-        spawnRadius = patrolZoneTrigger.getPatrolRange() - 5f;
         putChestInPlaceHolder();
-        spawnEnemies();
     }
 
     void Update()
     {
+        if (
+            isPlayerInRange
+            && (canMultipleRespawn || isEnemyNeedSpawned)
+            && !inTimer
+            && isTheSpawnerActiveToSpawn
+        )
+        {
+            if (allEnemiesDead)
+            {
+                isTheSpawnerActiveToSpawn = false;
+                isEnemyNeedSpawned = false;
+                SpawnHandler();
+                allEnemiesDead = false;
+            }
+        }
+        else if (!allEnemiesDead && !isPlayerInRange && !isReadyToRespawn)
+        {
+            isEnemyNeedSpawned = true;
+            isTheSpawnerActiveToSpawn = true;
+            destroyEnemies();
+        }
+
         readyToRespawn();
         if (canMultipleRespawn && isReadyToRespawn && !inTimer)
         {
+            inTimer = true;
             StartCoroutine(respawnTimer());
         }
 
@@ -82,6 +117,14 @@ public class Enemyspawner : MonoBehaviour
         {
             isReadyToRespawn = false;
         }
+    }
+
+    private void SpawnHandler()
+    {
+        getRandomDifficulty();
+        getNumberOfEnemiesToSpawn();
+        putChestInPlaceHolder();
+        spawnEnemies();
     }
 
     private void checkIfAllEnemiesAreDead()
@@ -105,14 +148,12 @@ public class Enemyspawner : MonoBehaviour
 
     private IEnumerator respawnTimer()
     {
-        inTimer = true;
         yield return new WaitForSeconds(timerForRespawn);
-        getRandomDifficulty();
-        getNumberOfEnemiesToSpawn();
-        putChestInPlaceHolder();
-        spawnEnemies();
+        SpawnHandler();
         allEnemiesDead = false;
         inTimer = false;
+        isEnemyNeedSpawned = true;
+        isTheSpawnerActiveToSpawn = true;
     }
 
     private void getNumberOfEnemiesToSpawn()
@@ -222,8 +263,26 @@ public class Enemyspawner : MonoBehaviour
             Destroy(enemy);
         }
         enemiesToObject.Clear();
-        Destroy(enemyPlaceHolder);
+        allEnemiesDead = true;
+        // Destroy(enemyPlaceHolder);
         chest.GetComponent<ObjectInteraction>().setCanOpen(false);
+        isEnemyNeedSpawned = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isPlayerInRange = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isPlayerInRange = false;
+        }
     }
 
     public void killAllEnemies()
