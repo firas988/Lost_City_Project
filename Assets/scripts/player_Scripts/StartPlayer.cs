@@ -41,10 +41,12 @@ public class StartPlayer : MonoBehaviour
         }
         else
         {
+            gameObject.GetComponent<CharacterController>().enabled = false;
+
             gameObject.transform.position = new Vector3(
-                playerData.Potions[0],
-                playerData.Potions[1],
-                playerData.Potions[2]
+                playerData.Position[0],
+                playerData.Position[1],
+                playerData.Position[2]
             );
             gameObject.transform.rotation = new Quaternion(
                 playerData.Rotation[0],
@@ -52,6 +54,8 @@ public class StartPlayer : MonoBehaviour
                 playerData.Rotation[2],
                 playerData.Rotation[3]
             );
+
+            gameObject.GetComponent<CharacterController>().enabled = true;
         }
 
         this.isCutScenePart1Completed =
