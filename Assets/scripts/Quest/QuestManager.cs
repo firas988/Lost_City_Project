@@ -96,6 +96,10 @@ public class QuestManager : MonoBehaviour
 
     public bool IsReadyToStartQuest => isReadyToStartQuest;
 
+    [SerializeField]
+    private float waitTimeQuest = 3f;
+    public float WaitTimeQuest => waitTimeQuest;
+
     #endregion
 
     #region Events
@@ -354,7 +358,8 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     public IEnumerator nextMainQuest()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(waitTimeQuest);
+        waitTimeQuest = 1.5f;
         while (playerScript.getIsInCutscene())
         {
             yield return null;
