@@ -90,28 +90,28 @@ public class AudioManager : MonoBehaviour
         // EnemyVolume = 0.5f;
     }
 
-    /// <summary>
-    /// Handles runtime input for adjusting global and UI volume using keyboard shortcuts.
-    /// </summary>
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            setGlobalVolume(GlobalVolume - 0.1f);
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            setGlobalVolume(GlobalVolume + 0.1f);
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            setUIVolume(UIVolume - 0.1f);
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            setUIVolume(UIVolume + 0.1f);
-        }
-    }
+    // /// <summary>
+    // /// Handles runtime input for adjusting global and UI volume using keyboard shortcuts.
+    // /// </summary>
+    // public void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.M))
+    //     {
+    //         setGlobalVolume(GlobalVolume - 0.1f);
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.N))
+    //     {
+    //         setGlobalVolume(GlobalVolume + 0.1f);
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.B))
+    //     {
+    //         setUIVolume(UIVolume - 0.1f);
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.O))
+    //     {
+    //         setUIVolume(UIVolume + 0.1f);
+    //     }
+    // }
 
     #endregion
 
