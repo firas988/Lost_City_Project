@@ -85,6 +85,7 @@ public class SkillTreeButton : MonoBehaviour
     /// </summary>
     public void Increment(bool withoutNotification = false)
     {
+        Debug.Log("Incrementing skill:");
         if (isSkillPurchased)
             return;
 
@@ -94,7 +95,7 @@ public class SkillTreeButton : MonoBehaviour
 
         if (isSkillPurchased && !skillList.isMaxLevel())
         {
-            skillList.getSkillTreeButtons()[skillList.getCurrentLevel()].interactable = false;
+            skillList.getSkillTreeButtons()[skillList.getCurrentLevel() - 1].interactable = false;
             if (!withoutNotification)
                 notificationsManager.queueTopLeftNotification("Skill Upgraded", "skillupgraded");
 
