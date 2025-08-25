@@ -11,6 +11,18 @@ public class PotionHandler : MonoBehaviour
     private Dictionary<ConsumableType, Coroutine> activePotionCoroutines =
         new Dictionary<ConsumableType, Coroutine>();
 
+    [SerializeField]
+    private ParticleSystem particleHealthInstant;
+
+    [SerializeField]
+    private ParticleSystem particleHealthRegeneration;
+
+    [SerializeField]
+    private ParticleSystem particleStrengthRegeneration;
+
+    [SerializeField]
+    private ParticleSystem particleSpeedRegeneration;
+
     void Start()
     {
         buffAndDebuffHandler = GameObject
@@ -42,20 +54,24 @@ public class PotionHandler : MonoBehaviour
             case ConsumableType.HealthRegenerationPotion:
                 StartHealthRegen(potion);
                 potionUIHandler.StartHealthRegen(potion.EffectDuration);
+                particleHealthRegeneration.Play();
                 break;
 
             case ConsumableType.StrengthPotion:
                 IncreaseStrength(potion);
                 potionUIHandler.StartStrengthRegen(potion.EffectDuration);
+                particleStrengthRegeneration.Play();
                 break;
 
             case ConsumableType.SpeedPotion:
                 IncreaseSpeed(potion);
                 potionUIHandler.StartSpeedRegen(potion.EffectDuration);
+                particleSpeedRegeneration.Play();
                 break;
 
             case ConsumableType.HealthInstantPotion:
                 InstantHeal(potion);
+                particleHealthInstant.Play();
                 break;
         }
 
@@ -73,16 +89,19 @@ public class PotionHandler : MonoBehaviour
             case ConsumableType.HealthRegenerationPotion:
                 StopHealthRegen();
                 potionUIHandler.StopHealthRegen();
+                particleHealthRegeneration.Stop();
                 break;
 
             case ConsumableType.StrengthPotion:
                 ResetStrength();
                 potionUIHandler.StopStrengthRegen();
+                particleStrengthRegeneration.Stop();
                 break;
 
             case ConsumableType.SpeedPotion:
                 ResetSpeed(potion);
                 potionUIHandler.StopSpeedRegen();
+                particleSpeedRegeneration.Stop();
                 break;
         }
     }
