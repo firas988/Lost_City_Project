@@ -25,8 +25,22 @@ public class MinimapArrow : MonoBehaviour
     [SerializeField]
     private float edgeOffset = 0.9f;
 
+    private bool isTargetZero = true;
+
+    void Awake()
+    {
+        targetPosition = new Vector3(0, 0, 0);
+        isTargetZero = true;
+        arrowIcon.gameObject.SetActive(false);
+        dotIcon.gameObject.SetActive(false);
+    }
+
     void Update()
     {
+        if (isTargetZero)
+        {
+            return;
+        }
         try
         {
             player = GameObject.FindWithTag(playerTag).transform;
@@ -72,5 +86,17 @@ public class MinimapArrow : MonoBehaviour
     public void SetTarget(Vector3 newTarget)
     {
         targetPosition = newTarget;
+        if (newTarget == new Vector3(0, 0, 0))
+        {
+            isTargetZero = true;
+            arrowIcon.gameObject.SetActive(false);
+            dotIcon.gameObject.SetActive(false);
+        }
+        else
+        {
+            isTargetZero = false;
+            arrowIcon.gameObject.SetActive(true);
+            dotIcon.gameObject.SetActive(true);
+        }
     }
 }

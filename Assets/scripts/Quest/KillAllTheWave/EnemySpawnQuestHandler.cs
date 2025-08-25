@@ -187,7 +187,7 @@ public class EnemySpawnQuestHandler : MonoBehaviour
 
     private void CompleteQuest()
     {
-        (quest as FinshAllTheWave).CompleteQuest();
+        (quest as FinshAllTheWave)?.CompleteQuest();
     }
 
     private bool checkIfTheQuestIsFinshAllTheWaveIsCompleted()
