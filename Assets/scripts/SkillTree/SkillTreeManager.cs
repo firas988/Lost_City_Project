@@ -180,7 +180,7 @@ public class SkillTreeManager : MonoBehaviour
     private void HandleLevelUp(int newLevel)
     {
         Debug.Log("Level Up: " + newLevel);
-        skillAmountLimit.AddTotalAvailable((newLevel / 10) * 2);
+        skillAmountLimit.AddTotalAvailable(newLevel * 2);
     }
 
     #endregion
