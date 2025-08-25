@@ -358,8 +358,6 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     public IEnumerator nextMainQuest()
     {
-        yield return new WaitForSeconds(waitTimeQuest);
-        waitTimeQuest = 1.5f;
         while (playerScript.getIsInCutscene())
         {
             yield return null;
@@ -368,6 +366,9 @@ public class QuestManager : MonoBehaviour
         if (playerInstance != null && storyQuestListQueue.Count > 0)
         {
             playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
+            yield return new WaitForSeconds(waitTimeQuest);
+            waitTimeQuest = 1.5f;
+
             notificationsManager.queueTopLeftNotification(
                 playerInstance.getCurrentMainQuest().GetQuestName() + " Started",
                 "notification"

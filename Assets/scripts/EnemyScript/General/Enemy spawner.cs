@@ -59,6 +59,8 @@ public class Enemyspawner : MonoBehaviour
 
     private bool isTheSpawnerActiveToSpawn = true;
 
+    private bool stopSpawn = false;
+
     void Start()
     {
         enemiesToObject = new List<GameObject>();
@@ -75,6 +77,11 @@ public class Enemyspawner : MonoBehaviour
 
     void Update()
     {
+        if (stopSpawn)
+        {
+            return;
+        }
+
         if (
             isPlayerInRange
             && (canMultipleRespawn || isEnemyNeedSpawned)
@@ -82,8 +89,9 @@ public class Enemyspawner : MonoBehaviour
             && isTheSpawnerActiveToSpawn
         )
         {
-            if (allEnemiesDead)
+            if (allEnemiesDead )
             {
+                isReadyToRespawn = false;
                 isTheSpawnerActiveToSpawn = false;
                 isEnemyNeedSpawned = false;
                 SpawnHandler();
@@ -309,8 +317,23 @@ public class Enemyspawner : MonoBehaviour
         return isReadyToRespawn;
     }
 
+    public void setIsEnemyNeedSpawned(bool isEnemyNeedSpawned)
+    {
+        this.isEnemyNeedSpawned = isEnemyNeedSpawned;
+    }
+
+    public void setIsTheSpawnerActiveToSpawn(bool isTheSpawnerActiveToSpawn)
+    {
+        this.isTheSpawnerActiveToSpawn = isTheSpawnerActiveToSpawn;
+    }
+
     public void setTimerForRespawn(float timerForRespawn)
     {
         this.timerForRespawn = timerForRespawn;
+    }
+
+    public void setStopSpawn(bool stopSpawn)
+    {
+        this.stopSpawn = stopSpawn;
     }
 }

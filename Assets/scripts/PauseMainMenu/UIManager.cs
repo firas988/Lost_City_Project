@@ -140,7 +140,7 @@ public class UIManager : MonoBehaviour
                 characterPrevController.showCharacterPreview();
                 playerController.stopCameraRotation();
             }
-            StartCoroutine(activateCooldownInventoryOpen(1.5f));
+            StartCoroutine(activateCooldownInventoryOpen(0.5f));
             inventoryMenu.SetActive(!inventoryMenu.activeSelf);
         }
     }
@@ -165,7 +165,7 @@ public class UIManager : MonoBehaviour
                 Cursor.visible = true;
                 playerController.stopCameraRotation();
             }
-            StartCoroutine(activateCooldownSkillTreeOpen(1.5f));
+            StartCoroutine(activateCooldownSkillTreeOpen(0.5f));
             skillTreeMenu.GetComponent<Canvas>().enabled = !skillTreeMenu
                 .GetComponent<Canvas>()
                 .enabled;
@@ -194,7 +194,7 @@ public class UIManager : MonoBehaviour
                 Cursor.visible = true;
                 playerController.stopCameraRotation();
             }
-            StartCoroutine(activateCooldownFullMapOpen(1.5f));
+            StartCoroutine(activateCooldownFullMapOpen(0.5f));
             fullMapMenu.SetActive(!fullMapMenu.activeSelf);
         }
     }

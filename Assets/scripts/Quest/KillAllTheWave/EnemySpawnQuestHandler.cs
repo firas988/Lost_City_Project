@@ -44,7 +44,7 @@ public class EnemySpawnQuestHandler : MonoBehaviour
         questManager = GameObject
             .FindGameObjectWithTag(gameManagerTag)
             .GetComponentInChildren<QuestManager>();
-        setAllEnemySpawnersToCanMultipleRespawn(false);
+        setAllEnemySpawnersToNeedToRespawn(true);
         setTimerForRespawn();
         killAllWaveMapColider.subscribeToOnEnter(CompleteQuest);
         StartCoroutine(checkIfTheQuestIsCompletedLood());
@@ -66,8 +66,10 @@ public class EnemySpawnQuestHandler : MonoBehaviour
         }
 
         checkIfTheQuestIsCompleted();
-
-        checkIfAllReadyToRespawn();
+        if (!inTimer)
+        {
+            checkIfAllReadyToRespawn();
+        }
 
         if (isReadyToSpawn && !inTimer && !quest.isCompleted)
         {
@@ -78,14 +80,14 @@ public class EnemySpawnQuestHandler : MonoBehaviour
             StartCoroutine(spawnEnemies());
         }
 
-        // //test
-        // if (Input.GetKeyDown(KeyCode.T))
-        // {
-        //     foreach (Enemyspawner enemySpawner in enemySpawners)
-        //     {
-        //         enemySpawner.killAllEnemies();
-        //     }
-        // }
+        //test
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            foreach (Enemyspawner enemySpawner in enemySpawners)
+            {
+                enemySpawner.killAllEnemies();
+            }
+        }
     }
 
     private void updateCanvasWave()
@@ -101,6 +103,10 @@ public class EnemySpawnQuestHandler : MonoBehaviour
     {
         if (currentWave == numberOfWaves)
         {
+            foreach (Enemyspawner enemySpawner in enemySpawners)
+            {
+                enemySpawner.setStopSpawn(true);
+            }
             foreach (GameObject canvas in canvasWave)
             {
                 canvas.SetActive(false);
@@ -121,18 +127,19 @@ public class EnemySpawnQuestHandler : MonoBehaviour
     {
         readyToCheckIfAllReadyToRespawn = false;
         yield return new WaitForSeconds(1f);
-        setAllEnemySpawnersToCanMultipleRespawn(true);
+        setAllEnemySpawnersToNeedToRespawn(true);
         yield return new WaitForSeconds(5f);
         readyToCheckIfAllReadyToRespawn = true;
         isReadyToSpawn = false;
         inTimer = false;
     }
 
-    private void setAllEnemySpawnersToCanMultipleRespawn(bool canMultipleRespawn)
+    private void setAllEnemySpawnersToNeedToRespawn(bool isEnemyNeedSpawned)
     {
         foreach (Enemyspawner enemySpawner in enemySpawners)
         {
-            enemySpawner.setCanMultipleRespawn(canMultipleRespawn);
+            enemySpawner.setIsEnemyNeedSpawned(isEnemyNeedSpawned);
+            enemySpawner.setIsTheSpawnerActiveToSpawn(isEnemyNeedSpawned);
         }
     }
 
@@ -147,7 +154,7 @@ public class EnemySpawnQuestHandler : MonoBehaviour
             if (!enemySpawner.getIsReadyToRespawn())
             {
                 isReadyToSpawn = false;
-                setAllEnemySpawnersToCanMultipleRespawn(false);
+                // setAllEnemySpawnersToNeedToRespawn(false);
                 return;
             }
         }
@@ -190,6 +197,7 @@ public class EnemySpawnQuestHandler : MonoBehaviour
             Destroy(GameObject.FindWithTag("FinshAllTheWaveMapPiece"));
             foreach (Enemyspawner enemySpawner in enemySpawners)
             {
+                enemySpawner.setStopSpawn(true);
                 enemySpawner.destroyEnemies();
             }
             PlayableDirector director = GameObject
