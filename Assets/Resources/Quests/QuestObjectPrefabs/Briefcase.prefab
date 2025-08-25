@@ -102,9 +102,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
-  playerTag: Player
-  gameManagerTag: GameManager
+    m_Bits: 268435456
+  range: 2
+  progressBar: {fileID: 0}
+  canvas: {fileID: 0}
+  openChestEffect: {fileID: 0}
+  holdTime: 2
 --- !u!65 &7493691747197022605
 BoxCollider:
   m_ObjectHideFlags: 0

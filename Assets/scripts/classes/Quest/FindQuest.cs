@@ -56,8 +56,18 @@ public class FindQuest : Quest
         if (found == findTarget)
         {
             this.completed = true;
+
+            if (ParentQuest != null)
+            {
+                ParentQuest.CompleteQuest();
+            }
         }
         else
             this.completed = false;
+    }
+
+    public string GetProgress()
+    {
+        return found + "/" + findTarget;
     }
 }

@@ -19,6 +19,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Camera pauseMenu;
 
+    [SerializeField]
+    private GameObject SideQuestPanel;
+
+    [SerializeField]
+    private GameObject storyQuestPanel;
+
     private Camera mainCamera;
 
     private PlayerController playerController;
@@ -308,5 +314,40 @@ public class UIManager : MonoBehaviour
     public bool isMenuOpen()
     {
         return menuIsOpen;
+    }
+
+    public void addQuest(int questId, Quest questToAdd)
+    {
+        SideQuestPanel.GetComponent<QuestListDisplay>().addQuest(questId, questToAdd);
+    }
+
+    public void removeQuest(int questId)
+    {
+        SideQuestPanel.GetComponent<QuestListDisplay>().removeQuest(questId);
+    }
+
+    public void updateQuestProgress(int questId, string progress)
+    {
+        SideQuestPanel.GetComponent<QuestListDisplay>().updateQuestProgress(questId, progress);
+    }
+
+    public void updateStoryQuestPanel(Quest questToAdd)
+    {
+        if (storyQuestPanel.GetComponent<QuestListing>() != null)
+        {
+            storyQuestPanel.GetComponent<QuestListing>().SetName(questToAdd.GetQuestName());
+            storyQuestPanel
+                .GetComponent<QuestListing>()
+                .SetDescription(questToAdd.GetDescription());
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(
+                storyQuestPanel.GetComponent<RectTransform>()
+            );
+        }
+    }
+
+    public GameObject getQuestById(int questId)
+    {
+        return SideQuestPanel.transform.Find(questId.ToString()).gameObject;
     }
 }

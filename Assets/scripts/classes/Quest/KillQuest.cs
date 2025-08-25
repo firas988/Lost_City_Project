@@ -38,6 +38,16 @@ public class KillQuest : Quest
         if (kills == targetKills)
         {
             completed = true;
+
+            if (ParentQuest != null)
+            {
+                ParentQuest.CompleteQuest();
+            }
         }
+    }
+
+    public string GetProgress()
+    {
+        return kills + "/" + targetKills;
     }
 }

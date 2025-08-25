@@ -236,6 +236,18 @@ public class UIMenuManager : MonoBehaviour
         CameraObject.SetBool("Stats", true);
     }
 
+    public void questPanelPosition()
+    {
+        CameraObject.Update(Time.unscaledDeltaTime);
+        CameraObject.SetBool("Quests", true);
+    }
+
+    public void leaveQuestPanel()
+    {
+        CameraObject.Update(Time.unscaledDeltaTime);
+        CameraObject.SetBool("Quests", false);
+    }
+
     public void worldListPanelPosition()
     {
         CameraObject.Update(Time.unscaledDeltaTime);

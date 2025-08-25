@@ -30,6 +30,9 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     private DialogueManager dialogueManager;
 
+    [SerializeField]
+    private UIManager uiManager;
+
     /// <summary>
     /// List of story quests available in the game.
     /// </summary>
@@ -85,6 +88,8 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     private MinimapArrow minimapArrow;
 
+    private GameObject questSpawns;
+
     private string gameManagerTag = "GameManager";
 
     [SerializeField]
@@ -120,6 +125,13 @@ public class QuestManager : MonoBehaviour
             .GetComponentInChildren<NotificationsManager>();
         audioSource = this.gameObject.GetComponent<AudioSource>();
         dialogueManager = GameObject.FindAnyObjectByType<DialogueManager>();
+        uiManager = GameObject.FindAnyObjectByType<UIManager>();
+        questSpawns = GameObject.FindWithTag("ObjectSpawns");
+
+        foreach (Transform child in questSpawns.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
         initPlayer();
         subscribeToEvents();
     }
@@ -230,10 +242,30 @@ public class QuestManager : MonoBehaviour
             if (quest.ParentQuest == null)
                 notificationsManager.queueTopLeftNotification("New Quest Added", "notification");
             if (quest is KillQuest)
+            {
                 activeKillQuests.Add((KillQuest)quest);
 
+                uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
+            }
+
             if (quest is FindQuest)
+            {
                 activeFindQuests.Add((FindQuest)quest);
+
+                List<GameObject> spawns = new List<GameObject>();
+
+                foreach (Transform child in questSpawns.transform)
+                {
+                    if (quest.QuestTarget.Contains(child.tag))
+                    {
+                        spawns.Add(child.gameObject);
+                    }
+                }
+                //enable a randon spawn
+                spawns[UnityEngine.Random.Range(0, spawns.Count)].SetActive(true);
+
+                uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
+            }
         }
     }
 
@@ -247,41 +279,69 @@ public class QuestManager : MonoBehaviour
     /// <param name="objectFound">The GameObject that was found, used to match against quest targets.</param>
     public void addFind(GameObject objectFound)
     {
-        Debug.Log("Add Find: " + objectFound.tag);
         FindQuest questToInc = activeFindQuests.Find(questToFind =>
             questToFind != null
             && string.Join(", ", questToFind.QuestTarget).Contains(objectFound.tag)
         );
 
-        if (questToInc == null)
+        if (questToInc != null)
         {
-            return;
+            questToInc.progress();
+            uiManager.updateQuestProgress(
+                questToInc.Giver.GetInstanceID(),
+                questToInc.GetProgress()
+            );
+
+            objectFound.SetActive(false);
+
+            if (questToInc.isCompleted)
+            {
+                activeFindQuests.Remove(questToInc);
+                uiManager.removeQuest(questToInc.Giver.GetInstanceID());
+                playerInstance.removeQuest(questToInc);
+
+                if (questToInc.RewardType == RewardType.XP)
+                {
+                    onQuestFinish?.Invoke(questToInc.Reward);
+                    notificationsManager.queueTopLeftNotification(
+                        questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)",
+                        "notification"
+                    );
+                }
+                else
+                {
+                    onQuestFinish?.Invoke(questToInc.Reward);
+                }
+
+                StartCoroutine(refreshQuestGiver(questToInc.Giver));
+            }
         }
 
-        questToInc.progress();
-        Destroy(objectFound);
-        if (questToInc.isCompleted)
+        if (playerInstance.getCurrentMainQuest() != null)
         {
-            activeFindQuests.Remove(questToInc);
-            playerInstance.removeQuest(questToInc);
-
-            if (questToInc.ParentQuest == null)
-                notificationsManager.queueTopLeftNotification(
-                    questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)",
-                    "notification"
-                );
-
-            if (questToInc.ParentQuest != null)
+            if (playerInstance.getCurrentMainQuest().GetChildQuests() == null)
             {
-                questToInc.ParentQuest.CompleteQuest();
+                return;
             }
 
-            onQuestFinish?.Invoke(questToInc.Reward);
+            FindQuest storyQuest = (FindQuest)
+                playerInstance
+                    .getCurrentMainQuest()
+                    .GetChildQuests()
+                    .Find(quest =>
+                        quest is FindQuest
+                        && string.Join(", ", quest.QuestTarget).Contains(objectFound.tag)
+                    );
 
-            if (!(questToInc.ParentQuest is StoryQuest))
+            if (storyQuest != null)
             {
-                //find quest giver by gameobject ID
-                StartCoroutine(refreshQuestGiver(questToInc.Giver));
+                storyQuest.progress();
+                uiManager.updateQuestProgress(
+                    storyQuest.Giver.GetInstanceID(),
+                    storyQuest.GetProgress()
+                );
+
+                objectFound.SetActive(false);
             }
         }
     }
@@ -296,35 +356,67 @@ public class QuestManager : MonoBehaviour
             questToKill != null && string.Join(", ", questToKill.QuestTarget).Contains(objectKilled)
         );
 
-        if (questToInc.Count == 0)
+        if (questToInc.Count > 0)
         {
-            return;
-        }
+            float totalExpReward = 0;
 
-        float totalReward = 0;
-
-        foreach (KillQuest quest in questToInc)
-        {
-            quest.progress();
-
-            if (quest.isCompleted)
+            foreach (KillQuest quest in questToInc)
             {
-                totalReward += quest.Reward;
-                playerInstance.removeQuest(quest);
-                activeKillQuests.Remove(quest);
-                if (quest.ParentQuest == null)
+                quest.progress();
+
+                uiManager.updateQuestProgress(quest.Giver.GetInstanceID(), quest.GetProgress());
+
+                if (quest.isCompleted)
+                {
+                    if (quest.RewardType == RewardType.XP)
+                    {
+                        totalExpReward += quest.Reward;
+                    }
+                    else
+                    {
+                        onQuestFinish?.Invoke(quest.Reward);
+                    }
+                    playerInstance.removeQuest(quest);
+                    activeKillQuests.Remove(quest);
+                    uiManager.removeQuest(quest.Giver.GetInstanceID());
                     notificationsManager.queueTopLeftNotification(
                         quest.GetQuestName() + " Completed! (+" + quest.Reward + " EXP)",
                         "notification"
                     );
-                if (quest.ParentQuest != null)
+                    StartCoroutine(refreshQuestGiver(quest.Giver));
+                }
+            }
+
+            onQuestFinish?.Invoke(totalExpReward);
+        }
+
+        if (playerInstance.getCurrentMainQuest() != null)
+        {
+            if (playerInstance.getCurrentMainQuest().GetChildQuests() == null)
+            {
+                return;
+            }
+
+            List<KillQuest> storyQuest = new List<KillQuest>();
+            foreach (Quest quest in playerInstance.getCurrentMainQuest().GetChildQuests())
+            {
+                if (
+                    quest is KillQuest
+                    && string.Join(", ", quest.QuestTarget).Contains(objectKilled)
+                )
                 {
-                    quest.ParentQuest.CompleteQuest();
+                    storyQuest.Add((KillQuest)quest);
+                }
+            }
+
+            if (storyQuest.Count > 0)
+            {
+                foreach (KillQuest quest in storyQuest)
+                {
+                    quest.progress();
                 }
             }
         }
-
-        onQuestFinish?.Invoke(totalReward);
     }
 
     private IEnumerator refreshQuestGiver(GameObject giver)
@@ -359,6 +451,7 @@ public class QuestManager : MonoBehaviour
         {
             yield return null;
         }
+        uiManager.updateStoryQuestPanel(storyQuestListQueue.Peek());
 
         if (playerInstance != null && storyQuestListQueue.Count > 0)
         {
@@ -368,19 +461,6 @@ public class QuestManager : MonoBehaviour
                 "notification"
             );
             storyQuestIndex++;
-            if (
-                playerInstance.getCurrentMainQuest() != null
-                && playerInstance.getCurrentMainQuest().GetChildQuests().Count > 0
-            )
-            {
-                playerInstance
-                    .getCurrentMainQuest()
-                    .GetChildQuests()
-                    .ForEach(quest =>
-                    {
-                        addQuest(quest);
-                    });
-            }
             if (minimapArrow != null)
                 minimapArrow.SetTarget(playerInstance.getCurrentMainQuest().TargetPosition);
         }
