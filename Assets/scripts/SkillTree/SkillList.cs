@@ -66,7 +66,7 @@ public class SkillList : ScriptableObject
         this.maxLevel = maxLevel;
         this.skillAmountLimit = skillAmountLimit;
         this.skillTreeButtons = skillTreeButtons;
-        this.currentLevel = 1;
+        this.currentLevel = 0;
         this.totalBonus = 0;
 
         for (int i = 0; i < currentSavedLevel; i++)
@@ -100,7 +100,7 @@ public class SkillList : ScriptableObject
     /// </summary>
     public int currentCost
     {
-        get { return this.skills[currentLevel - 1].Cost; }
+        get { return this.skills[currentLevel].Cost; }
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ public class SkillList : ScriptableObject
     /// </summary>
     public float currentBonus
     {
-        get { return this.skills[currentLevel - 1].Bonus; }
+        get { return this.skills[currentLevel].Bonus; }
     }
 
     #endregion

@@ -86,7 +86,13 @@ public class SkillTreeButton : MonoBehaviour
     public void Increment(bool withoutNotification = false)
     {
         Debug.Log("Incrementing skill:");
-        if (isSkillPurchased)
+        if (
+            isSkillPurchased
+            || (
+                skillList.getSkillTreeButtons().IndexOf(this.gameObject.GetComponent<Button>())
+                > skillList.getCurrentLevel()
+            )
+        )
             return;
 
         isSkillPurchased = skillTreeManager.UpgradeSkill(skillList);
@@ -95,12 +101,16 @@ public class SkillTreeButton : MonoBehaviour
 
         if (isSkillPurchased && !skillList.isMaxLevel())
         {
-            skillList.getSkillTreeButtons()[skillList.getCurrentLevel() - 1].interactable = false;
+            this.gameObject.GetComponent<Button>().interactable = false;
+
             if (!withoutNotification)
                 notificationsManager.queueTopLeftNotification("Skill Upgraded", "skillupgraded");
 
             if (lineToUpdate != null)
+            {
+                Debug.Log("Updating skill progress bar");
                 lineToUpdate.SetSkillProgressBar(1f);
+            }
         }
     }
 
