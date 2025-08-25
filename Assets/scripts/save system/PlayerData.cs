@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerData
 {
     [SerializeField]
-    private List<float> potions;
+    private List<float> position;
 
     [SerializeField]
     private List<float> rotation;
@@ -22,12 +22,12 @@ public class PlayerData
 
     public PlayerData(StartPlayer startPlayer)
     {
-        this.potions = new List<float>();
+        this.position = new List<float>();
         this.rotation = new List<float>();
 
-        this.potions.Add(startPlayer.gameObject.transform.position.x);
-        this.potions.Add(startPlayer.gameObject.transform.position.y);
-        this.potions.Add(startPlayer.gameObject.transform.position.z);
+        this.position.Add(startPlayer.gameObject.transform.position.x);
+        this.position.Add(startPlayer.gameObject.transform.position.y);
+        this.position.Add(startPlayer.gameObject.transform.position.z);
 
         this.rotation.Add(startPlayer.gameObject.transform.rotation.x);
         this.rotation.Add(startPlayer.gameObject.transform.rotation.y);
@@ -40,7 +40,7 @@ public class PlayerData
         this.isCutScenePart2Completed = startPlayer.getIsCutScenePart2Completed();
     }
 
-    public List<float> Potions => potions;
+    public List<float> Position => position;
     public List<float> Rotation => rotation;
     public int SceneIndex => sceneIndex;
     public bool IsCutScenePart1Completed => isCutScenePart1Completed;

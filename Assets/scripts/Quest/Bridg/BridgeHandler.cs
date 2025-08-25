@@ -50,7 +50,7 @@ public class BridgeHandler : MonoBehaviour
     {
         if (!isQuestIsCompleted && quest != null)
         {
-            (quest as GoToBridge).CompleteQuest();
+            (quest as GoToBridge)?.CompleteQuest();
             isQuestIsCompleted = true;
         }
     }

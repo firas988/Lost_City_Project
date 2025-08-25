@@ -14,8 +14,16 @@ public class ItemDatabase : ScriptableObject
         return allItems.Find(item => item.id == id);
     }
 
-    public Item GetRandomItem()
+    public Item GetRandomItem(ItemCategory? itemCategory = null)
     {
-        return allItems[Random.Range(0, allItems.Count)];
+        if (itemCategory == null)
+        {
+            return allItems[Random.Range(0, allItems.Count)];
+        }
+        else
+        {
+            List<Item> items = allItems.FindAll(item => item.category == itemCategory);
+            return items[Random.Range(0, items.Count)];
+        }
     }
 }

@@ -29,6 +29,8 @@ public class CastelKillQuestHandler : MonoBehaviour
 
     private bool isQuestIsCompleted = false;
 
+    private bool isQuestKillAllTheEnemyInTheCastelIsCompleted = false;
+
     private string gameManagerTag = "GameManager";
 
     void Start()
@@ -46,7 +48,10 @@ public class CastelKillQuestHandler : MonoBehaviour
             return;
         }
         checkIfTheQuestIsGotToTheCastel();
-        checkIfTheQuestIsKillAllTheEnemyInTheCastel();
+        if (!isQuestKillAllTheEnemyInTheCastelIsCompleted)
+        {
+            checkIfTheQuestIsKillAllTheEnemyInTheCastel();
+        }
         checkIfTheQuestIsFindTheMapPart();
         if (!isAllSpawnersAreDone)
         {
@@ -56,6 +61,7 @@ public class CastelKillQuestHandler : MonoBehaviour
         {
             TryCompleteTheKillAllTheEnemyInTheCastelQuest();
         }
+
         if (Input.GetKeyDown(KeyCode.T))
         {
             foreach (Enemyspawner enemySpawner in enemySpawners)
@@ -69,7 +75,7 @@ public class CastelKillQuestHandler : MonoBehaviour
     {
         if (currentQuest is FindTheMapPart && isQuestIsFindTheMapPart)
         {
-            (currentQuest as FindTheMapPart).CompleteQuest();
+            (currentQuest as FindTheMapPart)?.CompleteQuest();
             Destroy(mapParts);
         }
     }
@@ -99,18 +105,23 @@ public class CastelKillQuestHandler : MonoBehaviour
     {
         if (currentQuest is GoToCastel && isQuestIsGoToCastel)
         {
-            (currentQuest as GoToCastel).CompleteQuest();
+            (currentQuest as GoToCastel)?.CompleteQuest();
             isQuestIsGoToCastel = false;
         }
     }
 
     private void TryCompleteTheKillAllTheEnemyInTheCastelQuest()
     {
-        if (currentQuest is KillAllTheEnemyInTheCastel && isQuestIsKillAllTheEnemyInTheCastel)
+        if (
+            currentQuest is KillAllTheEnemyInTheCastel
+            && isQuestIsKillAllTheEnemyInTheCastel
+            && !isQuestKillAllTheEnemyInTheCastelIsCompleted
+        )
         {
-            (currentQuest as KillAllTheEnemyInTheCastel).CompleteQuest();
+            (currentQuest as KillAllTheEnemyInTheCastel)?.CompleteQuest();
             inDoor.GetComponent<CastelDoorHandler>().openTheDoor();
             isQuestIsKillAllTheEnemyInTheCastel = false;
+            isQuestKillAllTheEnemyInTheCastelIsCompleted = true;
         }
     }
 

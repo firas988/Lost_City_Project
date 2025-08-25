@@ -36,7 +36,7 @@ public class HologramHandler : MonoBehaviour
         {
             if (isQuestIsGoToFinshAllTheWave || checkIfTheQuestIsCompleted())
             {
-                (currentQuest as GoToFinshAllTheWave).CompleteQuest();
+                (currentQuest as GoToFinshAllTheWave)?.CompleteQuest();
                 isQuestCompleted = true;
                 setSphereHologramOut(false);
                 return;

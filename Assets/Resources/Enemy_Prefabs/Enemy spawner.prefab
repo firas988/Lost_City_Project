@@ -140,6 +140,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4816469699963884533}
+  - component: {fileID: 6261634079461172611}
   - component: {fileID: 8255751236748797757}
   m_Layer: 0
   m_Name: Enemy spawner
@@ -166,6 +167,27 @@ Transform:
   - {fileID: 6911207804165592684}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &6261634079461172611
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8510865705544915101}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8255751236748797757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,4 +216,7 @@ MonoBehaviour:
   patrolZoneTrigger: {fileID: 2339323869355070069}
   chestPlaceHolder: {fileID: 4060728275729029474}
   enemyPlaceHolder: {fileID: 7675529421019258092}
+  colliderPlayerRange: {fileID: 6261634079461172611}
   canMultipleRespawn: 0
+  canGetRandomDifficulty: 1
+  difficulty: 0

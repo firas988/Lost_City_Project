@@ -136,6 +136,11 @@ public class UIMenuManager : MonoBehaviour
 
     private AudioManager audioManager;
 
+    private void Awake()
+    {
+        Time.timeScale = 1;
+    }
+
     void Start()
     {
         audioManager = GameObject.FindWithTag("GameManager").GetComponentInChildren<AudioManager>();

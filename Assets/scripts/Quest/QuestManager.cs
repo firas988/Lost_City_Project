@@ -101,6 +101,10 @@ public class QuestManager : MonoBehaviour
 
     public bool IsReadyToStartQuest => isReadyToStartQuest;
 
+    [SerializeField]
+    private float waitTimeQuest = 3f;
+    public float WaitTimeQuest => waitTimeQuest;
+
     #endregion
 
     #region Events
@@ -446,7 +450,6 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     public IEnumerator nextMainQuest()
     {
-        yield return new WaitForSeconds(3f);
         while (playerScript.getIsInCutscene())
         {
             yield return null;
@@ -456,6 +459,9 @@ public class QuestManager : MonoBehaviour
         if (playerInstance != null && storyQuestListQueue.Count > 0)
         {
             playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
+            yield return new WaitForSeconds(waitTimeQuest);
+            waitTimeQuest = 1.5f;
+
             notificationsManager.queueTopLeftNotification(
                 playerInstance.getCurrentMainQuest().GetQuestName() + " Started",
                 "notification"
