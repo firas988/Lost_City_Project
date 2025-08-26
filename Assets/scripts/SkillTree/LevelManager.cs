@@ -116,7 +116,7 @@ public class LevelManager : MonoBehaviour
                 + player.GetComponent<StartPlayer>().getPlayer().getLevel(),
             "levelup"
         );
-        levelText.text = (player.GetComponent<StartPlayer>().getPlayer().getLevel() + 1).ToString();
+        levelText.text = (player.GetComponent<StartPlayer>().getPlayer().getLevel()).ToString();
         level = player.GetComponent<StartPlayer>().getPlayer().getLevel();
         levelUpFiller.fillAmount = 0;
         StartCoroutine(transitionLevelUp(2f));
@@ -173,7 +173,7 @@ public class LevelManager : MonoBehaviour
     public void setLevel(int newLevel)
     {
         level = newLevel;
-        levelText.text = (level + 1).ToString();
+        levelText.text = (level).ToString();
     }
 
     /// <summary>
