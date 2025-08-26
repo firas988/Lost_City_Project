@@ -77,8 +77,7 @@ public class TriggerZone : MonoBehaviour
             audioSourceStar.Stop();
             audioSourceMagicCircle.Stop();
             audioSourcePortal.Stop();
-            BridgeHandler bridgeHandler = gameObject.transform.parent.GetComponent<BridgeHandler>();
-            bridgeHandler.completeQuest();
+
             LoadScene();
         }
     }
@@ -120,6 +119,11 @@ public class TriggerZone : MonoBehaviour
         {
             Portal.SetActive(true);
             audioManager.playSFX(audioSourcePortal, "Portal");
+            BridgeHandler bridgeHandler = gameObject.transform.parent.GetComponent<BridgeHandler>();
+            if (bridgeHandler != null)
+            {
+                bridgeHandler.completeQuest();
+            }
         }
 
         if (navMeshAgent.remainingDistance <= 20f && !star.activeSelf)

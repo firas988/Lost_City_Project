@@ -132,9 +132,12 @@ public class QuestManager : MonoBehaviour
         uiManager = GameObject.FindAnyObjectByType<UIManager>();
         questSpawns = GameObject.FindWithTag("ObjectSpawns");
 
-        foreach (Transform child in questSpawns.transform)
+        if (questSpawns != null)
         {
-            child.gameObject.SetActive(false);
+            foreach (Transform child in questSpawns.transform)
+            {
+                child.gameObject.SetActive(false);
+            }
         }
         initPlayer();
         subscribeToEvents();
