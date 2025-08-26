@@ -230,7 +230,7 @@ public class QuestManager : MonoBehaviour
         playerInstance = player.GetComponent<StartPlayer>().getPlayer();
         if (playerInstance == null)
         {
-            Debug.LogError("Player instance is null");
+            return;
         }
     }
 
