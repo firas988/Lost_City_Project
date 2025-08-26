@@ -38,12 +38,6 @@ public class MysteriousArtifact : StoryQuest
     /// </summary>
     public override void CompleteQuest()
     {
-        // Check if all child quests are completed before proceeding
-        if (!childQuests.All(quest => quest.isCompleted))
-        {
-            return;
-        }
-
         // Get the player instance for quest management
         Player player = GameObject
             .FindGameObjectWithTag("Player")
