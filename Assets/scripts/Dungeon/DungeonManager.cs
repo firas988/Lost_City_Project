@@ -31,6 +31,8 @@ public class DungeonManager : MonoBehaviour
 
     void Start()
     {
+        
+
         currentRoomIndex = 0;
 
         player = GameObject.FindWithTag("Player").GetComponent<StartPlayer>().getPlayer();
@@ -77,11 +79,6 @@ public class DungeonManager : MonoBehaviour
                 return;
             }
 
-            if (questManager.checkingCompletedStoryQuest(player.getCurrentMainQuest().GetType()))
-            {
-                NextRoom();
-                return;
-            }
             blockCurrentRoom();
 
             GameObject enemies = rooms[currentRoomIndex].transform.Find(enemiesName).gameObject;

@@ -1,10 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 public class TempleMapPartChecker : MonoBehaviour
 {
     private GameObject dungeonDoor;
     QuestManager questManager;
-    private bool isCompleted;
     private string gameManagerTag = "GameManager";
 
     void Start()
@@ -12,21 +12,16 @@ public class TempleMapPartChecker : MonoBehaviour
         questManager = GameObject
             .FindGameObjectWithTag(gameManagerTag)
             .GetComponentInChildren<QuestManager>();
-        isCompleted = false;
         dungeonDoor = GameObject.Find("dungeonEntrance");
+        StartCoroutine(checkIfTheQuestIsCompleted());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator checkIfTheQuestIsCompleted()
     {
-        if (isCompleted)
-        {
-            return;
-        }
+        yield return new WaitUntil(() => questManager.IsReadyToStartQuest);
 
         if (questManager.checkingCompletedStoryQuest(typeof(TempleFindMapPart)))
         {
-            isCompleted = true;
             dungeonDoor.GetComponent<DungeonDoorAnimateControl>().openBothDoors();
         }
     }

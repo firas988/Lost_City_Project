@@ -13,6 +13,8 @@ public class QuestListing : MonoBehaviour
 
     private Quest questToAdd;
 
+    private bool justAdded = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -31,9 +33,27 @@ public class QuestListing : MonoBehaviour
             questName.text = questToAdd.GetQuestName();
             questDescription.text = questToAdd.GetDescription();
         }
+        justAdded = true;
+    }
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
-        LayoutRebuilder.ForceRebuildLayoutImmediate(transform.parent.GetComponent<RectTransform>());
+    void Update()
+    {
+        if (questToAdd != null)
+        {
+            questName.text = questToAdd.GetQuestName();
+            questDescription.text = questToAdd.GetDescription();
+            questProgress.text = questToAdd.GetProgress();
+        }
+
+        if (justAdded)
+        {
+            Debug.Log("justAdded");
+            LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+            LayoutRebuilder.ForceRebuildLayoutImmediate(
+                transform.parent.GetComponent<RectTransform>()
+            );
+            justAdded = false;
+        }
     }
 
     public void SetQuestToAdd(Quest quest)
@@ -49,15 +69,23 @@ public class QuestListing : MonoBehaviour
     public void SetName(string name)
     {
         questName.text = name;
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(transform.parent.GetComponent<RectTransform>());
     }
 
     public void SetDescription(string description)
     {
         questDescription.text = description;
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(transform.parent.GetComponent<RectTransform>());
     }
 
     public void SetProgress(string progress)
     {
         questProgress.text = progress;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(transform.parent.GetComponent<RectTransform>());
     }
 }

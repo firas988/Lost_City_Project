@@ -17,11 +17,7 @@ public class QuestListDisplay : MonoBehaviour
     {
         GameObject questListing = Instantiate(questPrefab, this.gameObject.transform, false);
         quests.Add(questId, questListing.GetComponent<QuestListing>());
-
-        questListing.GetComponent<QuestListing>().SetName(quest.GetQuestName());
-        questListing.GetComponent<QuestListing>().SetDescription(quest.GetDescription());
-        questListing.GetComponent<QuestListing>().SetProgress(quest.GetProgress());
-        questListing.GetComponent<QuestListing>().SetQuestId(questId);
+        quests[questId].SetQuestToAdd(quest);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(questListing.GetComponent<RectTransform>());
         LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());

@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
     private GameObject blackScreen;
 
     [SerializeField]
-    private Camera pauseMenu;
+    private GameObject pauseMenu;
 
     [SerializeField]
     private GameObject SideQuestPanel;
@@ -146,7 +146,7 @@ public class UIManager : MonoBehaviour
                 characterPrevController.showCharacterPreview();
                 playerController.stopCameraRotation();
             }
-            StartCoroutine(activateCooldownInventoryOpen(0.5f));
+            StartCoroutine(activateCooldownInventoryOpen(1.5f));
             inventoryMenu.SetActive(!inventoryMenu.activeSelf);
         }
     }
@@ -171,7 +171,7 @@ public class UIManager : MonoBehaviour
                 Cursor.visible = true;
                 playerController.stopCameraRotation();
             }
-            StartCoroutine(activateCooldownSkillTreeOpen(0.5f));
+            StartCoroutine(activateCooldownSkillTreeOpen(1.5f));
             skillTreeMenu.GetComponent<Canvas>().enabled = !skillTreeMenu
                 .GetComponent<Canvas>()
                 .enabled;
@@ -200,7 +200,7 @@ public class UIManager : MonoBehaviour
                 Cursor.visible = true;
                 playerController.stopCameraRotation();
             }
-            StartCoroutine(activateCooldownFullMapOpen(0.5f));
+            StartCoroutine(activateCooldownFullMapOpen(1.5f));
             fullMapMenu.SetActive(!fullMapMenu.activeSelf);
         }
     }
@@ -209,11 +209,11 @@ public class UIManager : MonoBehaviour
     {
         if (!cooldownPauseOpen)
         {
-            if (pauseMenu.enabled)
+            if (pauseMenu.activeSelf)
             {
                 menuIsOpen = false;
                 mainCamera.enabled = true;
-                pauseMenu.enabled = false;
+                pauseMenu.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 Time.timeScale = 1f;
@@ -224,7 +224,7 @@ public class UIManager : MonoBehaviour
             {
                 menuIsOpen = true;
                 mainCamera.enabled = false;
-                pauseMenu.enabled = true;
+                pauseMenu.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 Time.timeScale = 0f;
@@ -238,7 +238,7 @@ public class UIManager : MonoBehaviour
     public void toggleLoadingScreen()
     {
         mainCamera.enabled = false;
-        pauseMenu.enabled = true;
+        pauseMenu.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         playerUI.SetActive(false);

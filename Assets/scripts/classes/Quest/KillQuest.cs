@@ -43,6 +43,7 @@ public class KillQuest : Quest
             {
                 ParentQuest.CompleteQuest();
             }
+            
         }
     }
 
