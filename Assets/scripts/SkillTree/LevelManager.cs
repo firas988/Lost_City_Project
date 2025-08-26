@@ -212,6 +212,7 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator setLevelCoroutine(int level)
     {
+        yield return new WaitForSeconds(1.5f);
         yield return new WaitUntil(() => GameObject.FindGameObjectWithTag("Player") != null);
         player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<StartPlayer>().getPlayer().setLevel(level);

@@ -27,12 +27,14 @@ public class StartPlayer : MonoBehaviour
         {
             try
             {
+                gameObject.GetComponent<CharacterController>().enabled = false;
                 gameObject.transform.position = GameObject
                     .FindWithTag(spawnPointTag)
                     .transform.position;
                 gameObject.transform.rotation = GameObject
                     .FindWithTag(spawnPointTag)
                     .transform.rotation;
+                gameObject.GetComponent<CharacterController>().enabled = true;
             }
             catch (System.Exception)
             {
@@ -42,7 +44,25 @@ public class StartPlayer : MonoBehaviour
         else
         {
             gameObject.GetComponent<CharacterController>().enabled = false;
-
+            if (SceneManager.GetActiveScene().buildIndex == 3)
+            {
+                if (
+                    playerData.Position[0] <= 577f
+                    && playerData.Position[0] >= 400f
+                    && playerData.Position[2] <= 157f
+                    && playerData.Position[2] >= 50f
+                )
+                {
+                    gameObject.transform.position = GameObject
+                        .FindWithTag(spawnPointTag)
+                        .transform.position;
+                    gameObject.transform.rotation = GameObject
+                        .FindWithTag(spawnPointTag)
+                        .transform.rotation;
+                    gameObject.GetComponent<CharacterController>().enabled = true;
+                    return;
+                }
+            }
             gameObject.transform.position = new Vector3(
                 playerData.Position[0],
                 playerData.Position[1],
