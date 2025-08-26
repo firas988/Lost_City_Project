@@ -61,6 +61,9 @@ public class Enemyspawner : MonoBehaviour
 
     private bool stopSpawn = false;
 
+    [SerializeField]
+    private float extraRadius = 0f;
+
     void Start()
     {
         enemiesToObject = new List<GameObject>();
@@ -68,7 +71,7 @@ public class Enemyspawner : MonoBehaviour
         spawnRadius = patrolZoneTrigger.getPatrolRange() - 5f;
         if (colliderPlayerRange != null)
         {
-            colliderPlayerRange.radius = patrolZoneTrigger.getPatrolRange() + 170f;
+            colliderPlayerRange.radius = patrolZoneTrigger.getPatrolRange() + 170f + extraRadius;
         }
         getRandomDifficulty();
         getNumberOfEnemiesToSpawn();
@@ -89,7 +92,7 @@ public class Enemyspawner : MonoBehaviour
             && isTheSpawnerActiveToSpawn
         )
         {
-            if (allEnemiesDead )
+            if (allEnemiesDead)
             {
                 isReadyToRespawn = false;
                 isTheSpawnerActiveToSpawn = false;

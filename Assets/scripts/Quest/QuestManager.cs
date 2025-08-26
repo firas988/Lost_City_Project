@@ -132,9 +132,12 @@ public class QuestManager : MonoBehaviour
         uiManager = GameObject.FindAnyObjectByType<UIManager>();
         questSpawns = GameObject.FindWithTag("ObjectSpawns");
 
-        foreach (Transform child in questSpawns.transform)
+        if (questSpawns != null)
         {
-            child.gameObject.SetActive(false);
+            foreach (Transform child in questSpawns.transform)
+            {
+                child.gameObject.SetActive(false);
+            }
         }
         initPlayer();
         subscribeToEvents();
@@ -340,10 +343,10 @@ public class QuestManager : MonoBehaviour
             if (storyQuest != null)
             {
                 storyQuest.progress();
-                uiManager.updateQuestProgress(
-                    storyQuest.Giver.GetInstanceID(),
-                    storyQuest.GetProgress()
-                );
+                // uiManager.updateQuestProgress(
+                //     storyQuest.Giver.GetInstanceID(),
+                //     storyQuest.GetProgress()
+                // );
 
                 objectFound.SetActive(false);
             }

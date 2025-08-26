@@ -13,7 +13,7 @@ public class QuestListing : MonoBehaviour
     private Quest questToAdd;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         questName = transform.Find("Details").Find("Name").GetComponent<TMP_Text>();
         questDescription = transform.Find("Details").Find("Description").GetComponent<TMP_Text>();
