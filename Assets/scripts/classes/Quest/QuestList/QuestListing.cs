@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestListing : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class QuestListing : MonoBehaviour
             questName.text = questToAdd.GetQuestName();
             questDescription.text = questToAdd.GetDescription();
         }
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(transform.parent.GetComponent<RectTransform>());
     }
 
     public void SetQuestToAdd(Quest quest)

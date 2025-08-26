@@ -20,15 +20,7 @@
       "dialogue": [
         {
           "text": "Thank you for your kind offer, i will reward you if you find it.",
-          "options": ["goodbye"]
-        }
-      ]
-    },
-    "goodbye": {
-      "dialogue": [
-        {
-          "text": "Goodbye",
-          "options": []
+          "options": ["thanks, goodbye", ""]
         }
       ]
     }

@@ -53,6 +53,12 @@ public class WolfHealthManager : MonoBehaviour
         {
             entity.setHealth(0);
         }
+        // Check if the bossBar is null
+        if (bossBar == null)
+        {
+            bossBar = GameObject.FindAnyObjectByType<BossBarHandler>();
+            return;
+        }
 
         // Check if health has changed
         if (Curhealth != entity.getHealth())
@@ -95,6 +101,7 @@ public class WolfHealthManager : MonoBehaviour
 
         // Notify enemy handler and destroy boss
         KillEnemyHandler.KilledEnemy(bossTag);
+        bossBar.gameObject.SetActive(false);
         Destroy(this.gameObject);
     }
     #endregion

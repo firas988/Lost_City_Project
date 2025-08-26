@@ -192,6 +192,8 @@ public abstract class Quest : ScriptableObject
         this.parentQuest = parentQuest;
     }
 
+    public abstract string GetProgress();
+
     #endregion
 
     #region Abstract Methods

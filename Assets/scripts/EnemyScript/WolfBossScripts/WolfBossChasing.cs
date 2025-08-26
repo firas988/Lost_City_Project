@@ -44,6 +44,12 @@ public class WolfBossChasing : MonoBehaviour
     /// </summary>
     void Update()
     {
+        // Check if the player is null
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+            return;
+        }
         // Check if chasing conditions are met
         if (player != null && navMeshAgent.enabled && !navMeshAgent.isStopped && canMove)
         {

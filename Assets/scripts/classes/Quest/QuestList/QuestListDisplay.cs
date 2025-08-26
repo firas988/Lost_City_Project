@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class QuestListDisplay : MonoBehaviour
 {
     [SerializeField]
+    private GameObject questPrefab;
     private Dictionary<int, QuestListing> quests;
 
     void Awake()
@@ -14,15 +15,12 @@ public class QuestListDisplay : MonoBehaviour
 
     public void addQuest(int questId, Quest quest)
     {
-        GameObject questListing = Instantiate(
-            Resources.Load<GameObject>("Quests/Prefabs/QuestPrefab"),
-            this.gameObject.transform,
-            false
-        );
-
+        GameObject questListing = Instantiate(questPrefab, this.gameObject.transform, false);
         quests.Add(questId, questListing.GetComponent<QuestListing>());
 
-        questListing.GetComponent<QuestListing>().SetQuestToAdd(quest);
+        questListing.GetComponent<QuestListing>().SetName(quest.GetQuestName());
+        questListing.GetComponent<QuestListing>().SetDescription(quest.GetDescription());
+        questListing.GetComponent<QuestListing>().SetProgress(quest.GetProgress());
         questListing.GetComponent<QuestListing>().SetQuestId(questId);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(questListing.GetComponent<RectTransform>());
