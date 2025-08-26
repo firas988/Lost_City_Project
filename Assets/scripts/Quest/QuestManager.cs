@@ -343,10 +343,10 @@ public class QuestManager : MonoBehaviour
             if (storyQuest != null)
             {
                 storyQuest.progress();
-                uiManager.updateQuestProgress(
-                    storyQuest.Giver.GetInstanceID(),
-                    storyQuest.GetProgress()
-                );
+                // uiManager.updateQuestProgress(
+                //     storyQuest.Giver.GetInstanceID(),
+                //     storyQuest.GetProgress()
+                // );
 
                 objectFound.SetActive(false);
             }
