@@ -204,7 +204,14 @@ public class QuestManager : MonoBehaviour
         }
         for (int i = storyQuestIndex + 1; i < storyQuestsList.Quests.Count; i++)
         {
-            storyQuestListQueue.Enqueue(ScriptableObject.Instantiate(storyQuestsList.Quests[i]));
+            StoryQuest quest = ScriptableObject.Instantiate(storyQuestsList.Quests[i]);
+            List<Quest> childQuests = new List<Quest>();
+            foreach (Quest childQuest in quest.GetChildQuests())
+            {
+                childQuests.Add(ScriptableObject.Instantiate(childQuest));
+            }
+            quest.SetChildQuests(childQuests);
+            storyQuestListQueue.Enqueue(quest);
         }
         isReadyToStartQuest = true;
         nextStoryQuest();
@@ -343,10 +350,6 @@ public class QuestManager : MonoBehaviour
             if (storyQuest != null)
             {
                 storyQuest.progress();
-                // uiManager.updateQuestProgress(
-                //     storyQuest.Giver.GetInstanceID(),
-                //     storyQuest.GetProgress()
-                // );
 
                 objectFound.SetActive(false);
             }
@@ -469,10 +472,16 @@ public class QuestManager : MonoBehaviour
                 playerInstance.getCurrentMainQuest().GetQuestName() + " Started",
                 "notification"
             );
+            Debug.Log(
+                "playerInstance.getCurrentMainQuest().GetQuestName(): "
+                    + playerInstance.getCurrentMainQuest().GetQuestName()
+            );
+
             storyQuestIndex++;
             if (minimapArrow != null)
                 minimapArrow.SetTarget(playerInstance.getCurrentMainQuest().TargetPosition);
         }
+        yield return null;
     }
 
     /// <summary>
