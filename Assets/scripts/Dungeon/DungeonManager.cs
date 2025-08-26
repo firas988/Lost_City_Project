@@ -7,8 +7,7 @@ public class DungeonManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> rooms;
 
-    [SerializeField]
-    private string bossTag = "WolfBoss";
+    // private string bossTag = "WolfBoss";
 
     [SerializeField]
     private string roomExitTag = "RoomExit";
@@ -17,13 +16,14 @@ public class DungeonManager : MonoBehaviour
     private string enemiesName = "Enemies";
 
     [SerializeField]
-    private string finalBossEnterName = "FinalBossEnter";
+    private GameObject finalBossEnter;
 
     private QuestManager questManager;
     private Player player;
 
     private int currentRoomIndex;
 
+    [SerializeField]
     private GameObject boss;
 
     void Start()
@@ -36,7 +36,7 @@ public class DungeonManager : MonoBehaviour
             .FindGameObjectWithTag("GameManager")
             .GetComponentInChildren<QuestManager>();
 
-        boss = GameObject.FindWithTag(bossTag);
+        // boss = GameObject.FindWithTag(bossTag);
         foreach (GameObject room in rooms)
         {
             GameObject enemies = room.transform.Find(enemiesName).gameObject;
@@ -174,12 +174,14 @@ public class DungeonManager : MonoBehaviour
             .position;
         player.SetActive(false);
 
-        GameObject.Find("dungeon").transform.Find(finalBossEnterName).gameObject.SetActive(true);
+        Debug.Log("StartFinallBossScene");
+        finalBossEnter.SetActive(true);
     }
 
     public void StopFinallBossScene()
     {
-        GameObject.Find("dungeon").transform.Find(finalBossEnterName).gameObject.SetActive(false);
+        Debug.Log("StopFinallBossScene");
+        finalBossEnter.SetActive(false);
     }
 
     public void closeFinalRoom()

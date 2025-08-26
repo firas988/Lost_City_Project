@@ -158,7 +158,10 @@ public class EnemyAnimatorControl : MonoBehaviour
             enemyMovement.setCanMove(false);
             animator.SetTrigger("isDead");
             isDead = true;
-            StartCoroutine(Dissolve());
+            if (gameObject.activeInHierarchy)
+            {
+                StartCoroutine(Dissolve());
+            }
         }
     }
 

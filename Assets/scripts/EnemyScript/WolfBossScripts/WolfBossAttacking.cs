@@ -97,7 +97,7 @@ public class WolfBossAttacking : MonoBehaviour
         attacks = GameObject
             .FindAnyObjectByType<EnemyAttackesConvert>()
             .getEnemyAttacks(gameObject.tag);
-        player = GameObject.FindAnyObjectByType<StartPlayer>().gameObject;
+        // player = GameObject.FindAnyObjectByType<StartPlayer>().gameObject;
         audioManager = GameObject
             .FindGameObjectWithTag(gameManagerTag)
             .GetComponentInChildren<AudioManager>();
