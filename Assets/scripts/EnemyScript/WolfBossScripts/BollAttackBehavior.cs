@@ -1,9 +1,21 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// StateMachineBehaviour that controls the jump attack (bolt) animation state for the Wolf Boss.
+/// Manages attack completion, cooldown initiation, and cleanup when the jump attack ends.
+/// Integrates with WolfBossAttacking for comprehensive attack management.
+/// </summary>
 public class BollAttackBehavior : StateMachineBehaviour
 {
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    #region Animation State Callbacks
+    /// <summary>
+    /// Called when entering the jump attack animation state.
+    /// Currently unused but available for future implementation.
+    /// </summary>
+    /// <param name="animator">The Animator component.</param>
+    /// <param name="stateInfo">Information about the current animation state.</param>
+    /// <param name="layerIndex">The layer index of the animation state.</param>
     override public void OnStateEnter(
         Animator animator,
         AnimatorStateInfo stateInfo,
@@ -16,12 +28,26 @@ public class BollAttackBehavior : StateMachineBehaviour
     //
     //}
 
-    //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    /// <summary>
+    /// Called when exiting the jump attack animation state.
+    /// Performs cleanup operations including animation reset, movement re-enabling,
+    /// attack state reset, and cooldown initiation.
+    /// </summary>
+    /// <param name="animator">The Animator component.</param>
+    /// <param name="stateInfo">Information about the current animation state.</param>
+    /// <param name="layerIndex">The layer index of the animation state.</param>
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Reset jump attack animation parameter
         animator.SetBool("JumpAttack", false);
+
+        // Re-enable NavMeshAgent for movement
         animator.GetComponentInParent<WolfBossAttacking>().activateNavMeshAgent();
+
+        // Reset attacking state
         animator.GetComponentInParent<WolfBossAttacking>().setIsAttacking(false);
+
+        // Start jump attack cooldown
         animator
             .GetComponentInParent<WolfBossAttacking>()
             .StartCoroutine(
@@ -40,4 +66,5 @@ public class BollAttackBehavior : StateMachineBehaviour
     //{
     //    // Implement code that sets up animation IK (inverse kinematics)
     //}
+    #endregion
 }

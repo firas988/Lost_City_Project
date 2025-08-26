@@ -2,89 +2,145 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages the spawning and respawning of enemies and chests in patrol zones.
+/// Handles difficulty scaling, enemy count management, and player proximity detection.
+/// Integrates with PatrolZone_Trigger for spawn area management.
+/// </summary>
 public class Enemyspawner : MonoBehaviour
 {
+    #region Serialized Fields
+    /// <summary>List of enemy prefabs available for spawning.</summary>
     [SerializeField]
     private List<GameObject> enemies;
 
+    /// <summary>List of chest prefabs available for spawning based on difficulty.</summary>
     [SerializeField]
     private List<GameObject> chests;
 
+    /// <summary>Reference to the patrol zone trigger for spawn area management.</summary>
     [SerializeField]
     private PatrolZone_Trigger patrolZoneTrigger;
 
+    /// <summary>GameObject marking the position where chests should be spawned.</summary>
     [SerializeField]
     private GameObject chestPlaceHolder;
 
+    /// <summary>GameObject marking the position where enemies should be spawned.</summary>
     [SerializeField]
     private GameObject enemyPlaceHolder;
 
+    /// <summary>Sphere collider that detects when player enters spawn range.</summary>
     [SerializeField]
     private SphereCollider colliderPlayerRange;
+    #endregion
 
+    #region Spawned Objects
+    /// <summary>Reference to the currently spawned chest.</summary>
     private GameObject chest;
 
+    /// <summary>List of entity components from spawned enemies for health tracking.</summary>
     private List<Entity> entities;
 
+    /// <summary>List of spawned enemy GameObjects for management and cleanup.</summary>
     private List<GameObject> enemiesToObject;
+    #endregion
 
+    #region Spawn Configuration
+    /// <summary>Randomly selected difficulty level for this spawn cycle.</summary>
     private int randomDifficulty;
 
+    /// <summary>Number of enemies to spawn based on difficulty.</summary>
     private int numberOfEnemiesToSpawn;
 
+    /// <summary>Current count of alive enemies.</summary>
     private int enemyCount;
 
+    /// <summary>Radius within which enemies can be spawned around the spawn point.</summary>
     private float spawnRadius;
 
+    /// <summary>Extra radius to add to player detection range.</summary>
+    [SerializeField]
+    private float extraRadius = 0f;
+    #endregion
+
+    #region Spawn Control Flags
+    /// <summary>Whether enemies can respawn multiple times after being defeated.</summary>
     [SerializeField]
     private bool canMultipleRespawn = false;
 
+    /// <summary>Whether the spawner is currently in a respawn timer.</summary>
     private bool inTimer = false;
 
+    /// <summary>Whether all spawned enemies are currently dead.</summary>
     private bool allEnemiesDead = true;
 
+    /// <summary>Whether difficulty should be randomly selected or use fixed value.</summary>
     [SerializeField]
     private bool canGetRandomDifficulty = true;
 
+    /// <summary>Fixed difficulty level when random difficulty is disabled.</summary>
     [SerializeField]
     private int difficulty = 0;
 
+    /// <summary>Whether the spawner is ready to respawn enemies.</summary>
     private bool isReadyToRespawn = false;
 
-    private float timerForRespawn = 120f;
-
+    /// <summary>Whether enemies need to be spawned.</summary>
     private bool isEnemyNeedSpawned = true;
 
+    /// <summary>Whether the player is within spawn range.</summary>
     private bool isPlayerInRange = false;
 
+    /// <summary>Whether the spawner is active and can spawn enemies.</summary>
     private bool isTheSpawnerActiveToSpawn = true;
 
+    /// <summary>Whether spawning should be completely stopped.</summary>
     private bool stopSpawn = false;
+    #endregion
 
-    [SerializeField]
-    private float extraRadius = 0f;
+    #region Timing Configuration
+    /// <summary>Time in seconds to wait before respawning enemies.</summary>
+    private float timerForRespawn = 120f;
+    #endregion
 
+    #region Unity Lifecycle
+    /// <summary>
+    /// Initializes the spawner and sets up initial configuration.
+    /// </summary>
     void Start()
     {
+        // Initialize lists
         enemiesToObject = new List<GameObject>();
         entities = new List<Entity>();
+
+        // Set spawn radius based on patrol zone
         spawnRadius = patrolZoneTrigger.getPatrolRange() - 5f;
+
+        // Configure player detection range
         if (colliderPlayerRange != null)
         {
             colliderPlayerRange.radius = patrolZoneTrigger.getPatrolRange() + 170f + extraRadius;
         }
+
+        // Set up initial spawn configuration
         getRandomDifficulty();
         getNumberOfEnemiesToSpawn();
         putChestInPlaceHolder();
     }
 
+    /// <summary>
+    /// Called every frame to manage spawning logic and enemy state.
+    /// </summary>
     void Update()
     {
+        // Exit if spawning is stopped
         if (stopSpawn)
         {
             return;
         }
 
+        // Check if conditions are met for spawning
         if (
             isPlayerInRange
             && (canMultipleRespawn || isEnemyNeedSpawned)
@@ -94,6 +150,7 @@ public class Enemyspawner : MonoBehaviour
         {
             if (allEnemiesDead)
             {
+                // Prepare for spawning
                 isReadyToRespawn = false;
                 isTheSpawnerActiveToSpawn = false;
                 isEnemyNeedSpawned = false;
@@ -103,11 +160,13 @@ public class Enemyspawner : MonoBehaviour
         }
         else if (!allEnemiesDead && !isPlayerInRange && !isReadyToRespawn)
         {
+            // Reset spawner when player leaves and enemies are alive
             isEnemyNeedSpawned = true;
             isTheSpawnerActiveToSpawn = true;
             destroyEnemies();
         }
 
+        // Check chest state and manage respawn timer
         readyToRespawn();
         if (canMultipleRespawn && isReadyToRespawn && !inTimer)
         {
@@ -115,9 +174,15 @@ public class Enemyspawner : MonoBehaviour
             StartCoroutine(respawnTimer());
         }
 
+        // Update enemy death status
         checkIfAllEnemiesAreDead();
     }
+    #endregion
 
+    #region Spawn Management
+    /// <summary>
+    /// Checks if the chest is open to determine if respawning is allowed.
+    /// </summary>
     private void readyToRespawn()
     {
         if (chest.GetComponent<ObjectInteraction>().getIsOpen())
@@ -130,6 +195,9 @@ public class Enemyspawner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the complete spawning process including difficulty and enemy setup.
+    /// </summary>
     private void SpawnHandler()
     {
         getRandomDifficulty();
@@ -138,8 +206,12 @@ public class Enemyspawner : MonoBehaviour
         spawnEnemies();
     }
 
+    /// <summary>
+    /// Checks if all spawned enemies are dead and updates chest state accordingly.
+    /// </summary>
     private void checkIfAllEnemiesAreDead()
     {
+        // Remove dead enemies from tracking lists
         for (int i = entities.Count - 1; i >= 0; i--)
         {
             if (entities[i].isDead())
@@ -148,15 +220,20 @@ public class Enemyspawner : MonoBehaviour
                 enemyCount--;
             }
         }
+
+        // If all enemies are dead, enable chest and reset spawner
         if (enemyCount == 0 && entities.Count == 0)
         {
             enemiesToObject.Clear();
-
             allEnemiesDead = true;
             chest.GetComponent<ObjectInteraction>().setCanOpen(true);
         }
     }
 
+    /// <summary>
+    /// Coroutine that manages the respawn timer for multiple respawn scenarios.
+    /// </summary>
+    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator respawnTimer()
     {
         yield return new WaitForSeconds(timerForRespawn);
@@ -166,7 +243,12 @@ public class Enemyspawner : MonoBehaviour
         isEnemyNeedSpawned = true;
         isTheSpawnerActiveToSpawn = true;
     }
+    #endregion
 
+    #region Difficulty and Enemy Count Management
+    /// <summary>
+    /// Determines the number of enemies to spawn based on difficulty level.
+    /// </summary>
     private void getNumberOfEnemiesToSpawn()
     {
         switch (randomDifficulty)
@@ -186,6 +268,9 @@ public class Enemyspawner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the difficulty level either randomly or from fixed value.
+    /// </summary>
     private void getRandomDifficulty()
     {
         if (canGetRandomDifficulty)
@@ -197,13 +282,21 @@ public class Enemyspawner : MonoBehaviour
             randomDifficulty = difficulty;
         }
     }
+    #endregion
 
+    #region Object Spawning
+    /// <summary>
+    /// Spawns a chest based on the current difficulty level.
+    /// </summary>
     private void putChestInPlaceHolder()
     {
+        // Destroy existing chest if present
         if (chest != null)
         {
             Destroy(chest);
         }
+
+        // Spawn new chest based on difficulty
         chest = Instantiate(
             chests[randomDifficulty],
             chestPlaceHolder.transform.position,
@@ -213,6 +306,9 @@ public class Enemyspawner : MonoBehaviour
         chest.GetComponent<ObjectInteraction>().setCanOpen(false);
     }
 
+    /// <summary>
+    /// Spawns enemies at valid NavMesh positions within the spawn radius.
+    /// </summary>
     private void spawnEnemies()
     {
         Vector3 center = enemyPlaceHolder.transform.position;
@@ -222,6 +318,7 @@ public class Enemyspawner : MonoBehaviour
             bool foundSpot = false;
             Vector3 spawnPosition = Vector3.zero;
 
+            // Try to find a valid spawn position on NavMesh
             for (int attempt = 0; attempt < 10; attempt++)
             {
                 Vector3 randomPos = center + Random.insideUnitSphere * spawnRadius;
@@ -244,6 +341,7 @@ public class Enemyspawner : MonoBehaviour
 
             if (foundSpot)
             {
+                // Spawn enemy at valid position
                 GameObject enemyToSpawn = enemies[Random.Range(0, enemies.Count)];
                 GameObject cloneEnemy = Instantiate(
                     enemyToSpawn,
@@ -254,6 +352,8 @@ public class Enemyspawner : MonoBehaviour
                     enemyPlaceHolder.transform,
                     worldPositionStays: true
                 );
+
+                // Track enemy entity and object
                 entities.Add((Entity)cloneEnemy.GetComponent<StartNpc>().GetNpcsInstance());
                 enemyCount++;
                 enemiesToObject.Add(cloneEnemy);
@@ -266,7 +366,12 @@ public class Enemyspawner : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Enemy Management
+    /// <summary>
+    /// Destroys all spawned enemies and resets spawner state.
+    /// </summary>
     public void destroyEnemies()
     {
         foreach (GameObject enemy in enemiesToObject)
@@ -275,27 +380,13 @@ public class Enemyspawner : MonoBehaviour
         }
         enemiesToObject.Clear();
         allEnemiesDead = true;
-        // Destroy(enemyPlaceHolder);
         chest.GetComponent<ObjectInteraction>().setCanOpen(false);
         isEnemyNeedSpawned = true;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            isPlayerInRange = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            isPlayerInRange = false;
-        }
-    }
-
+    /// <summary>
+    /// Kills all spawned enemies by setting their health to 0.
+    /// </summary>
     public void killAllEnemies()
     {
         foreach (Entity entity in entities)
@@ -304,39 +395,82 @@ public class Enemyspawner : MonoBehaviour
         }
         enemiesToObject.Clear();
     }
+    #endregion
 
+    #region Player Detection
+    /// <summary>
+    /// Called when player enters the spawn trigger area.
+    /// </summary>
+    /// <param name="other">The collider that entered the trigger.</param>
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isPlayerInRange = true;
+        }
+    }
+
+    /// <summary>
+    /// Called when player exits the spawn trigger area.
+    /// </summary>
+    /// <param name="other">The collider that exited the trigger.</param>
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isPlayerInRange = false;
+        }
+    }
+    #endregion
+
+    #region Public Interface Methods
+    /// <summary>Gets whether all enemies are currently dead.</summary>
+    /// <returns>True if all enemies are dead; otherwise false.</returns>
     public bool getAllEnemiesDead()
     {
         return allEnemiesDead;
     }
 
+    /// <summary>Sets whether multiple respawning is allowed.</summary>
+    /// <param name="canMultipleRespawn">Whether multiple respawning should be enabled.</param>
     public void setCanMultipleRespawn(bool canMultipleRespawn)
     {
         this.canMultipleRespawn = canMultipleRespawn;
     }
 
+    /// <summary>Gets whether the spawner is ready to respawn.</summary>
+    /// <returns>True if ready to respawn; otherwise false.</returns>
     public bool getIsReadyToRespawn()
     {
         return isReadyToRespawn;
     }
 
+    /// <summary>Sets whether enemies need to be spawned.</summary>
+    /// <param name="isEnemyNeedSpawned">Whether enemies need spawning.</param>
     public void setIsEnemyNeedSpawned(bool isEnemyNeedSpawned)
     {
         this.isEnemyNeedSpawned = isEnemyNeedSpawned;
     }
 
+    /// <summary>Sets whether the spawner is active for spawning.</summary>
+    /// <param name="isTheSpawnerActiveToSpawn">Whether spawning should be active.</param>
     public void setIsTheSpawnerActiveToSpawn(bool isTheSpawnerActiveToSpawn)
     {
         this.isTheSpawnerActiveToSpawn = isTheSpawnerActiveToSpawn;
     }
 
+    /// <summary>Sets the respawn timer duration.</summary>
+    /// <param name="timerForRespawn">Time in seconds to wait before respawning.</param>
     public void setTimerForRespawn(float timerForRespawn)
     {
         this.timerForRespawn = timerForRespawn;
     }
 
+    /// <summary>Sets whether spawning should be completely stopped.</summary>
+    /// <param name="stopSpawn">Whether spawning should be stopped.</param>
     public void setStopSpawn(bool stopSpawn)
     {
         this.stopSpawn = stopSpawn;
     }
+    #endregion
 }

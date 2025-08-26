@@ -4,10 +4,11 @@ using UnityEngine;
 /// <summary>
 /// Controls the attack behavior of the Hobgoblin enemy,
 /// including attack selection, hit detection, and cooldown management.
-/// Implements the EnemyAttackBehavior interface.
+/// Implements the EnemyAttackBehavior interface for standardized attack behavior.
 /// </summary>
 public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 {
+    #region Attack State Variables
     /// <summary>Current number of attacks performed.</summary>
     [SerializeField]
     private int attackCount = 0;
@@ -20,7 +21,9 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Flag indicating if the enemy is currently hitting.</summary>
     private bool isHitting = false;
+    #endregion
 
+    #region Attack Data
     /// <summary>The current attack data being used.</summary>
     private Attack currentAttack;
 
@@ -32,7 +35,9 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>List of attacks available to this Hobgoblin.</summary>
     private List<Attack> hobgoblinAttacks;
+    #endregion
 
+    #region Component References
     /// <summary>Reference to the EnemyMovement script controlling movement.</summary>
     private EnemyMovement enemyMovement;
 
@@ -41,30 +46,44 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Reference to the Player script controlling player data.</summary>
     private Player player = null;
+    #endregion
 
+    #region Audio Components
+    /// <summary>Reference to the AudioManager script for playing hobgoblin sounds.</summary>
     private AudioManager audioManager;
 
+    /// <summary>Reference to the AudioSource component for playing audio.</summary>
     private AudioSource audioSource;
+    #endregion
 
+    #region Configuration
     /// <summary>Tag for the GameManager object.</summary>
     private string gameManagerTag = "GameManager";
+    #endregion
 
+    #region Unity Lifecycle
     /// <summary>
     /// Initializes components and retrieves the list of available attacks at start.
     /// </summary>
     void Start()
     {
+        // Get required components
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
-        audioManager = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<AudioManager>();
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
         audioSource = GetComponent<AudioSource>();
 
-        enemyAttackesConvert = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<EnemyAttackesConvert>();
+        // Get attack data converter
+        enemyAttackesConvert = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<EnemyAttackesConvert>();
 
-        // Load the list of attacks for this enemy based on its tag.
+        // Load the list of attacks for this enemy based on its tag
         hobgoblinAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);
 
-        // Set the default current attack.
+        // Set the default current attack
         currentAttack = hobgoblinAttacks.Find(attack => attack.attackName == "attackHand");
     }
 
@@ -73,15 +92,18 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// </summary>
     void Update()
     {
-        attackPick(); // Selects the current attack.
-        attackPlacePick(); // Finds the GameObject representing the attack origin.
+        attackPick(); // Selects the current attack
+        attackPlacePick(); // Finds the GameObject representing the attack origin
 
+        // Check for hits and deal damage if needed
         if (hitCheck())
         {
             dealDamage();
         }
     }
+    #endregion
 
+    #region Damage System
     /// <summary>
     /// Deals damage to the player.
     /// </summary>
@@ -89,7 +111,9 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         player.takeDamage(currentAttack.attackDamage);
     }
+    #endregion
 
+    #region Attack Origin Management
     /// <summary>
     /// Finds and assigns the GameObject that marks the origin point of the current attack.
     /// </summary>
@@ -117,17 +141,19 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
         }
         return null;
     }
+    #endregion
 
+    #region Hit Detection
     /// <summary>
     /// Checks if the current attack hits the player, handles attack cooldown and counts.
     /// </summary>
     /// <returns>True if a hit was detected during this frame.</returns>
     private bool hitCheck()
     {
-        // Only check for hits if currently attacking and attack animation is playing.
+        // Only check for hits if currently attacking and attack animation is playing
         if (enemyMovement.getIsAttacking() && isAttackAnimationPlaying())
         {
-            // Detect colliders within the attack radius at the attack origin.
+            // Detect colliders within the attack radius at the attack origin
             Collider[] hitColliders = Physics.OverlapSphere(
                 currentAttackPlace.transform.position,
                 currentAttack.attackRadius
@@ -135,10 +161,10 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
             foreach (Collider col in hitColliders)
             {
-                // If collider belongs to the player and cooldown is over.
+                // If collider belongs to the player and cooldown is over
                 if (col.CompareTag("Player") && isAttacking && !isHitting)
                 {
-                    // Reset cooldown and increase attack count.
+                    // Reset cooldown and increase attack count
                     isHitting = true;
                     if (player == null)
                     {
@@ -156,7 +182,12 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
         return false;
     }
+    #endregion
 
+    #region Audio Management
+    /// <summary>
+    /// Plays the hobgoblin attack sound effect.
+    /// </summary>
     private void playAttackSound()
     {
         if (attackCount <= 0)
@@ -164,10 +195,13 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
             audioManager.playEnemy(audioSource, "HobGoblin_Attack");
         }
     }
+    #endregion
 
+    #region Attack Animation Control
     /// <summary>
     /// Returns true if the current attack animation is playing.
     /// </summary>
+    /// <returns>True if the animation is playing; otherwise false.</returns>
     public bool isAttackAnimationPlaying()
     {
         return enemyAnimatorControl.GetCurrentAnimationClipInfo() == currentAttack.attackName;
@@ -178,37 +212,52 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// </summary>
     private void attackPick()
     {
-        // Always use "attackHand" since there is no other attack in this class.
+        // Always use "attackHand" since there is no other attack in this class
         if (attackCount <= 0)
         {
             currentAttack = hobgoblinAttacks.Find(attack => attack.attackName == "attackHand");
         }
     }
+    #endregion
 
+    #region Interface Implementation
     /// <summary>Gets the name of the current attack.</summary>
+    /// <returns>The name of the current attack.</returns>
     public string getAttackName()
     {
         return currentAttack.attackName;
     }
 
     /// <summary>Gets the range of the current attack.</summary>
+    /// <returns>The range of the current attack.</returns>
     public float getAttackRange()
     {
         return currentAttack.attackRange;
     }
 
     /// <summary>Gets the attack duration/time.</summary>
+    /// <returns>The duration of the current attack.</returns>
     public float getAttackTime()
     {
         return currentAttack.attackTime;
     }
 
     /// <summary>Gets the damage of the current attack.</summary>
+    /// <returns>The damage value of the current attack.</returns>
     public float getAttackDamage()
     {
         return currentAttack.attackDamage;
     }
 
+    /// <summary>Gets whether the enemy is currently attacking.</summary>
+    /// <returns>True if attacking; otherwise false.</returns>
+    public bool getIsAttacking()
+    {
+        return isAttacking;
+    }
+    #endregion
+
+    #region Attack Control Methods
     /// <summary>Starts the Hobgoblin's attack animation.</summary>
     public void startAttackHobgoblin()
     {
@@ -222,13 +271,10 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
         isHitting = false;
         isAttacking = false;
     }
+    #endregion
 
-    public bool getIsAttacking()
-    {
-        return isAttacking;
-    }
-
-    // enable this to see the attack range in the editor
+    #region Debug Visualization
+    // Enable this to see the attack range in the editor
     /// <summary>
     /// Visualizes the attack radius in the editor with Gizmos.
     /// Draws red if hit detected this frame, otherwise green.
@@ -255,4 +301,5 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     //         );
     //     }
     // }
+    #endregion
 }

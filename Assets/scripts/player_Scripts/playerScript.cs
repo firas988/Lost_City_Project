@@ -6,6 +6,8 @@ using UnityEngine.UI;
 /// <summary>
 /// Handles player interaction detection with nearby interactable objects using a physics sphere check,
 /// and manages the interaction UI and dialogue state.
+/// Provides comprehensive interaction system for NPCs, objects, and environmental interactions.
+/// Manages dialogue state and cutscene coordination for immersive gameplay.
 /// </summary>
 public class playerScript : MonoBehaviour
 {
@@ -13,19 +15,35 @@ public class playerScript : MonoBehaviour
 
     [Header("Detection Settings")]
     [Tooltip("The Transform used as the center point of the detection sphere.")]
+    /// <summary>
+    /// The Transform used as the center point of the detection sphere.
+    /// Positioned on the player for accurate interaction range detection.
+    /// </summary>
     [SerializeField]
     private Transform detectionPoint;
 
     [Tooltip("The radius of the detection sphere.")]
+    /// <summary>
+    /// The radius of the detection sphere in world units.
+    /// Defines the maximum distance for detecting interactable objects.
+    /// </summary>
     [SerializeField]
     private float detectionRadius = 2f;
 
     [Tooltip("Layer mask used to filter interactable objects.")]
+    /// <summary>
+    /// Layer mask used to filter interactable objects.
+    /// Ensures only objects on interactive layers are detected.
+    /// </summary>
     [SerializeField]
     private LayerMask interactiveLayers;
 
     [Header("UI Settings")]
     [Tooltip("UI element to be shown or hidden when near an interactable.")]
+    /// <summary>
+    /// UI element to be shown or hidden when near an interactable.
+    /// Provides visual feedback for available interactions.
+    /// </summary>
     [SerializeField]
     private UIBehaviour interactionUI;
 
@@ -35,26 +53,31 @@ public class playerScript : MonoBehaviour
 
     /// <summary>
     /// Reference to the input listener script for handling player input.
+    /// Manages input state and interaction controls.
     /// </summary>
     private InputListener inputListener;
 
     /// <summary>
     /// Tracks if the player is currently in a dialogue session.
+    /// Controls interaction availability and input handling during conversations.
     /// </summary>
     private bool in_dialogue;
 
     /// <summary>
     /// Stores the currently detected interactable GameObject.
+    /// Reference to the object the player can interact with.
     /// </summary>
     private GameObject currentInteractable;
 
     /// <summary>
     /// Flag indicating if the player is near an interactable object.
+    /// Used to control interaction UI and input state.
     /// </summary>
     private bool isNearInteractable;
 
     /// <summary>
     /// Flag indicating if the player is in a cutscene.
+    /// Static variable for global cutscene state management.
     /// </summary>
     private static bool isInCutscene;
 
@@ -64,6 +87,7 @@ public class playerScript : MonoBehaviour
 
     /// <summary>
     /// Called once on script initialization. Attempts to find the input listener in the scene.
+    /// Sets up the input system connection for interaction management.
     /// </summary>
     private void Awake()
     {
@@ -74,6 +98,7 @@ public class playerScript : MonoBehaviour
     /// <summary>
     /// Called at a fixed interval (good for physics checks).
     /// Detects nearby interactables and manages interaction UI and dialogue triggering.
+    /// Handles the core interaction detection logic each physics frame.
     /// </summary>
     private void FixedUpdate()
     {
@@ -126,11 +151,13 @@ public class playerScript : MonoBehaviour
 
     /// <summary>
     /// Checks whether the given GameObject is on one of the interactive layers.
+    /// Validates that detected objects are actually interactable.
     /// </summary>
     /// <param name="obj">GameObject to check.</param>
     /// <returns>True if the object's layer is within the interactiveLayers mask; false otherwise.</returns>
     private bool IsInInteractiveLayers(GameObject obj)
     {
+        // Use bitwise operations to check if object's layer is in the interactive layers mask
         return (interactiveLayers.value & (1 << obj.layer)) != 0;
     }
 
@@ -140,6 +167,7 @@ public class playerScript : MonoBehaviour
 
     /// <summary>
     /// Property indicating if the player is near an NPC or interactable object.
+    /// Provides easy access to interaction proximity state.
     /// </summary>
     public bool isNearNPC => isNearInteractable;
 
@@ -149,6 +177,7 @@ public class playerScript : MonoBehaviour
 
     /// <summary>
     /// Gets the currently detected interactable GameObject.
+    /// Returns the object the player can interact with.
     /// </summary>
     /// <returns>The GameObject the player is near.</returns>
     public GameObject GetCurrentInteractable()
@@ -158,7 +187,7 @@ public class playerScript : MonoBehaviour
 
     /// <summary>
     /// Sets the current interactable GameObject explicitly.
-    /// Useful if another system needs to override it.
+    /// Useful if another system needs to override the detected interactable.
     /// </summary>
     /// <param name="obj">The GameObject to set as current interactable.</param>
     public void SetCurrentInteractable(GameObject obj)
@@ -190,6 +219,7 @@ public class playerScript : MonoBehaviour
 
     /// <summary>
     /// Gets the current dialogue state of the player.
+    /// Indicates whether the player is currently in a conversation.
     /// </summary>
     /// <returns>True if the player is in dialogue, false otherwise.</returns>
     public bool isInDialogue()
@@ -199,6 +229,7 @@ public class playerScript : MonoBehaviour
 
     /// <summary>
     /// Sets the dialogue state of the player.
+    /// Controls interaction availability and input handling during conversations.
     /// </summary>
     /// <param name="inDialogue">True to set player in dialogue, false to exit dialogue.</param>
     public void setInDialogue(bool inDialogue)
@@ -208,12 +239,35 @@ public class playerScript : MonoBehaviour
 
     #endregion
 
+    #region Cutscene Management
+    /// <summary>
+    /// Sets the global cutscene state for the player.
+    /// Used by other systems to indicate cutscene status.
+    /// </summary>
+    /// <param name="isInCutscene">True if player is in cutscene, false otherwise.</param>
+    public static void setIsInCutscene(bool isInCutscene)
+    {
+        playerScript.isInCutscene = isInCutscene;
+    }
+
+    /// <summary>
+    /// Gets the global cutscene state for the player.
+    /// Used by other systems to check cutscene status.
+    /// </summary>
+    /// <returns>True if player is in cutscene, false otherwise.</returns>
+    public static bool getIsInCutscene()
+    {
+        return isInCutscene;
+    }
+    #endregion
+
     #region Debug Visualization
 
     /// <summary>
     /// Unity callback to draw debug gizmos in the Scene view.
     /// Draws a colored wire sphere at the detection point:
     /// Green = interactable found, Red = no interactables nearby.
+    /// Helps with debugging interaction ranges and detection areas.
     /// </summary>
     private void OnDrawGizmos()
     {
@@ -249,15 +303,4 @@ public class playerScript : MonoBehaviour
     }
 
     #endregion
-
-
-    public static void setIsInCutscene(bool isInCutscene)
-    {
-        playerScript.isInCutscene = isInCutscene;
-    }
-
-    public static bool getIsInCutscene()
-    {
-        return isInCutscene;
-    }
 }

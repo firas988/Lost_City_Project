@@ -1,9 +1,15 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class Draknit_MonsterAttackControl : MonoBehaviour,EnemyAttackBehavior
+/// <summary>
+/// Controls the attack behavior of the Drakonit Monster enemy,
+/// managing attack selection, hit detection, and cooldowns.
+/// Implements the EnemyAttackBehavior interface.
+/// </summary>
+public class Draknit_MonsterAttackControl : MonoBehaviour, EnemyAttackBehavior
 {
-     /// <summary>Current number of attacks performed.</summary>
+    #region Attack State Variables
+    /// <summary>Current number of attacks performed.</summary>
     [SerializeField]
     private int attackCount = 0;
 
@@ -15,18 +21,22 @@ public class Draknit_MonsterAttackControl : MonoBehaviour,EnemyAttackBehavior
 
     /// <summary>Flag indicating if the enemy is currently hitting.</summary>
     private bool isHitting = false;
+    #endregion
 
+    #region Attack Data
     /// <summary>The current attack data being used.</summary>
     private Attack currentAttack;
 
-    /// <summary>GameObject marking the origin point of the current attack (e.g., paw or mouth).</summary>
+    /// <summary>GameObject marking the origin point of the current attack (e.g., hand or double hand).</summary>
     private GameObject currentAttackPlace;
 
+    /// <summary>List of attacks available to the Drakonit Monster.</summary>
+    private List<Attack> draknitAttacks;
+    #endregion
+
+    #region Component References
     /// <summary>Reference to the EnemyAttackesConvert script that provides attack data.</summary>
     private EnemyAttackesConvert enemyAttackesConvert;
-
-    /// <summary>List of attacks available to the Bear.</summary>
-    private List<Attack> draknitAttacks;
 
     /// <summary>Reference to the EnemyMovement script for movement control.</summary>
     private EnemyMovement enemyMovement;
@@ -42,26 +52,39 @@ public class Draknit_MonsterAttackControl : MonoBehaviour,EnemyAttackBehavior
 
     /// <summary>Reference to the AudioManager script for playing attack sounds.</summary>
     private AudioManager audioManager;
+    #endregion
 
+    #region Configuration
     /// <summary>Tag for the GameManager object.</summary>
     private string gameManagerTag = "GameManager";
+    #endregion
 
+    #region Unity Lifecycle
     /// <summary>
     /// Initializes components and loads attack data on start.
     /// </summary>
     void Start()
     {
+        // Get required components
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
         audioSource = GetComponent<AudioSource>();
 
-        enemyAttackesConvert = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<EnemyAttackesConvert>();
+        // Find and store enemy attack converter
+        enemyAttackesConvert = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<EnemyAttackesConvert>();
 
+        // Load drakonit-specific attacks
         draknitAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);
 
+        // Set initial attack to hand attack
         currentAttack = draknitAttacks.Find(attack => attack.attackName == "AttackHand");
 
-        audioManager = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<AudioManager>();
+        // Find and store audio manager
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
     }
 
     /// <summary>
@@ -69,15 +92,19 @@ public class Draknit_MonsterAttackControl : MonoBehaviour,EnemyAttackBehavior
     /// </summary>
     void Update()
     {
+        // Update attack selection and origin point
         attackPick();
         attackPlacePick();
 
+        // Check for hits and deal damage if needed
         if (hitCheck())
         {
             dealDamage();
         }
     }
+    #endregion
 
+    #region Damage System
     /// <summary>
     /// Deals damage to the player.
     /// </summary>
@@ -85,12 +112,15 @@ public class Draknit_MonsterAttackControl : MonoBehaviour,EnemyAttackBehavior
     {
         player.takeDamage(currentAttack.attackDamage);
     }
+    #endregion
 
+    #region Attack Origin Management
     /// <summary>
     /// Finds and sets the GameObject representing the attack origin point by name.
     /// </summary>
     private void attackPlacePick()
     {
+        // Find the child object that represents the attack origin point
         currentAttackPlace = FindDeepChild(transform, currentAttack.attackName).gameObject;
     }
 
@@ -102,40 +132,52 @@ public class Draknit_MonsterAttackControl : MonoBehaviour,EnemyAttackBehavior
     /// <returns>Found Transform or null if none found.</returns>
     Transform FindDeepChild(Transform parent, string name)
     {
+        // Search through all direct children
         foreach (Transform child in parent)
         {
             if (child.name == name)
                 return child;
 
+            // Recursively search deeper in the hierarchy
             Transform result = FindDeepChild(child, name);
             if (result != null)
                 return result;
         }
         return null;
     }
+    #endregion
 
+    #region Hit Detection
     /// <summary>
     /// Checks for hit detection on the player within attack radius and handles cooldown.
     /// </summary>
     /// <returns>True if a hit was detected this frame; otherwise false.</returns>
     private bool hitCheck()
     {
+        // Only check for hits when attacking and animation is playing
         if (enemyMovement.getIsAttacking() && isAttackAnimationPlaying())
         {
+            // Create a sphere around the attack origin point
             Collider[] hitColliders = Physics.OverlapSphere(
                 currentAttackPlace.transform.position,
                 currentAttack.attackRadius
             );
 
+            // Check each collider in the attack radius
             foreach (Collider col in hitColliders)
             {
                 if (col.CompareTag("Player") && isAttacking && !isHitting)
                 {
+                    // Mark as hitting to prevent multiple hits
                     isHitting = true;
+
+                    // Get player reference if not already stored
                     if (player == null)
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
+
+                    // Increment attack count and reset if max reached
                     attackCount++;
                     if (attackCount > attackCountMax)
                     {
@@ -148,19 +190,28 @@ public class Draknit_MonsterAttackControl : MonoBehaviour,EnemyAttackBehavior
 
         return false;
     }
+    #endregion
 
+    #region Audio Management
+    /// <summary>
+    /// Plays the appropriate attack sound based on attack count.
+    /// </summary>
     private void playAttackSound()
     {
         if (attackCount <= 2)
         {
+            // First two attacks: single hand attack sound
             audioManager.playEnemy(audioSource, "Drakonit_monster_AttackHand");
         }
         else if (attackCount == 3)
         {
+            // Third attack: double hand attack sound
             audioManager.playEnemy(audioSource, "Drakonit_monster_AttackDoubleHand");
         }
     }
+    #endregion
 
+    #region Attack Animation Control
     /// <summary>
     /// Checks if the current attack animation is playing.
     /// </summary>
@@ -176,14 +227,18 @@ public class Draknit_MonsterAttackControl : MonoBehaviour,EnemyAttackBehavior
     {
         if (attackCount <= 2)
         {
+            // First two attacks: single hand attack
             currentAttack = draknitAttacks.Find(attack => attack.attackName == "AttackHand");
         }
         else if (attackCount == 3)
         {
+            // Third attack: double hand attack
             currentAttack = draknitAttacks.Find(attack => attack.attackName == "AttackDoubleHand");
         }
     }
+    #endregion
 
+    #region Interface Implementation
     /// <summary>Gets the current attack's name.</summary>
     public string getAttackName()
     {
@@ -207,35 +262,38 @@ public class Draknit_MonsterAttackControl : MonoBehaviour,EnemyAttackBehavior
     {
         return currentAttack.attackDamage;
     }
+    #endregion
 
-    /// <summary>Starts the Bear's attack animation.</summary>
+    #region Attack Control Methods
+    /// <summary>Starts the Drakonit Monster's attack animation.</summary>
     public void startAttackDrakonitMonster()
     {
         isAttacking = true;
         playAttackSound();
     }
 
-    /// <summary>Ends the Bear's attack animation.</summary>
+    /// <summary>Ends the Drakonit Monster's attack animation.</summary>
     public void endAttackDrakonitMonster()
     {
         isHitting = false;
         isAttacking = false;
     }
 
+    /// <summary>Gets the current attacking state.</summary>
     public bool getIsAttacking()
     {
         return isAttacking;
     }
+    #endregion
 
-    // enable this to see the attack range in the editor
+    #region Debug Visualization
+    // Enable this to see the attack range in the editor
     /// <summary>
     /// Draws Gizmos in the editor to visualize the attack radius.
     /// Red indicates a hit detected this frame, green otherwise.
     /// </summary>
     // void OnDrawGizmos()
     // {
-    //     Debug.Log("currentAttackPlace: " + currentAttackPlace);
-    //     Debug.Log("currentAttack: " + currentAttack);
     //     if (currentAttackPlace == null || currentAttack == null)
     //         return;
 
@@ -250,4 +308,5 @@ public class Draknit_MonsterAttackControl : MonoBehaviour,EnemyAttackBehavior
 
     //     Gizmos.DrawWireSphere(currentAttackPlace.transform.position, currentAttack.attackRadius);
     // }
+    #endregion
 }

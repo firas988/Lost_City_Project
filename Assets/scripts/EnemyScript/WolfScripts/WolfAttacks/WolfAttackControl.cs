@@ -4,9 +4,11 @@ using UnityEngine;
 /// <summary>
 /// Controls the wolf enemy attack logic, including selecting attacks,
 /// checking for player hits, and integrating with movement and animation systems.
+/// Implements the EnemyAttackBehavior interface for standardized attack behavior.
 /// </summary>
 public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
 {
+    #region Attack State Variables
     /// <summary>Counter for how many times the current attack has occurred.</summary>
     [SerializeField]
     private int attackCount = 0;
@@ -19,7 +21,9 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Flag indicating if the enemy is currently hitting.</summary>
     private bool isHitting = false;
+    #endregion
 
+    #region Attack Data
     /// <summary>The currently selected attack.</summary>
     private Attack currentAttack;
 
@@ -31,7 +35,9 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>List of all attacks available to the wolf.</summary>
     private List<Attack> wolfAttacks;
+    #endregion
 
+    #region Component References
     /// <summary>Reference to the enemy movement controller.</summary>
     private EnemyMovement enemyMovement;
 
@@ -40,21 +46,28 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Reference to the Player script for interacting with the player.</summary>
     private Player player = null;
+    #endregion
 
+    #region Audio Components
     /// <summary>Reference to the AudioManager script.</summary>
     private AudioManager audioManager;
 
     /// <summary>Reference to the AudioSource component.</summary>
     private AudioSource audioSource;
+    #endregion
 
+    #region Configuration
     /// <summary>Tag for the GameManager object.</summary>
     private string gameManagerTag = "GameManager";
+    #endregion
 
+    #region Unity Lifecycle
     /// <summary>
     /// Initializes components and loads attack data for the wolf.
     /// </summary>
     void Start()
     {
+        // Get required components
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAnimatorControl = GetComponent<EnemyAnimatorControl>();
         enemyAttackesConvert = GameObject
@@ -73,15 +86,19 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// </summary>
     void Update()
     {
+        // Select appropriate attack and find attack origin
         attackPick();
         attackPlacePick();
 
+        // Check for hits and deal damage if needed
         if (hitCheck())
         {
             dealDamage();
         }
     }
+    #endregion
 
+    #region Damage System
     /// <summary>
     /// Deals damage to the player.
     /// </summary>
@@ -89,7 +106,9 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         player.takeDamage(currentAttack.attackDamage);
     }
+    #endregion
 
+    #region Attack Origin Management
     /// <summary>
     /// Finds the transform of the attack location based on the current attack's name.
     /// </summary>
@@ -117,7 +136,9 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
         }
         return null;
     }
+    #endregion
 
+    #region Hit Detection
     /// <summary>
     /// Checks if the enemy is currently attacking and whether it hits the player.
     /// Applies cooldown and counts hits.
@@ -125,8 +146,10 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <returns>True if the attack hits the player, otherwise false.</returns>
     private bool hitCheck()
     {
+        // Only check for hits if currently attacking and animation is playing
         if (enemyMovement.getIsAttacking() && isAttackAnimationPlaying())
         {
+            // Detect colliders within attack radius
             Collider[] hitColliders = Physics.OverlapSphere(
                 currentAttackPlace.transform.position,
                 currentAttack.attackRadius
@@ -134,13 +157,17 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
 
             foreach (Collider col in hitColliders)
             {
+                // Check if player was hit and not already hitting
                 if (col.CompareTag("Player") && isAttacking && !isHitting)
                 {
+                    // Mark as hitting to prevent multiple hits
                     isHitting = true;
                     if (player == null)
                     {
                         player = col.GetComponent<StartPlayer>().getPlayer();
                     }
+
+                    // Increment attack count and reset if max reached
                     attackCount++;
                     if (attackCount > attackCountMax)
                     {
@@ -153,7 +180,12 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
 
         return false;
     }
+    #endregion
 
+    #region Audio Management
+    /// <summary>
+    /// Plays the wolf attack sound effect.
+    /// </summary>
     private void playAttackSound()
     {
         if (attackCount <= 0)
@@ -161,7 +193,9 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
             audioManager.playEnemy(audioSource, "Wolf_Attack");
         }
     }
+    #endregion
 
+    #region Attack Animation Control
     /// <summary>
     /// Checks if the current attack animation is playing.
     /// </summary>
@@ -181,7 +215,9 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
             currentAttack = wolfAttacks.Find(attack => attack.attackName == "attackBite");
         }
     }
+    #endregion
 
+    #region Interface Implementation
     /// <summary>
     /// Gets the name of the current attack.
     /// </summary>
@@ -218,6 +254,15 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
         return currentAttack.attackDamage;
     }
 
+    /// <summary>Gets whether the enemy is currently attacking.</summary>
+    /// <returns>True if attacking; otherwise false.</returns>
+    public bool getIsAttacking()
+    {
+        return isAttacking;
+    }
+    #endregion
+
+    #region Attack Control Methods
     /// <summary>Starts the Wolf's attack animation.</summary>
     public void startAttackWolf()
     {
@@ -231,13 +276,10 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
         isAttacking = false;
         isHitting = false;
     }
+    #endregion
 
-    public bool getIsAttacking()
-    {
-        return isAttacking;
-    }
-
-    /// enable this to see the attack hit radius in the editor
+    #region Debug Visualization
+    // Enable this to see the attack hit radius in the editor
     /// <summary>
     /// Draws gizmos in the editor to visualize the attack hit radius.
     /// Red if a hit is detected, green otherwise.
@@ -264,4 +306,5 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     //         );
     //     }
     // }
+    #endregion
 }
