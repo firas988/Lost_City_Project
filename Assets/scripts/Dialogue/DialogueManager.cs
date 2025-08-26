@@ -212,7 +212,57 @@ public class DialogueManager : MonoBehaviour
         try
         {
             // Get the NPC's response based on the player's selected dialogue option
-            string response = npc.respodToDialogue(continueSentence, out string[] options);
+            string response = npc.respodToDialogue(
+                continueSentence,
+                out string[] options,
+                out bool endDialogue
+            );
+
+            if (endDialogue)
+            {
+                // Dialogue has ended - no more options available
+                if (((QuestGiver)npc).GetQuestToGive() != null)
+                {
+                    Debug.Log("endDialogue");
+                    if (((QuestGiver)npc).GetQuestToGive() is StoryQuest)
+                    {
+                        // if (
+                        //     ((QuestGiver)npc).GetQuestToGive() is MysteriousManQuest
+                        //     || ((QuestGiver)npc).GetQuestToGive() is RobertQuest
+                        //     || ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToGetWeapon
+                        //     || ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToKnowWhereToGo
+                        // )
+                        // {
+                        if (((QuestGiver)npc).GetQuestToGive() != null)
+                        {
+                            ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
+                            levelManager.addXP(200f);
+                        }
+                        // }
+
+                        closeDialogue();
+                        return;
+                    }
+
+                    // Get the quest to be assigned to the player
+                    Quest questToGive = ((QuestGiver)npc).GetQuestToGive();
+
+                    // Trigger the dialogue exit event with the quest
+                    onDialogueExit?.Invoke(questToGive);
+                    closeDialogue();
+                    return;
+                }
+
+                if (npc.GetType() is TalkativeNpc)
+                {
+                    levelManager.addXP(100f);
+                    closeDialogue();
+                    return;
+                }
+                closeDialogue();
+
+                return;
+            }
 
             // Set the dialogue text, replacing "TARGET" placeholder if this is a QuestGiver NPC
             UIcontroller.SetText(
@@ -235,90 +285,9 @@ public class DialogueManager : MonoBehaviour
             // Store the selected dialogue option for the next response
             continueSentence = options[0];
         }
-        catch (KeyNotFoundException)
+        catch (Exception e)
         {
-            // Dialogue has ended - no more options available
-            if (npc.GetType() == typeof(QuestGiver) && ((QuestGiver)npc).GetQuestToGive() != null)
-            {
-                if (((QuestGiver)npc).GetQuestToGive() is StoryQuest)
-                {
-                    // if (
-                    //     ((QuestGiver)npc).GetQuestToGive() is MysteriousManQuest
-                    //     || ((QuestGiver)npc).GetQuestToGive() is RobertQuest
-                    //     || ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToGetWeapon
-                    //     || ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToKnowWhereToGo
-                    // )
-                    // {
-                    if (((QuestGiver)npc).GetQuestToGive() != null)
-                    {
-                        ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
-                        levelManager.addXP(200f);
-                    }
-                    // }
-
-                    closeDialogue();
-                    return;
-                }
-
-                // Get the quest to be assigned to the player
-                Quest questToGive = ((QuestGiver)npc).GetQuestToGive();
-
-                // Trigger the dialogue exit event with the quest
-                onDialogueExit?.Invoke(questToGive);
-                closeDialogue();
-                return;
-            }
-
-            if (npc.GetType() == typeof(TalkativeNpc))
-            {
-                levelManager.addXP(100f);
-                closeDialogue();
-                return;
-            }
-            closeDialogue();
-        }
-        catch (IndexOutOfRangeException)
-        {
-            if (((QuestGiver)npc).GetQuestToGive() == null)
-            {
-                closeDialogue();
-                return;
-            }
-
-            if (
-                npc.GetType() == typeof(QuestGiver)
-                && ((QuestGiver)npc).GetQuestToGive() != null
-                && ((QuestGiver)npc).GetQuestToGive().GetType() == typeof(StoryQuest)
-            )
-            {
-                if (((QuestGiver)npc).GetQuestToGive() != null)
-                {
-                    ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
-                    levelManager.addXP(200f);
-                }
-
-                closeDialogue();
-                return;
-            }
-
-            if (npc.GetType() == typeof(QuestGiver) && ((QuestGiver)npc).GetQuestToGive() != null)
-            {
-                // Get the quest to be assigned to the player
-                Quest questToGive = ((QuestGiver)npc).GetQuestToGive();
-
-                // Trigger the dialogue exit event with the quest
-                onDialogueExit?.Invoke(questToGive);
-            }
-
-            if (npc.GetType() == typeof(TalkativeNpc))
-            {
-                levelManager.addXP(100f);
-                closeDialogue();
-                return;
-            }
-
-            // Close the dialogue UI and restore gameplay state
-            closeDialogue();
+            Debug.LogError("Error in respondToNpc: " + e.Message);
         }
     }
 
@@ -327,7 +296,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     public void startDialogue()
     {
-        if (npc.GetType() == typeof(QuestGiver))
+        if (npc.GetType() is QuestGiver)
         {
             if (
                 ((QuestGiver)npc).GetQuestToGive() != null
@@ -351,7 +320,17 @@ public class DialogueManager : MonoBehaviour
             .GetComponent<TextMeshProUGUI>();
 
         // Get the initial dialogue response and options from the NPC
-        string response = npc.respodToDialogue(npc.start, out string[] options);
+        string response = npc.respodToDialogue(
+            npc.start,
+            out string[] options,
+            out bool endDialogue
+        );
+
+        if (endDialogue)
+        {
+            closeDialogue();
+            return;
+        }
 
         // Set the dialogue text to display the NPC's response
         UIcontroller.SetText(textContainer, response);

@@ -17,10 +17,7 @@ public class DungeonLevel2 : StoryQuest
         if (this.isCompleted)
             return;
 
-        if (childQuests == null || childQuests.All(quest => quest.isCompleted))
-        {
-            GameObject.Find("dungeon").GetComponent<DungeonManager>().NextRoom();
-            base.CompleteQuest();
-        }
+        GameObject.FindAnyObjectByType<DungeonManager>().NextRoom();
+        base.CompleteQuest();
     }
 }

@@ -14,10 +14,10 @@ public class DungeonLevelFinal : StoryQuest
 
     public override void CompleteQuest()
     {
-        if (this.childQuests.All(quest => quest.isCompleted))
-        {
-            GameObject.Find("DungeonExit").SetActive(true);
-            base.CompleteQuest();
-        }
+        if (this.isCompleted)
+            return;
+
+        GameObject.FindAnyObjectByType<DungeonManager>().openDungeonExit();
+        base.CompleteQuest();
     }
 }

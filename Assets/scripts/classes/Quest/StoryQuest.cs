@@ -34,4 +34,14 @@ public abstract class StoryQuest : Quest
     {
         return childQuests;
     }
+
+    public void SetChildQuests(List<Quest> childQuests)
+    {
+        this.childQuests = childQuests;
+    }
+
+    public override string GetProgress()
+    {
+        return "";
+    }
 }

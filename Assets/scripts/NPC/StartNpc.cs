@@ -160,11 +160,11 @@ public class StartNpc : MonoBehaviour
 
                     if (npcName == "ConfusedPerson")
                     {
-                        quest = new FindQuest(findQuests.RandomQuest);
+                        quest = ScriptableObject.Instantiate(findQuests.RandomQuest);
                     }
                     else if (npcName == "KillPerson")
                     {
-                        quest = new KillQuest(killQuests.RandomQuest);
+                        quest = ScriptableObject.Instantiate(killQuests.RandomQuest);
                     }
 
                     npcsInstance = createQuestGiver(typeInstance.name, dialogueData, quest);

@@ -66,7 +66,7 @@ public class FindQuest : Quest
             this.completed = false;
     }
 
-    public string GetProgress()
+    override public string GetProgress()
     {
         return found + "/" + findTarget;
     }

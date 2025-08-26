@@ -51,10 +51,30 @@ public class TalkativeNpc : NPC
     /// <param name="dialogue">The key identifying the dialogue to respond to.</param>
     /// <param name="options">The array of response options for the dialogue.</param>
     /// <returns>The text content of the dialogue response.</returns>
-    public string respodToDialogue(string dialogue, out string[] options)
+    public string respodToDialogue(string dialogue, out string[] options, out bool endDialogue)
     {
-        options = this.dialogues[dialogue].GetOptions();
-
-        return this.dialogues[dialogue].GetText();
+        try
+        {
+            if (!this.dialogues.ContainsKey(dialogue))
+            {
+                Debug.Log("dialogue not found");
+                options = null;
+                endDialogue = true;
+                return null;
+            }
+            else
+            {
+                Debug.Log("dialogue found");
+                options = this.dialogues[dialogue].GetOptions();
+                endDialogue = false;
+            }
+            return this.dialogues[dialogue].GetText();
+        }
+        catch (System.Exception)
+        {
+            options = null;
+            endDialogue = true;
+            return null;
+        }
     }
 }

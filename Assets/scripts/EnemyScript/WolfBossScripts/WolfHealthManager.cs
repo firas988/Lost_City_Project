@@ -29,6 +29,12 @@ public class WolfHealthManager : MonoBehaviour
             entity.setHealth(0);
         }
 
+        if (bossBar == null)
+        {
+            bossBar = GameObject.FindAnyObjectByType<BossBarHandler>();
+            return;
+        }
+
         if (Curhealth != entity.getHealth())
         {
             Curhealth = entity.getHealth();
@@ -52,6 +58,7 @@ public class WolfHealthManager : MonoBehaviour
         GetComponent<DissolvingController>().StartDissolve();
         yield return new WaitForSeconds(2.5f);
         KillEnemyHandler.KilledEnemy(bossTag);
+        bossBar.gameObject.SetActive(false);
         Destroy(this.gameObject);
     }
 }

@@ -16,13 +16,7 @@ public class DungeonLevel1 : StoryQuest
     {
         if (this.isCompleted)
             return;
-
-        Debug.Log("DungeonLevel1 CompleteQuest");
-        if (childQuests == null || childQuests.All(quest => quest.isCompleted))
-        {
-            GameObject.Find("dungeon").GetComponent<DungeonManager>().NextRoom();
-
-            base.CompleteQuest();
-        }
+        GameObject.FindAnyObjectByType<DungeonManager>().NextRoom();
+        base.CompleteQuest();
     }
 }

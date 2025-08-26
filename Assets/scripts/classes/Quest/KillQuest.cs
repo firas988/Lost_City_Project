@@ -46,7 +46,7 @@ public class KillQuest : Quest
         }
     }
 
-    public string GetProgress()
+    override public string GetProgress()
     {
         return kills + "/" + targetKills;
     }

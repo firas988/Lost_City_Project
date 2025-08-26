@@ -18,6 +18,9 @@ public class DungeonManager : MonoBehaviour
     [SerializeField]
     private GameObject finalBossEnter;
 
+    [SerializeField]
+    private GameObject dungeonExit;
+
     private QuestManager questManager;
     private Player player;
 
@@ -31,7 +34,6 @@ public class DungeonManager : MonoBehaviour
         currentRoomIndex = 0;
 
         player = GameObject.FindWithTag("Player").GetComponent<StartPlayer>().getPlayer();
-
         questManager = GameObject
             .FindGameObjectWithTag("GameManager")
             .GetComponentInChildren<QuestManager>();
@@ -113,6 +115,7 @@ public class DungeonManager : MonoBehaviour
             WolfBossChasing wolfBossChasing = enemy.GetComponent<WolfBossChasing>();
             if (wolfBossChasing != null)
             {
+                Debug.Log("wolfBossChasing.setCanMove(true)");
                 wolfBossChasing.setCanMove(true);
             }
 
@@ -120,6 +123,7 @@ public class DungeonManager : MonoBehaviour
                 enemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
             if (navMeshAgent != null)
             {
+                Debug.Log("navMeshAgent.enabled: " + navMeshAgent.enabled);
                 navMeshAgent.enabled = true;
             }
         }
@@ -150,6 +154,7 @@ public class DungeonManager : MonoBehaviour
 
     public void NextRoom()
     {
+        Debug.Log("NextRoom");
         GameObject enemies = rooms[currentRoomIndex].transform.Find(enemiesName).gameObject;
         enemies.SetActive(false);
         //find the levelExit in the current room
@@ -193,5 +198,10 @@ public class DungeonManager : MonoBehaviour
                 child.gameObject.SetActive(true);
             }
         }
+    }
+
+    public void openDungeonExit()
+    {
+        dungeonExit.SetActive(true);
     }
 }
