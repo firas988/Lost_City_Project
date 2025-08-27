@@ -320,7 +320,10 @@ public class QuestManager : MonoBehaviour
                     questToInc.GetQuestName() + " Completed!",
                     "notification"
                 );
-
+                if (questToInc.RewardType == RewardType.Item)
+                {
+                    rewardManager.GiveReward(questToInc.Reward);
+                }
                 StartCoroutine(refreshQuestGiver(questToInc.Giver));
             }
         }
@@ -364,6 +367,10 @@ public class QuestManager : MonoBehaviour
                         quest.GetQuestName() + " Completed!",
                         "notification"
                     );
+                    if (quest.RewardType == RewardType.Item)
+                    {
+                        rewardManager.GiveReward(quest.Reward);
+                    }
 
                     StartCoroutine(refreshQuestGiver(quest.Giver));
                 }
