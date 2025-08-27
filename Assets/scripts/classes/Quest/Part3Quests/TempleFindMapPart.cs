@@ -6,11 +6,6 @@ public class TempleFindMapPart : StoryQuest
     public TempleFindMapPart(Quest quest)
         : base(quest) { }
 
-    public override void progress()
-    {
-        return;
-    }
-
     public override void CompleteQuest()
     {
         GameObject.Find("dungeonEntrance").transform.Find("openDoor").gameObject.SetActive(true);

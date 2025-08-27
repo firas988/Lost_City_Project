@@ -18,18 +18,6 @@ public class KillAllTheEnemyInTheCastel : StoryQuest
         : base(quest) { }
     #endregion
 
-    #region Quest Progression
-    /// <summary>
-    /// Handles quest progression logic (currently no progression needed)
-    /// </summary>
-    public override void progress()
-    {
-        // This quest doesn't require progression tracking
-        // Quest completion is handled externally when all enemies are defeated
-        return;
-    }
-    #endregion
-
     #region Quest Completion
     /// <summary>
     /// Completes the KillAllTheEnemyInTheCastel quest

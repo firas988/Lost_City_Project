@@ -15,18 +15,6 @@ public class GoToBridge : StoryQuest
         : base(quest) { }
     #endregion
 
-    #region Quest Progression
-    /// <summary>
-    /// Handles quest progression logic (currently no progression needed)
-    /// </summary>
-    public override void progress()
-    {
-        // This quest doesn't require progression tracking
-        // Player just needs to reach the bridge location
-        return;
-    }
-    #endregion
-
     #region Quest Completion
     /// <summary>
     /// Completes the GoToBridge quest

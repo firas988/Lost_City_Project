@@ -20,18 +20,6 @@ public class MysteriousArtifact : StoryQuest
         : base(quest) { }
     #endregion
 
-    #region Quest Progression
-    /// <summary>
-    /// Handles quest progression logic (currently no progression needed)
-    /// </summary>
-    public override void progress()
-    {
-        // This quest doesn't require progression tracking
-        // Quest completion is triggered when the artifact is found
-        return;
-    }
-    #endregion
-
     #region Quest Completion
     /// <summary>
     /// Completes the quest by updating dialogue and setting up the next quest

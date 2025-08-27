@@ -7,11 +7,6 @@ public class DungeonLevelFinal : StoryQuest
     public DungeonLevelFinal(Quest quest)
         : base(quest) { }
 
-    public override void progress()
-    {
-        return;
-    }
-
     public override void CompleteQuest()
     {
         if (this.isCompleted)

@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class RewardManager : MonoBehaviour
 {
@@ -9,18 +9,24 @@ public class RewardManager : MonoBehaviour
 
     private InventoryManager inventoryManager;
 
+    private LevelManager levelManager;
+
+    private NotificationsManager notificationsManager;
+
     private string gameManagerTag = "GameManager";
 
     void Start()
     {
         allItems = itemDatabase.AllItems;
-        inventoryManager = GameObject.FindGameObjectWithTag(gameManagerTag).GetComponentInChildren<InventoryManager>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        inventoryManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<InventoryManager>();
+        levelManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<LevelManager>();
+        notificationsManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<NotificationsManager>();
     }
 
     public void GiveReward(int itemId)
@@ -29,6 +35,19 @@ public class RewardManager : MonoBehaviour
         if (item != null)
         {
             inventoryManager.AddItemToInventory(item);
+            notificationsManager.queueTopLeftNotification(
+                "You have received " + item.name,
+                "notification"
+            );
         }
+    }
+
+    public void GiveExpReward(int expReward)
+    {
+        levelManager.addXP(expReward);
+        notificationsManager.queueTopLeftNotification(
+            "You have received " + expReward + " XP",
+            "notification"
+        );
     }
 }

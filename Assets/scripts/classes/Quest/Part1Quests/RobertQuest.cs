@@ -15,16 +15,15 @@ public class RobertQuest : StoryQuest
 
     public override void CompleteQuest()
     {
-        if (!GameObject.FindAnyObjectByType<QuestManager>().checkingCompletedStoryQuest(this.GetType()))
+        if (
+            !GameObject
+                .FindAnyObjectByType<QuestManager>()
+                .checkingCompletedStoryQuest(this.GetType())
+        )
         {
             base.CompleteQuest();
         }
 
         Instantiate(cutScenePrefab, cutScenePosition.position, cutScenePosition.rotation);
-    }
-
-    public override void progress()
-    {
-        return;
     }
 }

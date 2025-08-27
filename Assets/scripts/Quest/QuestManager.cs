@@ -33,6 +33,8 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     private UIManager uiManager;
 
+    private RewardManager rewardManager;
+
     /// <summary>
     /// List of story quests available in the game.
     /// </summary>
@@ -107,14 +109,6 @@ public class QuestManager : MonoBehaviour
 
     #endregion
 
-    #region Events
-
-    /// <summary>
-    /// Event triggered when a quest is completed, providing the reward amount.
-    /// </summary>
-    public event Action<float> onQuestFinish;
-
-    #endregion
 
     #region Unity Lifecycle Methods
 
@@ -131,6 +125,11 @@ public class QuestManager : MonoBehaviour
         dialogueManager = GameObject.FindAnyObjectByType<DialogueManager>();
         uiManager = GameObject.FindAnyObjectByType<UIManager>();
         questSpawns = GameObject.FindWithTag("ObjectSpawns");
+        rewardManager = GameObject.FindAnyObjectByType<RewardManager>();
+        if (rewardManager == null)
+        {
+            Debug.LogError("RewardManager not found");
+        }
 
         if (questSpawns != null)
         {
@@ -156,6 +155,7 @@ public class QuestManager : MonoBehaviour
 
         if (dialogueManager != null)
             dialogueManager.onDialogueExit += addQuest;
+
         KillEnemyHandler.Subscribe(addKill);
     }
 
@@ -244,7 +244,6 @@ public class QuestManager : MonoBehaviour
     /// <param name="quest">The quest to be added to the player's active quests.</param>
     public void addQuest(Quest quest)
     {
-        Debug.Log("Add Quest: " + quest.GetQuestName());
         if (playerInstance == null)
             return;
 
@@ -298,9 +297,12 @@ public class QuestManager : MonoBehaviour
             && string.Join(", ", questToFind.QuestTarget).Contains(objectFound.tag)
         );
 
+        int expReward = 0;
+
         if (questToInc != null)
         {
-            questToInc.progress();
+            questToInc.progress(out int questReward);
+            expReward += questReward;
             uiManager.updateQuestProgress(
                 questToInc.Giver.GetInstanceID(),
                 questToInc.GetProgress()
@@ -314,18 +316,10 @@ public class QuestManager : MonoBehaviour
                 uiManager.removeQuest(questToInc.Giver.GetInstanceID());
                 playerInstance.removeQuest(questToInc);
 
-                if (questToInc.RewardType == RewardType.XP)
-                {
-                    onQuestFinish?.Invoke(questToInc.Reward);
-                    notificationsManager.queueTopLeftNotification(
-                        questToInc.GetQuestName() + " Completed! (+" + questToInc.Reward + " EXP)",
-                        "notification"
-                    );
-                }
-                else
-                {
-                    onQuestFinish?.Invoke(questToInc.Reward);
-                }
+                notificationsManager.queueTopLeftNotification(
+                    questToInc.GetQuestName() + " Completed!",
+                    "notification"
+                );
 
                 StartCoroutine(refreshQuestGiver(questToInc.Giver));
             }
@@ -333,27 +327,12 @@ public class QuestManager : MonoBehaviour
 
         if (playerInstance.getCurrentMainQuest() != null)
         {
-            if (playerInstance.getCurrentMainQuest().GetChildQuests() == null)
-            {
-                return;
-            }
-
-            FindQuest storyQuest = (FindQuest)
-                playerInstance
-                    .getCurrentMainQuest()
-                    .GetChildQuests()
-                    .Find(quest =>
-                        quest is FindQuest
-                        && string.Join(", ", quest.QuestTarget).Contains(objectFound.tag)
-                    );
-
-            if (storyQuest != null)
-            {
-                storyQuest.progress();
-
-                objectFound.SetActive(false);
-            }
+            playerInstance
+                .getCurrentMainQuest()
+                .ProgressChildFindQuests(objectFound.tag, out int questReward);
+            expReward += questReward;
         }
+        rewardManager.GiveExpReward(expReward);
     }
 
     /// <summary>
@@ -365,68 +344,41 @@ public class QuestManager : MonoBehaviour
         List<KillQuest> questToInc = activeKillQuests.FindAll(questToKill =>
             questToKill != null && string.Join(", ", questToKill.QuestTarget).Contains(objectKilled)
         );
+        int expReward = 0;
 
         if (questToInc.Count > 0)
         {
-            float totalExpReward = 0;
-
             foreach (KillQuest quest in questToInc)
             {
-                quest.progress();
-
+                quest.progress(out int questReward);
+                expReward += questReward;
                 uiManager.updateQuestProgress(quest.Giver.GetInstanceID(), quest.GetProgress());
 
                 if (quest.isCompleted)
                 {
-                    if (quest.RewardType == RewardType.XP)
-                    {
-                        totalExpReward += quest.Reward;
-                    }
-                    else
-                    {
-                        onQuestFinish?.Invoke(quest.Reward);
-                    }
                     playerInstance.removeQuest(quest);
                     activeKillQuests.Remove(quest);
                     uiManager.removeQuest(quest.Giver.GetInstanceID());
+
                     notificationsManager.queueTopLeftNotification(
-                        quest.GetQuestName() + " Completed! (+" + quest.Reward + " EXP)",
+                        quest.GetQuestName() + " Completed!",
                         "notification"
                     );
+
                     StartCoroutine(refreshQuestGiver(quest.Giver));
                 }
             }
-
-            onQuestFinish?.Invoke(totalExpReward);
         }
 
         if (playerInstance.getCurrentMainQuest() != null)
         {
-            if (playerInstance.getCurrentMainQuest().GetChildQuests() == null)
-            {
-                return;
-            }
+            playerInstance
+                .getCurrentMainQuest()
+                .ProgressChildKillQuests(objectKilled, out int questReward);
 
-            List<KillQuest> storyQuest = new List<KillQuest>();
-            foreach (Quest quest in playerInstance.getCurrentMainQuest().GetChildQuests())
-            {
-                if (
-                    quest is KillQuest
-                    && string.Join(", ", quest.QuestTarget).Contains(objectKilled)
-                )
-                {
-                    storyQuest.Add((KillQuest)quest);
-                }
-            }
-
-            if (storyQuest.Count > 0)
-            {
-                foreach (KillQuest quest in storyQuest)
-                {
-                    quest.progress();
-                }
-            }
+            expReward += questReward;
         }
+        rewardManager.GiveExpReward(expReward);
     }
 
     private IEnumerator refreshQuestGiver(GameObject giver)
@@ -471,10 +423,6 @@ public class QuestManager : MonoBehaviour
             notificationsManager.queueTopLeftNotification(
                 playerInstance.getCurrentMainQuest().GetQuestName() + " Started",
                 "notification"
-            );
-            Debug.Log(
-                "playerInstance.getCurrentMainQuest().GetQuestName(): "
-                    + playerInstance.getCurrentMainQuest().GetQuestName()
             );
 
             storyQuestIndex++;

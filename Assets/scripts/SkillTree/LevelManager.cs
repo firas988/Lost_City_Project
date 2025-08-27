@@ -68,7 +68,6 @@ public class LevelManager : MonoBehaviour
         currentXP = 0;
         XPtoNextLevel = 1000;
         level = 0;
-        questManager.onQuestFinish += addXP;
         notificationsManager = GameObject
             .FindWithTag("GameManager")
             .GetComponentInChildren<NotificationsManager>();

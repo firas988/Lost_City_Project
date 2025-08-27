@@ -25,30 +25,4 @@ public class KillQuest : Quest
     /// </summary>
     [SerializeField]
     private int targetKills;
-
-    /// <summary>
-    /// Increments the kill count for this quest.
-    /// Called when the player successfully kills an enemy of the target type.
-    /// </summary>
-    override public void progress()
-    {
-        kills = Mathf.Min(kills + 1, targetKills);
-        Debug.Log(this.kills);
-
-        if (kills == targetKills)
-        {
-            completed = true;
-
-            if (ParentQuest != null)
-            {
-                ParentQuest.CompleteQuest();
-            }
-            
-        }
-    }
-
-    override public string GetProgress()
-    {
-        return kills + "/" + targetKills;
-    }
 }

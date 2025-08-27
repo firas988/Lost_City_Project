@@ -15,18 +15,6 @@ public class GoToTheCenter : StoryQuest
         : base(quest) { }
     #endregion
 
-    #region Quest Progression
-    /// <summary>
-    /// Handles quest progression logic (currently no progression needed)
-    /// </summary>
-    public override void progress()
-    {
-        // This quest doesn't require progression tracking
-        // Quest completion is triggered when player reaches the center location
-        return;
-    }
-    #endregion
-
     #region Quest Completion
     /// <summary>
     /// Completes the GoToTheCenter quest

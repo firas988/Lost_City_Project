@@ -42,32 +42,5 @@ public class FindQuest : Quest
     [SerializeField]
     private Transform findTargetTransform;
 
-    /// <summary>
-    /// Increments the found count and checks if the quest is complete.
-    /// Called when the player successfully finds and interacts with a target object.
-    /// </summary>
-    override public void progress()
-    {
-        found = Mathf.Min(found + 1, findTarget);
-
-        Debug.Log(this.found);
-
-        // Check if the quest is complete based on found count
-        if (found == findTarget)
-        {
-            this.completed = true;
-
-            if (ParentQuest != null)
-            {
-                ParentQuest.CompleteQuest();
-            }
-        }
-        else
-            this.completed = false;
-    }
-
-    override public string GetProgress()
-    {
-        return found + "/" + findTarget;
-    }
+   
 }

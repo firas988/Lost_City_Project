@@ -20,10 +20,6 @@ public class FindMapPartInCabin : StoryQuest
       return FindMapPartInCabin.hint;
     }
 
-    public override void progress(){
-      return;
-    }
-
      public override void CompleteQuest(){
 
         GameObject door = GameObject.Find("Cabin").transform.Find("Door").gameObject;

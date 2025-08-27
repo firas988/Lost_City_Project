@@ -15,18 +15,6 @@ public class ActivateTheKey : StoryQuest
         : base(quest) { }
     #endregion
 
-    #region Quest Progression
-    /// <summary>
-    /// Handles quest progression logic (currently no progression needed)
-    /// </summary>
-    public override void progress()
-    {
-        // This quest doesn't require progression tracking
-        // Quest completion is triggered when the key is activated
-        return;
-    }
-    #endregion
-
     #region Quest Completion
     /// <summary>
     /// Completes the ActivateTheKey quest

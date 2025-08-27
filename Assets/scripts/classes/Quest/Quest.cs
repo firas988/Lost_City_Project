@@ -5,7 +5,7 @@ using UnityEngine;
 public enum RewardType
 {
     XP,
-    Weapon,
+    Item,
     None,
 }
 
@@ -40,6 +40,22 @@ public abstract class Quest : ScriptableObject
     /// </summary>
     [SerializeField]
     private string description;
+
+    [SerializeField]
+    private int questProgress;
+
+    public int QuestProgress
+    {
+        get { return this.questProgress; }
+    }
+
+    [SerializeField]
+    private int targetProgress;
+
+    public int TargetProgress
+    {
+        get { return this.targetProgress; }
+    }
 
     /// <summary>
     /// The target or objective of the quest (e.g., enemy type to kill, item to find).
@@ -152,6 +168,16 @@ public abstract class Quest : ScriptableObject
         get { return this.rewardType; }
     }
 
+    public void CompleteQuest()
+    {
+        this.completed = true;
+
+        if (ParentQuest != null)
+        {
+            ParentQuest.CompleteQuest();
+        }
+    }
+
     /// <summary>
     /// Gets the specific reward value or description for this quest.
     /// </summary>
@@ -192,7 +218,10 @@ public abstract class Quest : ScriptableObject
         this.parentQuest = parentQuest;
     }
 
-    public abstract string GetProgress();
+    public virtual string GetProgress()
+    {
+        return this.questProgress + "/" + this.targetProgress;
+    }
 
     #endregion
 
@@ -202,7 +231,22 @@ public abstract class Quest : ScriptableObject
     /// Abstract method that must be implemented by derived quest classes.
     /// Handles quest progress logic specific to each quest type.
     /// </summary>
-    public abstract void progress();
+    public virtual void progress(out int expReward)
+    {
+        expReward = 0;
+
+        this.questProgress = Mathf.Min(this.questProgress + 1, this.targetProgress);
+
+        if (this.questProgress == this.targetProgress)
+        {
+            if (this.RewardType == RewardType.XP)
+            {
+                expReward = this.Reward;
+            }
+
+            this.CompleteQuest();
+        }
+    }
 
     #endregion
 }
