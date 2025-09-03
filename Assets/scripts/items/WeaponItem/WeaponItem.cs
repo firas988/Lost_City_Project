@@ -6,9 +6,9 @@ using UnityEngine;
 /// </summary>
 public enum WeaponType
 {
-    Sword,  // Melee weapon with balanced damage and range
-    Bow,    // Ranged weapon with high range but lower damage
-    Axe,    // Heavy melee weapon with high damage but lower range
+    Sword, // Melee weapon with balanced damage and range
+    Bow, // Ranged weapon with high range but lower damage
+    Axe, // Heavy melee weapon with high damage but lower range
 }
 
 /// <summary>
@@ -101,7 +101,7 @@ public class WeaponItem : Item
     /// <returns>The weapon's GameObject prefab.</returns>
     public GameObject getWeaponPrefab()
     {
-        return itemPrefab;
+        return getItemPrefab();
     }
     #endregion
 }

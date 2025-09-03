@@ -199,10 +199,10 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
         if (!slot.getIsEmpty())
         {
             // Check if items can be stacked
-            if (slot.getItem().id == slotDraggableItem.getItem().id)
+            if (slot.getItem().getId() == slotDraggableItem.getItem().getId())
             {
                 // Check if full stack can be added
-                if (slot.getCount() + slotDraggableItem.getCount() <= slot.getItem().maxStack)
+                if (slot.getCount() + slotDraggableItem.getCount() <= slot.getItem().getMaxStack())
                 {
                     // Add entire stack
                     bool isSuccess = inventoryManager.AddItemToNotEmptyHotBar(
@@ -222,7 +222,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
                 else
                 {
                     // Add only partial stack due to max stack limit
-                    int count = slot.getItem().maxStack - slot.getCount();
+                    int count = slot.getItem().getMaxStack() - slot.getCount();
 
                     bool isSuccess = inventoryManager.AddItemToNotEmptyHotBar(
                         slotDraggableItem.getItem(),
@@ -380,10 +380,10 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
         if (!slot.getIsEmpty())
         {
             // Check if items can be stacked (same ID)
-            if (slot.getItem().id == slotDraggableItem.getItem().id)
+            if (slot.getItem().getId() == slotDraggableItem.getItem().getId())
             {
                 // Check if full stack can be added
-                if (slot.getCount() + slotDraggableItem.getCount() <= slot.getItem().maxStack)
+                if (slot.getCount() + slotDraggableItem.getCount() <= slot.getItem().getMaxStack())
                 {
                     // Add entire stack
                     bool isSuccess = inventoryManager.AddItemToNotEmptySlot(
@@ -404,7 +404,7 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
                 else
                 {
                     // Add only partial stack due to max stack limit
-                    int count = slot.getItem().maxStack - slot.getCount();
+                    int count = slot.getItem().getMaxStack() - slot.getCount();
                     slot.addCount(count);
                     slotDraggableItem.removeCount(count);
 
@@ -468,10 +468,10 @@ public class DraggableItemHandler : MonoBehaviour, IPointerClickHandler
         if (items != null && isDraggableItemHaveAPrefab && items.Count > 0)
         {
             // Already dragging - try to add one more item if stackable
-            int itemId = items[0].id;
-            int draggableItemId = slotDraggableItem.getItem().id;
+            int itemId = items[0].getId();
+            int draggableItemId = slotDraggableItem.getItem().getId();
 
-            if (itemId == draggableItemId && slotDraggableItem.getCount() < items[0].maxStack)
+            if (itemId == draggableItemId && slotDraggableItem.getCount() < items[0].getMaxStack())
             {
                 Item item = null;
 

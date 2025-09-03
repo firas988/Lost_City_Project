@@ -38,13 +38,15 @@ public abstract class Item : ScriptableObject
     /// Unique identifier for the item.
     /// Used for database lookups and save/load systems.
     /// </summary>
-    public int id;
+    [SerializeField]
+    private int id;
 
     /// <summary>
     /// Display name of the item shown in UI.
     /// Should be descriptive and user-friendly.
     /// </summary>
-    public string itemName;
+    [SerializeField]
+    private string itemName;
     #endregion
 
     #region Item Properties
@@ -52,13 +54,15 @@ public abstract class Item : ScriptableObject
     /// Rarity level of the item.
     /// Determines item power, drop rates, and visual appearance.
     /// </summary>
-    public ItemRarity rarity;
+    [SerializeField]
+    private ItemRarity rarity;
 
     /// <summary>
     /// Category classification of the item.
     /// Determines storage location and usage behavior.
     /// </summary>
-    public ItemCategory category;
+    [SerializeField]
+    private ItemCategory category;
     #endregion
 
     #region Visual Representation
@@ -66,13 +70,15 @@ public abstract class Item : ScriptableObject
     /// Icon sprite displayed in inventory and UI.
     /// Should be clear and representative of the item.
     /// </summary>
-    public Sprite icon;
+    [SerializeField]
+    private Sprite icon;
 
     /// <summary>
     /// 3D model/prefab used for item spawning and world representation.
     /// Used when dropping items or displaying them in the game world.
     /// </summary>
-    public GameObject itemPrefab;
+    [SerializeField]
+    private GameObject itemPrefab;
     #endregion
 
     #region Inventory Management
@@ -80,7 +86,8 @@ public abstract class Item : ScriptableObject
     /// Maximum number of items that can be stacked in a single inventory slot.
     /// Set to 1 for unique items, higher values for stackable consumables.
     /// </summary>
-    public int maxStack;
+    [SerializeField]
+    private int maxStack;
     #endregion
 
     #region Abstract Methods
@@ -91,5 +98,71 @@ public abstract class Item : ScriptableObject
     /// </summary>
     /// <returns>A formatted string describing the item's properties and effects.</returns>
     public abstract string getDescription();
+    #endregion
+
+
+    #region Getters and Setters
+    /// <summary>
+    /// Returns the unique identifier for the item.
+    /// </summary>
+    /// <returns>The unique identifier for the item.</returns>
+    public int getId()
+    {
+        return id;
+    }
+
+    /// <summary>
+    /// Returns the display name of the item.
+    /// </summary>
+    /// <returns>The display name of the item.</returns>
+    public string getItemName()
+    {
+        return itemName;
+    }
+
+    /// <summary>
+    /// Returns the rarity level of the item.
+    /// </summary>
+    /// <returns>The rarity level of the item.</returns>
+    public ItemRarity getRarity()
+    {
+        return rarity;
+    }
+
+    /// <summary>
+    /// Returns the category classification of the item.
+    /// </summary>
+    /// <returns>The category classification of the item.</returns>
+    public ItemCategory getCategory()
+    {
+        return category;
+    }
+
+    /// <summary>
+    /// Returns the icon sprite displayed in inventory and UI.
+    /// </summary>
+    /// <returns>The icon sprite displayed in inventory and UI.</returns>
+    public Sprite getIcon()
+    {
+        return icon;
+    }
+
+    /// <summary>
+    /// Returns the 3D model/prefab used for item spawning and world representation.
+    /// </summary>
+    /// <returns>The 3D model/prefab used for item spawning and world representation.</returns>
+    public GameObject getItemPrefab()
+    {
+        return itemPrefab;
+    }
+
+    /// <summary>
+    /// Returns the maximum number of items that can be stacked in a single inventory slot.
+    /// </summary>
+    /// <returns>The maximum number of items that can be stacked.</returns>
+    public int getMaxStack()
+    {
+        return maxStack;
+    }
     #endregion
 }

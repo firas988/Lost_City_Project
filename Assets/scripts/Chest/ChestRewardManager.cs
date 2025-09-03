@@ -166,7 +166,7 @@ public class ChestRewardManager : MonoBehaviour
         foreach (var item in sourceList)
         {
             // Get drop chance for this item's rarity
-            float chance = GetRarityDropChance(item.rarity);
+            float chance = GetRarityDropChance(item.getRarity());
 
             // Convert chance to weight (multiply by 100 for integer weights)
             int weight = Mathf.RoundToInt(chance * 100);

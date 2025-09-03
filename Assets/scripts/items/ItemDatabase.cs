@@ -38,7 +38,7 @@ public class ItemDatabase : ScriptableObject
     public Item GetItem(int id)
     {
         // Search through all items to find one with matching ID
-        return allItems.Find(item => item.id == id);
+        return allItems.Find(item => item.getId() == id);
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class ItemDatabase : ScriptableObject
         else
         {
             // Filter items by category and return random selection
-            List<Item> items = allItems.FindAll(item => item.category == itemCategory);
+            List<Item> items = allItems.FindAll(item => item.getCategory() == itemCategory);
             return items[Random.Range(0, items.Count)];
         }
     }

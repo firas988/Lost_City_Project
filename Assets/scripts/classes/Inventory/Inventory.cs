@@ -95,10 +95,10 @@ public class Inventory
                 if (items[i, j] != null)
                 {
                     // Check if item type matches
-                    if (items[i, j][0].id == item.id)
+                    if (items[i, j][0].getId() == item.getId())
                     {
                         // Check if there's space in the stack
-                        if (items[i, j].Count < item.maxStack)
+                        if (items[i, j].Count < item.getMaxStack())
                         {
                             // Add item to existing stack
                             items[i, j].Add(item);
@@ -195,10 +195,10 @@ public class Inventory
         if (items[row, column] != null)
         {
             // Check if item types match
-            if (items[row, column][0].id == item.id)
+            if (items[row, column][0].getId() == item.getId())
             {
                 // Check if adding items won't exceed max stack size
-                if (items[row, column].Count + count <= items[row, column][0].maxStack)
+                if (items[row, column].Count + count <= items[row, column][0].getMaxStack())
                 {
                     // Add specified count of items to existing stack
                     for (int i = 0; i < count; i++)

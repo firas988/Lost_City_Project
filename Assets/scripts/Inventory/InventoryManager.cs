@@ -251,15 +251,19 @@ public class InventoryManager : MonoBehaviour
         if (newItem is WeaponItem)
         {
             WeaponItem weaponItem = (WeaponItem)newItem;
-            weaponItem.setDamage(GiveWeaponDamage.getDamage(weaponItem.rarity));
+            weaponItem.setDamage(GiveWeaponDamage.getDamage(weaponItem.getRarity()));
         }
 
         // Handle cosmetic items - assign stats based on rarity
         if (newItem is CosmeticItem)
         {
             CosmeticItem cosmeticItem = (CosmeticItem)newItem;
-            cosmeticItem.setStrength(GiveCosmeticStrengthDefense.getStrength(cosmeticItem.rarity));
-            cosmeticItem.setDefense(GiveCosmeticStrengthDefense.getDefense(cosmeticItem.rarity));
+            cosmeticItem.setStrength(
+                GiveCosmeticStrengthDefense.getStrength(cosmeticItem.getRarity())
+            );
+            cosmeticItem.setDefense(
+                GiveCosmeticStrengthDefense.getDefense(cosmeticItem.getRarity())
+            );
         }
 
         // Attempt to add item to inventory
@@ -269,7 +273,7 @@ public class InventoryManager : MonoBehaviour
             List<Item> items = inventory.GetItem(row, column);
             slotManager.SetSlot(newItem, items.Count, row, column);
             notificationsManager.ShowBottomLeftNotificationInventory(
-                $"You have added {newItem.itemName} to your inventory."
+                $"You have added {newItem.getItemName()} to your inventory."
             );
         }
         else

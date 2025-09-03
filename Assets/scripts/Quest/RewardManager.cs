@@ -82,7 +82,7 @@ public class RewardManager : MonoBehaviour
     public void GiveReward(int itemId)
     {
         // Find the item in the database by ID
-        Item item = allItems.Find(item => item.id == itemId);
+        Item item = allItems.Find(item => item.getId() == itemId);
 
         if (item != null)
         {
@@ -91,7 +91,7 @@ public class RewardManager : MonoBehaviour
 
             // Display notification about received item
             notificationsManager.queueTopLeftNotification(
-                "You have received " + item.name,
+                "You have received " + item.getItemName(),
                 "notification"
             );
         }

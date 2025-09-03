@@ -165,7 +165,7 @@ public class InventroyData
                     row.Add(i);
                     column.Add(j);
                     count.Add(items[i, j].Count);
-                    id.Add(items[i, j][0].id);
+                    id.Add(items[i, j][0].getId());
 
                     // Extract weapon-specific damage if applicable
                     if (items[i, j][0] is WeaponItem)
@@ -205,7 +205,7 @@ public class InventroyData
             if (itemsInHotbar[i].Count > 0)
             {
                 // Add item information for occupied hotbar slots
-                idItemInHotbar.Add(itemsInHotbar[i][0].id);
+                idItemInHotbar.Add(itemsInHotbar[i][0].getId());
                 countItemInHotbar.Add(itemsInHotbar[i].Count);
 
                 // Extract weapon damage if the item is a weapon
@@ -235,7 +235,7 @@ public class InventroyData
             if (armorSlots[i] != null)
             {
                 // Add armor information for occupied slots
-                idItemInArmorSlots.Add(armorSlots[i].id);
+                idItemInArmorSlots.Add(armorSlots[i].getId());
                 armorSlotsDefence.Add(((CosmeticItem)armorSlots[i]).getDefense());
                 armorSlotsStrength.Add(((CosmeticItem)armorSlots[i]).getStrength());
             }

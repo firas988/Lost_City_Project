@@ -97,7 +97,7 @@ public class HotBar
         if (index > 0 && index < items.Count)
         {
             // Check if adding items would exceed max stack size
-            if (items[index].Count + count > item.maxStack)
+            if (items[index].Count + count > item.getMaxStack())
             {
                 return false;
             }

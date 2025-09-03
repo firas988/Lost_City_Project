@@ -210,7 +210,7 @@ public class PlayerAttackController : MonoBehaviour
         if (currentWeapon == null)
         {
             // Instantiate weapon in hand and holder
-            currentWeaponPrefab = player.getWeapon().itemPrefab;
+            currentWeaponPrefab = player.getWeapon().getItemPrefab();
             currentWeapon = Instantiate(currentWeaponPrefab);
             currentWeapon.transform.SetParent(WeaponHand.transform, false);
             currentWeaponCopy = Instantiate(currentWeapon);
@@ -221,14 +221,14 @@ public class PlayerAttackController : MonoBehaviour
             weaponHitRelay.Subscribe(OnWeaponHit);
         }
         // Handle weapon swapping if different weapon is equipped
-        else if (currentWeaponPrefab != player.getWeapon().itemPrefab)
+        else if (currentWeaponPrefab != player.getWeapon().getItemPrefab())
         {
             // Clean up old weapon instances
             Destroy(currentWeapon);
             Destroy(currentWeaponCopy);
 
             // Create new weapon instances
-            currentWeaponPrefab = player.getWeapon().itemPrefab;
+            currentWeaponPrefab = player.getWeapon().getItemPrefab();
             currentWeapon = Instantiate(currentWeaponPrefab);
             currentWeapon.transform.SetParent(WeaponHand.transform, false);
             currentWeaponCopy = Instantiate(currentWeapon);

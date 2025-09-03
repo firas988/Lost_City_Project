@@ -35,8 +35,8 @@ public class TooltipUI : MonoBehaviour
         tooltipPanel.SetActive(true);
 
         // Set tooltip content
-        itemNameText.text = item.itemName + "\n" + item.getDescription();
-        countText.text = "Max Stack: " + item.maxStack.ToString();
+        itemNameText.text = item.getItemName() + "\n" + item.getDescription();
+        countText.text = "Max Stack: " + item.getMaxStack().ToString();
 
         // Get tooltip panel dimensions for positioning calculations
         RectTransform tooltipRect = tooltipPanel.GetComponent<RectTransform>();

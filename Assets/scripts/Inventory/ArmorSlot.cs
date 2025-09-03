@@ -81,7 +81,7 @@ public class ArmorSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
         // Set item and update visual state
         this.item = item;
-        armorImage.sprite = item.icon;
+        armorImage.sprite = item.getIcon();
         isEmptyObject.SetActive(true);
         isEmpty = false;
     }

@@ -102,12 +102,12 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             isEmptyObject.SetActive(true);
 
         // Set item icon and store reference
-        slotImage.sprite = item.icon;
+        slotImage.sprite = item.getIcon();
         this.item = item;
 
         // Update count text for stackable items
-        if (item.maxStack > 1)
-            slotCountText.text = count.ToString() + "/" + item.maxStack.ToString();
+        if (item.getMaxStack() > 1)
+            slotCountText.text = count.ToString() + "/" + item.getMaxStack().ToString();
 
         // Store count and update internal state
         this.count = count;
@@ -240,8 +240,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private void changeCountText()
     {
         // Update count text for stackable items
-        if (item.maxStack > 1)
-            slotCountText.text = count.ToString() + "/" + item.maxStack.ToString();
+        if (item.getMaxStack() > 1)
+            slotCountText.text = count.ToString() + "/" + item.getMaxStack().ToString();
     }
     #endregion
 
