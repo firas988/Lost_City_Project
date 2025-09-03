@@ -180,7 +180,7 @@ public class FinalBossControl : MonoBehaviour
         }
 
         // Debug key for testing (set health to 0)
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             entity.setHealth(0);
         }
@@ -257,14 +257,18 @@ public class FinalBossControl : MonoBehaviour
         yield return new WaitForSeconds(0.8f);
 
         // Enemy spawning phase
-        if (!spawn_Drakonit_Handler.getIsEnemiesSpawned() && !entity.isDead())
+        if (
+            spawn_Drakonit_Handler != null
+            && !spawn_Drakonit_Handler.getIsEnemiesSpawned()
+            && !entity.isDead()
+        )
         {
             spawnEnemy(10);
             canMove = false;
             yield return new WaitForSeconds(5f);
             canMove = true;
         }
-        else if (entity.isDead())
+        else if (spawn_Drakonit_Handler != null && entity.isDead())
         {
             // Kill all spawned enemies if boss is dead
             spawn_Drakonit_Handler.killAllEnemies();
@@ -333,12 +337,16 @@ public class FinalBossControl : MonoBehaviour
     /// <param name="numberOfEnemiesToSpawn">Number of enemies to spawn.</param>
     private void spawnEnemy(int numberOfEnemiesToSpawn)
     {
+        Debug.Log("spawnEnemy" + numberOfEnemiesToSpawn);
         // Play summoning sound and animation
         audioManager.playEnemy(audioSource, "Summon_Enemy_Final_Boss");
         finalBoss_AnimationControl.startSummoningAnimation();
 
         // Start enemy spawning process
-        spawn_Drakonit_Handler.startSpawnEnemies(numberOfEnemiesToSpawn, 10f);
+        if (spawn_Drakonit_Handler != null)
+        {
+            spawn_Drakonit_Handler.startSpawnEnemies(numberOfEnemiesToSpawn, 10f);
+        }
     }
     #endregion
 

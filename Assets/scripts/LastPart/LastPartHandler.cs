@@ -133,6 +133,8 @@ public class LastPartHandler : MonoBehaviour
         getHitCutSceneCollider
             .GetComponent<ColiderCutScene>()
             .subscribeToOnTriggerEnter(GetHitCutScene);
+
+        StartCoroutine(checkQuestIsCompleted()); //start the coroutine to check if the quest is completed
     }
 
     /// <summary>
@@ -180,10 +182,6 @@ public class LastPartHandler : MonoBehaviour
         {
             (currentQuest as GoToTheCenter).CompleteQuest();
         }
-        else if (currentQuest is TimeToGetTheItem)
-        {
-            (currentQuest as TimeToGetTheItem).CompleteQuest();
-        }
     }
     #endregion
 
@@ -227,9 +225,10 @@ public class LastPartHandler : MonoBehaviour
             // Hide player and start cutscene
             player.SetActive(false);
             getHitCutScene.SetActive(true);
-
-            // Subscribe to cutscene completion event
-            getHitCutScene.GetComponent<PlayableDirector>().stopped += completeTheQuest;
+            if (currentQuest is TimeToGetTheItem)
+            {
+                (currentQuest as TimeToGetTheItem).CompleteQuest();
+            }
 
             // Disable menu access and hide all menus
             gameManager.GetComponentInChildren<InputListener>().setCanOpenMenu(false);
@@ -306,6 +305,20 @@ public class LastPartHandler : MonoBehaviour
     }
 
     /// <summary>
+    /// Checks if the "Time To Get The Item" quest has been completed.
+    /// Used to prevent hit cutscene from playing after completion.
+    /// </summary>
+    /// <returns>True if quest is completed, false otherwise.</returns>
+    private bool checkIfTheQuestIsTimeToGetTheItemCompleted()
+    {
+        if (questManager.checkingCompletedStoryQuest(typeof(TimeToGetTheItem)))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Checks if the "Kill The Final Boss" quest has been completed.
     /// Opens the gate when the final boss is defeated.
     /// </summary>
@@ -315,6 +328,15 @@ public class LastPartHandler : MonoBehaviour
         {
             // Open gate when final boss is defeated
             openGate();
+        }
+    }
+
+    private IEnumerator checkQuestIsCompleted()
+    {
+        yield return new WaitUntil(() => questManager.IsReadyToStartQuest);
+        if (checkIfTheQuestIsGoToTheCenterCompleted())
+        {
+            gameManager.GetComponentInChildren<SceneHandler>().LoadScene(2);
         }
     }
     #endregion

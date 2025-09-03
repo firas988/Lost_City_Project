@@ -38,6 +38,12 @@ public class HideWhenTimelineEnds : MonoBehaviour
     /// Used to locate the UIManager component within the GameManager hierarchy.
     /// </summary>
     private string GameManagerTag = "GameManager";
+
+    /// <summary>
+    /// Flag indicating whether the timeline is currently paused.
+    /// Used to track the timeline state and control visibility of objects.
+    /// </summary>
+    private bool isTimelinePaused = false;
     #endregion
 
     #region Unity Lifecycle
@@ -80,12 +86,14 @@ public class HideWhenTimelineEnds : MonoBehaviour
         {
             // Pause timeline and hide objects when menu is open
             director.Pause();
+            isTimelinePaused = true;
             objectsToHide.ForEach(obj => obj.SetActive(false));
         }
-        else
+        else if (isTimelinePaused)
         {
             // Resume timeline and show objects when menu is closed
             director.Resume();
+            isTimelinePaused = false;
             objectsToHide.ForEach(obj => obj.SetActive(true));
         }
     }

@@ -109,7 +109,6 @@ public class QuestManager : MonoBehaviour
 
     #endregion
 
-
     #region Unity Lifecycle Methods
 
     /// <summary>
@@ -128,7 +127,7 @@ public class QuestManager : MonoBehaviour
         rewardManager = GameObject.FindAnyObjectByType<RewardManager>();
         if (rewardManager == null)
         {
-            Debug.LogError("RewardManager not found");
+            // RewardManager not found
         }
 
         if (questSpawns != null)
@@ -204,13 +203,24 @@ public class QuestManager : MonoBehaviour
         }
         for (int i = storyQuestIndex + 1; i < storyQuestsList.Quests.Count; i++)
         {
-            StoryQuest quest = ScriptableObject.Instantiate(storyQuestsList.Quests[i]);
-            List<Quest> childQuests = new List<Quest>();
-            foreach (Quest childQuest in quest.GetChildQuests())
+            List<Quest> childQuests = storyQuestsList.Quests[i].GetChildQuests();
+            List<Quest> childQuestsToAdd = new List<Quest>();
+            foreach (Quest childQuest in childQuests)
             {
-                childQuests.Add(ScriptableObject.Instantiate(childQuest));
+                childQuestsToAdd.Add(ScriptableObject.Instantiate(childQuest));
             }
-            quest.SetChildQuests(childQuests);
+            storyQuestsList.Quests[i].SetChildQuests(null);
+
+            StoryQuest quest = ScriptableObject.Instantiate(storyQuestsList.Quests[i]);
+
+            storyQuestsList.Quests[i].SetChildQuests(childQuests);
+
+            quest.SetChildQuests(childQuestsToAdd);
+            foreach (Quest childQuest in childQuestsToAdd)
+            {
+                childQuest.setParentQuest(quest);
+            }
+
             storyQuestListQueue.Enqueue(quest);
         }
         isReadyToStartQuest = true;
@@ -224,7 +234,7 @@ public class QuestManager : MonoBehaviour
     {
         if (player == null)
         {
-            player = GameObject.FindWithTag("Player");
+            player = GameObject.FindGameObjectWithTag("Player");
         }
 
         playerInstance = player.GetComponent<StartPlayer>().getPlayer();
@@ -267,17 +277,33 @@ public class QuestManager : MonoBehaviour
 
                 List<GameObject> spawns = new List<GameObject>();
 
-                foreach (Transform child in questSpawns.transform)
+                if (questSpawns != null)
                 {
-                    if (quest.QuestTarget.Contains(child.tag))
+                    foreach (Transform child in questSpawns.transform)
                     {
-                        spawns.Add(child.gameObject);
+                        if (quest.QuestTarget.Contains(child.tag))
+                        {
+                            spawns.Add(child.gameObject);
+                        }
+                    }
+
+                    if (spawns.Count > 0)
+                    {
+                        //enable a randon spawn
+                        spawns[UnityEngine.Random.Range(0, spawns.Count)].SetActive(true);
                     }
                 }
-                //enable a randon spawn
-                spawns[UnityEngine.Random.Range(0, spawns.Count)].SetActive(true);
 
-                uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
+                if (quest.Giver != null)
+                {
+                    uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
+                }
+                else
+                {
+                    GameObject giver = new GameObject("Quest Giver");
+                    quest.SetGiver(giver);
+                    uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
+                }
             }
         }
     }
@@ -332,10 +358,11 @@ public class QuestManager : MonoBehaviour
         {
             playerInstance
                 .getCurrentMainQuest()
-                .ProgressChildFindQuests(objectFound.tag, out int questReward);
+                .ProgressChildFindQuests(objectFound, out int questReward);
             expReward += questReward;
         }
-        rewardManager.GiveExpReward(expReward);
+        if (expReward > 0)
+            rewardManager.GiveExpReward(expReward);
     }
 
     /// <summary>
@@ -344,6 +371,7 @@ public class QuestManager : MonoBehaviour
     /// <param name="objectKilled">The GameObject that was killed, used to match against quest targets.</param>
     public void addKill(string objectKilled)
     {
+        // Process kill quest for: " + objectKilled
         List<KillQuest> questToInc = activeKillQuests.FindAll(questToKill =>
             questToKill != null && string.Join(", ", questToKill.QuestTarget).Contains(objectKilled)
         );
@@ -385,9 +413,16 @@ public class QuestManager : MonoBehaviour
 
             expReward += questReward;
         }
-        rewardManager.GiveExpReward(expReward);
+        if (expReward > 0)
+        {
+            rewardManager.GiveExpReward(expReward);
+        }
     }
 
+    /// <summary>
+    /// Refreshes the quest giver after a quest is completed.
+    /// </summary>
+    /// <param name="giver">The quest giver GameObject to refresh.</param>
     private IEnumerator refreshQuestGiver(GameObject giver)
     {
         yield return new WaitForSeconds(1.5f);
@@ -397,14 +432,17 @@ public class QuestManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Quest giver not found");
+            // Quest giver not found
         }
     }
+
     #endregion
 
     #region Story Quest Management
 
-
+    /// <summary>
+    /// Initiates the next story quest in the sequence.
+    /// </summary>
     public void nextStoryQuest()
     {
         StartCoroutine(nextMainQuest());
@@ -415,15 +453,36 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     public IEnumerator nextMainQuest()
     {
-        while (playerScript.getIsInCutscene())
+        storyQuestIndex++;
+
+        if (
+            playerInstance.getCurrentMainQuest() != null
+            && playerInstance.getCurrentMainQuest().RewardType == RewardType.Item
+        )
         {
-            yield return null;
+            rewardManager.GiveReward(playerInstance.getCurrentMainQuest().Reward);
         }
-        uiManager.updateStoryQuestPanel(storyQuestListQueue.Peek());
+        else if (
+            playerInstance.getCurrentMainQuest() != null
+            && playerInstance.getCurrentMainQuest().RewardType == RewardType.XP
+        )
+        {
+            rewardManager.GiveExpReward(playerInstance.getCurrentMainQuest().Reward);
+        }
+
+        if (storyQuestListQueue.Count > 0)
+        {
+            uiManager.updateStoryQuestPanel(storyQuestListQueue.Peek());
+        }
 
         if (playerInstance != null && storyQuestListQueue.Count > 0)
         {
             playerInstance.setCurrentMainQuest(storyQuestListQueue.Dequeue());
+
+            while (playerScript.getIsInCutscene())
+            {
+                yield return null;
+            }
             yield return new WaitForSeconds(waitTimeQuest);
             waitTimeQuest = 1.5f;
 
@@ -432,7 +491,6 @@ public class QuestManager : MonoBehaviour
                 "notification"
             );
 
-            storyQuestIndex++;
             if (minimapArrow != null)
                 minimapArrow.SetTarget(playerInstance.getCurrentMainQuest().TargetPosition);
         }
@@ -447,6 +505,11 @@ public class QuestManager : MonoBehaviour
         playerInstance.setCurrentMainQuest(null);
     }
 
+    /// <summary>
+    /// Checks if a story quest of the specified type has been completed.
+    /// </summary>
+    /// <param name="type">The type of story quest to check.</param>
+    /// <returns>True if a story quest of the specified type has been completed.</returns>
     public bool checkingCompletedStoryQuest(Type type)
     {
         if (completedStoryQuest == null)

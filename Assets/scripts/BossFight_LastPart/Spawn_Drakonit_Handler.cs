@@ -121,6 +121,7 @@ public class Spawn_Drakonit_Handler : MonoBehaviour
         // Spawn each enemy
         for (int i = 0; i < numberOfEnemiesToSpawn; i++)
         {
+            Debug.Log("spawnEnemy " + i);
             bool foundSpot = false;
             Vector3 spawnPosition = Vector3.zero;
 
@@ -166,20 +167,20 @@ public class Spawn_Drakonit_Handler : MonoBehaviour
                 );
 
                 // Spawn visual effect at enemy position
-                GameObject cloneEffect = Instantiate(
-                    effectPrefab,
-                    spawnPosition,
-                    Quaternion.identity
-                );
+                // GameObject cloneEffect = Instantiate(
+                //     effectPrefab,
+                //     spawnPosition,
+                //     Quaternion.identity
+                // );
 
                 // Parent effect to placeholder
-                cloneEffect.transform.SetParent(
-                    enemyPlaceHolder.transform,
-                    worldPositionStays: true
-                );
+                // cloneEffect.transform.SetParent(
+                //     enemyPlaceHolder.transform,
+                //     worldPositionStays: true
+                // );
 
                 // Store effect reference and disable enemy movement initially
-                effects.Add(cloneEffect);
+                // effects.Add(cloneEffect);
                 cloneEnemy.GetComponent<EnemyMovement>().setCanMove(false);
                 cloneEnemy.GetComponentInChildren<EnemyHealthBar>().hideHealthBar();
                 enemies.Add(cloneEnemy);
@@ -209,6 +210,7 @@ public class Spawn_Drakonit_Handler : MonoBehaviour
         // Start dissolve-in animation for all enemies
         foreach (GameObject enemy in enemies)
         {
+            Debug.Log("startSpawn " + enemy.name);
             enemy.GetComponent<DissolvingController>().StartDeDissolve();
         }
 

@@ -69,49 +69,20 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
+        // Initialize audio entries dictionary
         audioEntriesDict = new Dictionary<string, AudioClip>();
         foreach (AudioEntry audioEntry in audioEntries.AudioEntries)
         {
             audioEntriesDict.Add(audioEntry.AudioName, audioEntry.AudioClip);
         }
 
-        //load the volume from the player prefs
+        // Load volume settings from player preferences
         GlobalVolume = PlayerPrefs.GetFloat("GlobalVolume", 1f);
         UIVolume = PlayerPrefs.GetFloat("UIVolume", 1f);
         MusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
         SFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
         EnemyVolume = PlayerPrefs.GetFloat("EnemyVolume", 1f);
-
-        // ///Test
-        // GlobalVolume = 0.5f;
-        // UIVolume = 0.5f;
-        // MusicVolume = 0.5f;
-        // SFXVolume = 0.5f;
-        // EnemyVolume = 0.5f;
     }
-
-    // /// <summary>
-    // /// Handles runtime input for adjusting global and UI volume using keyboard shortcuts.
-    // /// </summary>
-    // public void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.M))
-    //     {
-    //         setGlobalVolume(GlobalVolume - 0.1f);
-    //     }
-    //     if (Input.GetKeyDown(KeyCode.N))
-    //     {
-    //         setGlobalVolume(GlobalVolume + 0.1f);
-    //     }
-    //     if (Input.GetKeyDown(KeyCode.B))
-    //     {
-    //         setUIVolume(UIVolume - 0.1f);
-    //     }
-    //     if (Input.GetKeyDown(KeyCode.O))
-    //     {
-    //         setUIVolume(UIVolume + 0.1f);
-    //     }
-    // }
 
     #endregion
 
@@ -122,12 +93,14 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     /// <param name="audioSource">The AudioSource to play the clip on.</param>
     /// <param name="audioName">The name of the audio clip to play.</param>
+    /// <param name="loop">Whether to loop the audio clip.</param>
     public void playSFX(AudioSource audioSource, string audioName, bool loop = false)
     {
         try
         {
             audioEntriesDict.TryGetValue(audioName, out AudioClip audioClip);
             audioSource.volume = SFXVolume * GlobalVolume;
+
             if (loop)
             {
                 audioSource.clip = audioClip;
@@ -140,8 +113,7 @@ public class AudioManager : MonoBehaviour
         }
         catch (KeyNotFoundException e)
         {
-            Debug.LogError("AudioEntry not found: " + audioName);
-            Debug.LogError("AudioEntry not found: " + e);
+            Debug.LogError($"AudioEntry not found: {audioName} - {e}");
         }
     }
 
@@ -150,12 +122,14 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     /// <param name="audioSource">The AudioSource to play the clip on.</param>
     /// <param name="audioName">The name of the music clip to play.</param>
+    /// <param name="loop">Whether to loop the audio clip.</param>
     public void playMusic(AudioSource audioSource, string audioName, bool loop = false)
     {
         try
         {
             audioEntriesDict.TryGetValue(audioName, out AudioClip audioClip);
             audioSource.volume = MusicVolume * GlobalVolume;
+
             if (loop)
             {
                 audioSource.clip = audioClip;
@@ -168,8 +142,7 @@ public class AudioManager : MonoBehaviour
         }
         catch (KeyNotFoundException e)
         {
-            Debug.LogError("AudioEntry not found: " + audioName);
-            Debug.LogError("AudioEntry not found: " + e);
+            Debug.LogError($"AudioEntry not found: {audioName} - {e}");
         }
     }
 
@@ -188,8 +161,7 @@ public class AudioManager : MonoBehaviour
         }
         catch (KeyNotFoundException e)
         {
-            Debug.LogError("AudioEntry not found: " + audioName);
-            Debug.LogError("AudioEntry not found: " + e);
+            Debug.LogError($"AudioEntry not found: {audioName} - {e}");
         }
     }
 
@@ -208,13 +180,11 @@ public class AudioManager : MonoBehaviour
         }
         catch (KeyNotFoundException e)
         {
-            Debug.LogError("AudioEntry not found: " + audioName);
-            Debug.LogError("AudioEntry not found: " + e);
+            Debug.LogError($"AudioEntry not found: {audioName} - {e}");
         }
     }
 
     #endregion
-
 
     #region Volume Control Methods
 
@@ -268,26 +238,46 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.SetFloat("EnemyVolume", EnemyVolume);
     }
 
+    /// <summary>
+    /// Sets the AudioSource volume to match the global volume.
+    /// </summary>
+    /// <param name="audioSource">The AudioSource to adjust.</param>
     public void setAudioSourceVolumeToGlobalVolume(AudioSource audioSource)
     {
         audioSource.volume = GlobalVolume;
     }
 
+    /// <summary>
+    /// Sets the AudioSource volume to match the music volume.
+    /// </summary>
+    /// <param name="audioSource">The AudioSource to adjust.</param>
     public void setAudioSourceVolumeToMusicVolume(AudioSource audioSource)
     {
         audioSource.volume = MusicVolume * GlobalVolume;
     }
 
+    /// <summary>
+    /// Sets the AudioSource volume to match the SFX volume.
+    /// </summary>
+    /// <param name="audioSource">The AudioSource to adjust.</param>
     public void setAudioSourceVolumeToSFXVolume(AudioSource audioSource)
     {
         audioSource.volume = SFXVolume * GlobalVolume;
     }
 
+    /// <summary>
+    /// Sets the AudioSource volume to match the enemy volume.
+    /// </summary>
+    /// <param name="audioSource">The AudioSource to adjust.</param>
     public void setAudioSourceVolumeToEnemyVolume(AudioSource audioSource)
     {
         audioSource.volume = EnemyVolume * GlobalVolume;
     }
 
+    /// <summary>
+    /// Sets the AudioSource volume to match the UI volume.
+    /// </summary>
+    /// <param name="audioSource">The AudioSource to adjust.</param>
     public void setAudioSourceVolumeToUIVolume(AudioSource audioSource)
     {
         audioSource.volume = UIVolume * GlobalVolume;
@@ -297,31 +287,61 @@ public class AudioManager : MonoBehaviour
 
     #region Getters
 
+    /// <summary>
+    /// Gets the length of an audio clip by name.
+    /// </summary>
+    /// <param name="audioName">The name of the audio clip.</param>
+    /// <returns>The length of the audio clip in seconds, or 0 if not found.</returns>
     public float getAudioClipLength(string audioName)
     {
+        if (audioName == null || !audioEntriesDict.ContainsKey(audioName))
+        {
+            return 0f;
+        }
+
         return audioEntriesDict[audioName].length;
     }
 
+    /// <summary>
+    /// Gets the current global volume.
+    /// </summary>
+    /// <returns>The global volume value.</returns>
     public float getGlobalVolume()
     {
         return GlobalVolume;
     }
 
+    /// <summary>
+    /// Gets the current UI volume.
+    /// </summary>
+    /// <returns>The UI volume value.</returns>
     public float getUIVolume()
     {
         return UIVolume;
     }
 
+    /// <summary>
+    /// Gets the current music volume.
+    /// </summary>
+    /// <returns>The music volume value.</returns>
     public float getMusicVolume()
     {
         return MusicVolume;
     }
 
+    /// <summary>
+    /// Gets the current SFX volume.
+    /// </summary>
+    /// <returns>The SFX volume value.</returns>
     public float getSFXVolume()
     {
         return SFXVolume;
     }
 
+    /// <summary>
+    /// Gets the current enemy volume.
+    /// </summary>
+    /// <returns>The enemy volume value.</returns>
     public float getEnemyVolume()
     {
         return EnemyVolume;

@@ -8,11 +8,41 @@ using UnityEngine.UI;
 /// </summary>
 public class ObjectInteraction : MonoBehaviour
 {
+    #region Serialized Fields
+
     /// <summary>
     /// Layer mask for detecting the player's presence within interaction range.
     /// </summary>
     [SerializeField]
     private LayerMask playerLayer;
+
+    /// <summary>
+    /// Range for detecting player proximity.
+    /// </summary>
+    [SerializeField]
+    private float range = 2f;
+
+    /// <summary>
+    /// Reference to the progress bar UI element for chest opening progress.
+    /// </summary>
+    [SerializeField]
+    private Image progressBar;
+
+    /// <summary>
+    /// Reference to the canvas UI element for chest interaction UI.
+    /// </summary>
+    [SerializeField]
+    private Canvas canvas;
+
+    /// <summary>
+    /// Reference to the game object containing the chest opening effect particle system.
+    /// </summary>
+    [SerializeField]
+    private GameObject openChestEffect;
+
+    #endregion
+
+    #region Private Fields
 
     /// <summary>
     /// Tag used to identify the player GameObject in the scene.
@@ -45,13 +75,6 @@ public class ObjectInteraction : MonoBehaviour
     private bool playerIsInRange;
 
     /// <summary>
-    /// Range for detecting player proximity.
-    /// </summary>
-    [SerializeField]
-    private float range = 2f;
-
-    /// chest variables //////////////////
-    /// <summary>
     /// Flag indicating whether the object is a chest.
     /// </summary>
     private bool isAchect = false;
@@ -67,18 +90,6 @@ public class ObjectInteraction : MonoBehaviour
     private ChestRewardManager chestRewardManager;
 
     /// <summary>
-    /// Reference to the progress bar UI element for chest opening progress.
-    /// </summary>
-    [SerializeField]
-    private Image progressBar;
-
-    /// <summary>
-    /// Reference to the canvas UI element for chest interaction UI.
-    /// </summary>
-    [SerializeField]
-    private Canvas canvas;
-
-    /// <summary>
     /// Reference to the audio source component for playing chest opening sounds.
     /// </summary>
     private AudioSource audioSource;
@@ -87,12 +98,6 @@ public class ObjectInteraction : MonoBehaviour
     /// Reference to the particle system for chest opening effects.
     /// </summary>
     private ParticleSystem openChestEffectParticleSystem;
-
-    /// <summary>
-    /// Reference to the game object containing the chest opening effect particle system.
-    /// </summary>
-    [SerializeField]
-    private GameObject openChestEffect;
 
     /// <summary>
     /// Reference to the animator component for controlling chest opening animations.
@@ -135,6 +140,10 @@ public class ObjectInteraction : MonoBehaviour
     private bool isAKey = false;
 
     private bool isFinshed = false;
+
+    #endregion
+
+    #region Unity Methods
 
     /// <summary>
     /// Initializes the object interaction system by finding required components and checking initial player proximity.
@@ -227,6 +236,13 @@ public class ObjectInteraction : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Quest Interaction
+
+    /// <summary>
+    /// Checks if the player is near the key and shows/hides the interaction UI accordingly.
+    /// </summary>
     private void checkIfThePlayerIsNearTheKey()
     {
         if (playerIsInRange && !isFinshed)
@@ -240,6 +256,13 @@ public class ObjectInteraction : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region UI Management
+
+    /// <summary>
+    /// Updates the interaction text based on the object type and current input keybind.
+    /// </summary>
     private void updateText()
     {
         if (isAchect)
@@ -254,6 +277,29 @@ public class ObjectInteraction : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Hides the interaction canvas.
+    /// </summary>
+    public void hideCanvas()
+    {
+        canvas.enabled = false;
+    }
+
+    /// <summary>
+    /// Locks the canvas to face the player's camera.
+    /// </summary>
+    private void lockToThePlayer()
+    {
+        canvas.transform.LookAt(Camera.main.transform);
+    }
+
+    #endregion
+
+    #region Chest Management
+
+    /// <summary>
+    /// Checks if the player is near the chest and shows/hides the interaction UI accordingly.
+    /// </summary>
     private void checkIfThePlayerIsNearTheChest()
     {
         if (playerIsInRange)
@@ -270,6 +316,9 @@ public class ObjectInteraction : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the chest opening progress based on player interaction input.
+    /// </summary>
     private void openChestProgress()
     {
         if (inputListener.isInteracting())
@@ -303,33 +352,44 @@ public class ObjectInteraction : MonoBehaviour
         }
     }
 
-    public void hideCanvas()
-    {
-        canvas.enabled = false;
-    }
-
+    /// <summary>
+    /// Handles the completion of chest opening progress.
+    /// </summary>
     private void openChestProgressDone()
     {
         chestRewardManager.OpenChest();
     }
 
-    private void lockToThePlayer()
-    {
-        canvas.transform.LookAt(Camera.main.transform);
-    }
+    #endregion
 
+    #region Public Methods
+
+    /// <summary>
+    /// Gets whether the chest is currently open.
+    /// </summary>
+    /// <returns>True if the chest is open, false otherwise.</returns>
     public bool getIsOpen()
     {
         return isOpen;
     }
 
+    /// <summary>
+    /// Sets whether the chest can be opened.
+    /// </summary>
+    /// <param name="canOpen">Whether the chest can be opened.</param>
     public void setCanOpen(bool canOpen)
     {
         this.canOpen = canOpen;
     }
 
+    /// <summary>
+    /// Sets whether the object interaction is finished.
+    /// </summary>
+    /// <param name="isFinshed">Whether the interaction is finished.</param>
     public void setIsFinshed(bool isFinshed)
     {
         this.isFinshed = isFinshed;
     }
+
+    #endregion
 }

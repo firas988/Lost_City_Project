@@ -44,12 +44,6 @@ public class TalkToJohnToGetWeapon : StoryQuest
             (TalkativeNpc)GameObject.FindWithTag("John").GetComponent<StartNpc>().GetNpcsInstance()
         ).setDialogue(dialogueData);
 
-        // Get reward manager and give the quest reward
-        RewardManager rewardManager = GameObject
-            .FindWithTag("GameManager")
-            .GetComponentInChildren<RewardManager>();
-        rewardManager.GiveReward(base.Reward);
-
         // Complete the base quest
         base.CompleteQuest();
 

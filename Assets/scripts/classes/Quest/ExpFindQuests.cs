@@ -8,14 +8,27 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewQuestList", menuName = "Quests/ExpQuests/ExpFindQuests")]
 public class ExpFindQuests : Quests
 {
+    #region Public Properties
+
     /// <summary>
     /// Gets a random FindQuest from the list of quests.
     /// </summary>
     /// <returns>A randomly selected FindQuest from the list.</returns>
     public new FindQuest RandomQuest => (FindQuest)quests[Random.Range(0, quests.Count)];
 
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Finds a FindQuest by its quest ID.
+    /// </summary>
+    /// <param name="questId">The ID of the quest to find.</param>
+    /// <returns>The FindQuest with the specified ID, or null if not found.</returns>
     public FindQuest Find(int questId)
     {
         return (FindQuest)quests.Find(quest => quest.QuestId == questId);
     }
+
+    #endregion
 }

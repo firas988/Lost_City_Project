@@ -1109,10 +1109,11 @@ GameObject:
   - component: {fileID: 5593527506212421820}
   - component: {fileID: 4765627467606553872}
   - component: {fileID: 9149456110176875608}
-  - component: {fileID: 7074679809015518829}
   - component: {fileID: -4453490456313204251}
   - component: {fileID: -4993966347033081994}
   - component: {fileID: 1676215740755089745}
+  - component: {fileID: 2238247400016471081}
+  - component: {fileID: 7787898540175055014}
   m_Layer: 29
   m_Name: Wolfboss
   m_TagString: WolfBoss
@@ -1228,6 +1229,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   player: {fileID: 0}
+  audioManager: {fileID: 0}
+  audioSource: {fileID: 0}
   navMeshAgent: {fileID: 0}
   swingAttackRange: 1.5
   swingAttackCooldown: 2
@@ -1245,28 +1248,6 @@ MonoBehaviour:
   sphereSwingAttack: {fileID: 2432959185449959971}
   isAttacking: 0
   isHitting: 0
---- !u!64 &7074679809015518829
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4273636694112101972}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!82 &-4453490456313204251
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1390,6 +1371,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33c4f6445273b04a987497e004223a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Curhealth: 0
+  bossTag: WolfBoss
+--- !u!135 &2238247400016471081
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4273636694112101972}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 3.63
+  m_Center: {x: 1.1, y: 1.63, z: 1.78}
+--- !u!54 &7787898540175055014
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4273636694112101972}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &4357464591066845358
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,18 +1,79 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Base class for all NPCs in the game.
+/// Provides basic properties and functionality for navigation and identification.
+/// </summary>
 public class NPC
 {
+    #region Protected Fields
+
+    /// <summary>
+    /// Unique identifier for the NPC.
+    /// </summary>
     protected int id;
+
+    #endregion
+
+    #region Private Fields
+
+    /// <summary>
+    /// Display name of the NPC.
+    /// </summary>
     private string name;
+
+    /// <summary>
+    /// Type/category of the NPC.
+    /// </summary>
     private string type;
+
+    /// <summary>
+    /// Radius within which the NPC can walk.
+    /// </summary>
     private float walkRadius;
+
+    /// <summary>
+    /// Navigation area mask for the NPC.
+    /// </summary>
     private int areaMask;
+
+    /// <summary>
+    /// Range of wait times between actions.
+    /// </summary>
     private Vector2 waitTimeRange;
+
+    /// <summary>
+    /// Name of the navigation mesh area.
+    /// </summary>
     private string navMeshAreaName;
+
+    /// <summary>
+    /// Current movement speed of the NPC.
+    /// </summary>
     private float speed;
+
+    /// <summary>
+    /// Maximum movement speed of the NPC.
+    /// </summary>
     private float maxSpeed;
 
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new NPC with full navigation parameters.
+    /// </summary>
+    /// <param name="id">Unique identifier for the NPC.</param>
+    /// <param name="name">Display name of the NPC.</param>
+    /// <param name="type">Type/category of the NPC.</param>
+    /// <param name="walkRadius">Radius within which the NPC can walk.</param>
+    /// <param name="areaMask">Navigation area mask for the NPC.</param>
+    /// <param name="waitTimeRange">Range of wait times between actions.</param>
+    /// <param name="navMeshAreaName">Name of the navigation mesh area.</param>
+    /// <param name="speed">Current movement speed.</param>
+    /// <param name="maxSpeed">Maximum movement speed.</param>
     public NPC(
         int id,
         string name,
@@ -36,11 +97,14 @@ public class NPC
         this.maxSpeed = maxSpeed;
     }
 
-    public NPC(
-        int id,
-        string name,
-        string type
-    )
+    /// <summary>
+    /// Initializes a new NPC with basic identification only.
+    /// Navigation parameters are set to default values.
+    /// </summary>
+    /// <param name="id">Unique identifier for the NPC.</param>
+    /// <param name="name">Display name of the NPC.</param>
+    /// <param name="type">Type/category of the NPC.</param>
+    public NPC(int id, string name, string type)
     {
         this.id = id;
         this.name = name;
@@ -53,46 +117,81 @@ public class NPC
         this.maxSpeed = 0;
     }
 
-    //getters and setters
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Gets the unique identifier of the NPC.
+    /// </summary>
+    /// <returns>The NPC's ID.</returns>
     public int GetId()
     {
         return this.id;
     }
 
+    /// <summary>
+    /// Gets the display name of the NPC.
+    /// </summary>
+    /// <returns>The NPC's name.</returns>
     public string GetName()
     {
         return this.name;
     }
 
+    /// <summary>
+    /// Gets the range of wait times between actions.
+    /// </summary>
+    /// <returns>The wait time range as a Vector2.</returns>
     public Vector2 GetWaitingTimeRange()
     {
         return this.waitTimeRange;
     }
 
+    /// <summary>
+    /// Gets the walk radius of the NPC.
+    /// </summary>
+    /// <returns>The walk radius value.</returns>
     public float GetWalkRadius()
     {
         return this.walkRadius;
     }
 
+    /// <summary>
+    /// Gets the area mask for navigation.
+    /// </summary>
+    /// <returns>The area mask value.</returns>
     public int GetAreaMask()
     {
         return this.areaMask;
     }
 
+    /// <summary>
+    /// Gets the navigation mesh area name.
+    /// </summary>
+    /// <returns>The navigation mesh area name.</returns>
     public string GetNavMeshAreaName()
     {
         return this.navMeshAreaName;
     }
 
+    /// <summary>
+    /// Gets the current movement speed of the NPC.
+    /// </summary>
+    /// <returns>The current speed value.</returns>
     public float GetSpeed()
     {
         return this.speed;
     }
 
+    /// <summary>
+    /// Gets the maximum movement speed of the NPC.
+    /// </summary>
+    /// <returns>The maximum speed value.</returns>
     public float GetMaxSpeed()
     {
         return this.maxSpeed;
     }
 
-   
+    #endregion
 }

@@ -177,6 +177,12 @@ public class DialogueManager : MonoBehaviour
             || !inputListener.isInteracting()
         )
         {
+            // Unlock cursor for UI interaction
+            if (playerStateManager.isInDialogue())
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
             return; // Exit early to prevent dialogue processing
         }
 
@@ -223,16 +229,9 @@ public class DialogueManager : MonoBehaviour
                 // Dialogue has ended - no more options available
                 if (((QuestGiver)npc).GetQuestToGive() != null)
                 {
-                    Debug.Log("endDialogue");
+                    // Dialogue ended
                     if (((QuestGiver)npc).GetQuestToGive() is StoryQuest)
                     {
-                        // if (
-                        //     ((QuestGiver)npc).GetQuestToGive() is MysteriousManQuest
-                        //     || ((QuestGiver)npc).GetQuestToGive() is RobertQuest
-                        //     || ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToGetWeapon
-                        //     || ((QuestGiver)npc).GetQuestToGive() is TalkToJohnToKnowWhereToGo
-                        // )
-                        // {
                         if (((QuestGiver)npc).GetQuestToGive() != null)
                         {
                             ((StoryQuest)((QuestGiver)npc).GetQuestToGive()).CompleteQuest();
@@ -265,22 +264,20 @@ public class DialogueManager : MonoBehaviour
             }
 
             // Set the dialogue text, replacing "TARGET" placeholder if this is a QuestGiver NPC
-            UIcontroller.SetText(
-                textContainer,
+            textContainer.text =
                 talkingTo.layer == LayerMask.NameToLayer("QuestGiver")
                 && response.Contains("TARGET")
                     ? response.Replace(
                         "TARGET",
                         string.Join(", ", ((QuestGiver)this.npc).GetQuestToGive().QuestTarget)
                     )
-                    : response
-            );
+                    : response;
 
             // Set the continue button text to the next dialogue option
-            UIcontroller.SetText(continueButton.GetComponent<TextMeshProUGUI>(), options[0]);
+            continueButton.GetComponent<TextMeshProUGUI>().text = options[0];
 
             //set the goodbye button text to the next dialogue option
-            UIcontroller.SetText(cancelButton.GetComponent<TextMeshProUGUI>(), options[1]);
+            cancelButton.GetComponent<TextMeshProUGUI>().text = options[1];
 
             // Store the selected dialogue option for the next response
             continueSentence = options[0];
@@ -310,8 +307,9 @@ public class DialogueManager : MonoBehaviour
         // stop player animation
         animateController.stopPlayerAnimation();
         playerController.stopCameraRotation();
+        inputListener.setCanOpenMenu(false);
         // Set the NPC name
-        UIcontroller.SetText(npcName.GetComponent<TextMeshProUGUI>(), talkingTo.tag);
+        npcName.GetComponent<TextMeshProUGUI>().text = talkingTo.tag;
 
         // Find the text container component for displaying dialogue
         textContainer = this
@@ -333,10 +331,17 @@ public class DialogueManager : MonoBehaviour
         }
 
         // Set the dialogue text to display the NPC's response
-        UIcontroller.SetText(textContainer, response);
+        textContainer.text =
+            talkingTo.layer == LayerMask.NameToLayer("QuestGiver") && response.Contains("TARGET")
+                ? response.Replace(
+                    "TARGET",
+                    string.Join(", ", ((QuestGiver)this.npc).GetQuestToGive().QuestTarget)
+                )
+                : response;
+        ;
 
         // Set the continue button text to the first dialogue option
-        UIcontroller.SetText(continueButton.GetComponent<TextMeshProUGUI>(), options[0]);
+        continueButton.GetComponent<TextMeshProUGUI>().text = options[0];
 
         // Store the selected dialogue option for the next response
         continueSentence = options[0];
@@ -368,6 +373,8 @@ public class DialogueManager : MonoBehaviour
         // Re-enable input listener for normal gameplay input
         inputListener.enabled = true;
 
+        // Re-enable input listener for normal gameplay input
+        inputListener.setCanOpenMenu(true);
         // Re-enable animation controller for player animations
         animateController.enabled = true;
 
@@ -397,6 +404,9 @@ public class DialogueManager : MonoBehaviour
 
         // Disable input listener to prevent gameplay input during dialogue
         inputListener.enabled = false;
+
+        // Disable input listener for normal gameplay input
+        inputListener.setCanOpenMenu(false);
 
         // Disable animation controller to prevent player movement during dialogue
         animateController.enabled = false;

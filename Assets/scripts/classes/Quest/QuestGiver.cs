@@ -7,15 +7,12 @@ using UnityEngine;
 /// </summary>
 public class QuestGiver : TalkativeNpc
 {
+    #region Private Fields
+
     /// <summary>
     /// The starting dialogue key for initiating conversation with this quest giver.
     /// </summary>
     private string start;
-
-    /// <summary>
-    /// Dictionary containing all dialogue exchanges available with this quest giver.
-    /// </summary>
-    private Dictionary<string, Dialogue> dialogues;
 
     /// <summary>
     /// The quest that this NPC will give to the player upon dialogue completion.
@@ -26,6 +23,10 @@ public class QuestGiver : TalkativeNpc
     /// The story quest that this NPC will give to the player upon dialogue completion.
     /// </summary>
     private StoryQuest storyQuestToGive;
+
+    #endregion
+
+    #region Constructors
 
     /// <summary>
     /// Initializes a new instance of the QuestGiver class.
@@ -78,6 +79,22 @@ public class QuestGiver : TalkativeNpc
         }
     }
 
+    /// <summary>
+    /// Initializes a new instance of the QuestGiver class with a story quest.
+    /// </summary>
+    /// <param name="id">The unique identifier for this quest giver.</param>
+    /// <param name="name">The name of this quest giver.</param>
+    /// <param name="type">The type of NPC.</param>
+    /// <param name="walkRadius">The radius within which the NPC can walk.</param>
+    /// <param name="areaMask">The area mask for navigation.</param>
+    /// <param name="waitTimeRange">The range of time the NPC waits between actions.</param>
+    /// <param name="navMeshAreaName">The name of the navigation mesh area.</param>
+    /// <param name="speed">The movement speed of the NPC.</param>
+    /// <param name="maxSpeed">The maximum speed of the NPC.</param>
+    /// <param name="start">The starting dialogue key.</param>
+    /// <param name="dialogues">Dictionary of available dialogues.</param>
+    /// <param name="storyQuestToGive">The story quest to be given to the player.</param>
+    /// <param name="giver">The GameObject reference of the quest giver.</param>
     public QuestGiver(
         int id,
         string name,
@@ -114,6 +131,10 @@ public class QuestGiver : TalkativeNpc
         }
     }
 
+    #endregion
+
+    #region Public Methods
+
     /// <summary>
     /// Gets the dictionary of dialogues associated with this quest giver.
     /// </summary>
@@ -131,7 +152,6 @@ public class QuestGiver : TalkativeNpc
     {
         GameObject player = GameObject.FindGameObjectWithTag(playerTag);
         player.GetComponent<StartPlayer>().getPlayer().addQuest(questToGive);
-        Debug.Log(player.GetComponent<StartPlayer>().getPlayer().ActiveQuest.Count);
     }
 
     /// <summary>
@@ -147,6 +167,11 @@ public class QuestGiver : TalkativeNpc
         return this.dialogues[dialogue].GetText();
     }
 
+    /// <summary>
+    /// Sets the quest to be given by this quest giver.
+    /// </summary>
+    /// <param name="quest">The quest to be given.</param>
+    /// <param name="giver">The GameObject reference of the quest giver.</param>
     public void setQuestToGive(Quest quest, GameObject giver)
     {
         if (quest == null)
@@ -172,6 +197,10 @@ public class QuestGiver : TalkativeNpc
         }
     }
 
+    #endregion
+
+    #region Getters
+
     /// <summary>
     /// Gets the quest that this quest giver is currently giving.
     /// </summary>
@@ -181,8 +210,14 @@ public class QuestGiver : TalkativeNpc
         return this.questToGive;
     }
 
+    /// <summary>
+    /// Gets the story quest that this quest giver is currently giving.
+    /// </summary>
+    /// <returns>The story quest that this quest giver is currently giving.</returns>
     public StoryQuest GetStoryQuestToGive()
     {
         return this.storyQuestToGive;
     }
+
+    #endregion
 }

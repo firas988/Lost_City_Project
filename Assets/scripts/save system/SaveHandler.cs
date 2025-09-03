@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -55,6 +57,11 @@ public class SaveHandler : MonoBehaviour
     /// Tag used to find the Player GameObject in the scene.
     /// </summary>
     private string playerTag = "Player";
+
+    /// <summary>
+    /// Interval at which the game will automatically save.
+    /// </summary>
+    private float autoSaveInterval = 300f;
     #endregion
 
     #region Unity Lifecycle
@@ -80,20 +87,9 @@ public class SaveHandler : MonoBehaviour
 
         // Load saved game data on startup
         LoadGame();
+        StartCoroutine(AutoSave()); // Start auto save
     }
 
-    /// <summary>
-    /// Monitors input for save game command.
-    /// Provides manual save functionality through key press.
-    /// </summary>
-    void Update()
-    {
-        // Save game when J key is pressed
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            SaveGame();
-        }
-    }
     #endregion
 
     #region Save and Load Operations
@@ -125,6 +121,13 @@ public class SaveHandler : MonoBehaviour
         questManager.initQuestLists(SaveSystem.LoadQuest());
         skillTreeManager.LoadSkills(SaveSystem.LoadSkills());
         levelManager.LoadLevel(SaveSystem.LoadLevel());
+    }
+
+    IEnumerator AutoSave()
+    {
+        yield return new WaitForSeconds(autoSaveInterval);
+        SaveGame();
+        StartCoroutine(AutoSave());
     }
     #endregion
 }

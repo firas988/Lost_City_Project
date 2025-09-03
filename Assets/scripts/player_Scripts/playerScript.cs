@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -45,7 +46,7 @@ public class playerScript : MonoBehaviour
     /// Provides visual feedback for available interactions.
     /// </summary>
     [SerializeField]
-    private UIBehaviour interactionUI;
+    private GameObject interactionUI;
 
     #endregion
 
@@ -100,49 +101,62 @@ public class playerScript : MonoBehaviour
     /// Detects nearby interactables and manages interaction UI and dialogue triggering.
     /// Handles the core interaction detection logic each physics frame.
     /// </summary>
-    private void FixedUpdate()
+    private void Update()
     {
-        // Check if any interactable is within the detection radius
-        isNearInteractable = Physics.CheckSphere(
-            detectionPoint.position,
-            detectionRadius,
-            interactiveLayers,
-            QueryTriggerInteraction.Ignore
-        );
-
-        // If no interactables are nearby, hide UI and reset interaction state
-        if (!isNearInteractable)
+        try
         {
-            // Hide interaction UI if it's visible
-            // if (interactionUI.enabled)
-            //     UIcontroller.ToggleUI(interactionUI);
-
-            // Allow input listener again since we're not in interaction range
-            inputListener.enabled = true;
-
-            // Clear current interactable reference
-            currentInteractable = null;
-            return;
-        }
-
-        // If an interactable is nearby, find the closest one
-        Collider[] colliders = Physics.OverlapSphere(
-            detectionPoint.position,
-            detectionRadius,
-            interactiveLayers
-        );
-        foreach (Collider col in colliders)
-        {
-            if (IsInInteractiveLayers(col.gameObject))
+            // Lock the interaction UI to the player's camera
+            if (currentInteractable != null)
             {
-                currentInteractable = col.gameObject;
-                break; // Stop after finding the first valid interactable
+                interactionUI.transform.LookAt(Camera.main.transform);
+            }
+            // Check if any interactable is within the detection radius
+            isNearInteractable = Physics.CheckSphere(
+                detectionPoint.position,
+                detectionRadius,
+                interactiveLayers,
+                QueryTriggerInteraction.Ignore
+            );
+
+            // If no interactables are nearby, hide UI and reset interaction state
+            if (!isNearInteractable)
+            {
+                // Hide interaction UI if it's visible
+                if (interactionUI.activeSelf)
+                    interactionUI.SetActive(false);
+
+                // Allow input listener again since we're not in interaction range
+                inputListener.enabled = true;
+
+                // Clear current interactable reference
+                currentInteractable = null;
+                return;
+            }
+
+            // If an interactable is nearby, find the closest one
+            Collider[] colliders = Physics.OverlapSphere(
+                detectionPoint.position,
+                detectionRadius,
+                interactiveLayers
+            );
+            foreach (Collider col in colliders)
+            {
+                if (IsInInteractiveLayers(col.gameObject))
+                {
+                    currentInteractable = col.gameObject;
+                    break; // Stop after finding the first valid interactable
+                }
+            }
+
+            // Show the interaction UI if it's not already visible
+            if (!interactionUI.activeSelf)
+            {
+                interactionUI.SetActive(true);
+                interactionUI.GetComponentInChildren<TextMeshProUGUI>().text =
+                    "Press " + inputListener.getKeybind("Interact").ToString();
             }
         }
-
-        // // Show the interaction UI if it's not already visible
-        // if (!interactionUI.enabled)
-        //     UIcontroller.ToggleUI(interactionUI);
+        catch (System.Exception) { } // Silently handle any errors in update
     }
 
     #endregion
@@ -269,38 +283,38 @@ public class playerScript : MonoBehaviour
     /// Green = interactable found, Red = no interactables nearby.
     /// Helps with debugging interaction ranges and detection areas.
     /// </summary>
-    private void OnDrawGizmos()
-    {
-        if (detectionPoint == null)
-            return;
+    //     private void OnDrawGizmos()
+    //     {
+    //         if (detectionPoint == null)
+    //             return;
 
-        // Default to yellow for visualization
-        Gizmos.color = Color.yellow;
+    //         // Default to yellow for visualization
+    //         Gizmos.color = Color.yellow;
 
-#if UNITY_EDITOR
-        // Check if there's an interactable nearby to decide color
-        Collider[] colliders = Physics.OverlapSphere(
-            detectionPoint.position,
-            detectionRadius,
-            interactiveLayers
-        );
-        bool found = false;
-        foreach (var col in colliders)
-        {
-            if ((interactiveLayers.value & (1 << col.gameObject.layer)) != 0)
-            {
-                found = true;
-                break;
-            }
-        }
+    // #if UNITY_EDITOR
+    //         // Check if there's an interactable nearby to decide color
+    //         Collider[] colliders = Physics.OverlapSphere(
+    //             detectionPoint.position,
+    //             detectionRadius,
+    //             interactiveLayers
+    //         );
+    //         bool found = false;
+    //         foreach (var col in colliders)
+    //         {
+    //             if ((interactiveLayers.value & (1 << col.gameObject.layer)) != 0)
+    //             {
+    //                 found = true;
+    //                 break;
+    //             }
+    //         }
 
-        // Green = found, Red = not found
-        Gizmos.color = found ? Color.green : Color.red;
-#endif
+    //         // Green = found, Red = not found
+    //         Gizmos.color = found ? Color.green : Color.red;
+    // #endif
 
-        // Draw the detection sphere
-        Gizmos.DrawWireSphere(detectionPoint.position, detectionRadius);
-    }
+    //         // Draw the detection sphere
+    //         Gizmos.DrawWireSphere(detectionPoint.position, detectionRadius);
+    //     }
 
     #endregion
 }

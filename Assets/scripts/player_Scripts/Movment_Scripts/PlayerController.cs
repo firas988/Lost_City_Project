@@ -414,6 +414,10 @@ public class PlayerController : MonoBehaviour
     public void PlayFootStepSound()
     {
         // Play current footstep sound and advance to next
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
         audioManager.playSFX(audioSource, footStepSounds[footStepSoundIndex]);
         footStepSoundIndex++;
 
@@ -430,6 +434,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void PlayLandSound()
     {
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
         audioManager.playSFX(audioSource, landSound);
     }
     #endregion

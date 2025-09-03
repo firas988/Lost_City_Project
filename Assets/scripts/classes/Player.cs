@@ -342,8 +342,9 @@ public class Player
     public void addHealthBonus(float bonus)
     {
         this.currentHealthBonus += bonus;
+        float oldMaxHealth = this.maxHealth;
         this.maxHealth = 100f * this.currentHealthBonus;
-        this.currentHealth += bonus;
+        this.currentHealth += this.maxHealth - oldMaxHealth;
     }
 
     /// <summary>
@@ -543,6 +544,15 @@ public class Player
     public float getCurrentSpeed()
     {
         return this.currentSpeed;
+    }
+
+    /// <summary>
+    /// Gets the player's current defense.
+    /// </summary>
+    /// <returns>Current defense stat</returns>
+    public float getCurrentDefense()
+    {
+        return this.currentDefense;
     }
     #endregion
 }

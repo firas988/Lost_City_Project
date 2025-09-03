@@ -18,10 +18,6 @@ public class NotificationsManager : MonoBehaviour
     [SerializeField]
     private Notification topLeftnotification;
 
-    private AudioManager audioManager;
-
-    private AudioSource audioSource;
-
     /// <summary>
     /// Reference to the Notification UI element for the middle of the screen.
     /// </summary>
@@ -40,22 +36,38 @@ public class NotificationsManager : MonoBehaviour
     [SerializeField]
     private Transform parentBottomLeftnotificationInventory;
 
+    #endregion
+
+    #region Private Fields
+
+    /// <summary>
+    /// Reference to the audio manager for playing notification sounds.
+    /// </summary>
+    private AudioManager audioManager;
+
+    /// <summary>
+    /// Audio source component for playing notification audio.
+    /// </summary>
+    private AudioSource audioSource;
+
     /// <summary>
     /// Spacing between inventory notifications when they stack.
     /// </summary>
     private float spacing = 20f;
 
+    /// <summary>
+    /// Flag to prevent multiple notification movements from interfering with each other.
+    /// </summary>
     private bool isMovingUp = false;
-
-    #endregion
-
-    #region Private Fields
 
     /// <summary>
     /// Queue to store messages for the top-left notification, ensuring they are shown one after another.
     /// </summary>
     private Queue<string> topLeftNotificationQueueText = new Queue<string>();
 
+    /// <summary>
+    /// Queue to store audio names for the top-left notification.
+    /// </summary>
     private Queue<string> topLeftNotificationQueueAudio = new Queue<string>();
 
     /// <summary>
@@ -78,6 +90,9 @@ public class NotificationsManager : MonoBehaviour
 
     #region Unity Lifecycle Methods
 
+    /// <summary>
+    /// Initializes the audio manager and audio source references.
+    /// </summary>
     private void Awake()
     {
         audioManager = GameObject.FindWithTag("GameManager").GetComponentInChildren<AudioManager>();
@@ -92,16 +107,32 @@ public class NotificationsManager : MonoBehaviour
     /// Queues a message for display in the top-left notification area.
     /// </summary>
     /// <param name="message">The message to display.</param>
+    /// <param name="audioName">The name of the audio clip to play.</param>
     public void queueTopLeftNotification(string message, string audioName)
     {
-        topLeftNotificationQueueText.Enqueue(message);
-        topLeftNotificationQueueAudio.Enqueue(audioName);
+        // Check for duplicate notifications to prevent spam
+        if (
+            topLeftNotificationQueueText.Count > 0
+            && topLeftNotificationQueueAudio.Count > 0
+            && topLeftNotificationQueueText.Peek() == message
+            && topLeftNotificationQueueAudio.Peek() == audioName
+        )
+        {
+            return;
+        }
+        else
+        {
+            topLeftNotificationQueueText.Enqueue(message);
+            topLeftNotificationQueueAudio.Enqueue(audioName);
+        }
 
+        // Safety check for null references
         if (this == null || topLeftnotification == null)
         {
             return;
         }
 
+        // Start the notification display coroutine if not already active
         if (!isTopLeftNotificationActive)
             StartCoroutine(showTopLeftNotification());
     }
@@ -113,23 +144,33 @@ public class NotificationsManager : MonoBehaviour
     public IEnumerator showTopLeftNotification()
     {
         isTopLeftNotificationActive = true;
+
         while (topLeftNotificationQueueText.Count > 0)
         {
             string message = topLeftNotificationQueueText.Dequeue();
-            string audioName = topLeftNotificationQueueAudio.Dequeue();
+            string audioName = "None";
+
+            if (topLeftNotificationQueueAudio.Count > 0)
+                audioName = topLeftNotificationQueueAudio.Dequeue();
+
             // Set the message text in the notification UI
             topLeftnotification.SetSubtitle(message);
+
             // Show the notification UI
             topLeftnotification.Show();
-            audioManager.playUI(audioSource, audioName);
 
-            // Wait for 3 seconds before hiding the no tification
+            // Play audio if specified
+            if (audioName != "None" && audioName != "" && audioName != null)
+                audioManager.playUI(audioSource, audioName);
+
+            // Wait for audio duration plus 3 seconds before hiding
             yield return new WaitForSeconds(audioManager.getAudioClipLength(audioName) + 3f);
 
             // Hide the notification UI
             topLeftnotification.Hide();
             yield return new WaitForSeconds(5f);
         }
+
         isTopLeftNotificationActive = false;
     }
 
@@ -145,6 +186,7 @@ public class NotificationsManager : MonoBehaviour
     {
         // Set the message text in the notification UI
         middlenotification.SetSubtitle(message);
+
         // Show the notification UI
         middlenotification.Show();
     }
@@ -163,8 +205,14 @@ public class NotificationsManager : MonoBehaviour
         StartCoroutine(ShowNotificationWhenReady(message));
     }
 
+    /// <summary>
+    /// Coroutine that waits for other notifications to finish moving before showing a new one.
+    /// </summary>
+    /// <param name="message">The message to display.</param>
+    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator ShowNotificationWhenReady(string message)
     {
+        // Wait for other notifications to finish moving
         while (isMovingUp)
             yield return null;
 
@@ -172,6 +220,7 @@ public class NotificationsManager : MonoBehaviour
             .GetComponent<RectTransform>()
             .anchoredPosition.y;
 
+        // Create new notification instance
         Notification newNotification = Instantiate(
             bottomLeftnotificationInventory,
             parentBottomLeftnotificationInventory
@@ -181,6 +230,7 @@ public class NotificationsManager : MonoBehaviour
         RectTransform newRect = newNotification.GetComponent<RectTransform>();
         float height = newRect.sizeDelta.y;
 
+        // Move existing notifications up if there are any
         if (activeBottomLeftNotificationQueueInventory.Count > 0)
         {
             isMovingUp = true;
@@ -196,14 +246,22 @@ public class NotificationsManager : MonoBehaviour
             isMovingUp = false;
         }
 
+        // Position the new notification at the base position
         newRect.anchoredPosition = new Vector2(newRect.anchoredPosition.x, baseY);
 
         newNotification.Show();
         activeBottomLeftNotificationQueueInventory.Add(newNotification);
 
+        // Start the removal timer
         StartCoroutine(RemoveAfterDelay(newNotification, 5f));
     }
 
+    /// <summary>
+    /// Coroutine that removes a notification after a specified delay.
+    /// </summary>
+    /// <param name="notification">The notification to remove.</param>
+    /// <param name="delay">Delay before hiding the notification.</param>
+    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator RemoveAfterDelay(Notification notification, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -213,6 +271,13 @@ public class NotificationsManager : MonoBehaviour
         Destroy(notification.gameObject);
     }
 
+    /// <summary>
+    /// Coroutine that smoothly moves a notification to a target position.
+    /// </summary>
+    /// <param name="rect">The RectTransform to move.</param>
+    /// <param name="targetPos">The target position to move to.</param>
+    /// <param name="duration">The duration of the movement animation.</param>
+    /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator MoveUpSmoothly(RectTransform rect, Vector2 targetPos, float duration)
     {
         if (rect == null || rect.Equals(null))

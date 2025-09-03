@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Enumeration defining the types of rewards that can be given for quest completion.
+/// </summary>
 public enum RewardType
 {
     XP,
@@ -42,7 +45,7 @@ public abstract class Quest : ScriptableObject
     private string description;
 
     [SerializeField]
-    private int questProgress;
+    protected int questProgress;
 
     public int QuestProgress
     {
@@ -50,7 +53,7 @@ public abstract class Quest : ScriptableObject
     }
 
     [SerializeField]
-    private int targetProgress;
+    protected int targetProgress;
 
     public int TargetProgress
     {
@@ -139,6 +142,10 @@ public abstract class Quest : ScriptableObject
 
     #region Quest Properties
 
+    /// <summary>
+    /// Gets the description of this quest.
+    /// </summary>
+    /// <returns>The quest description.</returns>
     public string GetDescription()
     {
         return this.description;
@@ -168,6 +175,9 @@ public abstract class Quest : ScriptableObject
         get { return this.rewardType; }
     }
 
+    /// <summary>
+    /// Completes the quest and triggers parent quest completion if applicable.
+    /// </summary>
     public void CompleteQuest()
     {
         this.completed = true;
@@ -194,11 +204,18 @@ public abstract class Quest : ScriptableObject
         get { return this.parentQuest; }
     }
 
+    /// <summary>
+    /// Gets the target position for this quest.
+    /// </summary>
     public Vector3 TargetPosition
     {
         get { return this.targetPosition; }
     }
 
+    /// <summary>
+    /// Sets the target position for this quest.
+    /// </summary>
+    /// <param name="targetPosition">The target position to set.</param>
     public void SetTargetPosition(Vector3 targetPosition)
     {
         this.targetPosition = targetPosition;
@@ -213,14 +230,13 @@ public abstract class Quest : ScriptableObject
         return this.questName;
     }
 
+    /// <summary>
+    /// Sets the parent quest for this quest.
+    /// </summary>
+    /// <param name="parentQuest">The parent quest to set.</param>
     public void setParentQuest(StoryQuest parentQuest)
     {
         this.parentQuest = parentQuest;
-    }
-
-    public virtual string GetProgress()
-    {
-        return this.questProgress + "/" + this.targetProgress;
     }
 
     #endregion
@@ -231,6 +247,13 @@ public abstract class Quest : ScriptableObject
     /// Abstract method that must be implemented by derived quest classes.
     /// Handles quest progress logic specific to each quest type.
     /// </summary>
+    /// <returns>A string representation of the quest progress.</returns>
+    public abstract string GetProgress();
+
+    /// <summary>
+    /// Virtual method for handling quest progress and reward distribution.
+    /// </summary>
+    /// <param name="expReward">Output parameter for experience reward amount.</param>
     public virtual void progress(out int expReward)
     {
         expReward = 0;

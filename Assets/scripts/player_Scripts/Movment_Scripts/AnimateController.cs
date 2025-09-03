@@ -267,7 +267,7 @@ public class AnimateController : MonoBehaviour
         }
 
         // Snap to zero if speed is too low (to prevent jittering)
-        if (!isMovingLeft && !isMovingRight && Mathf.Abs(currentVelocityX) < 0.05f)
+        if (!isMovingLeft && !isMovingRight && Mathf.Abs(currentVelocityX) < 0.23f)
         {
             currentVelocityX = 0.0f;
         }
@@ -310,11 +310,13 @@ public class AnimateController : MonoBehaviour
         if (!isMovingForward && !isMovingBackward && !isMovingLeft && !isMovingRight && !inTimer)
         {
             inTimer = true;
-            activeTimerForIdle = StartCoroutine(TimerForIdle(0.7f));
+            activeTimerForIdle = StartCoroutine(TimerForIdle(0.1f));
         }
         else if ((isMovingForward || isMovingBackward || isMovingLeft || isMovingRight) && inTimer)
         {
             stopTimer();
+            playerAnimator.SetFloat("VelocityX", 0);
+            playerAnimator.SetFloat("VelocityY", 0);
             inTimer = false;
         }
     }
@@ -460,12 +462,12 @@ public class AnimateController : MonoBehaviour
     /// Draws gizmo in the editor to visualize ground check sphere.
     /// Shows ground detection area and current grounded state.
     /// </summary>
-    private void OnDrawGizmosSelected()
-    {
-        Vector3 checkPosition = transform.position + groundCheckOffset;
-        // Red = grounded, Green = airborne
-        Gizmos.color = isGrounded ? Color.red : Color.green;
-        Gizmos.DrawWireSphere(checkPosition, groundCheckRadius);
-    }
+    // private void OnDrawGizmosSelected()
+    // {
+    //     Vector3 checkPosition = transform.position + groundCheckOffset;
+    //     // Red = grounded, Green = airborne
+    //     Gizmos.color = isGrounded ? Color.red : Color.green;
+    //     Gizmos.DrawWireSphere(checkPosition, groundCheckRadius);
+    // }
     #endregion
 }

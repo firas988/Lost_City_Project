@@ -185,5 +185,41 @@
         }
       ]
     }
+  },
+  "Viking": {
+    "start": {
+      "dialogue": [
+        {
+          "text": "Back In my days, we used to slay all sorts of creatures, but now I'm not sure if I can do it.",
+          "options": ["I'll help you", "no, thanks"]
+        }
+      ]
+    },
+    "I'll help you": {
+      "dialogue": [
+        {
+          "text": "Thank you, I'll reward you if you kill me some TARGET s",
+          "options": ["Alright", ""]
+        }
+      ]
+    }
+  },
+  "Villager": {
+    "start": {
+      "dialogue": [
+        {
+          "text": "Hello, have you seen a TARGET anywhere?",
+          "options": ["No but I'll help you find it.", "no, find it yourself"]
+        }
+      ]
+    },
+    "No but I'll help you find it.": {
+      "dialogue": [
+        {
+          "text": "Thank you, I'll reward you if you find it.",
+          "options": ["Okay", ""]
+        }
+      ]
+    }
   }
 }

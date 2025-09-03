@@ -157,6 +157,7 @@ public class WolfBossAttacking : MonoBehaviour
         handCollisionObserver = GetComponentInChildren<HandCollisionObserver>();
         jumpAttackColliderObserver = GetComponentInChildren<JumpAttackColliderObserver>();
         roarColliderObserver = GetComponentInChildren<RoarCollideObserver>();
+        player = GameObject.FindGameObjectWithTag("Player");
 
         // Load attack data from database
         attacks = GameObject

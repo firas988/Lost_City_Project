@@ -34,6 +34,9 @@ public class EnemyAnimatorControl : MonoBehaviour
 
     /// <summary>Reference to the AudioSource component for playing audio.</summary>
     private AudioSource audioSource;
+
+    /// <summary>Reference to the LevelManager component for XP management.</summary>
+    private LevelManager levelManager;
     #endregion
 
     #region State Variables
@@ -74,6 +77,11 @@ public class EnemyAnimatorControl : MonoBehaviour
         {
             Debug.LogWarning("EnemyAttackBehavior component not found!");
         }
+
+        // Find and store level manager
+        levelManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<LevelManager>();
     }
 
     /// <summary>
@@ -182,6 +190,9 @@ public class EnemyAnimatorControl : MonoBehaviour
     {
         if (entity.isDead() && !isDead)
         {
+
+            int xpToAdd = Random.Range(250, 400);
+            levelManager.addXP(xpToAdd);
             // Stop current audio and play death sound
             audioSource.Stop();
             audioManager.playEnemy(audioSource, transform.tag + "_Death");

@@ -14,6 +14,12 @@ public class StatisticsHandler : MonoBehaviour
     /// Required component for distance calculation and tracking.
     /// </summary>
     private PlayerDistanceTracker playerDistanceTracker;
+
+    /// <summary>
+    /// Reference to Player for accessing player stats.
+    /// Used for calculating total health and strength.
+    /// </summary>
+    private Player player;
     #endregion
 
     #region Core Statistics
@@ -107,6 +113,9 @@ public class StatisticsHandler : MonoBehaviour
     {
         // Get the required PlayerDistanceTracker component
         playerDistanceTracker = GetComponent<PlayerDistanceTracker>();
+
+        // Get the required Player component
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<StartPlayer>().getPlayer();
     }
 
     /// <summary>
@@ -125,6 +134,16 @@ public class StatisticsHandler : MonoBehaviour
     /// </summary>
     void Update()
     {
+        // Ensure player reference exists (fallback if lost)
+        if (player == null)
+        {
+            player = GameObject
+                .FindGameObjectWithTag("Player")
+                .GetComponent<StartPlayer>()
+                .getPlayer();
+            return;
+        }
+
         // Update distance and time statistics each frame
         updateTotalDistance();
         updateTotalTimePlayed();
@@ -270,6 +289,30 @@ public class StatisticsHandler : MonoBehaviour
     /// Gets the total number of Executioner enemies killed.
     /// </summary>
     public int TotalExecutionersKilled => totalExecutionersKilled;
+
+    /// <summary>
+    /// Gets the total health of the player.
+    /// </summary>
+    /// <returns>The total health of the player.</returns>
+    public float TotalHealth => player.getMaxHealth();
+
+    /// <summary>
+    /// Gets the total strength of the player.
+    /// </summary>
+    /// <returns>The total strength of the player.</returns>
+    public float TotalStrength => player.getDamage();
+
+    /// <summary>
+    /// Gets the total defense of the player.
+    /// </summary>
+    /// <returns>The total defense of the player.</returns>
+    public float TotalDefense => player.getCurrentDefense();
+
+    /// <summary>
+    /// Gets the total speed of the player.
+    /// </summary>
+    /// <returns>The total speed of the player.</returns>
+    public float TotalSpeed => player.getCurrentSpeed();
     #endregion
 
     #region Save and Load System

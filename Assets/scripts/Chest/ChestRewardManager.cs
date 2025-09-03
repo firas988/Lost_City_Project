@@ -30,13 +30,13 @@ public class ChestRewardManager : MonoBehaviour
     /// Minimum XP amount that can be gained from opening a chest
     /// </summary>
     [SerializeField]
-    private int minXP = 50;
+    private int minXP = 250;
 
     /// <summary>
     /// Maximum XP amount that can be gained from opening a chest
     /// </summary>
     [SerializeField]
-    private int maxXP = 150;
+    private int maxXP = 1000;
 
     /// <summary>
     /// Probability of receiving a weapon when opening a chest (0.0 to 1.0)

@@ -57,6 +57,7 @@ public class WolfHealthManager : MonoBehaviour
         if (bossBar == null)
         {
             bossBar = GameObject.FindAnyObjectByType<BossBarHandler>();
+            Debug.Log(bossBar);
             return;
         }
 
@@ -69,7 +70,7 @@ public class WolfHealthManager : MonoBehaviour
             // Check if boss is dead
             if (Curhealth <= 0)
             {
-                GetComponent<Animator>().SetBool("IsDead", true);
+                GetComponent<Animator>().SetTrigger("Dead");
             }
 
             // Update boss health bar UI
@@ -93,6 +94,7 @@ public class WolfHealthManager : MonoBehaviour
     /// <returns>IEnumerator for coroutine execution.</returns>
     public IEnumerator disAppearBossBar()
     {
+        Debug.Log("disAppearBossBar");
         // Start dissolve effect
         GetComponent<DissolvingController>().StartDissolve();
 

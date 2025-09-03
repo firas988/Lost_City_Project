@@ -1,5 +1,5 @@
-using NUnit.Framework;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 /// <summary>
@@ -8,16 +8,19 @@ using UnityEngine;
 /// </summary>
 [System.Serializable]
 [CreateAssetMenu(fileName = "NewQuestList", menuName = "Quests/ExpQuests/QuestList")]
-
 public class Quests : ScriptableObject
 {
+    #region Serialized Fields
 
     /// <summary>
     /// List of quests stored in this collection.
     /// </summary>
     [SerializeField]
-    protected List<Quest> quests;  
+    protected List<Quest> quests;
 
+    #endregion
+
+    #region Public Properties
 
     /// <summary>
     /// Gets the list of all quests in this collection.
@@ -31,7 +34,5 @@ public class Quests : ScriptableObject
     /// <returns>A randomly selected quest from the list.</returns>
     public Quest RandomQuest => quests[Random.Range(0, quests.Count)];
 
-
-
-  
+    #endregion
 }

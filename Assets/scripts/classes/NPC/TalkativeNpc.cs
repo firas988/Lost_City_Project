@@ -1,11 +1,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents an NPC that can engage in dialogue with the player.
+/// Extends the base NPC class to add conversation capabilities.
+/// </summary>
 public class TalkativeNpc : NPC
 {
-    private Dictionary<string, Dialogue> dialogues;
+    #region Private Fields
+
+    /// <summary>
+    /// Dictionary containing all available dialogues for this NPC.
+    /// </summary>
+    protected Dictionary<string, Dialogue> dialogues;
+
+    #endregion
+
+    #region Public Fields
+
+    /// <summary>
+    /// The starting dialogue key for conversations with this NPC.
+    /// </summary>
     public string start;
 
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    /// Initializes a new TalkativeNpc with specified parameters.
+    /// </summary>
+    /// <param name="id">Unique identifier for the NPC.</param>
+    /// <param name="name">Display name of the NPC.</param>
+    /// <param name="type">Type/category of the NPC.</param>
+    /// <param name="walkRadius">Radius within which the NPC can walk.</param>
+    /// <param name="areaMask">Navigation area mask for the NPC.</param>
+    /// <param name="waitTimeRange">Range of wait times between actions.</param>
+    /// <param name="navMeshAreaName">Name of the navigation mesh area.</param>
+    /// <param name="speed">Current movement speed.</param>
+    /// <param name="maxSpeed">Maximum movement speed.</param>
+    /// <param name="dialogues">Dictionary of available dialogues.</param>
+    /// <param name="start">Starting dialogue key.</param>
     public TalkativeNpc(
         int id,
         string name,
@@ -35,21 +70,16 @@ public class TalkativeNpc : NPC
         this.start = start;
     }
 
-    public Dictionary<string, Dialogue> getDialogues()
-    {
-        return this.dialogues;
-    }
+    #endregion
 
-    public void setDialogue(Dictionary<string, Dialogue> dialogues)
-    {
-        this.dialogues = dialogues;
-    }
+    #region Dialogue Management
 
     /// <summary>
     /// Responds to a dialogue interaction by providing the dialogue text and options.
     /// </summary>
     /// <param name="dialogue">The key identifying the dialogue to respond to.</param>
     /// <param name="options">The array of response options for the dialogue.</param>
+    /// <param name="endDialogue">Whether the dialogue has ended.</param>
     /// <returns>The text content of the dialogue response.</returns>
     public string respodToDialogue(string dialogue, out string[] options, out bool endDialogue)
     {
@@ -57,14 +87,12 @@ public class TalkativeNpc : NPC
         {
             if (!this.dialogues.ContainsKey(dialogue))
             {
-                Debug.Log("dialogue not found");
                 options = null;
                 endDialogue = true;
                 return null;
             }
             else
             {
-                Debug.Log("dialogue found");
                 options = this.dialogues[dialogue].GetOptions();
                 endDialogue = false;
             }
@@ -77,4 +105,28 @@ public class TalkativeNpc : NPC
             return null;
         }
     }
+
+    #endregion
+
+    #region Getters and Setters
+
+    /// <summary>
+    /// Gets all available dialogues for this NPC.
+    /// </summary>
+    /// <returns>Dictionary containing all dialogues.</returns>
+    public Dictionary<string, Dialogue> getDialogues()
+    {
+        return this.dialogues;
+    }
+
+    /// <summary>
+    /// Sets the dialogues for this NPC.
+    /// </summary>
+    /// <param name="dialogues">New dictionary of dialogues.</param>
+    public void setDialogue(Dictionary<string, Dialogue> dialogues)
+    {
+        this.dialogues = dialogues;
+    }
+
+    #endregion
 }

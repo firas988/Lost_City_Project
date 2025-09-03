@@ -9,6 +9,12 @@ using UnityEngine;
 [System.Serializable]
 public class FindQuest : Quest
 {
+    #region Constructors
+
+    /// <summary>
+    /// Copy constructor for FindQuest.
+    /// </summary>
+    /// <param name="quest">The FindQuest to copy properties from.</param>
     public FindQuest(FindQuest quest)
         : base(quest)
     {
@@ -17,6 +23,10 @@ public class FindQuest : Quest
         this.findTargetPrefab = quest.findTargetPrefab;
         this.findTargetTransform = quest.findTargetTransform;
     }
+
+    #endregion
+
+    #region Serialized Fields
 
     /// <summary>
     /// Current number of target objects found by the player.
@@ -42,5 +52,18 @@ public class FindQuest : Quest
     [SerializeField]
     private Transform findTargetTransform;
 
-   
+    #endregion
+
+    #region Quest Progress
+
+    /// <summary>
+    /// Gets the progress string showing found vs target objects.
+    /// </summary>
+    /// <returns>A string in the format "found/target".</returns>
+    public override string GetProgress()
+    {
+        return $"{found}/{findTarget}";
+    }
+
+    #endregion
 }

@@ -158,11 +158,11 @@ public class StartNpc : MonoBehaviour
                         quest = ScriptableObject.Instantiate(storyQuest);
                     }
 
-                    if (npcName == "ConfusedPerson")
+                    if (npcName == "ConfusedPerson" || npcName == "Villager")
                     {
                         quest = ScriptableObject.Instantiate(findQuests.RandomQuest);
                     }
-                    else if (npcName == "KillPerson")
+                    else if (npcName == "Viking")
                     {
                         quest = ScriptableObject.Instantiate(killQuests.RandomQuest);
                     }
@@ -248,7 +248,7 @@ public class StartNpc : MonoBehaviour
         {
             (npcsInstance as QuestGiver).setQuestToGive(findQuests.RandomQuest, this.gameObject);
         }
-        else if (npcName == "KillPerson")
+        else if (npcName == "Viking")
         {
             (npcsInstance as QuestGiver).setQuestToGive(killQuests.RandomQuest, this.gameObject);
         }

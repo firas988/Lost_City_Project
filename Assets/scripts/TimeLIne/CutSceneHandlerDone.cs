@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -70,6 +71,24 @@ public class CutSceneHandlerDone : MonoBehaviour
                 objectsToHide.ForEach(obj => obj.SetActive(false));
                 gameObject.SetActive(false);
             }
+        }
+    }
+
+    private void checkQuestComplate()
+    {
+        QuestManager questManager = GameObject
+            .FindGameObjectWithTag("QuestManager")
+            .GetComponent<QuestManager>();
+        StartCoroutine(checkQuestComplate(questManager));
+    }
+
+    IEnumerator checkQuestComplate(QuestManager questManager)
+    {
+        yield return new WaitUntil(() => questManager.IsReadyToStartQuest);
+        if (questManager.checkingCompletedStoryQuest(typeof(TimeToGetTheItem)))
+        {
+            objectsToHide.ForEach(obj => obj.SetActive(false));
+            gameObject.SetActive(false);
         }
     }
     #endregion

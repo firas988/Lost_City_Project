@@ -7,12 +7,22 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newQuest", menuName = "Quests/ExpQuest/KillQuest")]
 public class KillQuest : Quest
 {
+    #region Constructors
+
+    /// <summary>
+    /// Copy constructor for KillQuest.
+    /// </summary>
+    /// <param name="quest">The KillQuest to copy properties from.</param>
     public KillQuest(KillQuest quest)
         : base(quest)
     {
         this.targetKills = quest.targetKills;
         this.kills = quest.kills;
     }
+
+    #endregion
+
+    #region Serialized Fields
 
     /// <summary>
     /// Current number of enemies killed by the player for this quest.
@@ -25,4 +35,19 @@ public class KillQuest : Quest
     /// </summary>
     [SerializeField]
     private int targetKills;
+
+    #endregion
+
+    #region Quest Progress
+
+    /// <summary>
+    /// Gets the progress string showing kills vs target kills.
+    /// </summary>
+    /// <returns>A string in the format "kills/targetKills".</returns>
+    public override string GetProgress()
+    {
+        return $"{kills}/{targetKills}";
+    }
+
+    #endregion
 }

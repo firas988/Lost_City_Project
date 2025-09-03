@@ -146,7 +146,7 @@ public class NPCnavigation : MonoBehaviour
         }
         else
         {
-            Debug.LogError("NPC not placed on a valid NavMesh area. Destroying object.");
+            // NPC not placed on a valid NavMesh area. Destroying object.
             Destroy(gameObject);
             return;
         }
@@ -195,7 +195,7 @@ public class NPCnavigation : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Failed to find a valid destination within the NavMesh.");
+            // Failed to find a valid destination within the NavMesh.
         }
     }
 
@@ -215,7 +215,7 @@ public class NPCnavigation : MonoBehaviour
                 float distance = Vector3.Distance(transform.position, hit.position);
                 newWalkTime = distance / agent.speed;
                 agent.SetDestination(hit.position);
-                Debug.DrawLine(transform.position, hit.position, Color.green, 2f);
+                // Draw navigation line to destination
                 return true;
             }
         }
