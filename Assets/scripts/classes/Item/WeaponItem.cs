@@ -7,7 +7,6 @@ using UnityEngine;
 public enum WeaponType
 {
     Sword, // Melee weapon with balanced damage and range
-    Bow, // Ranged weapon with high range but lower damage
     Axe, // Heavy melee weapon with high damage but lower range
 }
 
