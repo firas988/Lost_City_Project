@@ -66,6 +66,7 @@ public class EnemyMovement : MonoBehaviour
     /// <param name="canMove">Whether the enemy should be able to move.</param>
     public void setCanMove(bool canMove)
     {
+        // COMPLEXITY ANALYSIS: setCanMove() - O(1)
         this.canMove = canMove;
     }
 
@@ -73,6 +74,7 @@ public class EnemyMovement : MonoBehaviour
     /// <param name="isReturn">Whether the enemy should return to patrol.</param>
     public void setIsReturn(bool isReturn)
     {
+        // COMPLEXITY ANALYSIS: setIsReturn() - O(1)
         this.isReturn = isReturn;
     }
 
@@ -80,6 +82,7 @@ public class EnemyMovement : MonoBehaviour
     /// <returns>True if chasing; otherwise false.</returns>
     public bool getIsChassing()
     {
+        // COMPLEXITY ANALYSIS: getIsChassing() - O(1)
         return isChassing;
     }
 
@@ -87,6 +90,7 @@ public class EnemyMovement : MonoBehaviour
     /// <param name="isChassing">Whether the enemy should be chasing.</param>
     public void setIsChassing(bool isChassing)
     {
+        // COMPLEXITY ANALYSIS: setIsChassing() - O(1)
         this.isChassing = isChassing;
     }
 
@@ -94,6 +98,7 @@ public class EnemyMovement : MonoBehaviour
     /// <returns>True if attacking; otherwise false.</returns>
     public bool getIsAttacking()
     {
+        // COMPLEXITY ANALYSIS: getIsAttacking() - O(1)
         return isAttacking;
     }
 
@@ -101,6 +106,7 @@ public class EnemyMovement : MonoBehaviour
     /// <param name="isAttacking">Whether the enemy should be attacking.</param>
     public void setIsAttacking(bool isAttacking)
     {
+        // COMPLEXITY ANALYSIS: setIsAttacking() - O(1)
         this.isAttacking = isAttacking;
     }
     #endregion
@@ -111,6 +117,7 @@ public class EnemyMovement : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        // COMPLEXITY ANALYSIS: Awake() - O(1)
         // Get NavMeshAgent for movement
         agent = GetComponent<NavMeshAgent>();
 
@@ -138,6 +145,7 @@ public class EnemyMovement : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        // COMPLEXITY ANALYSIS: Update() - O(1)
         // Exit if required components are missing
         if (agent == null || enemyTransform == null)
             return;
@@ -186,6 +194,7 @@ public class EnemyMovement : MonoBehaviour
     /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator returnToPatrolZone()
     {
+        // COMPLEXITY ANALYSIS: returnToPatrolZone() - O(1)
         // Wait for 10 seconds before allowing wandering again
         yield return new WaitForSeconds(10f);
         npcNavigation.setIsWandering(true);
@@ -198,6 +207,7 @@ public class EnemyMovement : MonoBehaviour
     /// </summary>
     private void actvateChassing()
     {
+        // COMPLEXITY ANALYSIS: actvateChassing() - O(c) where c = number of colliders in range
         // Check all colliders in a sphere around the enemy
         Collider[] hits = Physics.OverlapSphere(enemyTransform.position, activateChassingRange);
         foreach (Collider col in hits)
@@ -227,6 +237,7 @@ public class EnemyMovement : MonoBehaviour
     /// </summary>
     private void chassing()
     {
+        // COMPLEXITY ANALYSIS: chassing() - O(1)
         if (isChassing)
         {
             npcNavigation.itRun();
@@ -263,6 +274,7 @@ public class EnemyMovement : MonoBehaviour
     /// </summary>
     private void activateAttack()
     {
+        // COMPLEXITY ANALYSIS: activateAttack() - O(1)
         // Measure distance to player
         float distance = Vector3.Distance(enemyTransform.position, playerTransform.position);
 
@@ -312,6 +324,7 @@ public class EnemyMovement : MonoBehaviour
     /// </summary>
     private void checkCooldown()
     {
+        // COMPLEXITY ANALYSIS: checkCooldown() - O(1)
         if (enemyAttackBehavior.getIsAttacking())
         {
             inCooldown = true;
@@ -325,6 +338,7 @@ public class EnemyMovement : MonoBehaviour
     /// <returns>IEnumerator for coroutine execution.</returns>
     private IEnumerator cooldown()
     {
+        // COMPLEXITY ANALYSIS: cooldown() - O(1)
         // Wait for the attack time duration before allowing new attacks
         yield return new WaitForSeconds(enemyAttackBehavior.getAttackTime());
         inCooldown = false;

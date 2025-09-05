@@ -37,6 +37,7 @@ public class HotBarHandler : MonoBehaviour
     /// <summary>
     /// Initializes component references and establishes connections to required systems.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Start() - O(1)
     void Start()
     {
         // Get required components
@@ -49,6 +50,7 @@ public class HotBarHandler : MonoBehaviour
     /// <summary>
     /// Checks for hotbar key presses and attempts to use corresponding consumable items.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     void Update()
     {
         // Check for potion usage keys (P1, P2, P3)
@@ -73,6 +75,7 @@ public class HotBarHandler : MonoBehaviour
     /// Updates both the main hotbar and inventory hotbar UI after usage.
     /// </summary>
     /// <param name="index">The hotbar slot index (1-3) to use potion from.</param>
+    // COMPLEXITY ANALYSIS: tryUsePotion() - O(1)
     private void tryUsePotion(int index)
     {
         // Get consumable item from hotbar
@@ -97,6 +100,7 @@ public class HotBarHandler : MonoBehaviour
     /// Updates the entire hotbar UI to reflect the current hotbar state.
     /// Iterates through all slots and updates them with current item data.
     /// </summary>
+    // COMPLEXITY ANALYSIS: updateHotBar() - O(s) where s = number of slots
     public void updateHotBar()
     {
         // Update each slot in the hotbar
@@ -123,6 +127,7 @@ public class HotBarHandler : MonoBehaviour
     /// Finds the corresponding slot and updates it with current item data.
     /// </summary>
     /// <param name="index">The hotbar slot index to update.</param>
+    // COMPLEXITY ANALYSIS: updateHotBarUI() - O(s) where s = number of slots
     public void updateHotBarUI(int index)
     {
         // Get items for specified slot

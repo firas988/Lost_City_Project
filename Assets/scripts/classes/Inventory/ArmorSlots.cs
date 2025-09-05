@@ -20,6 +20,7 @@ public class ArmorSlots
     /// <param name="size">The number of slots to initialize (typically 4 for standard armor)</param>
     public ArmorSlots(int size)
     {
+        // COMPLEXITY ANALYSIS: ArmorSlots() - O(s) where s = size
         // Initialize the armor slots list
         armorSlots = new List<Item>();
 
@@ -38,6 +39,7 @@ public class ArmorSlots
     /// <param name="item">The item to set in the helmet slot</param>
     public void setHelmet(Item item)
     {
+        // COMPLEXITY ANALYSIS: setHelmet() - O(1)
         armorSlots[0] = item;
     }
 
@@ -47,6 +49,7 @@ public class ArmorSlots
     /// <param name="item">The item to set in the chestplate slot</param>
     public void setChestplate(Item item)
     {
+        // COMPLEXITY ANALYSIS: setChestplate() - O(1)
         armorSlots[1] = item;
     }
 
@@ -56,6 +59,7 @@ public class ArmorSlots
     /// <param name="item">The item to set in the leggings slot</param>
     public void setLeggings(Item item)
     {
+        // COMPLEXITY ANALYSIS: setLeggings() - O(1)
         armorSlots[2] = item;
     }
 
@@ -65,6 +69,7 @@ public class ArmorSlots
     /// <param name="item">The item to set in the boots slot</param>
     public void setBoots(Item item)
     {
+        // COMPLEXITY ANALYSIS: setBoots() - O(1)
         armorSlots[3] = item;
     }
     #endregion
@@ -76,6 +81,7 @@ public class ArmorSlots
     /// <returns>The helmet item, or null if no helmet is equipped</returns>
     public Item getHelmet()
     {
+        // COMPLEXITY ANALYSIS: getHelmet() - O(1)
         return armorSlots[0];
     }
 
@@ -85,6 +91,7 @@ public class ArmorSlots
     /// <returns>The chestplate item, or null if no chestplate is equipped</returns>
     public Item getChestplate()
     {
+        // COMPLEXITY ANALYSIS: getChestplate() - O(1)
         return armorSlots[1];
     }
 
@@ -94,6 +101,7 @@ public class ArmorSlots
     /// <returns>The leggings item, or null if no leggings are equipped</returns>
     public Item getLeggings()
     {
+        // COMPLEXITY ANALYSIS: getLeggings() - O(1)
         return armorSlots[2];
     }
 
@@ -103,6 +111,7 @@ public class ArmorSlots
     /// <returns>The boots item, or null if no boots are equipped</returns>
     public Item getBoots()
     {
+        // COMPLEXITY ANALYSIS: getBoots() - O(1)
         return armorSlots[3];
     }
     #endregion
@@ -113,6 +122,7 @@ public class ArmorSlots
     /// </summary>
     public void removeHelmet()
     {
+        // COMPLEXITY ANALYSIS: removeHelmet() - O(1)
         armorSlots[0] = null;
     }
 
@@ -121,6 +131,7 @@ public class ArmorSlots
     /// </summary>
     public void removeChestplate()
     {
+        // COMPLEXITY ANALYSIS: removeChestplate() - O(1)
         armorSlots[1] = null;
     }
 
@@ -129,6 +140,7 @@ public class ArmorSlots
     /// </summary>
     public void removeLeggings()
     {
+        // COMPLEXITY ANALYSIS: removeLeggings() - O(1)
         armorSlots[2] = null;
     }
 
@@ -137,6 +149,7 @@ public class ArmorSlots
     /// </summary>
     public void removeBoots()
     {
+        // COMPLEXITY ANALYSIS: removeBoots() - O(1)
         armorSlots[3] = null;
     }
     #endregion
@@ -148,6 +161,7 @@ public class ArmorSlots
     /// <returns>List containing all armor slot items</returns>
     public List<Item> getArmorSlots()
     {
+        // COMPLEXITY ANALYSIS: getArmorSlots() - O(1)
         return armorSlots;
     }
     #endregion
@@ -159,6 +173,7 @@ public class ArmorSlots
     /// <returns>Total defense bonus value from all equipped cosmetic armor items</returns>
     public float getDefenseBonus()
     {
+        // COMPLEXITY ANALYSIS: getDefenseBonus() - O(a) where a = number of armor slots
         float defenseBonus = 0f;
 
         // Iterate through all armor slots to calculate total defense
@@ -177,6 +192,7 @@ public class ArmorSlots
     /// <returns>Total strength bonus value from all equipped cosmetic armor items</returns>
     public float getStrengthBonus()
     {
+        // COMPLEXITY ANALYSIS: getStrengthBonus() - O(a) where a = number of armor slots
         float strengthBonus = 0f;
 
         // Iterate through all armor slots to calculate total strength

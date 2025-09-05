@@ -49,6 +49,7 @@ public class PedestrianSpawner : MonoBehaviour
     /// <summary>
     /// Initializes the spawner by loading pedestrian prefabs from resources.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Start() - O(p) where p = number of prefabs in resources folder
     void Start()
     {
         // Load all pedestrian prefabs from the specified resources path
@@ -58,6 +59,7 @@ public class PedestrianSpawner : MonoBehaviour
     /// <summary>
     /// Updates spawn logic each frame, initiating pedestrian spawning when conditions are met.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     void Update()
     {
         // Skip spawning if currently waiting or max spawn count reached
@@ -78,6 +80,7 @@ public class PedestrianSpawner : MonoBehaviour
     /// Manages spawn point selection, NavMesh validation, and spawn rate control.
     /// </summary>
     /// <returns>Coroutine yield instructions.</returns>
+    // COMPLEXITY ANALYSIS: SpawnPedestrians() - O(1)
     private IEnumerator SpawnPedestrians()
     {
         bool error = false;
@@ -146,6 +149,7 @@ public class PedestrianSpawner : MonoBehaviour
     /// <param name="min">Minimum value (inclusive).</param>
     /// <param name="max">Maximum value (exclusive).</param>
     /// <returns>Random integer within the specified range.</returns>
+    // COMPLEXITY ANALYSIS: getRandomNumber() - O(1)
     private int getRandomNumber(int min, int max)
     {
         return Random.Range(min, max);

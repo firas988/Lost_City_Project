@@ -18,6 +18,7 @@ public class FindQuest : Quest
     public FindQuest(FindQuest quest)
         : base(quest)
     {
+        // COMPLEXITY ANALYSIS: FindQuest() - O(1)
         this.found = quest.found;
         this.findTarget = quest.findTarget;
         this.findTargetPrefab = quest.findTargetPrefab;
@@ -62,6 +63,7 @@ public class FindQuest : Quest
     /// <returns>A string in the format "found/target".</returns>
     public override string GetProgress()
     {
+        // COMPLEXITY ANALYSIS: GetProgress() - O(1)
         return $"{found}/{findTarget}";
     }
 

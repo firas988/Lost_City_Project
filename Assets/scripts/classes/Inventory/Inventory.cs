@@ -56,6 +56,7 @@ public class Inventory
     /// </summary>
     public Inventory()
     {
+        // COMPLEXITY ANALYSIS: Inventory() - O(1)
         // Initialize the 2D grid for items
         items = new List<Item>[rowInventory, columnInventory];
 
@@ -72,6 +73,7 @@ public class Inventory
     /// <returns>The capacity of the inventory.</returns>
     public int getCapacity()
     {
+        // COMPLEXITY ANALYSIS: getCapacity() - O(1)
         return capacity;
     }
     #endregion
@@ -86,6 +88,7 @@ public class Inventory
     /// <returns>True if item was stacked, false otherwise.</returns>
     public bool TryStackItem(Item item, out int row, out int column)
     {
+        // COMPLEXITY ANALYSIS: TryStackItem() - O(r * c) where r = rowInventory, c = columnInventory
         // Search through the entire inventory grid
         for (int i = 0; i < rowInventory; i++)
         {
@@ -128,6 +131,7 @@ public class Inventory
     /// <returns>True if the item was added successfully, false if inventory is full.</returns>
     public bool TryAddItem(Item item, out int row, out int column)
     {
+        // COMPLEXITY ANALYSIS: TryAddItem() - O(r * c) where r = rowInventory, c = columnInventory
         // First try to stack with existing items
         if (TryStackItem(item, out row, out column))
         {
@@ -167,6 +171,7 @@ public class Inventory
     /// <returns>True if added successfully, false otherwise.</returns>
     public bool AddItemToEmptySlot(Item item, int row, int column, int count)
     {
+        // COMPLEXITY ANALYSIS: AddItemToEmptySlot() - O(count) where count = number of items to add
         // Check if target slot is empty
         if (items[row, column] == null)
         {
@@ -191,6 +196,7 @@ public class Inventory
     /// <returns>True if added successfully, false otherwise.</returns>
     public bool AddItemToNotEmptySlot(Item item, int row, int column, int count)
     {
+        // COMPLEXITY ANALYSIS: AddItemToNotEmptySlot() - O(count) where count = number of items to add
         // Check if target slot has items
         if (items[row, column] != null)
         {
@@ -222,6 +228,7 @@ public class Inventory
     /// <returns>List of items in the slot, or null if empty.</returns>
     public List<Item> GetItem(int rowIndex, int colIndex)
     {
+        // COMPLEXITY ANALYSIS: GetItem() - O(1)
         return items[rowIndex, colIndex];
     }
 
@@ -232,6 +239,7 @@ public class Inventory
     /// <param name="colIndex">Column index.</param>
     public void RemoveItem(int rowIndex, int colIndex)
     {
+        // COMPLEXITY ANALYSIS: RemoveItem() - O(1)
         items[rowIndex, colIndex] = null;
     }
     #endregion
@@ -243,6 +251,7 @@ public class Inventory
     /// <returns>Reference to the armor slots.</returns>
     public ArmorSlots getArmorSlots()
     {
+        // COMPLEXITY ANALYSIS: getArmorSlots() - O(1)
         return armorSlots;
     }
 
@@ -252,6 +261,7 @@ public class Inventory
     /// <returns>Reference to the hotbar.</returns>
     public HotBar getHotbar()
     {
+        // COMPLEXITY ANALYSIS: getHotbar() - O(1)
         return hotbar;
     }
 
@@ -261,6 +271,7 @@ public class Inventory
     /// <returns>2D array of item lists representing the inventory.</returns>
     public List<Item>[,] GetItems()
     {
+        // COMPLEXITY ANALYSIS: GetItems() - O(1)
         return items;
     }
     #endregion
@@ -274,6 +285,7 @@ public class Inventory
     /// <returns>True if all components loaded successfully.</returns>
     public bool LoadInventory(InventroyData inventroyData, ItemDatabase allItems)
     {
+        // COMPLEXITY ANALYSIS: LoadInventory() - O(i + h + a) where i = inventory items, h = hotbar items, a = armor items
         // Load each component separately
         bool inventoryLoaded = LoadJustInventory(inventroyData, allItems);
         bool hotbarLoaded = LoadHotbar(inventroyData, allItems);
@@ -291,6 +303,7 @@ public class Inventory
     /// <returns>True if inventory loaded successfully.</returns>
     public bool LoadJustInventory(InventroyData inventroyData, ItemDatabase allItems)
     {
+        // COMPLEXITY ANALYSIS: LoadJustInventory() - O(i * c) where i = number of inventory items, c = count per item
         // Iterate through all saved inventory entries
         for (int i = 0; i < inventroyData.Row.Count; i++)
         {
@@ -328,6 +341,7 @@ public class Inventory
     /// <returns>True if hotbar loaded successfully.</returns>
     public bool LoadHotbar(InventroyData inventroyData, ItemDatabase allItems)
     {
+        // COMPLEXITY ANALYSIS: LoadHotbar() - O(h) where h = number of hotbar slots
         // Check if hotbar data exists
         if (inventroyData.IdItemInHotbar == null)
         {
@@ -366,6 +380,7 @@ public class Inventory
     /// <returns>True if armor slots loaded successfully.</returns>
     public bool LoadArmorSlots(InventroyData inventroyData, ItemDatabase allItems)
     {
+        // COMPLEXITY ANALYSIS: LoadArmorSlots() - O(a) where a = number of armor slots
         // Check if armor slot data exists
         if (inventroyData.IdItemInArmorSlots == null)
         {

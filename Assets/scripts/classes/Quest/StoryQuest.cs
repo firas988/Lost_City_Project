@@ -32,7 +32,10 @@ public abstract class StoryQuest : Quest
     /// </summary>
     /// <param name="quest">The base quest to copy properties from.</param>
     public StoryQuest(Quest quest)
-        : base(quest) { }
+        : base(quest)
+    {
+        // COMPLEXITY ANALYSIS: StoryQuest() - O(1)
+    }
 
     #endregion
 
@@ -44,6 +47,7 @@ public abstract class StoryQuest : Quest
     /// <param name="action">The action to subscribe to the event.</param>
     public static void subscribeToQuestCompletion(Action action)
     {
+        // COMPLEXITY ANALYSIS: subscribeToQuestCompletion() - O(1)
         onCompleted = action;
     }
 
@@ -53,6 +57,7 @@ public abstract class StoryQuest : Quest
     /// <param name="action">The action to unsubscribe from the event.</param>
     public static void UnsubscribeFromQuestCompletion(Action action)
     {
+        // COMPLEXITY ANALYSIS: UnsubscribeFromQuestCompletion() - O(1)
         onCompleted -= action;
     }
 
@@ -65,6 +70,7 @@ public abstract class StoryQuest : Quest
     /// </summary>
     public virtual void CompleteQuest()
     {
+        // COMPLEXITY ANALYSIS: CompleteQuest() - O(1)
         this.completed = true;
 
         onCompleted?.Invoke();
@@ -76,6 +82,7 @@ public abstract class StoryQuest : Quest
     /// <returns>The list of child quests.</returns>
     public List<Quest> GetChildQuests()
     {
+        // COMPLEXITY ANALYSIS: GetChildQuests() - O(1)
         return childQuests;
     }
 
@@ -85,6 +92,7 @@ public abstract class StoryQuest : Quest
     /// <param name="childQuests">The list of child quests to set.</param>
     public void SetChildQuests(List<Quest> childQuests)
     {
+        // COMPLEXITY ANALYSIS: SetChildQuests() - O(1)
         this.childQuests = childQuests;
     }
 
@@ -98,6 +106,7 @@ public abstract class StoryQuest : Quest
     /// <param name="expReward">Output parameter for experience reward.</param>
     public override void progress(out int expReward)
     {
+        // COMPLEXITY ANALYSIS: progress() - O(1)
         expReward = 0;
         return;
     }
@@ -109,6 +118,7 @@ public abstract class StoryQuest : Quest
     /// <param name="expReward">Output parameter for accumulated experience reward.</param>
     public void ProgressChildFindQuests(GameObject objectFound, out int expReward)
     {
+        // COMPLEXITY ANALYSIS: ProgressChildFindQuests() - O(c) where c = number of child quests
         expReward = 0;
 
         if (childQuests == null || childQuests.Count == 0)
@@ -141,6 +151,7 @@ public abstract class StoryQuest : Quest
     /// <param name="expReward">Output parameter for accumulated experience reward.</param>
     public void ProgressChildKillQuests(string objectFound, out int expReward)
     {
+        // COMPLEXITY ANALYSIS: ProgressChildKillQuests() - O(c) where c = number of child quests
         expReward = 0;
 
         if (childQuests == null || childQuests.Count == 0)
@@ -180,6 +191,7 @@ public abstract class StoryQuest : Quest
     /// <returns>An empty string as story quests don't have traditional progress.</returns>
     public override string GetProgress()
     {
+        // COMPLEXITY ANALYSIS: GetProgress() - O(1)
         return "";
     }
 

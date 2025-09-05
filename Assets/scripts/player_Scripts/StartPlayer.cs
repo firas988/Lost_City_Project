@@ -43,6 +43,7 @@ public class StartPlayer : MonoBehaviour
     /// Initializes the player instance when the component is created.
     /// Creates a new Player object for the current game session.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Awake() - O(1)
     void Awake()
     {
         // Create new player instance for this session
@@ -55,6 +56,7 @@ public class StartPlayer : MonoBehaviour
     /// Gets the Player instance for external access.
     /// </summary>
     /// <returns>The Player instance containing all player data.</returns>
+    // COMPLEXITY ANALYSIS: getPlayer() - O(1)
     public Player getPlayer()
     {
         return player;
@@ -67,6 +69,7 @@ public class StartPlayer : MonoBehaviour
     /// Handles spawn point positioning, cutscene state, and scene-specific logic.
     /// </summary>
     /// <param name="playerData">Saved player data to load from, or null for new game.</param>
+    // COMPLEXITY ANALYSIS: loadPlayer() - O(1)
     public void loadPlayer(PlayerData playerData)
     {
         // Handle case when no data exists or scene doesn't match saved data
@@ -164,6 +167,7 @@ public class StartPlayer : MonoBehaviour
     /// Sets the completion state of the first part cutscene.
     /// </summary>
     /// <param name="isCutScenePart1Completed">True if cutscene is completed, false otherwise.</param>
+    // COMPLEXITY ANALYSIS: setIsCutScenePart1Completed() - O(1)
     public void setIsCutScenePart1Completed(bool isCutScenePart1Completed)
     {
         this.isCutScenePart1Completed = isCutScenePart1Completed;
@@ -173,6 +177,7 @@ public class StartPlayer : MonoBehaviour
     /// Sets the completion state of the second part cutscene.
     /// </summary>
     /// <param name="isCutScenePart2Completed">True if cutscene is completed, false otherwise.</param>
+    // COMPLEXITY ANALYSIS: setIsCutScenePart2Completed() - O(1)
     public void setIsCutScenePart2Completed(bool isCutScenePart2Completed)
     {
         this.isCutScenePart2Completed = isCutScenePart2Completed;
@@ -182,6 +187,7 @@ public class StartPlayer : MonoBehaviour
     /// Gets the completion state of the first part cutscene.
     /// </summary>
     /// <returns>True if cutscene is completed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: getIsCutScenePart1Completed() - O(1)
     public bool getIsCutScenePart1Completed()
     {
         return isCutScenePart1Completed;
@@ -191,6 +197,7 @@ public class StartPlayer : MonoBehaviour
     /// Gets the completion state of the second part cutscene.
     /// </summary>
     /// <returns>True if cutscene is completed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: getIsCutScenePart2Completed() - O(1)
     public bool getIsCutScenePart2Completed()
     {
         return isCutScenePart2Completed;

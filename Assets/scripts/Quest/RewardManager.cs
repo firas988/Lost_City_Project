@@ -55,6 +55,7 @@ public class RewardManager : MonoBehaviour
     /// Initializes the reward manager by setting up references to required components.
     /// Caches item database and finds system managers for reward distribution.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Start() - O(1)
     void Start()
     {
         // Cache all items from the database for efficient lookup
@@ -79,6 +80,7 @@ public class RewardManager : MonoBehaviour
     /// Adds the item to inventory and displays a notification.
     /// </summary>
     /// <param name="itemId">The ID of the item to give as a reward.</param>
+    // COMPLEXITY ANALYSIS: GiveReward() - O(i) where i = number of items in database
     public void GiveReward(int itemId)
     {
         // Find the item in the database by ID
@@ -102,6 +104,7 @@ public class RewardManager : MonoBehaviour
     /// Adds XP to player level and displays a notification.
     /// </summary>
     /// <param name="expReward">The amount of experience points to award.</param>
+    // COMPLEXITY ANALYSIS: GiveExpReward() - O(1)
     public void GiveExpReward(int expReward)
     {
         // Add experience points to player level if level manager exists

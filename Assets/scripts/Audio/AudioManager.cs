@@ -67,6 +67,7 @@ public class AudioManager : MonoBehaviour
     /// <summary>
     /// Initializes the audio entries dictionary at startup.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Awake() - O(n) where n = number of audio entries
     void Awake()
     {
         // Initialize audio entries dictionary
@@ -94,6 +95,7 @@ public class AudioManager : MonoBehaviour
     /// <param name="audioSource">The AudioSource to play the clip on.</param>
     /// <param name="audioName">The name of the audio clip to play.</param>
     /// <param name="loop">Whether to loop the audio clip.</param>
+    // COMPLEXITY ANALYSIS: playSFX() - O(1)
     public void playSFX(AudioSource audioSource, string audioName, bool loop = false)
     {
         try
@@ -123,6 +125,7 @@ public class AudioManager : MonoBehaviour
     /// <param name="audioSource">The AudioSource to play the clip on.</param>
     /// <param name="audioName">The name of the music clip to play.</param>
     /// <param name="loop">Whether to loop the audio clip.</param>
+    // COMPLEXITY ANALYSIS: playMusic() - O(1)
     public void playMusic(AudioSource audioSource, string audioName, bool loop = false)
     {
         try
@@ -151,6 +154,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     /// <param name="audioSource">The AudioSource to play the clip on.</param>
     /// <param name="audioName">The name of the enemy audio clip to play.</param>
+    // COMPLEXITY ANALYSIS: playEnemy() - O(1)
     public void playEnemy(AudioSource audioSource, string audioName)
     {
         try
@@ -170,6 +174,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     /// <param name="audioSource">The AudioSource to play the clip on.</param>
     /// <param name="audioName">The name of the UI audio clip to play.</param>
+    // COMPLEXITY ANALYSIS: playUI() - O(1)
     public void playUI(AudioSource audioSource, string audioName)
     {
         try
@@ -192,6 +197,7 @@ public class AudioManager : MonoBehaviour
     /// Sets the global (master) volume multiplier.
     /// </summary>
     /// <param name="volume">New global volume value.</param>
+    // COMPLEXITY ANALYSIS: setGlobalVolume() - O(1)
     public void setGlobalVolume(float volume)
     {
         GlobalVolume = volume;
@@ -202,6 +208,7 @@ public class AudioManager : MonoBehaviour
     /// Sets the UI volume multiplier.
     /// </summary>
     /// <param name="volume">New UI volume value.</param>
+    // COMPLEXITY ANALYSIS: setUIVolume() - O(1)
     public void setUIVolume(float volume)
     {
         UIVolume = volume;
@@ -212,6 +219,7 @@ public class AudioManager : MonoBehaviour
     /// Sets the music volume multiplier.
     /// </summary>
     /// <param name="volume">New music volume value.</param>
+    // COMPLEXITY ANALYSIS: setMusicVolume() - O(1)
     public void setMusicVolume(float volume)
     {
         MusicVolume = volume;
@@ -222,6 +230,7 @@ public class AudioManager : MonoBehaviour
     /// Sets the SFX volume multiplier.
     /// </summary>
     /// <param name="volume">New SFX volume value.</param>
+    // COMPLEXITY ANALYSIS: setSFXVolume() - O(1)
     public void setSFXVolume(float volume)
     {
         SFXVolume = volume;
@@ -232,6 +241,7 @@ public class AudioManager : MonoBehaviour
     /// Sets the enemy volume multiplier.
     /// </summary>
     /// <param name="volume">New enemy volume value.</param>
+    // COMPLEXITY ANALYSIS: setEnemyVolume() - O(1)
     public void setEnemyVolume(float volume)
     {
         EnemyVolume = volume;
@@ -242,6 +252,7 @@ public class AudioManager : MonoBehaviour
     /// Sets the AudioSource volume to match the global volume.
     /// </summary>
     /// <param name="audioSource">The AudioSource to adjust.</param>
+    // COMPLEXITY ANALYSIS: setAudioSourceVolumeToGlobalVolume() - O(1)
     public void setAudioSourceVolumeToGlobalVolume(AudioSource audioSource)
     {
         audioSource.volume = GlobalVolume;
@@ -251,6 +262,7 @@ public class AudioManager : MonoBehaviour
     /// Sets the AudioSource volume to match the music volume.
     /// </summary>
     /// <param name="audioSource">The AudioSource to adjust.</param>
+    // COMPLEXITY ANALYSIS: setAudioSourceVolumeToMusicVolume() - O(1)
     public void setAudioSourceVolumeToMusicVolume(AudioSource audioSource)
     {
         audioSource.volume = MusicVolume * GlobalVolume;
@@ -260,6 +272,7 @@ public class AudioManager : MonoBehaviour
     /// Sets the AudioSource volume to match the SFX volume.
     /// </summary>
     /// <param name="audioSource">The AudioSource to adjust.</param>
+    // COMPLEXITY ANALYSIS: setAudioSourceVolumeToSFXVolume() - O(1)
     public void setAudioSourceVolumeToSFXVolume(AudioSource audioSource)
     {
         audioSource.volume = SFXVolume * GlobalVolume;
@@ -269,6 +282,7 @@ public class AudioManager : MonoBehaviour
     /// Sets the AudioSource volume to match the enemy volume.
     /// </summary>
     /// <param name="audioSource">The AudioSource to adjust.</param>
+    // COMPLEXITY ANALYSIS: setAudioSourceVolumeToEnemyVolume() - O(1)
     public void setAudioSourceVolumeToEnemyVolume(AudioSource audioSource)
     {
         audioSource.volume = EnemyVolume * GlobalVolume;
@@ -278,6 +292,7 @@ public class AudioManager : MonoBehaviour
     /// Sets the AudioSource volume to match the UI volume.
     /// </summary>
     /// <param name="audioSource">The AudioSource to adjust.</param>
+    // COMPLEXITY ANALYSIS: setAudioSourceVolumeToUIVolume() - O(1)
     public void setAudioSourceVolumeToUIVolume(AudioSource audioSource)
     {
         audioSource.volume = UIVolume * GlobalVolume;
@@ -292,6 +307,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     /// <param name="audioName">The name of the audio clip.</param>
     /// <returns>The length of the audio clip in seconds, or 0 if not found.</returns>
+    // COMPLEXITY ANALYSIS: getAudioClipLength() - O(1)
     public float getAudioClipLength(string audioName)
     {
         if (audioName == null || !audioEntriesDict.ContainsKey(audioName))
@@ -306,6 +322,7 @@ public class AudioManager : MonoBehaviour
     /// Gets the current global volume.
     /// </summary>
     /// <returns>The global volume value.</returns>
+    // COMPLEXITY ANALYSIS: getGlobalVolume() - O(1)
     public float getGlobalVolume()
     {
         return GlobalVolume;
@@ -315,6 +332,7 @@ public class AudioManager : MonoBehaviour
     /// Gets the current UI volume.
     /// </summary>
     /// <returns>The UI volume value.</returns>
+    // COMPLEXITY ANALYSIS: getUIVolume() - O(1)
     public float getUIVolume()
     {
         return UIVolume;
@@ -324,6 +342,7 @@ public class AudioManager : MonoBehaviour
     /// Gets the current music volume.
     /// </summary>
     /// <returns>The music volume value.</returns>
+    // COMPLEXITY ANALYSIS: getMusicVolume() - O(1)
     public float getMusicVolume()
     {
         return MusicVolume;
@@ -333,6 +352,7 @@ public class AudioManager : MonoBehaviour
     /// Gets the current SFX volume.
     /// </summary>
     /// <returns>The SFX volume value.</returns>
+    // COMPLEXITY ANALYSIS: getSFXVolume() - O(1)
     public float getSFXVolume()
     {
         return SFXVolume;
@@ -342,6 +362,7 @@ public class AudioManager : MonoBehaviour
     /// Gets the current enemy volume.
     /// </summary>
     /// <returns>The enemy volume value.</returns>
+    // COMPLEXITY ANALYSIS: getEnemyVolume() - O(1)
     public float getEnemyVolume()
     {
         return EnemyVolume;

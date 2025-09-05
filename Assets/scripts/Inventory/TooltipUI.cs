@@ -29,6 +29,7 @@ public class TooltipUI : MonoBehaviour
     /// </summary>
     /// <param name="item">The item to display information for.</param>
     /// <param name="position">The desired position for the tooltip (usually mouse position).</param>
+    // COMPLEXITY ANALYSIS: ShowTooltip() - O(1)
     public void ShowTooltip(Item item, Vector2 position)
     {
         // Activate the tooltip panel
@@ -73,6 +74,7 @@ public class TooltipUI : MonoBehaviour
     /// <summary>
     /// Hides the tooltip by deactivating the tooltip panel.
     /// </summary>
+    // COMPLEXITY ANALYSIS: HideTooltip() - O(1)
     public void HideTooltip()
     {
         tooltipPanel.SetActive(false);

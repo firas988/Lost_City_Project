@@ -106,6 +106,7 @@ public class ChestRewardManager : MonoBehaviour
     #endregion
 
     #region Unity Lifecycle
+    // COMPLEXITY ANALYSIS: Start() - O(n) where n = number of GameObjects in scene
     private void Start()
     {
         // Find and store references to required managers
@@ -122,6 +123,7 @@ public class ChestRewardManager : MonoBehaviour
     /// <summary>
     /// Opens a chest and distributes rewards based on configured drop chances
     /// </summary>
+    // COMPLEXITY ANALYSIS: OpenChest() - O(i) where i = total items in all databases
     public void OpenChest()
     {
         // Generate random value for determining drops
@@ -151,6 +153,7 @@ public class ChestRewardManager : MonoBehaviour
     /// </summary>
     /// <typeparam name="T">Type of item to give (must inherit from Item)</typeparam>
     /// <param name="sourceList">List of available items to choose from</param>
+    // COMPLEXITY ANALYSIS: TryGiveItem() - O(i * w) where i = number of items, w = average weight per item
     private void TryGiveItem<T>(List<T> sourceList)
         where T : Item
     {
@@ -195,6 +198,7 @@ public class ChestRewardManager : MonoBehaviour
     /// </summary>
     /// <param name="rarity">The rarity to get the drop chance for</param>
     /// <returns>Drop chance multiplier (0.0 if not configured)</returns>
+    // COMPLEXITY ANALYSIS: GetRarityDropChance() - O(r) where r = number of rarity configurations
     private float GetRarityDropChance(ItemRarity rarity)
     {
         // Find matching rarity configuration

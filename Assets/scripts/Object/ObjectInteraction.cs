@@ -148,6 +148,7 @@ public class ObjectInteraction : MonoBehaviour
     /// <summary>
     /// Initializes the object interaction system by finding required components and checking initial player proximity.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Awake() - O(1)
     void Awake()
     {
         isAchect = transform.CompareTag("Chest");
@@ -191,6 +192,7 @@ public class ObjectInteraction : MonoBehaviour
     /// Continuously checks for player proximity and processes interaction input for quest completion.
     /// Triggers find quest progress when player interacts while in range.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     void Update()
     {
         if (isFinshed)
@@ -243,6 +245,7 @@ public class ObjectInteraction : MonoBehaviour
     /// <summary>
     /// Checks if the player is near the key and shows/hides the interaction UI accordingly.
     /// </summary>
+    // COMPLEXITY ANALYSIS: checkIfThePlayerIsNearTheKey() - O(1)
     private void checkIfThePlayerIsNearTheKey()
     {
         if (playerIsInRange && !isFinshed)
@@ -263,6 +266,7 @@ public class ObjectInteraction : MonoBehaviour
     /// <summary>
     /// Updates the interaction text based on the object type and current input keybind.
     /// </summary>
+    // COMPLEXITY ANALYSIS: updateText() - O(1)
     private void updateText()
     {
         if (isAchect)
@@ -280,6 +284,7 @@ public class ObjectInteraction : MonoBehaviour
     /// <summary>
     /// Hides the interaction canvas.
     /// </summary>
+    // COMPLEXITY ANALYSIS: hideCanvas() - O(1)
     public void hideCanvas()
     {
         canvas.enabled = false;
@@ -288,6 +293,7 @@ public class ObjectInteraction : MonoBehaviour
     /// <summary>
     /// Locks the canvas to face the player's camera.
     /// </summary>
+    // COMPLEXITY ANALYSIS: lockToThePlayer() - O(1)
     private void lockToThePlayer()
     {
         canvas.transform.LookAt(Camera.main.transform);
@@ -300,6 +306,7 @@ public class ObjectInteraction : MonoBehaviour
     /// <summary>
     /// Checks if the player is near the chest and shows/hides the interaction UI accordingly.
     /// </summary>
+    // COMPLEXITY ANALYSIS: checkIfThePlayerIsNearTheChest() - O(1)
     private void checkIfThePlayerIsNearTheChest()
     {
         if (playerIsInRange)
@@ -319,6 +326,7 @@ public class ObjectInteraction : MonoBehaviour
     /// <summary>
     /// Handles the chest opening progress based on player interaction input.
     /// </summary>
+    // COMPLEXITY ANALYSIS: openChestProgress() - O(1)
     private void openChestProgress()
     {
         if (inputListener.isInteracting())
@@ -355,6 +363,7 @@ public class ObjectInteraction : MonoBehaviour
     /// <summary>
     /// Handles the completion of chest opening progress.
     /// </summary>
+    // COMPLEXITY ANALYSIS: openChestProgressDone() - O(1)
     private void openChestProgressDone()
     {
         chestRewardManager.OpenChest();
@@ -368,6 +377,7 @@ public class ObjectInteraction : MonoBehaviour
     /// Gets whether the chest is currently open.
     /// </summary>
     /// <returns>True if the chest is open, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: getIsOpen() - O(1)
     public bool getIsOpen()
     {
         return isOpen;
@@ -377,6 +387,7 @@ public class ObjectInteraction : MonoBehaviour
     /// Sets whether the chest can be opened.
     /// </summary>
     /// <param name="canOpen">Whether the chest can be opened.</param>
+    // COMPLEXITY ANALYSIS: setCanOpen() - O(1)
     public void setCanOpen(bool canOpen)
     {
         this.canOpen = canOpen;
@@ -386,6 +397,7 @@ public class ObjectInteraction : MonoBehaviour
     /// Sets whether the object interaction is finished.
     /// </summary>
     /// <param name="isFinshed">Whether the interaction is finished.</param>
+    // COMPLEXITY ANALYSIS: setIsFinshed() - O(1)
     public void setIsFinshed(bool isFinshed)
     {
         this.isFinshed = isFinshed;

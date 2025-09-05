@@ -22,6 +22,7 @@ public class SlotManager : MonoBehaviour
     /// <param name="count">The number of items in the stack.</param>
     /// <param name="row">The row index of the target slot.</param>
     /// <param name="column">The column index of the target slot.</param>
+    // COMPLEXITY ANALYSIS: SetSlot() - O(s) where s = number of slots
     public void SetSlot(Item item, int count, int row, int column)
     {
         // Find the slot with matching coordinates
@@ -42,6 +43,7 @@ public class SlotManager : MonoBehaviour
     /// </summary>
     /// <param name="row">The row index of the target slot.</param>
     /// <param name="column">The column index of the target slot.</param>
+    // COMPLEXITY ANALYSIS: ClearSlot() - O(s) where s = number of slots
     public void ClearSlot(int row, int column)
     {
         // Find the slot with matching coordinates

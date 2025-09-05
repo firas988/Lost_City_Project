@@ -6,10 +6,10 @@ using UnityEngine;
 /// </summary>
 public enum CosmeticType
 {
-    Helmet,     // Head protection piece
+    Helmet, // Head protection piece
     Chestplate, // Torso protection piece
-    Leggings,   // Leg protection piece
-    Boots,      // Foot protection piece
+    Leggings, // Leg protection piece
+    Boots, // Foot protection piece
 }
 
 /// <summary>
@@ -49,6 +49,7 @@ public class CosmeticItem : Item
     /// Shows defense and strength bonus values.
     /// </summary>
     /// <returns>A formatted string containing armor statistics.</returns>
+    // COMPLEXITY ANALYSIS: getDescription() - O(1)
     public override string getDescription()
     {
         // Format cosmetic description with defense and strength information
@@ -61,6 +62,7 @@ public class CosmeticItem : Item
     /// Sets the defense bonus value of this armor piece.
     /// </summary>
     /// <param name="defence">The new defense value to assign.</param>
+    // COMPLEXITY ANALYSIS: setDefense() - O(1)
     public void setDefense(float defence)
     {
         this.defence = defence;
@@ -70,6 +72,7 @@ public class CosmeticItem : Item
     /// Sets the strength bonus value of this armor piece.
     /// </summary>
     /// <param name="strength">The new strength value to assign.</param>
+    // COMPLEXITY ANALYSIS: setStrength() - O(1)
     public void setStrength(float strength)
     {
         this.strength = strength;
@@ -79,6 +82,7 @@ public class CosmeticItem : Item
     /// Gets the defense bonus value of this armor piece.
     /// </summary>
     /// <returns>The armor's defense bonus value.</returns>
+    // COMPLEXITY ANALYSIS: getDefense() - O(1)
     public float getDefense()
     {
         return defence;
@@ -88,6 +92,7 @@ public class CosmeticItem : Item
     /// Gets the strength bonus value of this armor piece.
     /// </summary>
     /// <returns>The armor's strength bonus value.</returns>
+    // COMPLEXITY ANALYSIS: getStrength() - O(1)
     public float getStrength()
     {
         return strength;
@@ -99,6 +104,7 @@ public class CosmeticItem : Item
     /// Gets the type/category of this cosmetic armor.
     /// </summary>
     /// <returns>The CosmeticType enum value.</returns>
+    // COMPLEXITY ANALYSIS: getCosmeticType() - O(1)
     public CosmeticType getCosmeticType()
     {
         return cosmeticType;

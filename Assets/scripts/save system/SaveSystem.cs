@@ -96,6 +96,7 @@ public static class SaveSystem
     /// Creates directory structure and serializes StatisticsData to binary file.
     /// </summary>
     /// <param name="statisticsHandler">The StatisticsHandler component containing data to save.</param>
+    // COMPLEXITY ANALYSIS: SaveStatistics() - O(1)
     public static void SaveStatistics(StatisticsHandler statisticsHandler)
     {
         // Create directory structure if it doesn't exist
@@ -118,6 +119,7 @@ public static class SaveSystem
     /// Deserializes binary file and returns StatisticsData object.
     /// </summary>
     /// <returns>StatisticsData object if file exists, null otherwise.</returns>
+    // COMPLEXITY ANALYSIS: LoadStatistics() - O(1)
     public static StatisticsData LoadStatistics()
     {
         if (File.Exists(StatisticsPath))
@@ -144,6 +146,7 @@ public static class SaveSystem
     /// Creates directory structure and serializes InventroyData to binary file.
     /// </summary>
     /// <param name="inventory">The Inventory component containing data to save.</param>
+    // COMPLEXITY ANALYSIS: SaveInventory() - O(1)
     public static void SaveInventory(Inventory inventory)
     {
         // Create directory structure if it doesn't exist
@@ -166,6 +169,7 @@ public static class SaveSystem
     /// Deserializes binary file and returns InventroyData object.
     /// </summary>
     /// <returns>InventroyData object if file exists, null otherwise.</returns>
+    // COMPLEXITY ANALYSIS: LoadInventory() - O(1)
     public static InventroyData LoadInventory()
     {
         if (File.Exists(InventoryPath))
@@ -192,6 +196,7 @@ public static class SaveSystem
     /// Creates directory structure and serializes SkillTreeData to binary file.
     /// </summary>
     /// <param name="skillTreeManager">The SkillTreeManager component containing data to save.</param>
+    // COMPLEXITY ANALYSIS: SaveSkills() - O(1)
     public static void SaveSkills(SkillTreeManager skillTreeManager)
     {
         // Create directory structure if it doesn't exist
@@ -214,6 +219,7 @@ public static class SaveSystem
     /// Deserializes binary file and returns SkillTreeData object.
     /// </summary>
     /// <returns>SkillTreeData object if file exists, null otherwise.</returns>
+    // COMPLEXITY ANALYSIS: LoadSkills() - O(1)
     public static SkillTreeData LoadSkills()
     {
         if (File.Exists(SkillsPath))
@@ -240,6 +246,7 @@ public static class SaveSystem
     /// Creates directory structure and serializes LevelData to binary file.
     /// </summary>
     /// <param name="levelManager">The LevelManager component containing data to save.</param>
+    // COMPLEXITY ANALYSIS: SaveLevel() - O(1)
     public static void SaveLevel(LevelManager levelManager)
     {
         // Create directory structure if it doesn't exist
@@ -262,6 +269,7 @@ public static class SaveSystem
     /// Deserializes binary file and returns LevelData object.
     /// </summary>
     /// <returns>LevelData object if file exists, null otherwise.</returns>
+    // COMPLEXITY ANALYSIS: LoadLevel() - O(1)
     public static LevelData LoadLevel()
     {
         if (File.Exists(LevelPath))
@@ -288,6 +296,7 @@ public static class SaveSystem
     /// Creates directory structure and serializes QuestData to binary file.
     /// </summary>
     /// <param name="questManager">The QuestManager component containing data to save.</param>
+    // COMPLEXITY ANALYSIS: SaveQuest() - O(1)
     public static void SaveQuest(QuestManager questManager)
     {
         // Create directory structure if it doesn't exist
@@ -310,6 +319,7 @@ public static class SaveSystem
     /// Deserializes binary file and returns QuestData object.
     /// </summary>
     /// <returns>QuestData object if file exists, null otherwise.</returns>
+    // COMPLEXITY ANALYSIS: LoadQuest() - O(1)
     public static QuestData LoadQuest()
     {
         if (File.Exists(QuestPath))
@@ -336,6 +346,7 @@ public static class SaveSystem
     /// Creates directory structure and serializes PlayerData to binary file.
     /// </summary>
     /// <param name="startPlayer">The StartPlayer component containing data to save.</param>
+    // COMPLEXITY ANALYSIS: SavePlayer() - O(1)
     public static void SavePlayer(StartPlayer startPlayer)
     {
         // Create directory structure if it doesn't exist
@@ -358,6 +369,7 @@ public static class SaveSystem
     /// Deserializes binary file and returns PlayerData object.
     /// </summary>
     /// <returns>PlayerData object if file exists, null otherwise.</returns>
+    // COMPLEXITY ANALYSIS: LoadPlayer() - O(1)
     public static PlayerData LoadPlayer()
     {
         if (File.Exists(PlayerPath))

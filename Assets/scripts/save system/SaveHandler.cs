@@ -69,6 +69,7 @@ public class SaveHandler : MonoBehaviour
     /// Initializes the save handler by finding required manager references.
     /// Sets up connections to all systems that need save/load functionality.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Awake() - O(1)
     void Awake()
     {
         // Find GameManager and Player GameObjects
@@ -97,6 +98,7 @@ public class SaveHandler : MonoBehaviour
     /// Saves all game data to persistent storage.
     /// Coordinates saving of inventory, statistics, player, quests, skills, and level data.
     /// </summary>
+    // COMPLEXITY ANALYSIS: SaveGame() - O(1)
     public void SaveGame()
     {
         // Save all game systems through the SaveSystem
@@ -112,6 +114,7 @@ public class SaveHandler : MonoBehaviour
     /// Loads all game data from persistent storage.
     /// Restores the state of all game systems to their saved values.
     /// </summary>
+    // COMPLEXITY ANALYSIS: LoadGame() - O(1)
     public void LoadGame()
     {
         // Load all game systems through the SaveSystem
@@ -123,6 +126,7 @@ public class SaveHandler : MonoBehaviour
         levelManager.LoadLevel(SaveSystem.LoadLevel());
     }
 
+    // COMPLEXITY ANALYSIS: AutoSave() - O(1)
     IEnumerator AutoSave()
     {
         yield return new WaitForSeconds(autoSaveInterval);

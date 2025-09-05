@@ -107,6 +107,7 @@ public abstract class Quest : ScriptableObject
     /// <param name="quest">The quest to copy properties from.</param>
     public Quest(Quest quest)
     {
+        // COMPLEXITY ANALYSIS: Quest() - O(1)
         this.questId = quest.questId;
         this.questName = quest.questName;
         this.description = quest.description;
@@ -127,6 +128,7 @@ public abstract class Quest : ScriptableObject
     /// <param name="giverId">The unique identifier of the quest giver NPC.</param>
     public void SetGiver(GameObject giver)
     {
+        // COMPLEXITY ANALYSIS: SetGiver() - O(1)
         this.giver = giver;
     }
 
@@ -148,6 +150,7 @@ public abstract class Quest : ScriptableObject
     /// <returns>The quest description.</returns>
     public string GetDescription()
     {
+        // COMPLEXITY ANALYSIS: GetDescription() - O(1)
         return this.description;
     }
 
@@ -180,6 +183,7 @@ public abstract class Quest : ScriptableObject
     /// </summary>
     public void CompleteQuest()
     {
+        // COMPLEXITY ANALYSIS: CompleteQuest() - O(1)
         this.completed = true;
 
         if (ParentQuest != null)
@@ -218,6 +222,7 @@ public abstract class Quest : ScriptableObject
     /// <param name="targetPosition">The target position to set.</param>
     public void SetTargetPosition(Vector3 targetPosition)
     {
+        // COMPLEXITY ANALYSIS: SetTargetPosition() - O(1)
         this.targetPosition = targetPosition;
     }
 
@@ -227,6 +232,7 @@ public abstract class Quest : ScriptableObject
     /// <returns>The quest name.</returns>
     public string GetQuestName()
     {
+        // COMPLEXITY ANALYSIS: GetQuestName() - O(1)
         return this.questName;
     }
 
@@ -236,6 +242,7 @@ public abstract class Quest : ScriptableObject
     /// <param name="parentQuest">The parent quest to set.</param>
     public void setParentQuest(StoryQuest parentQuest)
     {
+        // COMPLEXITY ANALYSIS: setParentQuest() - O(1)
         this.parentQuest = parentQuest;
     }
 
@@ -256,6 +263,7 @@ public abstract class Quest : ScriptableObject
     /// <param name="expReward">Output parameter for experience reward amount.</param>
     public virtual void progress(out int expReward)
     {
+        // COMPLEXITY ANALYSIS: progress() - O(1)
         expReward = 0;
 
         this.questProgress = Mathf.Min(this.questProgress + 1, this.targetProgress);

@@ -136,6 +136,7 @@ public class AnimateController : MonoBehaviour
     /// Initializes the component by finding required references.
     /// Sets up input listener and animator component connections.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Start() - O(1)
     void Start()
     {
         // Find input listener for movement input
@@ -149,6 +150,7 @@ public class AnimateController : MonoBehaviour
     /// Updates ground status and handles movement each frame.
     /// Continuously monitors player state and updates animations.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     void Update()
     {
         // Continuously check if the player is grounded
@@ -164,6 +166,7 @@ public class AnimateController : MonoBehaviour
     /// Checks if player is touching ground using sphere collision detection.
     /// Updates the grounded state for jump and fall logic.
     /// </summary>
+    // COMPLEXITY ANALYSIS: UpdateGroundStatus() - O(1)
     private void UpdateGroundStatus()
     {
         // Use physics sphere check to determine ground contact
@@ -181,6 +184,7 @@ public class AnimateController : MonoBehaviour
     /// Handles both directional movement and jumping logic.
     /// Coordinates horizontal movement and airborne state management.
     /// </summary>
+    // COMPLEXITY ANALYSIS: HandleMovement() - O(1)
     private void HandleMovement()
     {
         // Handle WASD + Shift movement logic
@@ -194,6 +198,7 @@ public class AnimateController : MonoBehaviour
     /// Controls animator parameters for horizontal movement based on input.
     /// Provides smooth acceleration and deceleration for natural movement.
     /// </summary>
+    // COMPLEXITY ANALYSIS: HandleHorizontalMovement() - O(1)
     private void HandleHorizontalMovement()
     {
         // Get current velocity values from Animator
@@ -328,6 +333,7 @@ public class AnimateController : MonoBehaviour
     /// Provides smooth transition to idle state when movement stops.
     /// </summary>
     /// <param name="time">Delay before setting velocity to zero.</param>
+    // COMPLEXITY ANALYSIS: TimerForIdle() - O(1)
     IEnumerator TimerForIdle(float time)
     {
         yield return new WaitForSeconds(time);
@@ -339,6 +345,7 @@ public class AnimateController : MonoBehaviour
     /// Stops the idle timer coroutine if it's active.
     /// Called when movement resumes to prevent idle state.
     /// </summary>
+    // COMPLEXITY ANALYSIS: stopTimer() - O(1)
     private void stopTimer()
     {
         if (activeTimerForIdle != null)
@@ -353,6 +360,7 @@ public class AnimateController : MonoBehaviour
     /// Marks the player as no longer ready to jump.
     /// Called when jump animation starts to prevent multiple jumps.
     /// </summary>
+    // COMPLEXITY ANALYSIS: jumping() - O(1)
     private void jumping()
     {
         readyToJump = false;
@@ -362,6 +370,7 @@ public class AnimateController : MonoBehaviour
     /// Sets the player as ready to jump again.
     /// Called when jump animation completes.
     /// </summary>
+    // COMPLEXITY ANALYSIS: setReadyToJump() - O(1)
     private void setReadyToJump()
     {
         inputListener.setCanMove(true);
@@ -372,6 +381,7 @@ public class AnimateController : MonoBehaviour
     /// Gets whether the player is ready to perform a jump.
     /// </summary>
     /// <returns>True if player can jump, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isReadyToJump() - O(1)
     public bool isReadyToJump()
     {
         return readyToJump;
@@ -381,6 +391,7 @@ public class AnimateController : MonoBehaviour
     /// Handles all jumping and airborne transitions.
     /// Triggers jump animation and updates jump state.
     /// </summary>
+    // COMPLEXITY ANALYSIS: HandleJump() - O(1)
     public void HandleJump()
     {
         if (isGrounded && readyToJump)
@@ -396,6 +407,7 @@ public class AnimateController : MonoBehaviour
     /// Handles free-fall and grounded state transitions.
     /// Manages the timing for entering free-fall state and landing detection.
     /// </summary>
+    // COMPLEXITY ANALYSIS: HandleFreeFallandGrounded() - O(1)
     private void HandleFreeFallandGrounded()
     {
         // Handle landing from jump or free-fall
@@ -419,6 +431,7 @@ public class AnimateController : MonoBehaviour
     /// Stops the free-fall timer coroutine if it's active.
     /// Called when landing to prevent free-fall state.
     /// </summary>
+    // COMPLEXITY ANALYSIS: StopTimer() - O(1)
     private void StopTimer()
     {
         if (activeTimer != null)
@@ -432,6 +445,7 @@ public class AnimateController : MonoBehaviour
     /// Provides smooth transition to free-fall state when airborne.
     /// </summary>
     /// <param name="time">Delay before entering free-fall state.</param>
+    // COMPLEXITY ANALYSIS: TimerForFreeFall() - O(1)
     IEnumerator TimerForFreeFall(float time)
     {
         yield return new WaitForSeconds(time);
@@ -451,6 +465,7 @@ public class AnimateController : MonoBehaviour
     /// Immediately stops player animation by setting velocity to zero.
     /// Used for cutscenes or other situations requiring animation control.
     /// </summary>
+    // COMPLEXITY ANALYSIS: stopPlayerAnimation() - O(1)
     public void stopPlayerAnimation()
     {
         StartCoroutine(TimerForIdle(0f));

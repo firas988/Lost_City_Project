@@ -10,7 +10,7 @@ public class Dialogue
     /// The main dialogue text to be displayed to the player.
     /// </summary>
     private string text;
-    
+
     /// <summary>
     /// Array of response options available to the player for this dialogue.
     /// </summary>
@@ -21,7 +21,9 @@ public class Dialogue
     /// </summary>
     /// <param name="text">The dialogue text to display to the player.</param>
     /// <param name="options">Array of response options for the player to choose from.</param>
-    public Dialogue(string text, string[] options){
+    public Dialogue(string text, string[] options)
+    {
+        // COMPLEXITY ANALYSIS: Dialogue() - O(1)
         // Store the dialogue text
         this.text = text;
         // Store the response options
@@ -32,7 +34,9 @@ public class Dialogue
     /// Gets the dialogue text content.
     /// </summary>
     /// <returns>The text content of this dialogue.</returns>
-    public string GetText(){
+    public string GetText()
+    {
+        // COMPLEXITY ANALYSIS: GetText() - O(1)
         return text;
     }
 
@@ -40,7 +44,9 @@ public class Dialogue
     /// Gets the array of response options for this dialogue.
     /// </summary>
     /// <returns>Array of strings representing the available response options.</returns>
-    public string[] GetOptions(){ 
-        return options; 
+    public string[] GetOptions()
+    {
+        // COMPLEXITY ANALYSIS: GetOptions() - O(1)
+        return options;
     }
 }

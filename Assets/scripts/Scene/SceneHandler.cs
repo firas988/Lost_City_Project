@@ -71,6 +71,7 @@ public class SceneHandler : MonoBehaviour
     /// Starts the asynchronous loading coroutine with proper UI management.
     /// </summary>
     /// <param name="index">The build index of the scene to load.</param>
+    // COMPLEXITY ANALYSIS: LoadScene() - O(1)
     public void LoadScene(int index)
     {
         StartCoroutine(LoadAsynchronously(index));
@@ -84,6 +85,7 @@ public class SceneHandler : MonoBehaviour
     /// </summary>
     /// <param name="index">The build index of the scene to load.</param>
     /// <returns>Coroutine for asynchronous execution.</returns>
+    // COMPLEXITY ANALYSIS: LoadAsynchronously() - O(1)
     IEnumerator LoadAsynchronously(int index)
     {
         // Initialize progress tracking variables

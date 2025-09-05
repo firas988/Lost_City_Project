@@ -77,6 +77,7 @@ public class WorldCreationManager : MonoBehaviour
     /// Updates the confirm panel visibility when trying to replace a world.
     /// Ensures the confirmation dialog is shown when needed.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     void Update()
     {
         if (isTryingToReplace && !confirmPanel.activeSelf)
@@ -89,6 +90,7 @@ public class WorldCreationManager : MonoBehaviour
     /// Initializes the world creation manager and loads existing world data.
     /// Sets up the world list display and creates necessary directories.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Awake() - O(n) where n = number of world directories
     void Awake()
     {
         // Find and store the scene handler reference
@@ -145,6 +147,7 @@ public class WorldCreationManager : MonoBehaviour
     /// </summary>
     /// <param name="path">The path to the folder to check.</param>
     /// <returns>A formatted string representing the last modified date.</returns>
+    // COMPLEXITY ANALYSIS: GetFolderLastModified() - O(f) where f = number of files in directory
     public string GetFolderLastModified(string path)
     {
         if (!Directory.Exists(path))
@@ -175,6 +178,7 @@ public class WorldCreationManager : MonoBehaviour
     /// Navigates to the world list panel if a world name is provided.
     /// Validates input before allowing navigation to world selection.
     /// </summary>
+    // COMPLEXITY ANALYSIS: goToWorldList() - O(1)
     public void goToWorldList()
     {
         if (!string.IsNullOrEmpty(worldNameInputField.text))
@@ -192,6 +196,7 @@ public class WorldCreationManager : MonoBehaviour
     /// Replaces an existing world with a new one.
     /// Deletes the old world directory and creates a new one with the same name.
     /// </summary>
+    // COMPLEXITY ANALYSIS: replaceWorld() - O(1)
     public void replaceWorld()
     {
         // Build path to the world being replaced
@@ -220,6 +225,7 @@ public class WorldCreationManager : MonoBehaviour
     /// Creates a new world or initiates world replacement if necessary.
     /// Handles both new world creation and existing world replacement scenarios.
     /// </summary>
+    // COMPLEXITY ANALYSIS: createWorld() - O(1)
     public void createWorld()
     {
         // Store reference to the clicked world button
@@ -261,6 +267,7 @@ public class WorldCreationManager : MonoBehaviour
     /// Loads a world based on the currently selected world button.
     /// Called when clicking on an existing world in the list.
     /// </summary>
+    // COMPLEXITY ANALYSIS: loadWorld() - O(1)
     public void loadWorld()
     {
         // Store reference to the clicked world button
@@ -288,6 +295,7 @@ public class WorldCreationManager : MonoBehaviour
     /// Saves the world path and loads the correct scene based on saved player data.
     /// </summary>
     /// <param name="worldPath">The path to the world to load.</param>
+    // COMPLEXITY ANALYSIS: loadWorld() - O(1)
     public void loadWorld(string worldPath)
     {
         // Save the world path for future reference
@@ -314,6 +322,7 @@ public class WorldCreationManager : MonoBehaviour
     /// Switches the world list to load mode, where clicking a world loads it.
     /// Changes button click behavior to load existing worlds.
     /// </summary>
+    // COMPLEXITY ANALYSIS: switchToLoadMode() - O(b) where b = number of world buttons
     public void switchToLoadMode()
     {
         Button[] worldNames = worldList.GetComponentsInChildren<Button>();
@@ -331,6 +340,7 @@ public class WorldCreationManager : MonoBehaviour
     /// Switches the world list to create mode, where clicking a world creates a new one.
     /// Changes button click behavior to create new worlds or replace existing ones.
     /// </summary>
+    // COMPLEXITY ANALYSIS: switchToCreateMode() - O(b) where b = number of world buttons
     public void switchToCreateMode()
     {
         Button[] worldNames = worldList.GetComponentsInChildren<Button>();
@@ -348,6 +358,7 @@ public class WorldCreationManager : MonoBehaviour
     /// Hides the confirmation panel and resets the replacement flag.
     /// Called when player cancels world replacement.
     /// </summary>
+    // COMPLEXITY ANALYSIS: hideConfirmPanel() - O(1)
     public void hideConfirmPanel()
     {
         confirmPanel.SetActive(false);

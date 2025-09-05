@@ -84,6 +84,7 @@ public class DungeonManager : MonoBehaviour
     /// </summary>
     void Start()
     {
+        // COMPLEXITY ANALYSIS: Start() - O(r * e) where r = number of rooms, e = enemies per room
         // Initialize room progression to first room
         currentRoomIndex = 0;
 
@@ -138,6 +139,7 @@ public class DungeonManager : MonoBehaviour
     /// </summary>
     public void StartDungeon()
     {
+        // COMPLEXITY ANALYSIS: StartDungeon() - O(e) where e = number of enemies in current room
         if (currentRoomIndex < rooms.Count)
         {
             // Check if this is the final room (boss room)
@@ -170,6 +172,7 @@ public class DungeonManager : MonoBehaviour
     /// </summary>
     public void NextRoom()
     {
+        // COMPLEXITY ANALYSIS: NextRoom() - O(c) where c = number of children in current room
         // Deactivate all enemies in the current room
         GameObject enemies = rooms[currentRoomIndex].transform.Find(enemiesName).gameObject;
         enemies.SetActive(false);
@@ -197,6 +200,7 @@ public class DungeonManager : MonoBehaviour
     /// <returns>Coroutine for managing the spawn sequence.</returns>
     public IEnumerator WaitForEnemiesToDeDissolve(GameObject enemy)
     {
+        // COMPLEXITY ANALYSIS: WaitForEnemiesToDeDissolve() - O(1)
         // Start the dissolve-in animation
         enemy.GetComponent<DissolvingController>().StartDeDissolve();
 
@@ -240,6 +244,7 @@ public class DungeonManager : MonoBehaviour
     /// </summary>
     public void blockCurrentRoom()
     {
+        // COMPLEXITY ANALYSIS: blockCurrentRoom() - O(c) where c = number of children in current room
         // Activate all room exit barriers in the current room
         foreach (Transform child in rooms[currentRoomIndex].transform)
         {
@@ -258,6 +263,7 @@ public class DungeonManager : MonoBehaviour
     /// </summary>
     public void spawnBoss()
     {
+        // COMPLEXITY ANALYSIS: spawnBoss() - O(c) where c = number of children in current room
         // Activate boss and disable movement initially
         boss.SetActive(true);
         boss.GetComponent<WolfBossChasing>().setCanMove(false);
@@ -272,6 +278,7 @@ public class DungeonManager : MonoBehaviour
     /// </summary>
     public void DeDissolveBoss()
     {
+        // COMPLEXITY ANALYSIS: DeDissolveBoss() - O(1)
         StartCoroutine(WaitForEnemiesToDeDissolve(boss));
     }
 
@@ -281,6 +288,7 @@ public class DungeonManager : MonoBehaviour
     /// </summary>
     public void StartFinallBossScene()
     {
+        // COMPLEXITY ANALYSIS: StartFinallBossScene() - O(1)
         // Find player and position them at the boss room entrance
         GameObject player = GameObject.FindWithTag("Player");
         player.GetComponent<PlayerController>().transform.position = rooms[rooms.Count - 1]
@@ -300,6 +308,7 @@ public class DungeonManager : MonoBehaviour
     /// </summary>
     public void StopFinallBossScene()
     {
+        // COMPLEXITY ANALYSIS: StopFinallBossScene() - O(1)
         finalBossEnter.SetActive(false);
     }
 
@@ -309,6 +318,7 @@ public class DungeonManager : MonoBehaviour
     /// </summary>
     public void closeFinalRoom()
     {
+        // COMPLEXITY ANALYSIS: closeFinalRoom() - O(c) where c = number of children in final room
         // Activate all exit barriers in the final room
         foreach (Transform child in rooms[rooms.Count - 1].transform)
         {
@@ -327,6 +337,7 @@ public class DungeonManager : MonoBehaviour
     /// </summary>
     public void openDungeonExit()
     {
+        // COMPLEXITY ANALYSIS: openDungeonExit() - O(1)
         dungeonExit.SetActive(true);
     }
     #endregion

@@ -47,6 +47,7 @@ public class WeaponItem : Item
     /// Shows damage value and weapon type information.
     /// </summary>
     /// <returns>A formatted string containing weapon statistics.</returns>
+    // COMPLEXITY ANALYSIS: getDescription() - O(1)
     public override string getDescription()
     {
         // Format weapon description with damage and type information
@@ -59,6 +60,7 @@ public class WeaponItem : Item
     /// Gets the base damage value of this weapon.
     /// </summary>
     /// <returns>The weapon's damage value.</returns>
+    // COMPLEXITY ANALYSIS: getDamage() - O(1)
     public float getDamage()
     {
         return damage;
@@ -68,6 +70,7 @@ public class WeaponItem : Item
     /// Sets the base damage value of this weapon.
     /// </summary>
     /// <param name="damage">The new damage value to assign.</param>
+    // COMPLEXITY ANALYSIS: setDamage() - O(1)
     public void setDamage(float damage)
     {
         this.damage = damage;
@@ -77,6 +80,7 @@ public class WeaponItem : Item
     /// Gets the effective range of this weapon.
     /// </summary>
     /// <returns>The weapon's range value.</returns>
+    // COMPLEXITY ANALYSIS: getRange() - O(1)
     public float getRange()
     {
         return range;
@@ -86,6 +90,7 @@ public class WeaponItem : Item
     /// Gets the type/category of this weapon.
     /// </summary>
     /// <returns>The WeaponType enum value.</returns>
+    // COMPLEXITY ANALYSIS: getWeaponType() - O(1)
     public WeaponType getWeaponType()
     {
         return weaponType;
@@ -98,6 +103,7 @@ public class WeaponItem : Item
     /// Used for visual representation and weapon spawning.
     /// </summary>
     /// <returns>The weapon's GameObject prefab.</returns>
+    // COMPLEXITY ANALYSIS: getWeaponPrefab() - O(1)
     public GameObject getWeaponPrefab()
     {
         return getItemPrefab();

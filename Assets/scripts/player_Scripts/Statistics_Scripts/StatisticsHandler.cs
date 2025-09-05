@@ -109,6 +109,7 @@ public class StatisticsHandler : MonoBehaviour
     /// Initializes the component by getting required component references.
     /// Sets up the distance tracker for movement monitoring.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Awake() - O(1)
     private void Awake()
     {
         // Get the required PlayerDistanceTracker component
@@ -122,6 +123,7 @@ public class StatisticsHandler : MonoBehaviour
     /// Sets up event subscriptions and initializes the statistics system.
     /// Subscribes to enemy death events for kill tracking.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Start() - O(1)
     void Start()
     {
         // Subscribe to enemy death events for kill tracking
@@ -132,6 +134,7 @@ public class StatisticsHandler : MonoBehaviour
     /// Updates statistics each frame including distance and time tracking.
     /// Continuously monitors player progress and gameplay metrics.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     void Update()
     {
         // Ensure player reference exists (fallback if lost)
@@ -155,6 +158,7 @@ public class StatisticsHandler : MonoBehaviour
     /// Updates the total distance traveled by combining current and loaded distances.
     /// Calculates cumulative distance across all game sessions.
     /// </summary>
+    // COMPLEXITY ANALYSIS: updateTotalDistance() - O(1)
     private void updateTotalDistance()
     {
         // Combine current session distance with previously saved distance
@@ -165,6 +169,7 @@ public class StatisticsHandler : MonoBehaviour
     /// Updates the total time played using unscaled delta time.
     /// Ensures accurate time tracking regardless of game speed or pausing.
     /// </summary>
+    // COMPLEXITY ANALYSIS: updateTotalTimePlayed() - O(1)
     private void updateTotalTimePlayed()
     {
         // Add frame time to total play time (unscaled for accuracy)
@@ -177,6 +182,7 @@ public class StatisticsHandler : MonoBehaviour
     /// Increments the total jump counter when called.
     /// Called by the movement system when player performs a jump.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Jumping() - O(1)
     public void Jumping()
     {
         totalJumps++;
@@ -186,6 +192,7 @@ public class StatisticsHandler : MonoBehaviour
     /// Increments the total death counter when called.
     /// Called by the death system when player dies.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Death() - O(1)
     public void Death()
     {
         totalDeaths++;
@@ -196,6 +203,7 @@ public class StatisticsHandler : MonoBehaviour
     /// Increments both general enemy counter and specific type counter.
     /// </summary>
     /// <param name="tag">The enemy type tag for specific counter updates.</param>
+    // COMPLEXITY ANALYSIS: KilledEnemy() - O(1)
     public void KilledEnemy(string tag)
     {
         // Increment general enemy kill counter
@@ -320,6 +328,7 @@ public class StatisticsHandler : MonoBehaviour
     /// Saves current statistics to the save system.
     /// Persists all tracked metrics for future game sessions.
     /// </summary>
+    // COMPLEXITY ANALYSIS: SaveStatistics() - O(1)
     public void SaveStatistics()
     {
         // Save current statistics to persistent storage
@@ -331,6 +340,7 @@ public class StatisticsHandler : MonoBehaviour
     /// Used by other systems to access statistics data.
     /// </summary>
     /// <returns>Reference to this StatisticsHandler component.</returns>
+    // COMPLEXITY ANALYSIS: GetStatisticsHandler() - O(1)
     public StatisticsHandler GetStatisticsHandler()
     {
         return this;
@@ -341,6 +351,7 @@ public class StatisticsHandler : MonoBehaviour
     /// Restores previous session statistics on game load.
     /// </summary>
     /// <param name="statisticsData">Saved statistics data to load from.</param>
+    // COMPLEXITY ANALYSIS: LoadStatistics() - O(1)
     public void LoadStatistics(StatisticsData statisticsData)
     {
         if (statisticsData != null)

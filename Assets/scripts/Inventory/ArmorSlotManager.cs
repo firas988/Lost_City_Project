@@ -30,6 +30,7 @@ public class ArmorSlotManager : MonoBehaviour
     /// Equips an item to the helmet slot.
     /// </summary>
     /// <param name="item">The helmet item to equip.</param>
+    // COMPLEXITY ANALYSIS: setHelmet() - O(1)
     public void setHelmet(Item item)
     {
         helmetSlot.setItem(item);
@@ -39,6 +40,7 @@ public class ArmorSlotManager : MonoBehaviour
     /// Equips an item to the chestplate slot.
     /// </summary>
     /// <param name="item">The chestplate item to equip.</param>
+    // COMPLEXITY ANALYSIS: setChestplate() - O(1)
     public void setChestplate(Item item)
     {
         chestplateSlot.setItem(item);
@@ -48,6 +50,7 @@ public class ArmorSlotManager : MonoBehaviour
     /// Equips an item to the leggings slot.
     /// </summary>
     /// <param name="item">The leggings item to equip.</param>
+    // COMPLEXITY ANALYSIS: setLeggings() - O(1)
     public void setLeggings(Item item)
     {
         leggingsSlot.setItem(item);
@@ -57,6 +60,7 @@ public class ArmorSlotManager : MonoBehaviour
     /// Equips an item to the boots slot.
     /// </summary>
     /// <param name="item">The boots item to equip.</param>
+    // COMPLEXITY ANALYSIS: setBoots() - O(1)
     public void setBoots(Item item)
     {
         bootsSlot.setItem(item);
@@ -67,6 +71,7 @@ public class ArmorSlotManager : MonoBehaviour
     /// <summary>
     /// Removes the item from the helmet slot.
     /// </summary>
+    // COMPLEXITY ANALYSIS: removeHelmet() - O(1)
     public void removeHelmet()
     {
         helmetSlot.removeItem();
@@ -75,6 +80,7 @@ public class ArmorSlotManager : MonoBehaviour
     /// <summary>
     /// Removes the item from the chestplate slot.
     /// </summary>
+    // COMPLEXITY ANALYSIS: removeChestplate() - O(1)
     public void removeChestplate()
     {
         chestplateSlot.removeItem();
@@ -83,6 +89,7 @@ public class ArmorSlotManager : MonoBehaviour
     /// <summary>
     /// Removes the item from the leggings slot.
     /// </summary>
+    // COMPLEXITY ANALYSIS: removeLeggings() - O(1)
     public void removeLeggings()
     {
         leggingsSlot.removeItem();
@@ -91,6 +98,7 @@ public class ArmorSlotManager : MonoBehaviour
     /// <summary>
     /// Removes the item from the boots slot.
     /// </summary>
+    // COMPLEXITY ANALYSIS: removeBoots() - O(1)
     public void removeBoots()
     {
         bootsSlot.removeItem();

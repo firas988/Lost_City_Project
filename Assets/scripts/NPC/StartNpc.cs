@@ -71,6 +71,7 @@ public class StartNpc : MonoBehaviour
     /// Unity's Awake method, called once when the script instance is being loaded.
     /// Initializes the NPC data from the converter and creates the NPC instance.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Awake() - O(n) where n = number of NPC types
     private void Awake()
     {
         npcName = gameObject.tag;
@@ -97,6 +98,7 @@ public class StartNpc : MonoBehaviour
     /// Unity's Update method, called every frame.
     /// Ensures NPC instance is properly initialized.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     private void Update()
     {
         if (npcsInstance == null)
@@ -113,6 +115,7 @@ public class StartNpc : MonoBehaviour
     /// <summary>
     /// Creates an NPC instance based on the layer type and configuration data.
     /// </summary>
+    // COMPLEXITY ANALYSIS: createNpcInstance() - O(1)
     private void createNpcInstance()
     {
         switch (layerName)
@@ -203,6 +206,7 @@ public class StartNpc : MonoBehaviour
     /// <param name="dialogueData">The dialogue data for the NPC.</param>
     /// <param name="quest">The quest to be given by this NPC.</param>
     /// <returns>A new QuestGiver instance.</returns>
+    // COMPLEXITY ANALYSIS: createQuestGiver() - O(1)
     private QuestGiver createQuestGiver(
         string npcName,
         Dictionary<string, Dialogue> dialogueData,
@@ -234,6 +238,7 @@ public class StartNpc : MonoBehaviour
     /// Returns the initialized NPC instance.
     /// </summary>
     /// <returns>The NPC instance with configuration and identity data.</returns>
+    // COMPLEXITY ANALYSIS: GetNpcsInstance() - O(1)
     public NPC GetNpcsInstance()
     {
         return npcsInstance;
@@ -242,6 +247,7 @@ public class StartNpc : MonoBehaviour
     #endregion
 
 
+    // COMPLEXITY ANALYSIS: refreshQuestGiver() - O(1)
     public void refreshQuestGiver()
     {
         if (npcName == "ConfusedPerson")

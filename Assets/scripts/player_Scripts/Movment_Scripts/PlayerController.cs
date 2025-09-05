@@ -191,6 +191,7 @@ public class PlayerController : MonoBehaviour
     /// Initializes the component by setting up references and locking the cursor.
     /// Grabs required components and sets up the movement system.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Start() - O(1)
     void Start()
     {
         // Lock cursor for gameplay immersion
@@ -216,6 +217,7 @@ public class PlayerController : MonoBehaviour
     /// Updates player movement, input processing, and speed calculations each frame.
     /// Handles the main movement loop and input management.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     void Update()
     {
         // Gather input and process movement every frame
@@ -230,6 +232,7 @@ public class PlayerController : MonoBehaviour
     /// Updates movement speeds based on player's current speed modifiers.
     /// Applies speed bonuses from items, potions, or other effects.
     /// </summary>
+    // COMPLEXITY ANALYSIS: updateSpeed() - O(1)
     public void updateSpeed()
     {
         // Apply speed modifiers to base movement speeds
@@ -243,6 +246,7 @@ public class PlayerController : MonoBehaviour
     /// Handles horizontal/vertical movement and facing direction.
     /// Coordinates ground movement and camera rotation.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Movement() - O(1)
     private void Movement()
     {
         // Handle ground-based movement and physics
@@ -256,6 +260,7 @@ public class PlayerController : MonoBehaviour
     /// Handles ground-based movement including walking, sprinting, and jumping.
     /// Builds movement vectors and applies physics calculations.
     /// </summary>
+    // COMPLEXITY ANALYSIS: GroundMovement() - O(1)
     private void GroundMovement()
     {
         // Build a move vector using player input
@@ -319,6 +324,7 @@ public class PlayerController : MonoBehaviour
     /// Rotates character toward camera direction if there's movement.
     /// Provides smooth turning with adjustable speed based on movement state.
     /// </summary>
+    // COMPLEXITY ANALYSIS: CameraRotation() - O(1)
     private void CameraRotation()
     {
         // Rotate character toward camera direction if there's movement
@@ -356,6 +362,7 @@ public class PlayerController : MonoBehaviour
     /// Handles ground detection and jump velocity calculations.
     /// </summary>
     /// <returns>The calculated vertical velocity for this frame.</returns>
+    // COMPLEXITY ANALYSIS: VerticalForceCalculation() - O(1)
     private float VerticalForceCalculation()
     {
         if (characterController.isGrounded)
@@ -387,6 +394,7 @@ public class PlayerController : MonoBehaviour
     /// Stops player movement by disabling input.
     /// Used for cutscenes or other game states that require movement restriction.
     /// </summary>
+    // COMPLEXITY ANALYSIS: stopMovement() - O(1)
     public void stopMovement()
     {
         inputListener.setCanMove(false);
@@ -396,6 +404,7 @@ public class PlayerController : MonoBehaviour
     /// Manages input reading for movement and turning.
     /// Updates input values each frame for movement calculations.
     /// </summary>
+    // COMPLEXITY ANALYSIS: InputMangagement() - O(1)
     private void InputMangagement()
     {
         // Read forward/backward input (W/S)
@@ -411,6 +420,7 @@ public class PlayerController : MonoBehaviour
     /// Plays footstep sound effect and cycles through available sounds.
     /// Called by animation events during movement.
     /// </summary>
+    // COMPLEXITY ANALYSIS: PlayFootStepSound() - O(1)
     public void PlayFootStepSound()
     {
         // Play current footstep sound and advance to next
@@ -432,6 +442,7 @@ public class PlayerController : MonoBehaviour
     /// Plays landing sound effect when player touches the ground.
     /// Called by animation events or physics detection.
     /// </summary>
+    // COMPLEXITY ANALYSIS: PlayLandSound() - O(1)
     public void PlayLandSound()
     {
         if (audioSource.isPlaying)
@@ -447,6 +458,7 @@ public class PlayerController : MonoBehaviour
     /// Stops camera rotation by disabling Cinemachine orbital follow.
     /// Used for cutscenes or other situations requiring camera control.
     /// </summary>
+    // COMPLEXITY ANALYSIS: stopCameraRotation() - O(1)
     public void stopCameraRotation()
     {
         camera.transform.parent.GetComponentInChildren<CinemachineOrbitalFollow>().enabled = false;
@@ -456,6 +468,7 @@ public class PlayerController : MonoBehaviour
     /// Starts camera rotation by enabling Cinemachine orbital follow.
     /// Restores normal camera behavior after being stopped.
     /// </summary>
+    // COMPLEXITY ANALYSIS: startCameraRotation() - O(1)
     public void startCameraRotation()
     {
         camera.transform.parent.GetComponentInChildren<CinemachineOrbitalFollow>().enabled = true;

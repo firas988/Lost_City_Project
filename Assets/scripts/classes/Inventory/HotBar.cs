@@ -25,6 +25,7 @@ public class HotBar
     /// <param name="size">The number of hotbar slots to create</param>
     public HotBar(int size)
     {
+        // COMPLEXITY ANALYSIS: HotBar() - O(s) where s = size
         // Initialize the main items list
         items = new List<List<Item>>();
 
@@ -43,6 +44,7 @@ public class HotBar
     /// <param name="item">The weapon item to add</param>
     public void setWeapon(Item item)
     {
+        // COMPLEXITY ANALYSIS: setWeapon() - O(1)
         items[weaponIndex].Add(item);
     }
 
@@ -52,6 +54,7 @@ public class HotBar
     /// <returns>List of items in the weapon slot</returns>
     public List<Item> getWeapon()
     {
+        // COMPLEXITY ANALYSIS: getWeapon() - O(1)
         return items[weaponIndex];
     }
 
@@ -60,6 +63,7 @@ public class HotBar
     /// </summary>
     public void removeWeapon()
     {
+        // COMPLEXITY ANALYSIS: removeWeapon() - O(1)
         items[weaponIndex] = new List<Item>();
     }
     #endregion
@@ -73,6 +77,7 @@ public class HotBar
     /// <param name="index">Slot index to add items to</param>
     public void setConsumable(Item item, int count, int index)
     {
+        // COMPLEXITY ANALYSIS: setConsumable() - O(count) where count = number of items to add
         // Validate index is within bounds
         if (index > 0 && index < items.Count)
         {
@@ -93,6 +98,7 @@ public class HotBar
     /// <returns>True if items were added successfully, false if not enough space</returns>
     public bool addToConsumable(Item item, int count, int index)
     {
+        // COMPLEXITY ANALYSIS: addToConsumable() - O(count) where count = number of items to add
         // Validate index is within bounds
         if (index > 0 && index < items.Count)
         {
@@ -119,6 +125,7 @@ public class HotBar
     /// <returns>List of items in the specified slot, or null if index is invalid</returns>
     public List<Item> getConsumable(int index)
     {
+        // COMPLEXITY ANALYSIS: getConsumable() - O(1)
         // Validate index is within bounds
         if (index > 0 && index < items.Count)
         {
@@ -133,6 +140,7 @@ public class HotBar
     /// <param name="index">Slot index to clear</param>
     public void removeConsumable(int index)
     {
+        // COMPLEXITY ANALYSIS: removeConsumable() - O(1)
         // Validate index is within bounds
         if (index > 0 && index < items.Count)
         {
@@ -148,6 +156,7 @@ public class HotBar
     /// <returns>List of all hotbar slots with their items</returns>
     public List<List<Item>> getItems()
     {
+        // COMPLEXITY ANALYSIS: getItems() - O(1)
         return items;
     }
     #endregion
@@ -160,6 +169,7 @@ public class HotBar
     /// <returns>The consumed item, or null if slot is empty or index is invalid</returns>
     public ConsumableItem useConsumable(int index)
     {
+        // COMPLEXITY ANALYSIS: useConsumable() - O(1)
         // Validate index is within bounds
         if (index > 0 && index < items.Count)
         {

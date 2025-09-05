@@ -58,6 +58,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        // COMPLEXITY ANALYSIS: Start() - O(n) where n = number of GameObjects in scene
         // Get required components
         animator = GetComponent<Animator>();
         enemyMovement = GetComponent<EnemyMovement>();
@@ -89,6 +90,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// </summary>
     void Update()
     {
+        // COMPLEXITY ANALYSIS: Update() - O(1)
         // Debug key for testing (set health to 0)
         if (Input.GetKeyDown(KeyCode.R) && !isTest)
         {
@@ -109,6 +111,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// </summary>
     private void animashionIsChassing()
     {
+        // COMPLEXITY ANALYSIS: animashionIsChassing() - O(1)
         if (enemyMovement.getIsChassing())
         {
             // If enemy is chasing: enable chasing animation, disable walking
@@ -135,6 +138,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// </summary>
     private void animashionIsAttacking()
     {
+        // COMPLEXITY ANALYSIS: animashionIsAttacking() - O(1)
         if (enemyMovement.getIsAttacking())
         {
             // Trigger current attack animation by name
@@ -158,6 +162,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// <returns>Animation clip name as string.</returns>
     public string GetCurrentAnimationClipInfo()
     {
+        // COMPLEXITY ANALYSIS: GetCurrentAnimationClipInfo() - O(1)
         // Returns the first animation clip currently playing on layer 0
         return animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
     }
@@ -170,6 +175,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// <param name="ignoreParam">The parameter name to ignore (leave it true).</param>
     public void setAllBooleanParamToFalse(string ignoreParam = "")
     {
+        // COMPLEXITY ANALYSIS: setAllBooleanParamToFalse() - O(p) where p = number of animator parameters
         // Loop through all parameters in the Animator
         foreach (AnimatorControllerParameter param in animator.parameters)
         {
@@ -188,9 +194,9 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// </summary>
     private void animashionIsDead()
     {
+        // COMPLEXITY ANALYSIS: animashionIsDead() - O(1)
         if (entity.isDead() && !isDead)
         {
-
             int xpToAdd = Random.Range(250, 400);
             levelManager.addXP(xpToAdd);
             // Stop current audio and play death sound
@@ -219,6 +225,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// Coroutine that starts the dissolve effect after a delay.
     /// </summary>
     /// <returns>IEnumerator for coroutine execution.</returns>
+    // COMPLEXITY ANALYSIS: Dissolve() - O(1)
     private IEnumerator Dissolve()
     {
         // Wait before starting dissolve effect
@@ -230,6 +237,7 @@ public class EnemyAnimatorControl : MonoBehaviour
     /// Coroutine that manages the test cooldown to prevent rapid health setting.
     /// </summary>
     /// <returns>IEnumerator for coroutine execution.</returns>
+    // COMPLEXITY ANALYSIS: startCoolDown() - O(1)
     private IEnumerator startCoolDown()
     {
         isTest = true;

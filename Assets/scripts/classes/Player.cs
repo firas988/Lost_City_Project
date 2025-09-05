@@ -135,6 +135,7 @@ public class Player
     /// </summary>
     public Player()
     {
+        // COMPLEXITY ANALYSIS: Player() - O(1)
         // Initialize stat bonuses
         this.currentHealthBonus = 1f;
         this.currentSpeedBonus = 0f;
@@ -177,6 +178,7 @@ public class Player
     /// <returns>Total damage output (0 if no weapon equipped)</returns>
     public int getDamage()
     {
+        // COMPLEXITY ANALYSIS: getDamage() - O(1)
         if (this.weapon != null)
         {
             return (int)(this.currentStrength * this.weapon.getDamage());
@@ -191,6 +193,7 @@ public class Player
     /// <param name="takenDmg">The raw damage amount to be applied</param>
     public void takeDamage(float takenDmg)
     {
+        // COMPLEXITY ANALYSIS: takeDamage() - O(1)
         // Reduce damage by current defense stat
         this.currentHealth -= takenDmg / this.currentDefense;
 
@@ -210,6 +213,7 @@ public class Player
     /// <param name="bonus">The strength bonus to add</param>
     public void addStrengthBonusSkill(float bonus)
     {
+        // COMPLEXITY ANALYSIS: addStrengthBonusSkill() - O(1)
         this.currentStrengthBonusSkill += bonus;
         calculateStrength();
     }
@@ -221,6 +225,7 @@ public class Player
     /// <param name="bonus">The strength bonus to add</param>
     public void addStrengthPotionBuff(float bonus)
     {
+        // COMPLEXITY ANALYSIS: addStrengthPotionBuff() - O(1)
         this.currentStrengthPotionBuff += bonus;
         calculateStrength();
     }
@@ -230,6 +235,7 @@ public class Player
     /// </summary>
     public void resetStrengthPotionBuff()
     {
+        // COMPLEXITY ANALYSIS: resetStrengthPotionBuff() - O(1)
         this.currentStrengthPotionBuff = 0f;
         calculateStrength();
     }
@@ -239,6 +245,7 @@ public class Player
     /// </summary>
     public void calculateStrengthBonusFromArmor()
     {
+        // COMPLEXITY ANALYSIS: calculateStrengthBonusFromArmor() - O(a) where a = number of armor slots
         this.currentStrengthArmorBonus = inventory.getArmorSlots().getStrengthBonus();
         calculateStrength();
     }
@@ -248,6 +255,7 @@ public class Player
     /// </summary>
     public void calculateStrength()
     {
+        // COMPLEXITY ANALYSIS: calculateStrength() - O(1)
         this.currentStrength = 1f;
         this.currentStrength =
             this.currentStrength
@@ -265,6 +273,7 @@ public class Player
     /// <param name="bonus">The defense bonus to add</param>
     public void addDefenseBonusSkill(float bonus)
     {
+        // COMPLEXITY ANALYSIS: addDefenseBonusSkill() - O(1)
         this.currentDefenseBonusSkill += bonus;
         calculateDefense();
     }
@@ -276,6 +285,7 @@ public class Player
     /// <param name="bonus">The defense bonus to add</param>
     public void addDefensePotionBuff(float bonus)
     {
+        // COMPLEXITY ANALYSIS: addDefensePotionBuff() - O(1)
         this.currentDefensePotionBuff += bonus;
         calculateDefense();
     }
@@ -285,6 +295,7 @@ public class Player
     /// </summary>
     public void calculateDefenseBonusFromArmor()
     {
+        // COMPLEXITY ANALYSIS: calculateDefenseBonusFromArmor() - O(a) where a = number of armor slots
         this.currentDefenseArmorBonus = inventory.getArmorSlots().getDefenseBonus();
         calculateDefense();
     }
@@ -294,6 +305,7 @@ public class Player
     /// </summary>
     public void calculateDefense()
     {
+        // COMPLEXITY ANALYSIS: calculateDefense() - O(1)
         this.currentDefense = 1f;
         this.currentDefense =
             this.currentDefense + this.currentDefensePotionBuff + this.currentDefenseArmorBonus;
@@ -306,6 +318,7 @@ public class Player
     /// </summary>
     public void calculateStrengthAndDefenseBonus()
     {
+        // COMPLEXITY ANALYSIS: calculateStrengthAndDefenseBonus() - O(a) where a = number of armor slots
         calculateStrengthBonusFromArmor();
         calculateDefenseBonusFromArmor();
     }
@@ -319,6 +332,7 @@ public class Player
     /// <param name="bonus">The speed bonus to add</param>
     public void addSpeedBonus(float bonus)
     {
+        // COMPLEXITY ANALYSIS: addSpeedBonus() - O(1)
         this.currentSpeed += bonus;
     }
 
@@ -329,6 +343,7 @@ public class Player
     /// <param name="bonus">The speed buff to remove</param>
     public void removeSpeedPotionBuff(float bonus)
     {
+        // COMPLEXITY ANALYSIS: removeSpeedPotionBuff() - O(1)
         this.currentSpeed = Mathf.Max(0, this.currentSpeed - bonus);
     }
     #endregion
@@ -341,6 +356,7 @@ public class Player
     /// <param name="bonus">The health bonus multiplier to add</param>
     public void addHealthBonus(float bonus)
     {
+        // COMPLEXITY ANALYSIS: addHealthBonus() - O(1)
         this.currentHealthBonus += bonus;
         float oldMaxHealth = this.maxHealth;
         this.maxHealth = 100f * this.currentHealthBonus;
@@ -353,6 +369,7 @@ public class Player
     /// <param name="health">The amount of health to add</param>
     public void addHealth(float health)
     {
+        // COMPLEXITY ANALYSIS: addHealth() - O(1)
         this.currentHealth = Mathf.Min(this.maxHealth, this.currentHealth + health);
     }
 
@@ -361,6 +378,7 @@ public class Player
     /// </summary>
     public void resetHealth()
     {
+        // COMPLEXITY ANALYSIS: resetHealth() - O(1)
         this.currentHealth = this.maxHealth;
     }
     #endregion
@@ -374,6 +392,7 @@ public class Player
     /// <returns>True if quest was added, false if already exists</returns>
     public bool addQuest(Quest quest)
     {
+        // COMPLEXITY ANALYSIS: addQuest() - O(q) where q = number of active quests
         if (activeSideQuests.Find(questToFind => questToFind.Giver == quest.Giver) == null)
         {
             this.activeSideQuests.Add(quest);
@@ -389,6 +408,7 @@ public class Player
     /// <returns>True if quest was removed, false if not found</returns>
     public bool removeQuest(Quest quest)
     {
+        // COMPLEXITY ANALYSIS: removeQuest() - O(q) where q = number of active quests
         if (activeSideQuests.Find(questToFind => questToFind.Giver == quest.Giver) != null)
         {
             this.activeSideQuests.Remove(quest);
@@ -405,6 +425,7 @@ public class Player
     /// <returns>Reference to the player's inventory</returns>
     public Inventory getInventory()
     {
+        // COMPLEXITY ANALYSIS: getInventory() - O(1)
         return this.inventory;
     }
 
@@ -413,6 +434,7 @@ public class Player
     /// </summary>
     public void setWeapon()
     {
+        // COMPLEXITY ANALYSIS: setWeapon() - O(1)
         if (inventory.getHotbar().getWeapon().Count > 0)
         {
             this.weapon = (WeaponItem)inventory.getHotbar().getWeapon()[0];
@@ -425,6 +447,7 @@ public class Player
     /// <returns>The equipped weapon item, or null if none equipped</returns>
     public WeaponItem getWeapon()
     {
+        // COMPLEXITY ANALYSIS: getWeapon() - O(1)
         return this.weapon;
     }
 
@@ -433,6 +456,7 @@ public class Player
     /// </summary>
     public void removeWeapon()
     {
+        // COMPLEXITY ANALYSIS: removeWeapon() - O(1)
         this.weapon = null;
     }
     #endregion
@@ -462,6 +486,7 @@ public class Player
     /// <returns>The current main quest, or null if none active</returns>
     public StoryQuest getCurrentMainQuest()
     {
+        // COMPLEXITY ANALYSIS: getCurrentMainQuest() - O(1)
         return this.currentMainQuest;
     }
 
@@ -471,6 +496,7 @@ public class Player
     /// <param name="quest">The quest to set as current main quest</param>
     public void setCurrentMainQuest(StoryQuest quest)
     {
+        // COMPLEXITY ANALYSIS: setCurrentMainQuest() - O(1)
         this.currentMainQuest = quest;
     }
 
@@ -480,6 +506,7 @@ public class Player
     /// <returns>True if player is dead, false otherwise</returns>
     public bool isDead()
     {
+        // COMPLEXITY ANALYSIS: isDead() - O(1)
         return this.currentHealth <= 0;
     }
 
@@ -489,6 +516,7 @@ public class Player
     /// <returns>Current health points</returns>
     public float getHealth()
     {
+        // COMPLEXITY ANALYSIS: getHealth() - O(1)
         return this.currentHealth;
     }
 
@@ -498,6 +526,7 @@ public class Player
     /// <returns>Maximum health points</returns>
     public float getMaxHealth()
     {
+        // COMPLEXITY ANALYSIS: getMaxHealth() - O(1)
         return this.maxHealth;
     }
 
@@ -507,6 +536,7 @@ public class Player
     /// <returns>Current player level</returns>
     public int getLevel()
     {
+        // COMPLEXITY ANALYSIS: getLevel() - O(1)
         return this.level;
     }
 
@@ -516,6 +546,7 @@ public class Player
     /// <param name="level">The level to set</param>
     public void setLevel(int level)
     {
+        // COMPLEXITY ANALYSIS: setLevel() - O(1)
         this.level = level;
     }
 
@@ -525,6 +556,7 @@ public class Player
     /// <param name="level">The number of levels to add</param>
     public void addLevel(int level)
     {
+        // COMPLEXITY ANALYSIS: addLevel() - O(1)
         this.level += level;
     }
 
@@ -534,6 +566,7 @@ public class Player
     /// <returns>Strength bonus from skill tree</returns>
     public float getCurrentStrengthBonusSkill()
     {
+        // COMPLEXITY ANALYSIS: getCurrentStrengthBonusSkill() - O(1)
         return this.currentStrengthBonusSkill;
     }
 
@@ -543,6 +576,7 @@ public class Player
     /// <returns>Current speed stat</returns>
     public float getCurrentSpeed()
     {
+        // COMPLEXITY ANALYSIS: getCurrentSpeed() - O(1)
         return this.currentSpeed;
     }
 
@@ -552,6 +586,7 @@ public class Player
     /// <returns>Current defense stat</returns>
     public float getCurrentDefense()
     {
+        // COMPLEXITY ANALYSIS: getCurrentDefense() - O(1)
         return this.currentDefense;
     }
     #endregion

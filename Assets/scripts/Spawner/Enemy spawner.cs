@@ -108,6 +108,7 @@ public class Enemyspawner : MonoBehaviour
     /// <summary>
     /// Initializes the spawner and sets up initial configuration.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Start() - O(1)
     void Start()
     {
         // Initialize lists
@@ -132,6 +133,7 @@ public class Enemyspawner : MonoBehaviour
     /// <summary>
     /// Called every frame to manage spawning logic and enemy state.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(e) where e = number of enemies
     void Update()
     {
         // Exit if spawning is stopped
@@ -183,6 +185,7 @@ public class Enemyspawner : MonoBehaviour
     /// <summary>
     /// Checks if the chest is open to determine if respawning is allowed.
     /// </summary>
+    // COMPLEXITY ANALYSIS: readyToRespawn() - O(1)
     private void readyToRespawn()
     {
         if (chest.GetComponent<ObjectInteraction>().getIsOpen())
@@ -198,6 +201,7 @@ public class Enemyspawner : MonoBehaviour
     /// <summary>
     /// Handles the complete spawning process including difficulty and enemy setup.
     /// </summary>
+    // COMPLEXITY ANALYSIS: SpawnHandler() - O(n) where n = numberOfEnemiesToSpawn
     private void SpawnHandler()
     {
         getRandomDifficulty();
@@ -209,6 +213,7 @@ public class Enemyspawner : MonoBehaviour
     /// <summary>
     /// Checks if all spawned enemies are dead and updates chest state accordingly.
     /// </summary>
+    // COMPLEXITY ANALYSIS: checkIfAllEnemiesAreDead() - O(e) where e = number of entities
     private void checkIfAllEnemiesAreDead()
     {
         // Remove dead enemies from tracking lists
@@ -234,6 +239,7 @@ public class Enemyspawner : MonoBehaviour
     /// Coroutine that manages the respawn timer for multiple respawn scenarios.
     /// </summary>
     /// <returns>IEnumerator for coroutine execution.</returns>
+    // COMPLEXITY ANALYSIS: respawnTimer() - O(n) where n = numberOfEnemiesToSpawn
     private IEnumerator respawnTimer()
     {
         yield return new WaitForSeconds(timerForRespawn);
@@ -249,6 +255,7 @@ public class Enemyspawner : MonoBehaviour
     /// <summary>
     /// Determines the number of enemies to spawn based on difficulty level.
     /// </summary>
+    // COMPLEXITY ANALYSIS: getNumberOfEnemiesToSpawn() - O(1)
     private void getNumberOfEnemiesToSpawn()
     {
         switch (randomDifficulty)
@@ -271,6 +278,7 @@ public class Enemyspawner : MonoBehaviour
     /// <summary>
     /// Sets the difficulty level either randomly or from fixed value.
     /// </summary>
+    // COMPLEXITY ANALYSIS: getRandomDifficulty() - O(1)
     private void getRandomDifficulty()
     {
         if (canGetRandomDifficulty)
@@ -288,6 +296,7 @@ public class Enemyspawner : MonoBehaviour
     /// <summary>
     /// Spawns a chest based on the current difficulty level.
     /// </summary>
+    // COMPLEXITY ANALYSIS: putChestInPlaceHolder() - O(1)
     private void putChestInPlaceHolder()
     {
         // Destroy existing chest if present
@@ -309,6 +318,7 @@ public class Enemyspawner : MonoBehaviour
     /// <summary>
     /// Spawns enemies at valid NavMesh positions within the spawn radius.
     /// </summary>
+    // COMPLEXITY ANALYSIS: spawnEnemies() - O(n) where n = numberOfEnemiesToSpawn
     private void spawnEnemies()
     {
         Vector3 center = enemyPlaceHolder.transform.position;

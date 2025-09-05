@@ -16,6 +16,7 @@ public class KillQuest : Quest
     public KillQuest(KillQuest quest)
         : base(quest)
     {
+        // COMPLEXITY ANALYSIS: KillQuest() - O(1)
         this.targetKills = quest.targetKills;
         this.kills = quest.kills;
     }
@@ -46,6 +47,7 @@ public class KillQuest : Quest
     /// <returns>A string in the format "kills/targetKills".</returns>
     public override string GetProgress()
     {
+        // COMPLEXITY ANALYSIS: GetProgress() - O(1)
         return $"{kills}/{targetKills}";
     }
 

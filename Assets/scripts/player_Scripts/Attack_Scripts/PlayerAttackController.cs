@@ -128,6 +128,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Initializes player, animator, and component references.
     /// Sets up the attack system and connects to required components.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Start() - O(1)
     void Start()
     {
         // Get required components for attack system
@@ -148,6 +149,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Checks input and weapon state, and handles toggled attack state.
     /// Manages attack flow and input processing each frame.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     void Update()
     {
         // Check weapon state and update if needed
@@ -175,6 +177,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Toggles attack mode (e.g., ranged vs melee stance).
     /// Only allows toggle when player has a weapon equipped.
     /// </summary>
+    // COMPLEXITY ANALYSIS: checkActivateAttack() - O(1)
     private void checkActivateAttack()
     {
         // Toggle attack mode if input detected and weapon is equipped
@@ -193,6 +196,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Instantiates weapon if needed, or swaps weapon if a new one is equipped.
     /// Also subscribes to weapon hit events for damage detection.
     /// </summary>
+    // COMPLEXITY ANALYSIS: checkWeapon() - O(1)
     public void checkWeapon()
     {
         // Handle case when no weapon is equipped
@@ -244,6 +248,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Triggers start/stop of the attack animation based on toggle state.
     /// Manages the transition between attack and idle animation states.
     /// </summary>
+    // COMPLEXITY ANALYSIS: ToggleActivateAttackAnimation() - O(1)
     public void ToggleActivateAttackAnimation()
     {
         // Start attack animation when toggle is activated
@@ -267,6 +272,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Triggers an attack hit animation and enables the weapon's hit collider.
     /// Only works when the previous hit animation is complete.
     /// </summary>
+    // COMPLEXITY ANALYSIS: hit() - O(1)
     public void hit()
     {
         if (isHitAnimationDone)
@@ -286,6 +292,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Prevents multiple hits during the same attack swing.
     /// </summary>
     /// <param name="other">The collider hit by the weapon.</param>
+    // COMPLEXITY ANALYSIS: OnWeaponHit() - O(1)
     private void OnWeaponHit(Collider other)
     {
         // Check if hit target is an enemy and damage hasn't been dealt
@@ -307,6 +314,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Called by animation event. Resets hit status and disables collider.
     /// Re-enables player movement and prepares for next attack.
     /// </summary>
+    // COMPLEXITY ANALYSIS: hitAnimationDone() - O(1)
     public void hitAnimationDone()
     {
         // Reset attack state and re-enable movement
@@ -320,6 +328,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Prevents attack from repeating until animation is done.
     /// Called at the start of attack animation to prevent multiple hits.
     /// </summary>
+    // COMPLEXITY ANALYSIS: hitAnimationDisable() - O(1)
     public void hitAnimationDisable()
     {
         isHitAnimationDone = false;
@@ -329,6 +338,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Called by animation event to show weapon in the player's hand.
     /// Disables jumping and moves weapon to attack position.
     /// </summary>
+    // COMPLEXITY ANALYSIS: startAttack() - O(1)
     public void startAttack()
     {
         // Disable jumping and show weapon in hand
@@ -341,6 +351,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Called by animation event to move weapon to holder.
     /// Re-enables jumping and moves weapon to idle position.
     /// </summary>
+    // COMPLEXITY ANALYSIS: stopAttack() - O(1)
     public void stopAttack()
     {
         // Re-enable jumping and show weapon in holder
@@ -355,6 +366,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Gets whether the player can currently deal damage.
     /// </summary>
     /// <returns>True if player can deal damage, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: GetCanDealDamage() - O(1)
     public bool GetCanDealDamage()
     {
         return this.canDealDamage;
@@ -364,6 +376,7 @@ public class PlayerAttackController : MonoBehaviour
     /// Sets whether the player can currently deal damage.
     /// </summary>
     /// <param name="other">True to enable damage, false to disable.</param>
+    // COMPLEXITY ANALYSIS: SetCanDealDamage() - O(1)
     public void SetCanDealDamage(bool other)
     {
         canDealDamage = other;

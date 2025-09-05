@@ -114,6 +114,7 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Initializes quest management system, sets up quest collections, and subscribes to dialogue events.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Awake() - O(n) where n = number of quest spawn objects
     private void Awake()
     {
         player = GameObject.FindWithTag("Player");
@@ -148,6 +149,7 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Subscribes to quest-related events for proper integration.
     /// </summary>
+    // COMPLEXITY ANALYSIS: subscribeToEvents() - O(1)
     private void subscribeToEvents()
     {
         StoryQuest.subscribeToQuestCompletion(nextStoryQuest);
@@ -161,6 +163,7 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Initializes quest lists and sets up the story quest queue.
     /// </summary>
+    // COMPLEXITY ANALYSIS: initQuestLists() - O(q + s) where q = number of quests, s = number of story quests
     public void initQuestLists(QuestData questData = null)
     {
         if (playerInstance == null)
@@ -230,6 +233,7 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Initializes the player instance reference for quest management.
     /// </summary>
+    // COMPLEXITY ANALYSIS: initPlayer() - O(1)
     private void initPlayer()
     {
         if (player == null)
@@ -252,6 +256,7 @@ public class QuestManager : MonoBehaviour
     /// Adds a new quest to the player's active quest list and categorizes it by type.
     /// </summary>
     /// <param name="quest">The quest to be added to the player's active quests.</param>
+    // COMPLEXITY ANALYSIS: addQuest() - O(s) where s = number of quest spawn objects
     public void addQuest(Quest quest)
     {
         if (playerInstance == null)
@@ -316,6 +321,7 @@ public class QuestManager : MonoBehaviour
     /// Processes a found object for find quests, updates quest progress, and handles quest completion.
     /// </summary>
     /// <param name="objectFound">The GameObject that was found, used to match against quest targets.</param>
+    // COMPLEXITY ANALYSIS: addFind() - O(q) where q = number of active find quests
     public void addFind(GameObject objectFound)
     {
         FindQuest questToInc = activeFindQuests.Find(questToFind =>
@@ -369,6 +375,7 @@ public class QuestManager : MonoBehaviour
     /// Processes a killed object for kill quests, updates quest progress, and handles quest completion.
     /// </summary>
     /// <param name="objectKilled">The GameObject that was killed, used to match against quest targets.</param>
+    // COMPLEXITY ANALYSIS: addKill() - O(q) where q = number of active kill quests
     public void addKill(string objectKilled)
     {
         // Process kill quest for: " + objectKilled
@@ -423,6 +430,7 @@ public class QuestManager : MonoBehaviour
     /// Refreshes the quest giver after a quest is completed.
     /// </summary>
     /// <param name="giver">The quest giver GameObject to refresh.</param>
+    // COMPLEXITY ANALYSIS: refreshQuestGiver() - O(1)
     private IEnumerator refreshQuestGiver(GameObject giver)
     {
         yield return new WaitForSeconds(1.5f);
@@ -443,6 +451,7 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Initiates the next story quest in the sequence.
     /// </summary>
+    // COMPLEXITY ANALYSIS: nextStoryQuest() - O(1)
     public void nextStoryQuest()
     {
         StartCoroutine(nextMainQuest());
@@ -451,6 +460,7 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Advances to the next main story quest in the queue.
     /// </summary>
+    // COMPLEXITY ANALYSIS: nextMainQuest() - O(1)
     public IEnumerator nextMainQuest()
     {
         storyQuestIndex++;
@@ -500,6 +510,7 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// Completes the current main quest by setting it to null.
     /// </summary>
+    // COMPLEXITY ANALYSIS: completeMainQuest() - O(1)
     public void completeMainQuest()
     {
         playerInstance.setCurrentMainQuest(null);
@@ -510,6 +521,7 @@ public class QuestManager : MonoBehaviour
     /// </summary>
     /// <param name="type">The type of story quest to check.</param>
     /// <returns>True if a story quest of the specified type has been completed.</returns>
+    // COMPLEXITY ANALYSIS: checkingCompletedStoryQuest() - O(s) where s = number of completed story quests
     public bool checkingCompletedStoryQuest(Type type)
     {
         if (completedStoryQuest == null)

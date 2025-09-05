@@ -86,6 +86,7 @@ public class NPC
         float maxSpeed
     )
     {
+        // COMPLEXITY ANALYSIS: NPC() - O(1)
         this.id = id;
         this.name = name;
         this.type = type;
@@ -106,6 +107,7 @@ public class NPC
     /// <param name="type">Type/category of the NPC.</param>
     public NPC(int id, string name, string type)
     {
+        // COMPLEXITY ANALYSIS: NPC() - O(1)
         this.id = id;
         this.name = name;
         this.type = type;
@@ -127,6 +129,7 @@ public class NPC
     /// <returns>The NPC's ID.</returns>
     public int GetId()
     {
+        // COMPLEXITY ANALYSIS: GetId() - O(1)
         return this.id;
     }
 
@@ -136,6 +139,7 @@ public class NPC
     /// <returns>The NPC's name.</returns>
     public string GetName()
     {
+        // COMPLEXITY ANALYSIS: GetName() - O(1)
         return this.name;
     }
 
@@ -145,6 +149,7 @@ public class NPC
     /// <returns>The wait time range as a Vector2.</returns>
     public Vector2 GetWaitingTimeRange()
     {
+        // COMPLEXITY ANALYSIS: GetWaitingTimeRange() - O(1)
         return this.waitTimeRange;
     }
 
@@ -154,6 +159,7 @@ public class NPC
     /// <returns>The walk radius value.</returns>
     public float GetWalkRadius()
     {
+        // COMPLEXITY ANALYSIS: GetWalkRadius() - O(1)
         return this.walkRadius;
     }
 
@@ -163,6 +169,7 @@ public class NPC
     /// <returns>The area mask value.</returns>
     public int GetAreaMask()
     {
+        // COMPLEXITY ANALYSIS: GetAreaMask() - O(1)
         return this.areaMask;
     }
 
@@ -172,6 +179,7 @@ public class NPC
     /// <returns>The navigation mesh area name.</returns>
     public string GetNavMeshAreaName()
     {
+        // COMPLEXITY ANALYSIS: GetNavMeshAreaName() - O(1)
         return this.navMeshAreaName;
     }
 
@@ -181,6 +189,7 @@ public class NPC
     /// <returns>The current speed value.</returns>
     public float GetSpeed()
     {
+        // COMPLEXITY ANALYSIS: GetSpeed() - O(1)
         return this.speed;
     }
 
@@ -190,6 +199,7 @@ public class NPC
     /// <returns>The maximum speed value.</returns>
     public float GetMaxSpeed()
     {
+        // COMPLEXITY ANALYSIS: GetMaxSpeed() - O(1)
         return this.maxSpeed;
     }
 

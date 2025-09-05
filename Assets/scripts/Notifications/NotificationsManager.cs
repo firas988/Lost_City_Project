@@ -93,6 +93,7 @@ public class NotificationsManager : MonoBehaviour
     /// <summary>
     /// Initializes the audio manager and audio source references.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Awake() - O(1)
     private void Awake()
     {
         audioManager = GameObject.FindWithTag("GameManager").GetComponentInChildren<AudioManager>();
@@ -108,6 +109,7 @@ public class NotificationsManager : MonoBehaviour
     /// </summary>
     /// <param name="message">The message to display.</param>
     /// <param name="audioName">The name of the audio clip to play.</param>
+    // COMPLEXITY ANALYSIS: queueTopLeftNotification() - O(1)
     public void queueTopLeftNotification(string message, string audioName)
     {
         // Check for duplicate notifications to prevent spam
@@ -141,6 +143,7 @@ public class NotificationsManager : MonoBehaviour
     /// Coroutine to show a notification in the top-left corner with a message.
     /// </summary>
     /// <returns>IEnumerator for coroutine execution.</returns>
+    // COMPLEXITY ANALYSIS: showTopLeftNotification() - O(n) where n = number of queued notifications
     public IEnumerator showTopLeftNotification()
     {
         isTopLeftNotificationActive = true;
@@ -182,6 +185,7 @@ public class NotificationsManager : MonoBehaviour
     /// Method to show a notification in the middle of the screen with a message.
     /// </summary>
     /// <param name="message">The message to display.</param>
+    // COMPLEXITY ANALYSIS: ShowMiddleNotification() - O(1)
     public void ShowMiddleNotification(string message)
     {
         // Set the message text in the notification UI
@@ -200,6 +204,7 @@ public class NotificationsManager : MonoBehaviour
     /// Creates a new notification instance and manages the stacking animation.
     /// </summary>
     /// <param name="message">The message to display.</param>
+    // COMPLEXITY ANALYSIS: ShowBottomLeftNotificationInventory() - O(1)
     public void ShowBottomLeftNotificationInventory(string message)
     {
         StartCoroutine(ShowNotificationWhenReady(message));
@@ -210,6 +215,7 @@ public class NotificationsManager : MonoBehaviour
     /// </summary>
     /// <param name="message">The message to display.</param>
     /// <returns>IEnumerator for coroutine execution.</returns>
+    // COMPLEXITY ANALYSIS: ShowNotificationWhenReady() - O(n) where n = number of active notifications
     private IEnumerator ShowNotificationWhenReady(string message)
     {
         // Wait for other notifications to finish moving
@@ -262,6 +268,7 @@ public class NotificationsManager : MonoBehaviour
     /// <param name="notification">The notification to remove.</param>
     /// <param name="delay">Delay before hiding the notification.</param>
     /// <returns>IEnumerator for coroutine execution.</returns>
+    // COMPLEXITY ANALYSIS: RemoveAfterDelay() - O(1)
     private IEnumerator RemoveAfterDelay(Notification notification, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -278,6 +285,7 @@ public class NotificationsManager : MonoBehaviour
     /// <param name="targetPos">The target position to move to.</param>
     /// <param name="duration">The duration of the movement animation.</param>
     /// <returns>IEnumerator for coroutine execution.</returns>
+    // COMPLEXITY ANALYSIS: MoveUpSmoothly() - O(1)
     private IEnumerator MoveUpSmoothly(RectTransform rect, Vector2 targetPos, float duration)
     {
         if (rect == null || rect.Equals(null))

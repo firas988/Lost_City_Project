@@ -50,6 +50,7 @@ public class InventoryManager : MonoBehaviour
     /// Returns the current Inventory instance for external access.
     /// </summary>
     /// <returns>The inventory object containing all items and organization.</returns>
+    // COMPLEXITY ANALYSIS: getInventory() - O(1)
     public Inventory getInventory()
     {
         return inventory;
@@ -62,6 +63,7 @@ public class InventoryManager : MonoBehaviour
     /// Sets the first hotbar item as the player's weapon and establishes connections
     /// between inventory systems.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Start() - O(1)
     void Start()
     {
         // Get required components
@@ -83,6 +85,7 @@ public class InventoryManager : MonoBehaviour
     /// Checks for input keys to simulate item addition, listing, and mouse unlocking.
     /// Currently handles the 'L' key for adding random items to inventory.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     void Update()
     {
         // Debug key for testing - add random item to inventory
@@ -101,6 +104,7 @@ public class InventoryManager : MonoBehaviour
     /// <param name="row">Row index of the item slot.</param>
     /// <param name="column">Column index of the item slot.</param>
     /// <returns>The item that was taken, or null if none.</returns>
+    // COMPLEXITY ANALYSIS: TakeOnItem() - O(1)
     public Item TakeOnItem(int row, int column)
     {
         // Get items from specified slot
@@ -134,6 +138,7 @@ public class InventoryManager : MonoBehaviour
     /// <param name="index">Index of the hotbar slot (0 for weapon, 1-3 for consumables).</param>
     /// <param name="slot">The UI slot component to update.</param>
     /// <returns>The item that was taken, or null if none.</returns>
+    // COMPLEXITY ANALYSIS: TakeOnItemFromHotBar() - O(1)
     public Item TakeOnItemFromHotBar(int index, Slot slot)
     {
         List<Item> items = null;
@@ -179,6 +184,7 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     /// <param name="row">Row index of the slot.</param>
     /// <param name="column">Column index of the slot.</param>
+    // COMPLEXITY ANALYSIS: RemoveItemAndUpdateUI() - O(1)
     public void RemoveItemAndUpdateUI(int row, int column)
     {
         // Remove from inventory data and clear UI
@@ -190,6 +196,7 @@ public class InventoryManager : MonoBehaviour
     /// Removes an item from a specific hotbar slot and updates player stats accordingly.
     /// </summary>
     /// <param name="index">Index of the hotbar slot to clear.</param>
+    // COMPLEXITY ANALYSIS: RemoveItemFromHotBar() - O(1)
     public void RemoveItemFromHotBar(int index)
     {
         if (index == 0)
@@ -219,6 +226,7 @@ public class InventoryManager : MonoBehaviour
     /// <param name="column">Column index of the target slot.</param>
     /// <param name="count">The number of items to add.</param>
     /// <returns>True if added successfully, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: AddItemToEmptySlot() - O(1)
     public bool AddItemToEmptySlot(Item item, int row, int column, int count)
     {
         return inventory.AddItemToEmptySlot(item, row, column, count);
@@ -232,6 +240,7 @@ public class InventoryManager : MonoBehaviour
     /// <param name="column">Column index of the target slot.</param>
     /// <param name="count">The number of items to add.</param>
     /// <returns>True if added successfully, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: AddItemToNotEmptySlot() - O(1)
     public bool AddItemToNotEmptySlot(Item item, int row, int column, int count)
     {
         return inventory.AddItemToNotEmptySlot(item, row, column, count);
@@ -242,6 +251,7 @@ public class InventoryManager : MonoBehaviour
     /// Handles different item types (weapons, cosmetics) with appropriate stat assignment.
     /// </summary>
     /// <param name="item">The item template to add to inventory.</param>
+    // COMPLEXITY ANALYSIS: AddItemToInventory() - O(r * c) where r = rowInventory, c = columnInventory
     public void AddItemToInventory(Item item)
     {
         // Create a new instance of the item
@@ -292,6 +302,7 @@ public class InventoryManager : MonoBehaviour
     /// <param name="item">The cosmetic item to equip.</param>
     /// <param name="cosmeticType">The type of armor slot to equip to.</param>
     /// <returns>True if successfully equipped, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: TryPutItemToArmorSlot() - O(1)
     public bool TryPutItemToArmorSlot(Item item, CosmeticType cosmeticType)
     {
         if (item is CosmeticItem)
@@ -329,6 +340,7 @@ public class InventoryManager : MonoBehaviour
     /// Recalculates player stats after removal.
     /// </summary>
     /// <param name="cosmeticType">The type of armor slot to remove from.</param>
+    // COMPLEXITY ANALYSIS: TryRemoveItemFromArmorSlot() - O(1)
     public void TryRemoveItemFromArmorSlot(CosmeticType cosmeticType)
     {
         // Remove item based on cosmetic type and update systems
@@ -367,6 +379,7 @@ public class InventoryManager : MonoBehaviour
     /// <param name="count">The number of items to place.</param>
     /// <param name="index">The hotbar slot index (0 for weapon, 1-3 for consumables).</param>
     /// <returns>True if successfully placed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: TryMoveItemToEmptyHotBar() - O(1)
     public bool TryMoveItemToEmptyHotBar(Item item, int count, int index)
     {
         if (index == 0 && item is WeaponItem)
@@ -399,6 +412,7 @@ public class InventoryManager : MonoBehaviour
     /// <param name="count">The number of items to add.</param>
     /// <param name="index">The hotbar slot index (must be 1-3 for consumables).</param>
     /// <returns>True if successfully added, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: AddItemToNotEmptyHotBar() - O(1)
     public bool AddItemToNotEmptyHotBar(Item item, int count, int index)
     {
         if (index == 0)
@@ -417,6 +431,7 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     /// <param name="index">The hotbar slot index to retrieve from.</param>
     /// <returns>List of items in the specified slot.</returns>
+    // COMPLEXITY ANALYSIS: GetItemFromHotBar() - O(1)
     public List<Item> GetItemFromHotBar(int index)
     {
         if (index == 0)
@@ -438,6 +453,7 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     /// <param name="index">The hotbar slot index of the consumable to use.</param>
     /// <returns>The consumable item that was used, or null if none available.</returns>
+    // COMPLEXITY ANALYSIS: UseConsumableFromHotBar() - O(1)
     public ConsumableItem UseConsumableFromHotBar(int index)
     {
         return inventory.getHotbar().useConsumable(index);
@@ -451,6 +467,7 @@ public class InventoryManager : MonoBehaviour
     /// <param name="row">Row index of the slot.</param>
     /// <param name="column">Column index of the slot.</param>
     /// <returns>List of items in the specified slot.</returns>
+    // COMPLEXITY ANALYSIS: GetItemFromInventory() - O(1)
     public List<Item> GetItemFromInventory(int row, int column)
     {
         return inventory.GetItem(row, column);
@@ -462,6 +479,7 @@ public class InventoryManager : MonoBehaviour
     /// Loads the inventory from saved data, updating all UI elements accordingly.
     /// </summary>
     /// <param name="inventroyData">The saved inventory data to load from.</param>
+    // COMPLEXITY ANALYSIS: LoadInventory() - O(1)
     public void LoadInventory(InventroyData inventroyData)
     {
         if (inventroyData != null)
@@ -476,6 +494,7 @@ public class InventoryManager : MonoBehaviour
     /// </summary>
     /// <param name="inventroyData">The saved inventory data to load from.</param>
     /// <returns>IEnumerator for coroutine execution.</returns>
+    // COMPLEXITY ANALYSIS: WaitForInventoryAndLoad() - O(1)
     public IEnumerator WaitForInventoryAndLoad(InventroyData inventroyData)
     {
         // Wait until inventory is properly initialized
@@ -498,6 +517,7 @@ public class InventoryManager : MonoBehaviour
     /// Updates the inventory UI to reflect the current inventory state.
     /// Iterates through all inventory slots and updates their display.
     /// </summary>
+    // COMPLEXITY ANALYSIS: updateInventoryUI() - O(r * c) where r = rowInventory, c = columnInventory
     public void updateInventoryUI()
     {
         // Get all items from inventory
@@ -520,6 +540,7 @@ public class InventoryManager : MonoBehaviour
     /// Updates the armor slots UI to reflect the current equipped armor.
     /// Synchronizes the UI with the inventory's armor slot data.
     /// </summary>
+    // COMPLEXITY ANALYSIS: updateArmorSlotsUI() - O(1)
     public void updateArmorSlotsUI()
     {
         // Update each armor slot UI with current inventory data

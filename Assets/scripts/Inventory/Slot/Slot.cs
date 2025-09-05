@@ -80,6 +80,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// <summary>
     /// Initializes references to required components and sets up the tooltip system.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Start() - O(1)
     void Start()
     {
         // Find tooltip component for item information display
@@ -94,6 +95,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// </summary>
     /// <param name="item">The item to assign to the slot.</param>
     /// <param name="count">The number of items in the slot.</param>
+    // COMPLEXITY ANALYSIS: SetItem() - O(1)
     public void SetItem(Item item, int count)
     {
         // Update slot state and visual indicators
@@ -117,6 +119,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Clears the slot, removing any item and resetting the UI.
     /// Resets all visual elements and internal state to empty.
     /// </summary>
+    // COMPLEXITY ANALYSIS: ClearSlot() - O(1)
     public void ClearSlot()
     {
         // Reset slot state and visual indicators
@@ -139,6 +142,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Returns whether the slot is currently empty.
     /// </summary>
     /// <returns>True if the slot contains no item, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: getIsEmpty() - O(1)
     public bool getIsEmpty()
     {
         return isEmpty;
@@ -148,6 +152,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Sets the empty status of the slot.
     /// </summary>
     /// <param name="isEmpty">Whether the slot should be considered empty.</param>
+    // COMPLEXITY ANALYSIS: setEmpty() - O(1)
     public void setEmpty(bool isEmpty)
     {
         this.isEmpty = isEmpty;
@@ -157,6 +162,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Returns the index of the slot in the hot bar grid.
     /// </summary>
     /// <returns>The hot bar index (0-3) of this slot.</returns>
+    // COMPLEXITY ANALYSIS: getHotBarIndex() - O(1)
     public int getHotBarIndex()
     {
         return hotBarIndex;
@@ -166,6 +172,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Returns the column index of the slot in the inventory grid.
     /// </summary>
     /// <returns>The column index of this slot.</returns>
+    // COMPLEXITY ANALYSIS: getColumn() - O(1)
     public int getColumn()
     {
         return slotID.getColumn();
@@ -175,6 +182,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Returns the row index of the slot in the inventory grid.
     /// </summary>
     /// <returns>The row index of this slot.</returns>
+    // COMPLEXITY ANALYSIS: getRow() - O(1)
     public int getRow()
     {
         return slotID.getRow();
@@ -184,6 +192,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Returns the full SlotID object containing position information.
     /// </summary>
     /// <returns>The SlotID object with row and column coordinates.</returns>
+    // COMPLEXITY ANALYSIS: getSlotID() - O(1)
     public SlotID getSlotID()
     {
         return slotID;
@@ -193,6 +202,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Returns the item currently stored in the slot.
     /// </summary>
     /// <returns>The item object, or null if slot is empty.</returns>
+    // COMPLEXITY ANALYSIS: getItem() - O(1)
     public Item getItem()
     {
         return item;
@@ -202,6 +212,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Returns the current count of items in the slot.
     /// </summary>
     /// <returns>The number of items in the stack.</returns>
+    // COMPLEXITY ANALYSIS: getCount() - O(1)
     public int getCount()
     {
         return count;
@@ -214,6 +225,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Automatically refreshes the count display for stackable items.
     /// </summary>
     /// <param name="count">Amount to add to the current count.</param>
+    // COMPLEXITY ANALYSIS: addCount() - O(1)
     public void addCount(int count)
     {
         // Update count and refresh display
@@ -226,6 +238,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Automatically refreshes the count display for stackable items.
     /// </summary>
     /// <param name="count">Amount to remove from the current count.</param>
+    // COMPLEXITY ANALYSIS: removeCount() - O(1)
     public void removeCount(int count)
     {
         // Update count and refresh display
@@ -237,6 +250,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Updates the slot's count text UI to reflect the current item count.
     /// Only displays count for items that can be stacked (maxStack > 1).
     /// </summary>
+    // COMPLEXITY ANALYSIS: changeCountText() - O(1)
     private void changeCountText()
     {
         // Update count text for stackable items
@@ -251,6 +265,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Displays item information for non-empty slots with valid items.
     /// </summary>
     /// <param name="eventData">Pointer event data from Unity's event system.</param>
+    // COMPLEXITY ANALYSIS: OnPointerEnter() - O(1)
     public void OnPointerEnter(PointerEventData eventData)
     {
         // Show tooltip only if slot contains an item
@@ -267,6 +282,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// Ensures tooltip is hidden when not hovering over the slot.
     /// </summary>
     /// <param name="eventData">Pointer event data from Unity's event system.</param>
+    // COMPLEXITY ANALYSIS: OnPointerExit() - O(1)
     public void OnPointerExit(PointerEventData eventData)
     {
         // Hide tooltip when leaving slot area

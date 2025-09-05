@@ -69,6 +69,7 @@ public class Entity : NPC
             maxSpeed
         )
     {
+        // COMPLEXITY ANALYSIS: Entity() - O(1)
         this.health = health;
         this.maxHealth = health;
     }
@@ -83,6 +84,7 @@ public class Entity : NPC
     /// <returns>The current damage value.</returns>
     public float getCurrentDamage()
     {
+        // COMPLEXITY ANALYSIS: getCurrentDamage() - O(1)
         return this.currentDamage;
     }
 
@@ -92,6 +94,7 @@ public class Entity : NPC
     /// <param name="currentDamage">The new damage value.</param>
     public void setCurrentDamage(float currentDamage)
     {
+        // COMPLEXITY ANALYSIS: setCurrentDamage() - O(1)
         this.currentDamage = currentDamage;
     }
 
@@ -101,6 +104,7 @@ public class Entity : NPC
     /// <param name="damage">Amount of damage to apply.</param>
     public void takeDamage(float damage)
     {
+        // COMPLEXITY ANALYSIS: takeDamage() - O(1)
         this.health = Mathf.Max(this.health - damage, MIN_HEALTH);
     }
 
@@ -110,6 +114,7 @@ public class Entity : NPC
     /// <returns>The current health value.</returns>
     public float getHealth()
     {
+        // COMPLEXITY ANALYSIS: getHealth() - O(1)
         return this.health;
     }
 
@@ -119,6 +124,7 @@ public class Entity : NPC
     /// <returns>The maximum health value.</returns>
     public float getMaxHealth()
     {
+        // COMPLEXITY ANALYSIS: getMaxHealth() - O(1)
         return this.maxHealth;
     }
 
@@ -128,6 +134,7 @@ public class Entity : NPC
     /// <param name="health">The new health value.</param>
     public void setHealth(float health)
     {
+        // COMPLEXITY ANALYSIS: setHealth() - O(1)
         this.health = Mathf.Max(health, MIN_HEALTH);
     }
 
@@ -137,6 +144,7 @@ public class Entity : NPC
     /// <returns>True if the entity is dead; false otherwise.</returns>
     public bool isDead()
     {
+        // COMPLEXITY ANALYSIS: isDead() - O(1)
         return this.health <= MIN_HEALTH;
     }
 

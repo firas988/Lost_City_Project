@@ -135,6 +135,7 @@ public class SkillTreeManager : MonoBehaviour
     /// Initializes the skill tree manager, sets up skill point limits, and initializes strength skill list.
     /// Finds and stores references to required system components and sets up event subscriptions.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Awake() - O(1)
     void Awake()
     {
         // Find and store references to system managers
@@ -162,6 +163,7 @@ public class SkillTreeManager : MonoBehaviour
     /// Handles input for skill upgrades using keyboard shortcuts.
     /// I: Strength, O: Speed, P: Defense, H: Health
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     void Update()
     {
         // Ensure startPlayer reference is valid
@@ -178,6 +180,7 @@ public class SkillTreeManager : MonoBehaviour
     /// Sets up event handling for automatic skill point allocation on level-up.
     /// </summary>
     /// <param name="levelSystem">The level manager to subscribe to for level-up events.</param>
+    // COMPLEXITY ANALYSIS: Init() - O(1)
     public void Init(LevelManager levelSystem)
     {
         // Subscribe to the level-up event for automatic skill point allocation
@@ -192,6 +195,7 @@ public class SkillTreeManager : MonoBehaviour
     /// </summary>
     /// <param name="skillList">The skill list to upgrade.</param>
     /// <returns>True if the upgrade was successful, false if conditions are not met.</returns>
+    // COMPLEXITY ANALYSIS: UpgradeSkill() - O(1)
     public bool UpgradeSkill(SkillList skillList)
     {
         // Check if skill can be upgraded (not at max level and enough skill points)
@@ -228,6 +232,7 @@ public class SkillTreeManager : MonoBehaviour
     /// Automatically grants skill points when the player levels up.
     /// </summary>
     /// <param name="newLevel">The new level the player has reached.</param>
+    // COMPLEXITY ANALYSIS: HandleLevelUp() - O(1)
     private void HandleLevelUp(int newLevel)
     {
         // Grant skill points based on the new level (2 points per level)
@@ -240,6 +245,7 @@ public class SkillTreeManager : MonoBehaviour
     /// Gets the current player level from the level system.
     /// </summary>
     /// <returns>The current level of the player.</returns>
+    // COMPLEXITY ANALYSIS: getLevel() - O(1)
     public int getLevel()
     {
         return levelSystem.getLevel();
@@ -249,6 +255,7 @@ public class SkillTreeManager : MonoBehaviour
     /// Gets the current strength skill level.
     /// </summary>
     /// <returns>The current level of the strength skill tree.</returns>
+    // COMPLEXITY ANALYSIS: getStrengthLevel() - O(1)
     public int getStrengthLevel()
     {
         return strengthSkillList.getCurrentLevel();
@@ -258,6 +265,7 @@ public class SkillTreeManager : MonoBehaviour
     /// Gets the current speed skill level.
     /// </summary>
     /// <returns>The current level of the speed skill tree.</returns>
+    // COMPLEXITY ANALYSIS: getSpeedLevel() - O(1)
     public int getSpeedLevel()
     {
         return speedSkillList.getCurrentLevel();
@@ -267,6 +275,7 @@ public class SkillTreeManager : MonoBehaviour
     /// Gets the current defense skill level.
     /// </summary>
     /// <returns>The current level of the defense skill tree.</returns>
+    // COMPLEXITY ANALYSIS: getDefenseLevel() - O(1)
     public int getDefenseLevel()
     {
         return defenseSkillList.getCurrentLevel();
@@ -276,6 +285,7 @@ public class SkillTreeManager : MonoBehaviour
     /// Gets the current health skill level.
     /// </summary>
     /// <returns>The current level of the health skill tree.</returns>
+    // COMPLEXITY ANALYSIS: getHealthLevel() - O(1)
     public int getHealthLevel()
     {
         return healthSkillList.getCurrentLevel();
@@ -285,6 +295,7 @@ public class SkillTreeManager : MonoBehaviour
     /// Gets the SkillAmountLimit instance for skill point management.
     /// </summary>
     /// <returns>Reference to the skill amount limit manager.</returns>
+    // COMPLEXITY ANALYSIS: getSkillAmountLimit() - O(1)
     public SkillAmountLimit getSkillAmountLimit()
     {
         return skillAmountLimit;
@@ -297,6 +308,7 @@ public class SkillTreeManager : MonoBehaviour
     /// Restores skill levels and skill point allocation from previous game sessions.
     /// </summary>
     /// <param name="skillTreeData">The skill tree data to load from.</param>
+    // COMPLEXITY ANALYSIS: LoadSkills() - O(1)
     public void LoadSkills(SkillTreeData skillTreeData)
     {
         // Reset spent skill points and set total available from save data

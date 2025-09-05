@@ -66,6 +66,7 @@ public class TalkativeNpc : NPC
             maxSpeed
         )
     {
+        // COMPLEXITY ANALYSIS: TalkativeNpc() - O(1)
         this.dialogues = dialogues;
         this.start = start;
     }
@@ -83,6 +84,7 @@ public class TalkativeNpc : NPC
     /// <returns>The text content of the dialogue response.</returns>
     public string respodToDialogue(string dialogue, out string[] options, out bool endDialogue)
     {
+        // COMPLEXITY ANALYSIS: respodToDialogue() - O(1)
         try
         {
             if (!this.dialogues.ContainsKey(dialogue))
@@ -116,6 +118,7 @@ public class TalkativeNpc : NPC
     /// <returns>Dictionary containing all dialogues.</returns>
     public Dictionary<string, Dialogue> getDialogues()
     {
+        // COMPLEXITY ANALYSIS: getDialogues() - O(1)
         return this.dialogues;
     }
 
@@ -125,6 +128,7 @@ public class TalkativeNpc : NPC
     /// <param name="dialogues">New dictionary of dialogues.</param>
     public void setDialogue(Dictionary<string, Dialogue> dialogues)
     {
+        // COMPLEXITY ANALYSIS: setDialogue() - O(1)
         this.dialogues = dialogues;
     }
 

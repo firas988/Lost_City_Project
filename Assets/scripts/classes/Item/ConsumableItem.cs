@@ -6,10 +6,10 @@ using UnityEngine;
 /// </summary>
 public enum ConsumableType
 {
-    HealthRegenerationPotion,  // Gradually restores health over time
-    HealthInstantPotion,       // Instantly restores a fixed amount of health
-    StrengthPotion,            // Temporarily increases player strength
-    SpeedPotion,               // Temporarily increases player movement speed
+    HealthRegenerationPotion, // Gradually restores health over time
+    HealthInstantPotion, // Instantly restores a fixed amount of health
+    StrengthPotion, // Temporarily increases player strength
+    SpeedPotion, // Temporarily increases player movement speed
 }
 
 /// <summary>
@@ -72,6 +72,7 @@ public class ConsumableItem : Item
     /// Shows consumable type and effect description.
     /// </summary>
     /// <returns>A formatted string containing consumable information.</returns>
+    // COMPLEXITY ANALYSIS: getDescription() - O(1)
     public override string getDescription()
     {
         // Format consumable description with type and effect information

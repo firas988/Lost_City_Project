@@ -74,6 +74,7 @@ public class NPCnavigation : MonoBehaviour
     /// Sets the wandering state of the NPC.
     /// </summary>
     /// <param name="isWandering">True to enable wandering, false to disable.</param>
+    // COMPLEXITY ANALYSIS: setIsWandering() - O(1)
     public void setIsWandering(bool isWandering)
     {
         this.isWandering = isWandering;
@@ -83,6 +84,7 @@ public class NPCnavigation : MonoBehaviour
     /// Gets the wandering state of the NPC.
     /// </summary>
     /// <returns>True if the NPC is wandering, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: getIsWandering() - O(1)
     public bool getIsWandering()
     {
         return this.isWandering;
@@ -92,6 +94,7 @@ public class NPCnavigation : MonoBehaviour
     /// Sets the walk time of the NPC.
     /// </summary>
     /// <param name="walkTime">The walk time to set.</param>
+    // COMPLEXITY ANALYSIS: setWalkTime() - O(1)
     public void setWalkTime(float walkTime)
     {
         this.walkTime = walkTime;
@@ -100,6 +103,7 @@ public class NPCnavigation : MonoBehaviour
     /// <summary>
     /// Sets the NPC to run at maximum speed.
     /// </summary>
+    // COMPLEXITY ANALYSIS: itRun() - O(1)
     public void itRun()
     {
         agent.speed = npcsInstance.GetMaxSpeed();
@@ -108,6 +112,7 @@ public class NPCnavigation : MonoBehaviour
     /// <summary>
     /// Sets the NPC to walk at normal speed.
     /// </summary>
+    // COMPLEXITY ANALYSIS: itWalk() - O(1)
     public void itWalk()
     {
         agent.speed = npcsInstance.GetSpeed();
@@ -120,6 +125,7 @@ public class NPCnavigation : MonoBehaviour
     /// <summary>
     /// Initializes the NPC's navigation behavior and starts the wander loop if enabled.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Start() - O(1)
     private void Start()
     {
         // Fetch NPC data from linked StartNpc component
@@ -159,6 +165,7 @@ public class NPCnavigation : MonoBehaviour
     /// <summary>
     /// Called every frame. Manages movement completion and idle timing.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     private void Update()
     {
         if (!isWandering || isWaiting)
@@ -185,6 +192,7 @@ public class NPCnavigation : MonoBehaviour
     /// <summary>
     /// Attempts to pick a new random destination and sets it as the agent's goal.
     /// </summary>
+    // COMPLEXITY ANALYSIS: TrySetNewDestination() - O(1)
     private void TrySetNewDestination()
     {
         if (TrySetRandomDestination(out float newTime))
@@ -204,6 +212,7 @@ public class NPCnavigation : MonoBehaviour
     /// </summary>
     /// <param name="newWalkTime">Returns estimated travel time to the new destination.</param>
     /// <returns>True if a valid point was found and set, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: TrySetRandomDestination() - O(1)
     public bool TrySetRandomDestination(out float newWalkTime)
     {
         for (int attempt = 0; attempt < 10; attempt++)
@@ -232,6 +241,7 @@ public class NPCnavigation : MonoBehaviour
     /// Handles the wait time between movements.
     /// Stops movement, waits randomly, and resumes with a new destination.
     /// </summary>
+    // COMPLEXITY ANALYSIS: WaitAndMoveAgain() - O(1)
     private IEnumerator WaitAndMoveAgain()
     {
         agent.ResetPath();

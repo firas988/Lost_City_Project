@@ -106,6 +106,7 @@ public abstract class Item : ScriptableObject
     /// Returns the unique identifier for the item.
     /// </summary>
     /// <returns>The unique identifier for the item.</returns>
+    // COMPLEXITY ANALYSIS: getId() - O(1)
     public int getId()
     {
         return id;
@@ -115,6 +116,7 @@ public abstract class Item : ScriptableObject
     /// Returns the display name of the item.
     /// </summary>
     /// <returns>The display name of the item.</returns>
+    // COMPLEXITY ANALYSIS: getItemName() - O(1)
     public string getItemName()
     {
         return itemName;
@@ -124,6 +126,7 @@ public abstract class Item : ScriptableObject
     /// Returns the rarity level of the item.
     /// </summary>
     /// <returns>The rarity level of the item.</returns>
+    // COMPLEXITY ANALYSIS: getRarity() - O(1)
     public ItemRarity getRarity()
     {
         return rarity;
@@ -133,6 +136,7 @@ public abstract class Item : ScriptableObject
     /// Returns the category classification of the item.
     /// </summary>
     /// <returns>The category classification of the item.</returns>
+    // COMPLEXITY ANALYSIS: getCategory() - O(1)
     public ItemCategory getCategory()
     {
         return category;
@@ -142,6 +146,7 @@ public abstract class Item : ScriptableObject
     /// Returns the icon sprite displayed in inventory and UI.
     /// </summary>
     /// <returns>The icon sprite displayed in inventory and UI.</returns>
+    // COMPLEXITY ANALYSIS: getIcon() - O(1)
     public Sprite getIcon()
     {
         return icon;
@@ -151,6 +156,7 @@ public abstract class Item : ScriptableObject
     /// Returns the 3D model/prefab used for item spawning and world representation.
     /// </summary>
     /// <returns>The 3D model/prefab used for item spawning and world representation.</returns>
+    // COMPLEXITY ANALYSIS: getItemPrefab() - O(1)
     public GameObject getItemPrefab()
     {
         return itemPrefab;
@@ -160,6 +166,7 @@ public abstract class Item : ScriptableObject
     /// Returns the maximum number of items that can be stacked in a single inventory slot.
     /// </summary>
     /// <returns>The maximum number of items that can be stacked.</returns>
+    // COMPLEXITY ANALYSIS: getMaxStack() - O(1)
     public int getMaxStack()
     {
         return maxStack;

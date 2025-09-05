@@ -130,6 +130,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
+        // COMPLEXITY ANALYSIS: Awake() - O(n) where n = number of GameObjects in scene
         // Find the input listener component from the GameManager GameObject
         inputListener = GameObject
             .FindWithTag(gameManagerTag)
@@ -169,6 +170,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     void Update()
     {
+        // COMPLEXITY ANALYSIS: Update() - O(1)
         // Early return if player is not near NPC, already in dialogue, or not pressing interaction key
 
         if (
@@ -215,6 +217,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     public void respondToNpc()
     {
+        // COMPLEXITY ANALYSIS: respondToNpc() - O(1)
         try
         {
             // Get the NPC's response based on the player's selected dialogue option
@@ -293,6 +296,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     public void startDialogue()
     {
+        // COMPLEXITY ANALYSIS: startDialogue() - O(1)
         if (npc.GetType() is QuestGiver)
         {
             if (
@@ -360,6 +364,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     public void closeDialogue()
     {
+        // COMPLEXITY ANALYSIS: closeDialogue() - O(1)
         // Hide the dialogue UI canvas
         dialUI.enabled = false;
 
@@ -391,6 +396,7 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     public void showDialogue()
     {
+        // COMPLEXITY ANALYSIS: showDialogue() - O(1)
         // Show the dialogue UI canvas
         dialUI.enabled = true;
 
@@ -423,6 +429,7 @@ public class DialogueManager : MonoBehaviour
     /// <returns>True if the object's layer is within the interactiveLayers mask; false otherwise.</returns>
     private bool IsInTalkativeLayers(GameObject obj)
     {
+        // COMPLEXITY ANALYSIS: IsInTalkativeLayers() - O(1)
         // Use bitwise AND to check if the object's layer is included in the talkativeLayers mask
         return (talkativeLayers.value & (1 << obj.layer)) != 0;
     }

@@ -171,6 +171,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the forward key is being pressed.
     /// </summary>
     /// <returns>True if forward key is pressed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isPressingForward() - O(1)
     public bool isPressingForward()
     {
         return Input.GetKey(keybinds["Forward"]) && canMove;
@@ -180,6 +181,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the backward key is being pressed.
     /// </summary>
     /// <returns>True if backward key is pressed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isPressingBackward() - O(1)
     public bool isPressingBackward()
     {
         return Input.GetKey(keybinds["Backward"]) && canMove;
@@ -189,6 +191,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the right key is being pressed.
     /// </summary>
     /// <returns>True if right key is pressed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isPressingRight() - O(1)
     public bool isPressingRight()
     {
         return Input.GetKey(keybinds["Right"]) && canMove;
@@ -198,6 +201,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the left key is being pressed.
     /// </summary>
     /// <returns>True if left key is pressed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isPressingLeft() - O(1)
     public bool isPressingLeft()
     {
         return Input.GetKey(keybinds["Left"]) && canMove;
@@ -207,6 +211,7 @@ public class InputListener : MonoBehaviour
     /// Gets the horizontal input value, respecting movement restrictions.
     /// </summary>
     /// <returns>The horizontal input value or 0 if movement is disabled.</returns>
+    // COMPLEXITY ANALYSIS: horizontal() - O(1)
     public float horizontal()
     {
         return canMove ? horizontal_input : 0f;
@@ -216,6 +221,7 @@ public class InputListener : MonoBehaviour
     /// Gets the vertical input value, respecting movement restrictions.
     /// </summary>
     /// <returns>The vertical input value or 0 if movement is disabled.</returns>
+    // COMPLEXITY ANALYSIS: vertical() - O(1)
     public float vertical()
     {
         return canMove ? vertical_input : 0f;
@@ -225,6 +231,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the jump input is active, respecting movement and jump restrictions.
     /// </summary>
     /// <returns>True if jump input is active and allowed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isJumping() - O(1)
     public bool isJumping()
     {
         return jump_input && canMove && canJump;
@@ -234,6 +241,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the sprint input is active, respecting movement restrictions.
     /// </summary>
     /// <returns>True if sprint input is active and allowed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isSprinting() - O(1)
     public bool isSprinting()
     {
         return sprint_input && canMove;
@@ -243,6 +251,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the interact input is active.
     /// </summary>
     /// <returns>True if interact input is active, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isInteracting() - O(1)
     public bool isInteracting()
     {
         return interact_input;
@@ -254,6 +263,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the inventory key is pressed, respecting menu restrictions.
     /// </summary>
     /// <returns>True if inventory key is pressed and menus can be opened, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isPressingInventory() - O(1)
     public bool isPressingInventory()
     {
         return Input.GetKeyDown(keybinds["Inventory"]) && canOpenMenu;
@@ -263,6 +273,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the skill tree key is pressed, respecting menu restrictions.
     /// </summary>
     /// <returns>True if skill tree key is pressed and menus can be opened, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isPressingSkillTree() - O(1)
     public bool isPressingSkillTree()
     {
         return Input.GetKeyDown(keybinds["SkillTree"]) && canOpenMenu;
@@ -272,6 +283,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the full map key is pressed, respecting menu restrictions.
     /// </summary>
     /// <returns>True if full map key is pressed and menus can be opened, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isPressingFullMap() - O(1)
     public bool isPressingFullMap()
     {
         return Input.GetKeyDown(keybinds["FullMap"]) && canOpenMenu;
@@ -281,6 +293,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the pause key is pressed.
     /// </summary>
     /// <returns>True if pause key is pressed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isPressingPause() - O(1)
     public bool isPressingPause()
     {
         return Input.GetKeyDown(KeyCode.Escape);
@@ -292,6 +305,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the P1 key is pressed.
     /// </summary>
     /// <returns>True if P1 key is pressed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isPressingP1() - O(1)
     public bool isPressingP1()
     {
         return Input.GetKeyDown(keybinds["P1"]);
@@ -301,6 +315,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the P2 key is pressed.
     /// </summary>
     /// <returns>True if P2 key is pressed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isPressingP2() - O(1)
     public bool isPressingP2()
     {
         return Input.GetKeyDown(keybinds["P2"]);
@@ -310,6 +325,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the P3 key is pressed.
     /// </summary>
     /// <returns>True if P3 key is pressed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isPressingP3() - O(1)
     public bool isPressingP3()
     {
         return Input.GetKeyDown(keybinds["P3"]);
@@ -319,6 +335,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the attack input is active, respecting attack restrictions.
     /// </summary>
     /// <returns>True if attack input is active and allowed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isAttacking() - O(1)
     public bool isAttacking()
     {
         return Input.GetKeyDown(keybinds["Attack"]) && canAttack;
@@ -328,6 +345,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the toggle activate attack input is active, respecting attack restrictions.
     /// </summary>
     /// <returns>True if toggle activate attack input is active and allowed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isToggleActivateAttack() - O(1)
     public bool isToggleActivateAttack()
     {
         return Input.GetKeyDown(keybinds["ToggleActivateAttack"]) && canAttack;
@@ -337,6 +355,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the take one item input is active.
     /// </summary>
     /// <returns>True if take one item input is active, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: isTakingOneItem() - O(1)
     public bool isTakingOneItem()
     {
         return Input.GetKey(keybinds["TakeOneItem"]);
@@ -348,6 +367,7 @@ public class InputListener : MonoBehaviour
     /// Initializes the input listener and sets up keybinds.
     /// Sets up static references and initializes the keybind system.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Awake() - O(k) where k = number of keybinds
     private void Awake()
     {
         // Store static reference to keybind list for global access
@@ -379,6 +399,7 @@ public class InputListener : MonoBehaviour
     /// Updates input states each frame and handles continuous input processing.
     /// Processes all input types and updates internal state variables.
     /// </summary>
+    // COMPLEXITY ANALYSIS: Update() - O(1)
     void Update()
     {
         // Rotate the input listener object for visual effect
@@ -441,6 +462,7 @@ public class InputListener : MonoBehaviour
     /// Resets input states when the component is enabled.
     /// Ensures clean input state when re-enabling the component.
     /// </summary>
+    // COMPLEXITY ANALYSIS: OnEnable() - O(1)
     void OnEnable()
     {
         // Reset all input states to prevent stuck inputs
@@ -453,6 +475,7 @@ public class InputListener : MonoBehaviour
     /// Resets input states when the component is disabled.
     /// Ensures clean input state when disabling the component.
     /// </summary>
+    // COMPLEXITY ANALYSIS: OnDisable() - O(1)
     void OnDisable()
     {
         // Reset all input states to prevent stuck inputs
@@ -469,6 +492,7 @@ public class InputListener : MonoBehaviour
     /// Sets whether the player can move.
     /// </summary>
     /// <param name="canMove">Whether movement is allowed.</param>
+    // COMPLEXITY ANALYSIS: setCanMove() - O(1)
     public void setCanMove(bool canMove)
     {
         this.canMove = canMove;
@@ -478,6 +502,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the player can move.
     /// </summary>
     /// <returns>True if movement is allowed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: getCanMove() - O(1)
     public bool getCanMove()
     {
         return canMove;
@@ -487,6 +512,7 @@ public class InputListener : MonoBehaviour
     /// Sets whether the player can attack.
     /// </summary>
     /// <param name="canAttack">Whether attacking is allowed.</param>
+    // COMPLEXITY ANALYSIS: setCanAttack() - O(1)
     public void setCanAttack(bool canAttack)
     {
         this.canAttack = canAttack;
@@ -496,6 +522,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the player can attack.
     /// </summary>
     /// <returns>True if attacking is allowed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: getCanAttack() - O(1)
     public bool getCanAttack()
     {
         return canAttack;
@@ -505,6 +532,7 @@ public class InputListener : MonoBehaviour
     /// Sets whether the player can jump.
     /// </summary>
     /// <param name="canJump">Whether jumping is allowed.</param>
+    // COMPLEXITY ANALYSIS: setCanJump() - O(1)
     public void setCanJump(bool canJump)
     {
         this.canJump = canJump;
@@ -514,6 +542,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the player can jump.
     /// </summary>
     /// <returns>True if jumping is allowed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: getCanJump() - O(1)
     public bool getCanJump()
     {
         return canJump;
@@ -523,6 +552,7 @@ public class InputListener : MonoBehaviour
     /// Sets whether the player can open menus.
     /// </summary>
     /// <param name="canOpenMenu">Whether menu opening is allowed.</param>
+    // COMPLEXITY ANALYSIS: setCanOpenMenu() - O(1)
     public void setCanOpenMenu(bool canOpenMenu)
     {
         this.canOpenMenu = canOpenMenu;
@@ -532,6 +562,7 @@ public class InputListener : MonoBehaviour
     /// Gets whether the player can open menus.
     /// </summary>
     /// <returns>True if menu opening is allowed, false otherwise.</returns>
+    // COMPLEXITY ANALYSIS: getCanOpenMenu() - O(1)
     public bool getCanOpenMenu()
     {
         return canOpenMenu;
@@ -545,6 +576,7 @@ public class InputListener : MonoBehaviour
     /// <param name="key">The action name to bind.</param>
     /// <param name="keycode">The key code to bind to the action.</param>
     /// <returns>True if the keybind was set successfully, false if there was a conflict.</returns>
+    // COMPLEXITY ANALYSIS: setKeybind() - O(k) where k = number of keybinds
     public static bool setKeybind(string key, KeyCode keycode)
     {
         // Check for conflicts with existing keybinds
@@ -571,6 +603,7 @@ public class InputListener : MonoBehaviour
     /// </summary>
     /// <param name="key">The action name to update.</param>
     /// <param name="keycode">The new key code for the action.</param>
+    // COMPLEXITY ANALYSIS: updateKeybinds() - O(k) where k = number of keybinds
     public static void updateKeybinds(string key, KeyCode keycode)
     {
         // Find and update the corresponding keybind in the list
@@ -589,6 +622,7 @@ public class InputListener : MonoBehaviour
     /// </summary>
     /// <param name="key">The action name to get the key code for.</param>
     /// <returns>The key code bound to the action, or KeyCode.None if not found.</returns>
+    // COMPLEXITY ANALYSIS: getKeybind() - O(1)
     public KeyCode getKeybind(string key)
     {
         if (keybinds.ContainsKey(key))
@@ -605,6 +639,7 @@ public class InputListener : MonoBehaviour
     /// Resets all keybinds to their default values.
     /// Restores the original keybind configuration.
     /// </summary>
+    // COMPLEXITY ANALYSIS: resetAllKeybinds() - O(k) where k = number of keybinds
     public void resetAllKeybinds()
     {
         // Reset all keybinds to their default values
@@ -619,6 +654,7 @@ public class InputListener : MonoBehaviour
     /// Sets the key canvas text to display the current keybinds.
     /// Updates UI elements to show current key assignments.
     /// </summary>
+    // COMPLEXITY ANALYSIS: setKeyCanvas() - O(c) where c = number of key canvases
     private void setKeyCanvas()
     {
         foreach (GameObject keyCanvas in keyCanvas)
@@ -641,6 +677,7 @@ public class InputListener : MonoBehaviour
     /// Updates all key tip text components with current keybind information.
     /// Refreshes the UI to show current key assignments.
     /// </summary>
+    // COMPLEXITY ANALYSIS: setKeyTips() - O(k) where k = number of keybinds
     private static void setKeyTips()
     {
         try
