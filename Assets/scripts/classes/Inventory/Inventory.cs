@@ -398,26 +398,39 @@ public class Inventory
                 );
                 cosmetic.setDefense(inventroyData.ArmorSlotsDefence[i].Value);
                 cosmetic.setStrength(inventroyData.ArmorSlotsStrength[i].Value);
-
-                // Place item in appropriate armor slot based on type
-                switch (cosmetic.getCosmeticType())
-                {
-                    case CosmeticType.Helmet:
-                        this.armorSlots.setHelmet(cosmetic);
-                        break;
-                    case CosmeticType.Chestplate:
-                        this.armorSlots.setChestplate(cosmetic);
-                        break;
-                    case CosmeticType.Leggings:
-                        this.armorSlots.setLeggings(cosmetic);
-                        break;
-                    case CosmeticType.Boots:
-                        this.armorSlots.setBoots(cosmetic);
-                        break;
-                }
+                // Load and set the cosmetic item in the appropriate armor slot
+                loadSetCosmeticItem(cosmetic);
             }
         }
         return true;
+    }
+
+    /// <summary>
+    /// Loads and sets a cosmetic item in the appropriate armor slot.
+    /// </summary>
+    /// <param name="cosmetic">The cosmetic item to load and set.</param>
+    private void loadSetCosmeticItem(CosmeticItem cosmetic)
+    {
+        // Load and set the cosmetic item in the appropriate armor slot
+        switch (cosmetic.getCosmeticType())
+        {
+            case CosmeticType.Helmet:
+                // Set the helmet in the armor slots
+                this.armorSlots.setHelmet(cosmetic);
+                break;
+            case CosmeticType.Chestplate:
+                // Set the chestplate in the armor slots
+                this.armorSlots.setChestplate(cosmetic);
+                break;
+            case CosmeticType.Leggings:
+                // Set the leggings in the armor slots
+                this.armorSlots.setLeggings(cosmetic);
+                break;
+            case CosmeticType.Boots:
+                // Set the boots in the armor slots
+                this.armorSlots.setBoots(cosmetic);
+                break;
+        }
     }
     #endregion
 }

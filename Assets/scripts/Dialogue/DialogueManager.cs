@@ -162,6 +162,10 @@ public class DialogueManager : MonoBehaviour
             // Cast the NPC to QuestGiver type for quest distribution functionality
             npc = (TalkativeNpc)talkingTo.GetComponent<StartNpc>().GetNpcsInstance();
         }
+        textContainer = this
+            .gameObject.transform.Find("Content")
+            .gameObject.transform.Find("dialogueText")
+            .GetComponent<TextMeshProUGUI>();
     }
 
     /// <summary>
@@ -221,13 +225,8 @@ public class DialogueManager : MonoBehaviour
         try
         {
             // Get the NPC's response based on the player's selected dialogue option
-            string response = npc.respodToDialogue(
-                continueSentence,
-                out string[] options,
-                out bool endDialogue
-            );
 
-            if (endDialogue)
+            if (updateDialogueText())
             {
                 // Dialogue has ended - no more options available
                 if (((QuestGiver)npc).GetQuestToGive() != null)
@@ -265,30 +264,37 @@ public class DialogueManager : MonoBehaviour
 
                 return;
             }
-
-            // Set the dialogue text, replacing "TARGET" placeholder if this is a QuestGiver NPC
-            textContainer.text =
-                talkingTo.layer == LayerMask.NameToLayer("QuestGiver")
-                && response.Contains("TARGET")
-                    ? response.Replace(
-                        "TARGET",
-                        string.Join(", ", ((QuestGiver)this.npc).GetQuestToGive().QuestTarget)
-                    )
-                    : response;
-
-            // Set the continue button text to the next dialogue option
-            continueButton.GetComponent<TextMeshProUGUI>().text = options[0];
-
-            //set the goodbye button text to the next dialogue option
-            cancelButton.GetComponent<TextMeshProUGUI>().text = options[1];
-
-            // Store the selected dialogue option for the next response
-            continueSentence = options[0];
         }
         catch (Exception e)
         {
             Debug.LogError("Error in respondToNpc: " + e.Message);
         }
+    }
+
+    public bool updateDialogueText()
+    {
+        string response = npc.respodToDialogue(
+            continueSentence,
+            out string[] options,
+            out bool endDialogue
+        );
+        // Set the dialogue text, replacing "TARGET" placeholder if this is a QuestGiver NPC
+        textContainer.text =
+            talkingTo.layer == LayerMask.NameToLayer("QuestGiver") && response.Contains("TARGET")
+                ? response.Replace(
+                    "TARGET",
+                    string.Join(", ", ((QuestGiver)this.npc).GetQuestToGive().QuestTarget)
+                )
+                : response;
+
+        // Set the continue button text to the first dialogue option
+        continueButton.GetComponent<TextMeshProUGUI>().text = options[0];
+        //set the goodbye button text to the next dialogue option
+        cancelButton.GetComponent<TextMeshProUGUI>().text = options[1];
+        // Store the selected dialogue option for the next response
+        continueSentence = options[0];
+        //return an indicator if the dialogue has ended
+        return endDialogue;
     }
 
     /// <summary>
@@ -312,43 +318,15 @@ public class DialogueManager : MonoBehaviour
         animateController.stopPlayerAnimation();
         playerController.stopCameraRotation();
         inputListener.setCanOpenMenu(false);
+
         // Set the NPC name
         npcName.GetComponent<TextMeshProUGUI>().text = talkingTo.tag;
 
-        // Find the text container component for displaying dialogue
-        textContainer = this
-            .gameObject.transform.Find("Content")
-            .gameObject.transform.Find("dialogueText")
-            .GetComponent<TextMeshProUGUI>();
-
-        // Get the initial dialogue response and options from the NPC
-        string response = npc.respodToDialogue(
-            npc.start,
-            out string[] options,
-            out bool endDialogue
-        );
-
-        if (endDialogue)
+        if (updateDialogueText())
         {
             closeDialogue();
             return;
         }
-
-        // Set the dialogue text to display the NPC's response
-        textContainer.text =
-            talkingTo.layer == LayerMask.NameToLayer("QuestGiver") && response.Contains("TARGET")
-                ? response.Replace(
-                    "TARGET",
-                    string.Join(", ", ((QuestGiver)this.npc).GetQuestToGive().QuestTarget)
-                )
-                : response;
-        ;
-
-        // Set the continue button text to the first dialogue option
-        continueButton.GetComponent<TextMeshProUGUI>().text = options[0];
-
-        // Store the selected dialogue option for the next response
-        continueSentence = options[0];
 
         // Show the dialogue UI and enter dialogue mode
         showDialogue();

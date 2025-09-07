@@ -269,50 +269,60 @@ public class QuestManager : MonoBehaviour
         {
             if (quest.ParentQuest == null)
                 notificationsManager.queueTopLeftNotification("New Quest Added", "notification");
-            if (quest is KillQuest)
-            {
-                activeKillQuests.Add((KillQuest)quest);
 
-                uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
-            }
+            tryAddKillQuest(quest);
 
-            if (quest is FindQuest)
-            {
-                activeFindQuests.Add((FindQuest)quest);
-
-                List<GameObject> spawns = new List<GameObject>();
-
-                if (questSpawns != null)
-                {
-                    foreach (Transform child in questSpawns.transform)
-                    {
-                        if (quest.QuestTarget.Contains(child.tag))
-                        {
-                            spawns.Add(child.gameObject);
-                        }
-                    }
-
-                    if (spawns.Count > 0)
-                    {
-                        //enable a randon spawn
-                        spawns[UnityEngine.Random.Range(0, spawns.Count)].SetActive(true);
-                    }
-                }
-
-                if (quest.Giver != null)
-                {
-                    uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
-                }
-                else
-                {
-                    GameObject giver = new GameObject("Quest Giver");
-                    quest.SetGiver(giver);
-                    uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
-                }
-            }
+            tryAddFindQuest(quest);
         }
     }
 
+    public void tryAddKillQuest(Quest quest)
+    {
+        if (quest is KillQuest)
+        {
+            activeKillQuests.Add((KillQuest)quest);
+            uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
+        }
+    }
+
+    public void tryAddFindQuest(Quest quest)
+    {
+        if (quest is FindQuest)
+        {
+            activeFindQuests.Add((FindQuest)quest);
+            uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
+
+            List<GameObject> spawns = new List<GameObject>();
+
+            if (questSpawns != null)
+            {
+                foreach (Transform child in questSpawns.transform)
+                {
+                    if (quest.QuestTarget.Contains(child.tag))
+                    {
+                        spawns.Add(child.gameObject);
+                    }
+                }
+
+                if (spawns.Count > 0)
+                {
+                    //enable a randon spawn
+                    spawns[UnityEngine.Random.Range(0, spawns.Count)].SetActive(true);
+                }
+            }
+
+            if (quest.Giver != null)
+            {
+                uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
+            }
+            else
+            {
+                GameObject giver = new GameObject("Quest Giver");
+                quest.SetGiver(giver);
+                uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
+            }
+        }
+    }
     #endregion
 
     #region Quest Progress Tracking
@@ -344,9 +354,7 @@ public class QuestManager : MonoBehaviour
 
             if (questToInc.isCompleted)
             {
-                activeFindQuests.Remove(questToInc);
-                uiManager.removeQuest(questToInc.Giver.GetInstanceID());
-                playerInstance.removeQuest(questToInc);
+                removeQuest(questToInc);
 
                 notificationsManager.queueTopLeftNotification(
                     questToInc.GetQuestName() + " Completed!",
@@ -394,9 +402,7 @@ public class QuestManager : MonoBehaviour
 
                 if (quest.isCompleted)
                 {
-                    playerInstance.removeQuest(quest);
-                    activeKillQuests.Remove(quest);
-                    uiManager.removeQuest(quest.Giver.GetInstanceID());
+                    removeQuest(quest);
 
                     notificationsManager.queueTopLeftNotification(
                         quest.GetQuestName() + " Completed!",
@@ -426,6 +432,22 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    public void removeQuest(Quest quest)
+    {
+        if (quest is KillQuest)
+        {
+            playerInstance.removeQuest(quest);
+            activeKillQuests.Remove((KillQuest)quest);
+            uiManager.removeQuest(quest.Giver.GetInstanceID());
+        }
+        if (quest is FindQuest)
+        {
+            playerInstance.removeQuest(quest);
+            activeFindQuests.Remove((FindQuest)quest);
+            uiManager.removeQuest(quest.Giver.GetInstanceID());
+        }
+    }
+
     /// <summary>
     /// Refreshes the quest giver after a quest is completed.
     /// </summary>
@@ -437,10 +459,6 @@ public class QuestManager : MonoBehaviour
         if (giver != null)
         {
             giver.GetComponent<StartNpc>().refreshQuestGiver();
-        }
-        else
-        {
-            // Quest giver not found
         }
     }
 

@@ -61,6 +61,11 @@ public class NPCinteraction : MonoBehaviour
     /// </summary>
     private playerScript ps;
 
+    /// <summary>
+    /// Radius of the overlap sphere.
+    /// </summary>
+    float radius = 2f;
+
     #endregion
 
     #region Unity Lifecycle Methods
@@ -80,25 +85,11 @@ public class NPCinteraction : MonoBehaviour
     /// </summary>
     void Update()
     {
-        float radius = 2f;
         isOccupied = Physics.CheckSphere(sphere.transform.position, radius, playerLayer);
 
         if (isOccupied)
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, radius, playerLayer);
-
-            foreach (Collider hit in hits)
-            {
-                playerTransform = hit.gameObject.transform;
-                player = hit.gameObject;
-                ps = hit.GetComponent<playerScript>();
-
-                if (ps != null && ps.getInteractingWith() == null)
-                {
-                    // Interact with player!
-                    ps.setInteractingWith(this.gameObject);
-                }
-            }
+            getOverlapSphere();
 
             if (
                 ps != null
@@ -112,10 +103,7 @@ public class NPCinteraction : MonoBehaviour
 
                 if (playerTransform != null)
                 {
-                    Vector3 direction = playerTransform.position - transform.position;
-                    direction.y = 0;
-                    Quaternion rotation = Quaternion.LookRotation(direction);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 2);
+                    turnToPlayer();
                 }
             }
         }
@@ -126,6 +114,7 @@ public class NPCinteraction : MonoBehaviour
     }
 
     #endregion
+
 
     #region Navigation Control
 
@@ -148,6 +137,38 @@ public class NPCinteraction : MonoBehaviour
     #endregion
 
     #region Player Interaction Management
+
+    /// <summary>
+    /// Turns the NPC to face the player.
+    /// </summary>
+    public void turnToPlayer()
+    {
+        Vector3 direction = playerTransform.position - transform.position;
+        direction.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 2);
+    }
+
+    /// <summary>
+    /// Gets the player from the overlap sphere.
+    /// </summary>
+    public void getOverlapSphere()
+    {
+        Collider[] hits = Physics.OverlapSphere(sphere.transform.position, radius, playerLayer);
+
+        foreach (Collider hit in hits)
+        {
+            playerTransform = hit.gameObject.transform;
+            player = hit.gameObject;
+            ps = hit.GetComponent<playerScript>();
+
+            if (ps != null && ps.getInteractingWith() == null)
+            {
+                // Interact with player!
+                ps.setInteractingWith(this.gameObject);
+            }
+        }
+    }
 
     /// <summary>
     /// Handles cleanup when the player exits the NPC's interaction range.

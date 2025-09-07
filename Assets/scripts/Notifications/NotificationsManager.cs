@@ -168,7 +168,7 @@ public class NotificationsManager : MonoBehaviour
 
             // Wait for audio duration plus 3 seconds before hiding
             yield return new WaitForSeconds(audioManager.getAudioClipLength(audioName) + 3f);
-
+            
             // Hide the notification UI
             topLeftnotification.Hide();
             yield return new WaitForSeconds(5f);

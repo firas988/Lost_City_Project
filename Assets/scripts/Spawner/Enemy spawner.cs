@@ -351,22 +351,7 @@ public class Enemyspawner : MonoBehaviour
 
             if (foundSpot)
             {
-                // Spawn enemy at valid position
-                GameObject enemyToSpawn = enemies[Random.Range(0, enemies.Count)];
-                GameObject cloneEnemy = Instantiate(
-                    enemyToSpawn,
-                    spawnPosition,
-                    Quaternion.identity
-                );
-                cloneEnemy.transform.SetParent(
-                    enemyPlaceHolder.transform,
-                    worldPositionStays: true
-                );
-
-                // Track enemy entity and object
-                entities.Add((Entity)cloneEnemy.GetComponent<StartNpc>().GetNpcsInstance());
-                enemyCount++;
-                enemiesToObject.Add(cloneEnemy);
+                spawnEnemy(spawnPosition);
             }
             else
             {
@@ -376,12 +361,31 @@ public class Enemyspawner : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Spawns an enemy at the specified position.
+    /// </summary>
+    /// <param name="spawnPosition">The position to spawn the enemy at.</param>
+    // COMPLEXITY ANALYSIS: spawnEnemy() - O(1)
+    private void spawnEnemy(Vector3 spawnPosition)
+    {
+        // Spawn enemy at valid position
+        GameObject enemyToSpawn = enemies[Random.Range(0, enemies.Count)];
+        GameObject cloneEnemy = Instantiate(enemyToSpawn, spawnPosition, Quaternion.identity);
+        cloneEnemy.transform.SetParent(enemyPlaceHolder.transform, worldPositionStays: true);
+
+        // Track enemy entity and object
+        entities.Add((Entity)cloneEnemy.GetComponent<StartNpc>().GetNpcsInstance());
+        enemyCount++;
+        enemiesToObject.Add(cloneEnemy);
+    }
     #endregion
 
     #region Enemy Management
     /// <summary>
     /// Destroys all spawned enemies and resets spawner state.
     /// </summary>
+    // COMPLEXITY ANALYSIS: destroyEnemies() - O(e) where e = number of enemies
     public void destroyEnemies()
     {
         foreach (GameObject enemy in enemiesToObject)
@@ -397,6 +401,7 @@ public class Enemyspawner : MonoBehaviour
     /// <summary>
     /// Kills all spawned enemies by setting their health to 0.
     /// </summary>
+    // COMPLEXITY ANALYSIS: killAllEnemies() - O(e) where e = number of entities
     public void killAllEnemies()
     {
         foreach (Entity entity in entities)
@@ -412,6 +417,7 @@ public class Enemyspawner : MonoBehaviour
     /// Called when player enters the spawn trigger area.
     /// </summary>
     /// <param name="other">The collider that entered the trigger.</param>
+    // COMPLEXITY ANALYSIS: OnTriggerEnter() - O(1)
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -424,6 +430,7 @@ public class Enemyspawner : MonoBehaviour
     /// Called when player exits the spawn trigger area.
     /// </summary>
     /// <param name="other">The collider that exited the trigger.</param>
+    // COMPLEXITY ANALYSIS: OnTriggerExit() - O(1)
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -436,6 +443,7 @@ public class Enemyspawner : MonoBehaviour
     #region Public Interface Methods
     /// <summary>Gets whether all enemies are currently dead.</summary>
     /// <returns>True if all enemies are dead; otherwise false.</returns>
+    // COMPLEXITY ANALYSIS: getAllEnemiesDead() - O(1)
     public bool getAllEnemiesDead()
     {
         return allEnemiesDead;
@@ -443,6 +451,7 @@ public class Enemyspawner : MonoBehaviour
 
     /// <summary>Sets whether multiple respawning is allowed.</summary>
     /// <param name="canMultipleRespawn">Whether multiple respawning should be enabled.</param>
+    // COMPLEXITY ANALYSIS: setCanMultipleRespawn() - O(1)
     public void setCanMultipleRespawn(bool canMultipleRespawn)
     {
         this.canMultipleRespawn = canMultipleRespawn;
@@ -450,6 +459,7 @@ public class Enemyspawner : MonoBehaviour
 
     /// <summary>Gets whether the spawner is ready to respawn.</summary>
     /// <returns>True if ready to respawn; otherwise false.</returns>
+    // COMPLEXITY ANALYSIS: getIsReadyToRespawn() - O(1)
     public bool getIsReadyToRespawn()
     {
         return isReadyToRespawn;
@@ -457,6 +467,7 @@ public class Enemyspawner : MonoBehaviour
 
     /// <summary>Sets whether enemies need to be spawned.</summary>
     /// <param name="isEnemyNeedSpawned">Whether enemies need spawning.</param>
+    // COMPLEXITY ANALYSIS: setIsEnemyNeedSpawned() - O(1)
     public void setIsEnemyNeedSpawned(bool isEnemyNeedSpawned)
     {
         this.isEnemyNeedSpawned = isEnemyNeedSpawned;
@@ -464,6 +475,7 @@ public class Enemyspawner : MonoBehaviour
 
     /// <summary>Sets whether the spawner is active for spawning.</summary>
     /// <param name="isTheSpawnerActiveToSpawn">Whether spawning should be active.</param>
+    // COMPLEXITY ANALYSIS: setIsTheSpawnerActiveToSpawn() - O(1)
     public void setIsTheSpawnerActiveToSpawn(bool isTheSpawnerActiveToSpawn)
     {
         this.isTheSpawnerActiveToSpawn = isTheSpawnerActiveToSpawn;
@@ -471,6 +483,7 @@ public class Enemyspawner : MonoBehaviour
 
     /// <summary>Sets the respawn timer duration.</summary>
     /// <param name="timerForRespawn">Time in seconds to wait before respawning.</param>
+    // COMPLEXITY ANALYSIS: setTimerForRespawn() - O(1)
     public void setTimerForRespawn(float timerForRespawn)
     {
         this.timerForRespawn = timerForRespawn;
@@ -478,6 +491,7 @@ public class Enemyspawner : MonoBehaviour
 
     /// <summary>Sets whether spawning should be completely stopped.</summary>
     /// <param name="stopSpawn">Whether spawning should be stopped.</param>
+    // COMPLEXITY ANALYSIS: setStopSpawn() - O(1)
     public void setStopSpawn(bool stopSpawn)
     {
         this.stopSpawn = stopSpawn;

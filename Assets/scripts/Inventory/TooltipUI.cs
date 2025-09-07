@@ -45,7 +45,19 @@ public class TooltipUI : MonoBehaviour
 
         // Start with the desired position
         Vector2 adjustedPosition = position;
+        // Change the position of the tooltip
+        changePosition(adjustedPosition, panelSize, position);
+    }
 
+    /// <summary>
+    /// Changes the position of the tooltip to prevent it from going off-screen.
+    /// </summary>
+    /// <param name="adjustedPosition">The adjusted position of the tooltip.</param>
+    /// <param name="panelSize">The size of the tooltip panel.</param>
+    /// <param name="position">The desired position of the tooltip.</param>
+    // COMPLEXITY ANALYSIS: changePosition() - O(1)
+    private void changePosition(Vector2 adjustedPosition, Vector2 panelSize, Vector2 position)
+    {
         // Adjust horizontal position to prevent tooltip from going off-screen right
         adjustedPosition.x -= panelSize.x - 25f;
 
@@ -66,7 +78,6 @@ public class TooltipUI : MonoBehaviour
         {
             adjustedPosition.y = Screen.height - panelSize.y;
         }
-
         // Set the final tooltip position
         tooltipPanel.transform.position = adjustedPosition;
     }

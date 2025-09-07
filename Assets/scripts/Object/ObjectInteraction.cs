@@ -199,7 +199,9 @@ public class ObjectInteraction : MonoBehaviour
         {
             return;
         }
+
         updateText();
+
         playerIsInRange = Physics.CheckSphere(
             gameObject.transform.position,
             range,
