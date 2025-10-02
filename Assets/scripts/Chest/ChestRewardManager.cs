@@ -149,7 +149,7 @@ public class ChestRewardManager : MonoBehaviour
 
     #region Item Distribution
     /// <summary>
-    /// Attempts to give an item of the specified type based on rarity-weighted selection
+    /// Attempts to give an item of the specified type based on rarity-weighted selection and add to inventory
     /// </summary>
     /// <typeparam name="T">Type of item to give (must inherit from Item)</typeparam>
     /// <param name="sourceList">List of available items to choose from</param>
