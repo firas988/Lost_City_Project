@@ -91,6 +91,7 @@ public class QuestManager : MonoBehaviour
     private MinimapArrow minimapArrow;
 
     private GameObject questSpawns;
+    private ObjectSpawnsManager objectSpawnManager;
 
     private string gameManagerTag = "GameManager";
 
@@ -124,8 +125,12 @@ public class QuestManager : MonoBehaviour
         audioSource = this.gameObject.GetComponent<AudioSource>();
         dialogueManager = GameObject.FindAnyObjectByType<DialogueManager>();
         uiManager = GameObject.FindAnyObjectByType<UIManager>();
-        questSpawns = GameObject.FindWithTag("ObjectSpawns");
         rewardManager = GameObject.FindAnyObjectByType<RewardManager>();
+
+        questSpawns = GameObject.FindWithTag("ObjectSpawns");
+        if (questSpawns != null)
+            objectSpawnManager = questSpawns.GetComponent<ObjectSpawnsManager>();
+
         if (rewardManager == null)
         {
             // RewardManager not found
@@ -292,24 +297,8 @@ public class QuestManager : MonoBehaviour
             activeFindQuests.Add((FindQuest)quest);
             uiManager.addQuest(quest.Giver.GetInstanceID(), quest);
 
-            List<GameObject> spawns = new List<GameObject>();
-
-            if (questSpawns != null)
-            {
-                foreach (Transform child in questSpawns.transform)
-                {
-                    if (quest.QuestTarget.Contains(child.tag))
-                    {
-                        spawns.Add(child.gameObject);
-                    }
-                }
-
-                if (spawns.Count > 0)
-                {
-                    //enable a randon spawn
-                    spawns[UnityEngine.Random.Range(0, spawns.Count)].SetActive(true);
-                }
-            }
+            if (objectSpawnManager != null)
+                objectSpawnManager.SpawnAccordingToQuest(quest);
 
             if (quest.Giver != null)
             {
@@ -350,8 +339,7 @@ public class QuestManager : MonoBehaviour
                 questToInc.GetProgress()
             );
 
-            objectFound.SetActive(false);
-
+            objectSpawnManager.DeSpawnOjbect(objectFound);
             if (questToInc.isCompleted)
             {
                 removeQuest(questToInc);
