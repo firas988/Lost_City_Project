@@ -210,7 +210,6 @@ public class Spawn_Drakonit_Handler : MonoBehaviour
         // Start dissolve-in animation for all enemies
         foreach (GameObject enemy in enemies)
         {
-            Debug.Log("startSpawn " + enemy.name);
             enemy.GetComponent<DissolvingController>().StartDeDissolve();
         }
 

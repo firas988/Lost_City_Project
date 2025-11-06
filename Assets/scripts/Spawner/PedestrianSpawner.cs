@@ -125,9 +125,10 @@ public class PedestrianSpawner : MonoBehaviour
                 }
             }
         }
-        catch (System.Exception)
+        catch (System.Exception ex)
         {
-            error = true;
+            Debug.Log(ex);
+            Debug.Log("Error: " + ex.Message);
         }
 
         if (error)

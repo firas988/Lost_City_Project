@@ -21,6 +21,10 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Flag indicating if the enemy is currently hitting.</summary>
     private bool isHitting = false;
+
+    /// <summary>List of attack places.</summary>
+    [SerializeField]
+    private List<GameObject> attackPlace;
     #endregion
 
     #region Attack Data
@@ -85,6 +89,7 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
         // Set the default current attack
         currentAttack = hobgoblinAttacks.Find(attack => attack.attackName == "attackHand");
+        attackPlacePick(0);
     }
 
     /// <summary>
@@ -92,13 +97,13 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// </summary>
     void Update()
     {
-        attackPick(); // Selects the current attack
-        attackPlacePick(); // Finds the GameObject representing the attack origin
-
         // Check for hits and deal damage if needed
         if (hitCheck())
         {
             dealDamage();
+
+            // Select appropriate attack and find attack origin
+            attackPick();
         }
     }
     #endregion
@@ -117,30 +122,11 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>
     /// Finds and assigns the GameObject that marks the origin point of the current attack.
     /// </summary>
-    private void attackPlacePick()
+    private void attackPlacePick(int index)
     {
-        currentAttackPlace = FindDeepChild(transform, currentAttack.attackName).gameObject;
+        currentAttackPlace = attackPlace[index];
     }
 
-    /// <summary>
-    /// Recursively searches for a child transform by name in the hierarchy.
-    /// </summary>
-    /// <param name="parent">The parent transform to start the search.</param>
-    /// <param name="name">The name of the child to find.</param>
-    /// <returns>The found Transform or null if not found.</returns>
-    Transform FindDeepChild(Transform parent, string name)
-    {
-        foreach (Transform child in parent)
-        {
-            if (child.name == name)
-                return child;
-
-            Transform result = FindDeepChild(child, name);
-            if (result != null)
-                return result;
-        }
-        return null;
-    }
     #endregion
 
     #region Hit Detection
@@ -216,6 +202,7 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
         if (attackCount <= 0)
         {
             currentAttack = hobgoblinAttacks.Find(attack => attack.attackName == "attackHand");
+            attackPlacePick(0);
         }
     }
     #endregion
@@ -261,6 +248,7 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Starts the Hobgoblin's attack animation.</summary>
     public void startAttackHobgoblin()
     {
+        ClearAudioSource();
         isAttacking = true;
         playAttackSound();
     }
@@ -270,6 +258,18 @@ public class HobgoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         isHitting = false;
         isAttacking = false;
+    }
+
+    /// <summary>Clears the audio source.</summary>
+    private void ClearAudioSource()
+    {
+        if (audioSource == null)
+            return;
+
+        audioSource.Stop();
+        audioSource.clip = null;
+        audioSource.loop = false;
+        audioSource.playOnAwake = false;
     }
     #endregion
 

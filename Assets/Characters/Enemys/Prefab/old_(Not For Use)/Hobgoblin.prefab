@@ -343,6 +343,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3581458248395950665}
   m_SourcePrefab: {fileID: 100100000, guid: b7f1dfc4e01f4a645a02f3816571583e, type: 3}
+--- !u!1 &2308698016098264485 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5283973390230147, guid: b7f1dfc4e01f4a645a02f3816571583e, type: 3}
+  m_PrefabInstance: {fileID: 2312845953318700838}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2312845953318535632 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 165622, guid: b7f1dfc4e01f4a645a02f3816571583e, type: 3}
@@ -386,6 +391,7 @@ MonoBehaviour:
   waitTimeRange: {x: 30, y: 50}
   navMeshAreaName: 
   isWandering: 1
+  isWaiting: 0
 --- !u!114 &6620183529277263900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,6 +421,8 @@ MonoBehaviour:
   isReturn: 0
   isChassing: 0
   isAttacking: 0
+  canMove: 1
+  inCooldown: 0
 --- !u!114 &3317821840389555919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,6 +436,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCount: 0
+  attackPlace:
+  - {fileID: 2308698016098264485}
 --- !u!114 &3581458248395950665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,3 +451,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcPrefab: {fileID: 0}
+  killQuests: {fileID: 0}
+  findQuests: {fileID: 0}
+  storyQuest: {fileID: 0}

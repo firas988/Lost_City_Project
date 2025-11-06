@@ -11055,6 +11055,8 @@ MonoBehaviour:
   isReturn: 0
   isChassing: 0
   isAttacking: 0
+  canMove: 1
+  inCooldown: 0
 --- !u!114 &7547788995393414580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11083,6 +11085,7 @@ MonoBehaviour:
   waitTimeRange: {x: 30, y: 50}
   navMeshAreaName: 
   isWandering: 1
+  isWaiting: 0
 --- !u!114 &3711000151009346644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11096,6 +11099,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCount: 0
+  attackPlace:
+  - {fileID: 6741524370655972072}
 --- !u!114 &4432455197935257658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11109,6 +11114,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcPrefab: {fileID: 0}
+  killQuests: {fileID: 0}
+  findQuests: {fileID: 0}
+  storyQuest: {fileID: 0}
 --- !u!1 &7929773293837486280
 GameObject:
   m_ObjectHideFlags: 0

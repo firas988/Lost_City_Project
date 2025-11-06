@@ -276,6 +276,10 @@ public class LastPartHandler : MonoBehaviour
     /// </summary>
     private void checkIfTheQuestIsTimeToGetTheItem()
     {
+        if (isGetHitCutScene)
+        {
+            return;
+        }
         // Get current quest from player
         Quest quest = player.GetComponent<StartPlayer>().getPlayer().getCurrentMainQuest();
 

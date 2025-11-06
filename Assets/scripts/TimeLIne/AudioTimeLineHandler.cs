@@ -21,6 +21,12 @@ public class AudioTimeLineHandler : MonoBehaviour
     /// Used to apply consistent SFX and music volume levels to timeline audio sources.
     /// </summary>
     private AudioManager audioManager;
+
+    /// <summary>
+    /// Reference to the MusicManager component for accessing current music volume settings.
+    /// Used to apply consistent music volume levels to timeline audio sources.
+    /// </summary>
+    private MusicManager musicManager;
     #endregion
 
     #region Unity Lifecycle
@@ -34,6 +40,11 @@ public class AudioTimeLineHandler : MonoBehaviour
         audioManager = GameObject
             .FindGameObjectWithTag(gameManagerTag)
             .transform.parent.GetComponentInChildren<AudioManager>();
+
+        // Find and store reference to MusicManager for music volume control
+        musicManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .transform.parent.GetComponentInChildren<MusicManager>();
     }
     #endregion
 
@@ -56,6 +67,22 @@ public class AudioTimeLineHandler : MonoBehaviour
     public void MusicVolume(AudioSource audioSource)
     {
         audioManager.setAudioSourceVolumeToMusicVolume(audioSource);
+    }
+
+    /// <summary>
+    /// Stops the current music playback.
+    /// </summary>
+    public void stopMusic()
+    {
+        musicManager.stopMusic();
+    }
+
+    /// <summary>
+    /// Plays the specified music clip.
+    /// </summary>
+    public void playMusic()
+    {
+        musicManager.playMusic();
     }
     #endregion
 }

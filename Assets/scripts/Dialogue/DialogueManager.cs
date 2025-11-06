@@ -229,7 +229,7 @@ public class DialogueManager : MonoBehaviour
             if (updateDialogueText())
             {
                 // Dialogue has ended - no more options available
-                if (((QuestGiver)npc).GetQuestToGive() != null)
+                if (npc is QuestGiver && ((QuestGiver)npc).GetQuestToGive() != null)
                 {
                     // Dialogue ended
                     if (((QuestGiver)npc).GetQuestToGive() is StoryQuest)
@@ -267,6 +267,7 @@ public class DialogueManager : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log("Error in respondToNpc: " + npc);
             Debug.LogError("Error in respondToNpc: " + e.Message);
         }
     }
@@ -274,25 +275,29 @@ public class DialogueManager : MonoBehaviour
     public bool updateDialogueText()
     {
         string response = npc.respodToDialogue(
-            continueSentence,
+            continueSentence != null ? continueSentence : "start",
             out string[] options,
             out bool endDialogue
         );
-        // Set the dialogue text, replacing "TARGET" placeholder if this is a QuestGiver NPC
-        textContainer.text =
-            talkingTo.layer == LayerMask.NameToLayer("QuestGiver") && response.Contains("TARGET")
-                ? response.Replace(
-                    "TARGET",
-                    string.Join(", ", ((QuestGiver)this.npc).GetQuestToGive().QuestTarget)
-                )
-                : response;
 
-        // Set the continue button text to the first dialogue option
-        continueButton.GetComponent<TextMeshProUGUI>().text = options[0];
-        //set the goodbye button text to the next dialogue option
-        cancelButton.GetComponent<TextMeshProUGUI>().text = options[1];
-        // Store the selected dialogue option for the next response
-        continueSentence = options[0];
+        if (!endDialogue)
+        {
+            textContainer.text =
+                talkingTo.layer == LayerMask.NameToLayer("QuestGiver")
+                && response.Contains("TARGET")
+                    ? response.Replace(
+                        "TARGET",
+                        string.Join(", ", ((QuestGiver)this.npc).GetQuestToGive().QuestTarget)
+                    )
+                    : response;
+
+            // Set the continue button text to the first dialogue option
+            continueButton.GetComponent<TextMeshProUGUI>().text = options[0];
+            //set the goodbye button text to the next dialogue option
+            cancelButton.GetComponent<TextMeshProUGUI>().text = options[1];
+            // Store the selected dialogue option for the next response
+            continueSentence = options[0];
+        }
         //return an indicator if the dialogue has ended
         return endDialogue;
     }
@@ -315,6 +320,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         // stop player animation
+        continueSentence = null;
         animateController.stopPlayerAnimation();
         playerController.stopCameraRotation();
         inputListener.setCanOpenMenu(false);

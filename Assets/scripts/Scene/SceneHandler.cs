@@ -65,7 +65,20 @@ public class SceneHandler : MonoBehaviour
     private bool inGame = true;
     #endregion
 
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// It sets the time scale to 1 if it is 0.
+    /// </summary>
+    private void Awake()
+    {
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
+    }
+
     #region Public Interface
+
     /// <summary>
     /// Initiates scene loading for the specified scene index.
     /// Starts the asynchronous loading coroutine with proper UI management.

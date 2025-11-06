@@ -202,6 +202,7 @@ public class AudioManager : MonoBehaviour
     {
         GlobalVolume = volume;
         PlayerPrefs.SetFloat("GlobalVolume", GlobalVolume);
+        GetComponent<AudioSource>().volume = MusicVolume * GlobalVolume;
     }
 
     /// <summary>
@@ -224,6 +225,7 @@ public class AudioManager : MonoBehaviour
     {
         MusicVolume = volume;
         PlayerPrefs.SetFloat("MusicVolume", MusicVolume);
+        GetComponent<AudioSource>().volume = MusicVolume * GlobalVolume;
     }
 
     /// <summary>

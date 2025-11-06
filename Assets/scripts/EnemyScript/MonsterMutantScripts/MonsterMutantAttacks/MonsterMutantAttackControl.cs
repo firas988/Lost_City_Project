@@ -21,6 +21,10 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Flag indicating if the enemy is currently hitting.</summary>
     private bool isHitting = false;
+
+    /// <summary>List of attack places.</summary>
+    [SerializeField]
+    private List<GameObject> attackPlace;
     #endregion
 
     #region Attack Data
@@ -83,6 +87,7 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
 
         // Set the default attack to "attackHand"
         currentAttack = monsterMutantAttacks.Find(attack => attack.attackName == "attackHand");
+        attackPlacePick(0);
     }
 
     /// <summary>
@@ -90,13 +95,13 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// </summary>
     void Update()
     {
-        attackPick(); // Choose appropriate attack based on attack count
-        attackPlacePick(); // Find the attack origin GameObject
-
         // Check for hits and deal damage if needed
         if (hitCheck())
         {
             dealDamage();
+
+            // Select appropriate attack and find attack origin
+            attackPick();
         }
     }
     #endregion
@@ -115,30 +120,11 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>
     /// Finds and sets the current attack origin GameObject by attack name.
     /// </summary>
-    private void attackPlacePick()
+    private void attackPlacePick(int index)
     {
-        currentAttackPlace = FindDeepChild(transform, currentAttack.attackName).gameObject;
+        currentAttackPlace = attackPlace[index];
     }
 
-    /// <summary>
-    /// Recursively searches for a child transform by name within the hierarchy.
-    /// </summary>
-    /// <param name="parent">Parent transform to start search from.</param>
-    /// <param name="name">Name of the child to find.</param>
-    /// <returns>Transform if found; otherwise, null.</returns>
-    Transform FindDeepChild(Transform parent, string name)
-    {
-        foreach (Transform child in parent)
-        {
-            if (child.name == name)
-                return child;
-
-            Transform result = FindDeepChild(child, name);
-            if (result != null)
-                return result;
-        }
-        return null;
-    }
     #endregion
 
     #region Hit Detection
@@ -218,10 +204,12 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
         if (attackCount <= 1)
         {
             currentAttack = monsterMutantAttacks.Find(attack => attack.attackName == "attackHand");
+            attackPlacePick(0);
         }
         else if (attackCount == 2)
         {
             currentAttack = monsterMutantAttacks.Find(attack => attack.attackName == "attackSpike");
+            attackPlacePick(1);
         }
     }
     #endregion
@@ -267,6 +255,7 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Starts the Monster Mutant's attack animation.</summary>
     public void startAttackMonsterMutant()
     {
+        ClearAudioSource();
         isAttacking = true;
         playAttackSound();
     }
@@ -276,6 +265,18 @@ public class MonsterMutantAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         isHitting = false;
         isAttacking = false;
+    }
+
+    /// <summary>Clears the audio source.</summary>
+    private void ClearAudioSource()
+    {
+        if (audioSource == null)
+            return;
+
+        audioSource.Stop();
+        audioSource.clip = null;
+        audioSource.loop = false;
+        audioSource.playOnAwake = false;
     }
     #endregion
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,6 +40,9 @@ public class ObjectInteraction : MonoBehaviour
     /// </summary>
     [SerializeField]
     private GameObject openChestEffect;
+
+    //flag to put a cooldown per interaction
+    private bool onCoolDown;
 
     #endregion
 
@@ -139,7 +143,15 @@ public class ObjectInteraction : MonoBehaviour
     /// </summary>
     private bool isAKey = false;
 
+    /// <summary>
+    /// Flag indicating whether the object is a drakonit crystal.
+    /// </summary>
     private bool isFinshed = false;
+
+    /// <summary>
+    /// Flag indicating whether the object is a drakonit crystal.
+    /// </summary>
+    private bool isDrakonitCrystal = false;
 
     #endregion
 
@@ -153,6 +165,7 @@ public class ObjectInteraction : MonoBehaviour
     {
         isAchect = transform.CompareTag("Chest");
         isAKey = transform.CompareTag("KeyToFind");
+        isDrakonitCrystal = transform.CompareTag("DrakonitCrystal");
         playerIsInRange = Physics.CheckSphere(
             gameObject.transform.position,
             range,
@@ -209,8 +222,17 @@ public class ObjectInteraction : MonoBehaviour
             QueryTriggerInteraction.Ignore
         );
 
-        if (playerIsInRange && inputListener.isInteracting() && !isAchect && !isAKey)
+        if (
+            playerIsInRange
+            && !onCoolDown
+            && inputListener.isInteracting()
+            && !isAchect
+            && !isAKey
+            && !isDrakonitCrystal
+        )
         {
+            StartCoroutine(startCooldown());
+
             questManager.addFind(gameObject);
         }
 
@@ -238,6 +260,16 @@ public class ObjectInteraction : MonoBehaviour
                 canvas.enabled = false;
             }
         }
+        if (isDrakonitCrystal)
+        {
+            checkIfThePlayerIsNearTheDrakonitCrystal();
+            if (playerIsInRange && inputListener.isInteracting())
+            {
+                gameObject.GetComponent<DashToTarget>().startDash();
+                setIsFinshed(true);
+                canvas.enabled = false;
+            }
+        }
     }
 
     #endregion
@@ -249,6 +281,23 @@ public class ObjectInteraction : MonoBehaviour
     /// </summary>
     // COMPLEXITY ANALYSIS: checkIfThePlayerIsNearTheKey() - O(1)
     private void checkIfThePlayerIsNearTheKey()
+    {
+        if (playerIsInRange && !isFinshed)
+        {
+            canvas.enabled = true;
+            lockToThePlayer();
+        }
+        else
+        {
+            canvas.enabled = false;
+        }
+    }
+
+    /// <summary>
+    /// Checks if the player is near the drakonit crystal and shows/hides the interaction UI accordingly.
+    /// </summary>
+    // COMPLEXITY ANALYSIS: checkIfThePlayerIsNearTheDrakonitCrystal() - O(1)
+    private void checkIfThePlayerIsNearTheDrakonitCrystal()
     {
         if (playerIsInRange && !isFinshed)
         {
@@ -338,12 +387,7 @@ public class ObjectInteraction : MonoBehaviour
             progressBar.fillAmount = holdTimer / holdTime;
             if (holdTimer >= holdTime && !isOpen && canOpen)
             {
-                isOpen = true;
-                canOpen = false;
-                canvas.enabled = false;
-                animator.SetTrigger(isOpenTrigger);
-                audioManager.playSFX(audioSource, "chestOpen");
-                openChestEffectParticleSystem.Play();
+                startOpenChestProgress();
             }
         }
         else if (isInteracting)
@@ -363,11 +407,29 @@ public class ObjectInteraction : MonoBehaviour
     }
 
     /// <summary>
+    /// Starts the chest opening progress.
+    /// </summary>
+    // COMPLEXITY ANALYSIS: startOpenChestProgress() - O(1)
+    private void startOpenChestProgress()
+    {
+        isOpen = true;
+        canOpen = false;
+        canvas.enabled = false;
+        animator.SetTrigger(isOpenTrigger);
+        audioManager.playSFX(audioSource, "chestOpen");
+        openChestEffectParticleSystem.Play();
+    }
+
+    /// <summary>
     /// Handles the completion of chest opening progress.
     /// </summary>
     // COMPLEXITY ANALYSIS: openChestProgressDone() - O(1)
-    private void openChestProgressDone()
+    public void openChestProgressDone()
     {
+        if (!isOpen)
+        {
+            startOpenChestProgress();
+        }
         chestRewardManager.OpenChest();
     }
 
@@ -403,6 +465,14 @@ public class ObjectInteraction : MonoBehaviour
     public void setIsFinshed(bool isFinshed)
     {
         this.isFinshed = isFinshed;
+    }
+
+    // COMPLEXITY ANALYSIS: startCooldown() - O(1)
+    private IEnumerator startCooldown()
+    {
+        onCoolDown = true;
+        yield return new WaitForSeconds(1f);
+        onCoolDown = false;
     }
 
     #endregion

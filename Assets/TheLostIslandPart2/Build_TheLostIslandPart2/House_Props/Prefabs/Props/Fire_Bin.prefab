@@ -49,16 +49,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 0de72b4070f9e4549b5ea70cb6412b21, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 7cf03c6e1d416974f91f269177c0d42f, type: 2}
     - target: {fileID: -7511558181221131132, guid: 0de72b4070f9e4549b5ea70cb6412b21, type: 3}
-      propertyPath: m_Materials.Array.data[1]
+      propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 1c1f95fc00e8cde489d357b181b74029, type: 2}
     - target: {fileID: 919132149155446097, guid: 0de72b4070f9e4549b5ea70cb6412b21, type: 3}
       propertyPath: m_Name
       value: Fire_Bin
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0de72b4070f9e4549b5ea70cb6412b21, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -67,7 +71,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0de72b4070f9e4549b5ea70cb6412b21, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1022368124549904353}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0de72b4070f9e4549b5ea70cb6412b21, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4073085839593452968}
   m_SourcePrefab: {fileID: 100100000, guid: 0de72b4070f9e4549b5ea70cb6412b21, type: 3}
+--- !u!23 &2524221802760845447 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 0de72b4070f9e4549b5ea70cb6412b21, type: 3}
+  m_PrefabInstance: {fileID: 3802801680097584131}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4037241956096842066 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0de72b4070f9e4549b5ea70cb6412b21, type: 3}
@@ -94,3 +106,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6136991, y: 0.7176906, z: 0.61300355}
   m_Center: {x: 0.00084270537, y: 0.3587749, z: 0}
+--- !u!205 &4073085839593452968
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4037241956096842066}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.2
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2524221802760845447}
+  m_Enabled: 1

@@ -21,6 +21,10 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Flag indicating if the enemy is currently hitting.</summary>
     private bool isHitting = false;
+
+    /// <summary>List of attack places.</summary>
+    [SerializeField]
+    private List<GameObject> attackPlace;
     #endregion
 
     #region Attack Data
@@ -85,6 +89,7 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
 
         // Set default attack to hand attack
         currentAttack = goblinAttacks.Find(attack => attack.attackName == "attackHand");
+        attackPlacePick(0);
     }
 
     /// <summary>
@@ -92,14 +97,13 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// </summary>
     void Update()
     {
-        // Select appropriate attack and find attack origin
-        attackPick();
-        attackPlacePick();
-
         // Check for hits and deal damage if needed
         if (hitCheck())
         {
             dealDamage();
+
+            // Select appropriate attack and find attack origin
+            attackPick();
         }
     }
     #endregion
@@ -118,29 +122,9 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>
     /// Finds and sets the GameObject representing the attack origin point by name.
     /// </summary>
-    private void attackPlacePick()
+    private void attackPlacePick(int index)
     {
-        currentAttackPlace = FindDeepChild(transform, currentAttack.attackName).gameObject;
-    }
-
-    /// <summary>
-    /// Recursively searches for a child Transform by name.
-    /// </summary>
-    /// <param name="parent">Parent transform to search under.</param>
-    /// <param name="name">Name of the child transform to find.</param>
-    /// <returns>Found Transform or null if none found.</returns>
-    Transform FindDeepChild(Transform parent, string name)
-    {
-        foreach (Transform child in parent)
-        {
-            if (child.name == name)
-                return child;
-
-            Transform result = FindDeepChild(child, name);
-            if (result != null)
-                return result;
-        }
-        return null;
+        currentAttackPlace = attackPlace[index];
     }
     #endregion
 
@@ -219,6 +203,7 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
         if (attackCount <= 0)
         {
             currentAttack = goblinAttacks.Find(attack => attack.attackName == "attackHand");
+            attackPlacePick(0);
         }
     }
     #endregion
@@ -264,6 +249,7 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Starts the Goblin's attack animation.</summary>
     public void startAttackGoblin()
     {
+        ClearAudioSource();
         isAttacking = true;
         playAttackSound();
     }
@@ -273,6 +259,18 @@ public class GoblinAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         isHitting = false;
         isAttacking = false;
+    }
+
+    /// <summary>Clears the audio source.</summary>
+    private void ClearAudioSource()
+    {
+        if (audioSource == null)
+            return;
+
+        audioSource.Stop();
+        audioSource.clip = null;
+        audioSource.loop = false;
+        audioSource.playOnAwake = false;
     }
     #endregion
 

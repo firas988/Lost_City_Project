@@ -42,6 +42,13 @@ public class InputListener : MonoBehaviour
     private TextMeshProUGUI keyMovementTipText;
 
     /// <summary>
+    /// Text component for displaying attack key tips.
+    /// Shows the key used to toggle activate attack.
+    /// </summary>
+    [SerializeField]
+    private TextMeshProUGUI keyAttackTipText;
+
+    /// <summary>
     /// Text component for displaying pause key tip.
     /// Shows the key used to pause the game.
     /// </summary>
@@ -75,6 +82,11 @@ public class InputListener : MonoBehaviour
     /// Static reference to movement key tip text for global access.
     /// </summary>
     private static TextMeshProUGUI keyMovementTipTextStatic;
+
+    /// <summary>
+    /// Static reference to attack key tip text for global access.
+    /// </summary>
+    private static TextMeshProUGUI keyAttackTipTextStatic;
 
     /// <summary>
     /// Static reference to pause key tip text for global access.
@@ -385,6 +397,7 @@ public class InputListener : MonoBehaviour
 
         // Store static references to UI text components
         keyMovementTipTextStatic = keyMovementTipText;
+        keyAttackTipTextStatic = keyAttackTipText;
         keyPauseTipTextStatic = keyPauseTipText;
         keyMapTipTextStatic = keyMapTipText;
         keyInventoryTipTextStatic = keyInventoryTipText;
@@ -686,12 +699,18 @@ public class InputListener : MonoBehaviour
             string keyMovementTip =
                 keybindListStatic.Keybinds.Find(x => x.Key == "Forward").Keycode.ToString()
                 + ","
+                + keybindListStatic.Keybinds.Find(x => x.Key == "Left").Keycode.ToString()
+                + ","
                 + keybindListStatic.Keybinds.Find(x => x.Key == "Backward").Keycode.ToString()
                 + ","
-                + keybindListStatic.Keybinds.Find(x => x.Key == "Right").Keycode.ToString()
-                + ","
-                + keybindListStatic.Keybinds.Find(x => x.Key == "Left").Keycode.ToString();
+                + keybindListStatic.Keybinds.Find(x => x.Key == "Right").Keycode.ToString();
             keyMovementTipTextStatic.text = keyMovementTip;
+
+            // Update attack key tip
+            string keyAttackTip = keybindListStatic
+                .Keybinds.Find(x => x.Key == "ToggleActivateAttack")
+                .Keycode.ToString();
+            keyAttackTipTextStatic.text = keyAttackTip;
 
             // Update pause key tip
             string keyPauseTip = keybindListStatic
@@ -717,7 +736,7 @@ public class InputListener : MonoBehaviour
                 .Keycode.ToString();
             keySkillTreeTipTextStatic.text = keySkillTreeTip;
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
             // Silently handle any errors in key tip setup
         }

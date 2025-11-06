@@ -61,9 +61,11 @@ public class TempleMapPartChecker : MonoBehaviour
 
         // Check if the TempleFindMapPart quest has been completed
         if (questManager.checkingCompletedStoryQuest(typeof(TempleFindMapPart)))
-        {
-            // Quest completed - open both dungeon doors to grant access
-            dungeonDoor.GetComponent<DungeonDoorAnimateControl>().openBothDoors();
+        { // Quest completed - open both dungeon doors to grant access
+            if (!questManager.checkingCompletedStoryQuest(typeof(TimeToGetTheItem)))
+            {
+                dungeonDoor.GetComponent<DungeonDoorAnimateControl>().openBothDoors();
+            }
         }
     }
     #endregion

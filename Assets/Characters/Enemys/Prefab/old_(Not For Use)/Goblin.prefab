@@ -241,7 +241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 193048, guid: be3cbaf02f5437e4a8956b882b64ad92, type: 3}
       propertyPath: m_Name
-      value: goblin
+      value: Goblin
       objectReference: {fileID: 0}
     - target: {fileID: 193048, guid: be3cbaf02f5437e4a8956b882b64ad92, type: 3}
       propertyPath: m_Layer
@@ -417,6 +417,7 @@ MonoBehaviour:
   waitTimeRange: {x: 30, y: 50}
   navMeshAreaName: 
   isWandering: 1
+  isWaiting: 0
 --- !u!114 &4672174139277077613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,6 +447,8 @@ MonoBehaviour:
   isReturn: 0
   isChassing: 0
   isAttacking: 0
+  canMove: 1
+  inCooldown: 0
 --- !u!114 &1243324261416642965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -459,6 +462,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCount: 0
+  attackPlace:
+  - {fileID: 3560115520822425016}
 --- !u!114 &-3055100806216773765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,3 +477,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcPrefab: {fileID: 0}
+  killQuests: {fileID: 0}
+  findQuests: {fileID: 0}
+  storyQuest: {fileID: 0}

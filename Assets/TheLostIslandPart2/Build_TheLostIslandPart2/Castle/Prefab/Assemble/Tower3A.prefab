@@ -309,7 +309,7 @@ LODGroup:
   m_GameObject: {fileID: 2102306285560331745}
   serializedVersion: 2
   m_LocalReferencePoint: {x: 0.38858604, y: 0.106053114, z: 0.006632805}
-  m_Size: 2.428663
+  m_Size: 1
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
@@ -371,7 +371,7 @@ LODGroup:
   m_GameObject: {fileID: 2643431732204266792}
   serializedVersion: 2
   m_LocalReferencePoint: {x: 0.0010113716, y: 10.761878, z: 0.0010123253}
-  m_Size: 21.947042
+  m_Size: 1
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
@@ -735,7 +735,7 @@ LODGroup:
   m_GameObject: {fileID: 4519014510511853527}
   serializedVersion: 2
   m_LocalReferencePoint: {x: 0.38858604, y: 0.106053114, z: 0.006632805}
-  m_Size: 2.428663
+  m_Size: 1
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
@@ -793,7 +793,7 @@ LODGroup:
   m_GameObject: {fileID: 4738826182484385111}
   serializedVersion: 2
   m_LocalReferencePoint: {x: -0.04030037, y: 8.230037, z: 0.03578329}
-  m_Size: 16.614138
+  m_Size: 1
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
@@ -1051,7 +1051,7 @@ LODGroup:
   m_GameObject: {fileID: 6148480402269283389}
   serializedVersion: 2
   m_LocalReferencePoint: {x: 0.013061523, y: 1.1647778, z: -1.4313164}
-  m_Size: 4.3679028
+  m_Size: 1
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0

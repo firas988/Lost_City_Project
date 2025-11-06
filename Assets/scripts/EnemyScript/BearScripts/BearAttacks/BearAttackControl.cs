@@ -22,6 +22,10 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Flag indicating if the enemy is currently hitting.</summary>
     private bool isHitting = false;
+
+    /// <summary>List of attack places.</summary>
+    [SerializeField]
+    private List<GameObject> attackPlace;
     #endregion
 
     #region Attack Data
@@ -81,6 +85,7 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
 
         // Set initial attack to hand attack
         currentAttack = bearAttacks.Find(attack => attack.attackName == "attackHand");
+        attackPlacePick(0);
 
         // Find and store audio manager
         audioManager = GameObject
@@ -93,14 +98,12 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// </summary>
     void Update()
     {
-        // Update attack selection and origin point
-        attackPick();
-        attackPlacePick();
-
         // Check for hits and deal damage if needed
         if (hitCheck())
         {
             dealDamage();
+            // Update attack selection and origin point
+            attackPick();
         }
     }
     #endregion
@@ -119,32 +122,10 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>
     /// Finds and sets the GameObject representing the attack origin point by name.
     /// </summary>
-    private void attackPlacePick()
+    private void attackPlacePick(int index)
     {
         // Find the child object that represents the attack origin point
-        currentAttackPlace = FindDeepChild(transform, currentAttack.attackName).gameObject;
-    }
-
-    /// <summary>
-    /// Recursively searches for a child Transform by name.
-    /// </summary>
-    /// <param name="parent">Parent transform to search under.</param>
-    /// <param name="name">Name of the child transform to find.</param>
-    /// <returns>Found Transform or null if none found.</returns>
-    Transform FindDeepChild(Transform parent, string name)
-    {
-        // Search through all direct children
-        foreach (Transform child in parent)
-        {
-            if (child.name == name)
-                return child;
-
-            // Recursively search deeper in the hierarchy
-            Transform result = FindDeepChild(child, name);
-            if (result != null)
-                return result;
-        }
-        return null;
+        currentAttackPlace = attackPlace[index];
     }
     #endregion
 
@@ -232,16 +213,19 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
         {
             // First attack: hand attack
             currentAttack = bearAttacks.Find(attack => attack.attackName == "attackHand");
+            attackPlacePick(0);
         }
         else if (attackCount == 2)
         {
             // Second attack: bite attack
             currentAttack = bearAttacks.Find(attack => attack.attackName == "attackBite");
+            attackPlacePick(1);
         }
         else if (attackCount == 3)
         {
             // Third attack: jump attack
             currentAttack = bearAttacks.Find(attack => attack.attackName == "attackJump");
+            attackPlacePick(2);
         }
     }
     #endregion
@@ -276,6 +260,7 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Starts the Bear's attack animation.</summary>
     public void startAttackBear()
     {
+        ClearAudioSource();
         isAttacking = true;
         playAttackSound();
     }
@@ -292,6 +277,18 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         return isAttacking;
     }
+
+    /// <summary>Clears the audio source.</summary>
+    private void ClearAudioSource()
+    {
+        if (audioSource == null)
+            return;
+
+        audioSource.Stop();
+        audioSource.clip = null;
+        audioSource.loop = false;
+        audioSource.playOnAwake = false;
+    }
     #endregion
 
     #region Debug Visualization
@@ -300,21 +297,21 @@ public class BearAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// Draws Gizmos in the editor to visualize the attack radius.
     /// Red indicates a hit detected this frame, green otherwise.
     /// </summary>
-    // void OnDrawGizmos()
-    // {
-    //     if (currentAttackPlace == null || currentAttack == null)
-    //         return;
+    void OnDrawGizmos()
+    {
+        if (currentAttackPlace == null || currentAttack == null)
+            return;
 
-    //     if (hitCheck())
-    //     {
-    //         Gizmos.color = Color.red;
-    //     }
-    //     else
-    //     {
-    //         Gizmos.color = Color.green;
-    //     }
+        if (hitCheck())
+        {
+            Gizmos.color = Color.red;
+        }
+        else
+        {
+            Gizmos.color = Color.green;
+        }
 
-    //     Gizmos.DrawWireSphere(currentAttackPlace.transform.position, currentAttack.attackRadius);
-    // }
+        Gizmos.DrawWireSphere(currentAttackPlace.transform.position, currentAttack.attackRadius);
+    }
     #endregion
 }

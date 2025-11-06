@@ -350,22 +350,22 @@ public class EnemyMovement : MonoBehaviour
     /// <summary>
     /// Draws gizmos in the editor to visualize detection and chase ranges.
     /// </summary>
-    // void OnDrawGizmos()
-    // {
-    //     // Draw red sphere for detection range
-    //     Gizmos.color = Color.red;
-    //     Gizmos.DrawWireSphere(transform.position, activateChassingRange);
+    void OnDrawGizmos()
+    {
+        // Draw red sphere for detection range
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, activateChassingRange);
 
-    //     // Draw green sphere for chase range
-    //     Gizmos.color = Color.green;
-    //     Gizmos.DrawWireSphere(transform.position, chassingRange);
+        // Draw green sphere for chase range
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, chassingRange);
 
-    //     // Draw blue line to player if one is being tracked
-    //     if (playerTransform != null)
-    //     {
-    //         Gizmos.color = Color.blue;
-    //         Gizmos.DrawLine(transform.position, playerTransform.position);
-    //     }
-    // }
+        // Draw blue line to player if one is being tracked
+        if (playerTransform != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, playerTransform.position);
+        }
+    }
     #endregion
 }

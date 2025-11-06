@@ -214,7 +214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3490026887102114920, guid: e0a2ae8d8ae1c1f4b83e337da0b6f6b4, type: 3}
       propertyPath: m_Name
-      value: MonsterMutant Variant
+      value: MonsterMutant
       objectReference: {fileID: 0}
     - target: {fileID: 3490026887102114920, guid: e0a2ae8d8ae1c1f4b83e337da0b6f6b4, type: 3}
       propertyPath: m_Layer
@@ -908,6 +908,7 @@ MonoBehaviour:
   waitTimeRange: {x: 0, y: 0}
   navMeshAreaName: 
   isWandering: 1
+  isWaiting: 0
 --- !u!114 &8621461822682314182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -921,6 +922,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcPrefab: {fileID: 0}
+  killQuests: {fileID: 0}
+  findQuests: {fileID: 0}
+  storyQuest: {fileID: 0}
 --- !u!114 &3824327779388855976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -950,6 +954,8 @@ MonoBehaviour:
   isReturn: 0
   isChassing: 0
   isAttacking: 0
+  canMove: 1
+  inCooldown: 0
 --- !u!114 &7523678949945779543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -963,6 +969,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCount: 0
+  attackPlace:
+  - {fileID: 3570069408561405269}
+  - {fileID: 2798916746008832385}
 --- !u!54 &3548592832857595801
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1013,3 +1022,13 @@ CapsuleCollider:
   m_Height: 2.02
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!1 &2798916746008832385 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 167185795170730325, guid: e0a2ae8d8ae1c1f4b83e337da0b6f6b4, type: 3}
+  m_PrefabInstance: {fileID: 2631871759596071124}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3570069408561405269 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1516910832612652417, guid: e0a2ae8d8ae1c1f4b83e337da0b6f6b4, type: 3}
+  m_PrefabInstance: {fileID: 2631871759596071124}
+  m_PrefabAsset: {fileID: 0}

@@ -283,38 +283,38 @@ public class playerScript : MonoBehaviour
     /// Green = interactable found, Red = no interactables nearby.
     /// Helps with debugging interaction ranges and detection areas.
     /// </summary>
-    //     private void OnDrawGizmos()
-    //     {
-    //         if (detectionPoint == null)
-    //             return;
+    private void OnDrawGizmos()
+    {
+        if (detectionPoint == null)
+            return;
 
-    //         // Default to yellow for visualization
-    //         Gizmos.color = Color.yellow;
+        // Default to yellow for visualization
+        Gizmos.color = Color.yellow;
 
-    // #if UNITY_EDITOR
-    //         // Check if there's an interactable nearby to decide color
-    //         Collider[] colliders = Physics.OverlapSphere(
-    //             detectionPoint.position,
-    //             detectionRadius,
-    //             interactiveLayers
-    //         );
-    //         bool found = false;
-    //         foreach (var col in colliders)
-    //         {
-    //             if ((interactiveLayers.value & (1 << col.gameObject.layer)) != 0)
-    //             {
-    //                 found = true;
-    //                 break;
-    //             }
-    //         }
+#if UNITY_EDITOR
+        // Check if there's an interactable nearby to decide color
+        Collider[] colliders = Physics.OverlapSphere(
+            detectionPoint.position,
+            detectionRadius,
+            interactiveLayers
+        );
+        bool found = false;
+        foreach (var col in colliders)
+        {
+            if ((interactiveLayers.value & (1 << col.gameObject.layer)) != 0)
+            {
+                found = true;
+                break;
+            }
+        }
 
-    //         // Green = found, Red = not found
-    //         Gizmos.color = found ? Color.green : Color.red;
-    // #endif
+        // Green = found, Red = not found
+        Gizmos.color = found ? Color.green : Color.red;
+#endif
 
-    //         // Draw the detection sphere
-    //         Gizmos.DrawWireSphere(detectionPoint.position, detectionRadius);
-    //     }
+        // Draw the detection sphere
+        Gizmos.DrawWireSphere(detectionPoint.position, detectionRadius);
+    }
 
     #endregion
 }

@@ -180,7 +180,7 @@ public class FinalBossControl : MonoBehaviour
         }
 
         // Debug key for testing (set health to 0)
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             entity.setHealth(0);
         }
@@ -337,7 +337,6 @@ public class FinalBossControl : MonoBehaviour
     /// <param name="numberOfEnemiesToSpawn">Number of enemies to spawn.</param>
     private void spawnEnemy(int numberOfEnemiesToSpawn)
     {
-        Debug.Log("spawnEnemy" + numberOfEnemiesToSpawn);
         // Play summoning sound and animation
         audioManager.playEnemy(audioSource, "Summon_Enemy_Final_Boss");
         finalBoss_AnimationControl.startSummoningAnimation();

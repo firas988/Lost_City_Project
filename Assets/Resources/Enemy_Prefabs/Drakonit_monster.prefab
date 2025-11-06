@@ -2502,6 +2502,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCount: 0
+  attackPlace:
+  - {fileID: 7135349152801878673}
+  - {fileID: 8948760798296645861}
 --- !u!1 &4424723524529404276
 GameObject:
   m_ObjectHideFlags: 0

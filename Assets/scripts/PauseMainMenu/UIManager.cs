@@ -292,7 +292,7 @@ public class UIManager : MonoBehaviour
             }
 
             // Toggle menu visibility and start cooldown
-            StartCoroutine(activateCooldownInventoryOpen(1.5f));
+            StartCoroutine(activateCooldownInventoryOpen(0.2f));
             inventoryMenu.SetActive(!inventoryMenu.activeSelf);
         }
     }
@@ -327,7 +327,7 @@ public class UIManager : MonoBehaviour
             }
 
             // Toggle menu visibility and start cooldown
-            StartCoroutine(activateCooldownSkillTreeOpen(1.5f));
+            StartCoroutine(activateCooldownSkillTreeOpen(0.2f));
             skillTreeMenu.GetComponent<Canvas>().enabled = !skillTreeMenu
                 .GetComponent<Canvas>()
                 .enabled;
@@ -364,7 +364,7 @@ public class UIManager : MonoBehaviour
             }
 
             // Toggle menu visibility and start cooldown
-            StartCoroutine(activateCooldownFullMapOpen(1.5f));
+            StartCoroutine(activateCooldownFullMapOpen(0.2f));
             fullMapMenu.SetActive(!fullMapMenu.activeSelf);
         }
     }

@@ -264,13 +264,13 @@ public class Enemyspawner : MonoBehaviour
                 numberOfEnemiesToSpawn = Random.Range(1, 3);
                 break;
             case 1:
-                numberOfEnemiesToSpawn = Random.Range(3, 5);
+                numberOfEnemiesToSpawn = Random.Range(2, 4);
                 break;
             case 2:
-                numberOfEnemiesToSpawn = Random.Range(5, 7);
+                numberOfEnemiesToSpawn = Random.Range(4, 6);
                 break;
             case 3:
-                numberOfEnemiesToSpawn = Random.Range(7, 9);
+                numberOfEnemiesToSpawn = Random.Range(5, 7);
                 break;
         }
     }
@@ -495,6 +495,16 @@ public class Enemyspawner : MonoBehaviour
     public void setStopSpawn(bool stopSpawn)
     {
         this.stopSpawn = stopSpawn;
+    }
+
+    /// <summary>
+    /// Opens the chest and distributes rewards based on configured drop chances for testing.
+    /// This method is used for testing purposes only.
+    /// </summary>
+    // COMPLEXITY ANALYSIS: openChestForTesting() - O(1)
+    public void openChestForTesting()
+    {
+        chest.GetComponent<ObjectInteraction>().openChestProgressDone();
     }
     #endregion
 }

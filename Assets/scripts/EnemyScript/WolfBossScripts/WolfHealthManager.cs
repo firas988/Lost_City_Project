@@ -49,7 +49,7 @@ public class WolfHealthManager : MonoBehaviour
     void Update()
     {
         // Debug key for testing (set health to 0)
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             entity.setHealth(0);
         }
@@ -57,7 +57,6 @@ public class WolfHealthManager : MonoBehaviour
         if (bossBar == null)
         {
             bossBar = GameObject.FindAnyObjectByType<BossBarHandler>();
-            Debug.Log(bossBar);
             return;
         }
 
@@ -94,7 +93,6 @@ public class WolfHealthManager : MonoBehaviour
     /// <returns>IEnumerator for coroutine execution.</returns>
     public IEnumerator disAppearBossBar()
     {
-        Debug.Log("disAppearBossBar");
         // Start dissolve effect
         GetComponent<DissolvingController>().StartDissolve();
 
@@ -104,7 +102,6 @@ public class WolfHealthManager : MonoBehaviour
         // Notify enemy handler and destroy boss
         KillEnemyHandler.KilledEnemy(bossTag);
         bossBar.gameObject.SetActive(false);
-        Destroy(this.gameObject);
     }
     #endregion
 }

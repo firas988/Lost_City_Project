@@ -21,6 +21,10 @@ public class Draknit_MonsterAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Flag indicating if the enemy is currently hitting.</summary>
     private bool isHitting = false;
+
+    /// <summary>List of attack places.</summary>
+    [SerializeField]
+    private List<GameObject> attackPlace;
     #endregion
 
     #region Attack Data
@@ -80,6 +84,7 @@ public class Draknit_MonsterAttackControl : MonoBehaviour, EnemyAttackBehavior
 
         // Set initial attack to hand attack
         currentAttack = draknitAttacks.Find(attack => attack.attackName == "AttackHand");
+        attackPlacePick(0);
 
         // Find and store audio manager
         audioManager = GameObject
@@ -92,14 +97,12 @@ public class Draknit_MonsterAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// </summary>
     void Update()
     {
-        // Update attack selection and origin point
-        attackPick();
-        attackPlacePick();
-
         // Check for hits and deal damage if needed
         if (hitCheck())
         {
             dealDamage();
+            // Update attack selection and origin point
+            attackPick();
         }
     }
     #endregion
@@ -118,32 +121,10 @@ public class Draknit_MonsterAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>
     /// Finds and sets the GameObject representing the attack origin point by name.
     /// </summary>
-    private void attackPlacePick()
+    private void attackPlacePick(int index)
     {
         // Find the child object that represents the attack origin point
-        currentAttackPlace = FindDeepChild(transform, currentAttack.attackName).gameObject;
-    }
-
-    /// <summary>
-    /// Recursively searches for a child Transform by name.
-    /// </summary>
-    /// <param name="parent">Parent transform to search under.</param>
-    /// <param name="name">Name of the child transform to find.</param>
-    /// <returns>Found Transform or null if none found.</returns>
-    Transform FindDeepChild(Transform parent, string name)
-    {
-        // Search through all direct children
-        foreach (Transform child in parent)
-        {
-            if (child.name == name)
-                return child;
-
-            // Recursively search deeper in the hierarchy
-            Transform result = FindDeepChild(child, name);
-            if (result != null)
-                return result;
-        }
-        return null;
+        currentAttackPlace = attackPlace[index];
     }
     #endregion
 
@@ -229,11 +210,13 @@ public class Draknit_MonsterAttackControl : MonoBehaviour, EnemyAttackBehavior
         {
             // First two attacks: single hand attack
             currentAttack = draknitAttacks.Find(attack => attack.attackName == "AttackHand");
+            attackPlacePick(0);
         }
         else if (attackCount == 3)
         {
             // Third attack: double hand attack
             currentAttack = draknitAttacks.Find(attack => attack.attackName == "AttackDoubleHand");
+            attackPlacePick(1);
         }
     }
     #endregion
@@ -268,6 +251,7 @@ public class Draknit_MonsterAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Starts the Drakonit Monster's attack animation.</summary>
     public void startAttackDrakonitMonster()
     {
+        ClearAudioSource();
         isAttacking = true;
         playAttackSound();
     }
@@ -283,6 +267,18 @@ public class Draknit_MonsterAttackControl : MonoBehaviour, EnemyAttackBehavior
     public bool getIsAttacking()
     {
         return isAttacking;
+    }
+
+    /// <summary>Clears the audio source.</summary>
+    private void ClearAudioSource()
+    {
+        if (audioSource == null)
+            return;
+
+        audioSource.Stop();
+        audioSource.clip = null;
+        audioSource.loop = false;
+        audioSource.playOnAwake = false;
     }
     #endregion
 

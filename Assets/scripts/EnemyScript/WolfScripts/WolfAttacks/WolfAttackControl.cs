@@ -21,6 +21,10 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
 
     /// <summary>Flag indicating if the enemy is currently hitting.</summary>
     private bool isHitting = false;
+
+    /// <summary>List of attack places.</summary>
+    [SerializeField]
+    private List<GameObject> attackPlace;
     #endregion
 
     #region Attack Data
@@ -75,6 +79,7 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
             .GetComponentInChildren<EnemyAttackesConvert>();
         wolfAttacks = enemyAttackesConvert.getEnemyAttacks(gameObject.tag);
         currentAttack = wolfAttacks.Find(attack => attack.attackName == "attackBite");
+        attackPlacePick(0);
         audioManager = GameObject
             .FindGameObjectWithTag(gameManagerTag)
             .GetComponentInChildren<AudioManager>();
@@ -86,14 +91,12 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// </summary>
     void Update()
     {
-        // Select appropriate attack and find attack origin
-        attackPick();
-        attackPlacePick();
-
         // Check for hits and deal damage if needed
         if (hitCheck())
         {
             dealDamage();
+            // Select appropriate attack and find attack origin
+            attackPick();
         }
     }
     #endregion
@@ -112,29 +115,9 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>
     /// Finds the transform of the attack location based on the current attack's name.
     /// </summary>
-    private void attackPlacePick()
+    private void attackPlacePick(int index)
     {
-        currentAttackPlace = FindDeepChild(transform, currentAttack.attackName).gameObject;
-    }
-
-    /// <summary>
-    /// Recursively searches for a child transform by name.
-    /// </summary>
-    /// <param name="parent">The parent transform to search in.</param>
-    /// <param name="name">The name of the child to find.</param>
-    /// <returns>The matching child transform, or null if not found.</returns>
-    Transform FindDeepChild(Transform parent, string name)
-    {
-        foreach (Transform child in parent)
-        {
-            if (child.name == name)
-                return child;
-
-            Transform result = FindDeepChild(child, name);
-            if (result != null)
-                return result;
-        }
-        return null;
+        currentAttackPlace = attackPlace[index];
     }
     #endregion
 
@@ -213,6 +196,7 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
         if (attackCount <= 0)
         {
             currentAttack = wolfAttacks.Find(attack => attack.attackName == "attackBite");
+            attackPlacePick(0);
         }
     }
     #endregion
@@ -266,6 +250,7 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     /// <summary>Starts the Wolf's attack animation.</summary>
     public void startAttackWolf()
     {
+        ClearAudioSource();
         isAttacking = true;
         playAttackSound();
     }
@@ -275,6 +260,18 @@ public class WolfAttackControl : MonoBehaviour, EnemyAttackBehavior
     {
         isAttacking = false;
         isHitting = false;
+    }
+
+    /// <summary>Clears the audio source.</summary>
+    private void ClearAudioSource()
+    {
+        if (audioSource == null)
+            return;
+
+        audioSource.Stop();
+        audioSource.clip = null;
+        audioSource.loop = false;
+        audioSource.playOnAwake = false;
     }
     #endregion
 

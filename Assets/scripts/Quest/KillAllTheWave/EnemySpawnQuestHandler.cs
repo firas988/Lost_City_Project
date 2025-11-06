@@ -192,6 +192,14 @@ public class EnemySpawnQuestHandler : MonoBehaviour
                 enemySpawner.killAllEnemies();
             }
         }
+        // Debug key for testing - open chest for testing purposes
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            foreach (Enemyspawner enemySpawner in enemySpawners)
+            {
+                enemySpawner.openChestForTesting();
+            }
+        }
     }
     #endregion
 

@@ -66,6 +66,11 @@ public class DashToTarget : MonoBehaviour
     private Transform target;
 
     /// <summary>
+    /// GameObject of the target to dash towards
+    /// </summary>
+    private GameObject targetGameObject;
+
+    /// <summary>
     /// Tag of the target GameObject
     /// </summary>
     private string targetTag = "FinalBoss";
@@ -82,20 +87,29 @@ public class DashToTarget : MonoBehaviour
     void Start()
     {
         // Find the target GameObject by tag and store its transform
-        target = GameObject.FindGameObjectWithTag(targetTag).transform;
-    }
-
-    void Update()
-    {
-        // Check for E key press and ensure we're not already charging or dashing
-        if (Input.GetKeyDown(KeyCode.E) && !isCharging && !isDashing)
+        targetGameObject = GameObject.FindGameObjectWithTag(targetTag);
+        if (targetGameObject)
         {
-            StartCoroutine(ChargeAndDash());
+            target = targetGameObject.transform;
         }
     }
+
     #endregion
 
     #region Dash Behavior
+
+    public void startDash()
+    {
+        if (!isCharging && !isDashing && targetGameObject)
+        {
+            StartCoroutine(ChargeAndDash());
+        }
+        else if (!targetGameObject)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     /// <summary>
     /// Main coroutine that handles the charge and dash sequence
     /// </summary>

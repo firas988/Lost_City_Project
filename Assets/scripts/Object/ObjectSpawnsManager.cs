@@ -10,11 +10,13 @@ public class ObjectSpawnsManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        foreach (GameObject child in this.gameObject.transform)
+        objectsToSpawn = new List<GameObject>();
+        spawnCounts = new Dictionary<GameObject, int>();
+        foreach (Transform child in this.gameObject.transform)
         {
-            child.SetActive(false);
-            objectsToSpawn.Add(child);
-            spawnCounts.Add(child, 0);
+            child.gameObject.SetActive(false);
+            objectsToSpawn.Add(child.gameObject);
+            spawnCounts.Add(child.gameObject, 0);
         }
     }
 
@@ -42,7 +44,9 @@ public class ObjectSpawnsManager : MonoBehaviour
 
     public void DeSpawnOjbect(GameObject obj)
     {
-        obj.SetActive(spawnCounts[obj] > 0);
+        spawnCounts[obj] = spawnCounts[obj] - 1;
+        obj.SetActive(spawnCounts[obj] >= 0);
+        spawnCounts[obj] = Mathf.Max(0, spawnCounts[obj]);
     }
 
     public bool TryActivateObject(GameObject obj)

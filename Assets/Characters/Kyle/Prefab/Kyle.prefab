@@ -1270,7 +1270,7 @@ MonoBehaviour:
   interactiveLayers:
     serializedVersion: 2
     m_Bits: 1275068416
-  interactionUI: {fileID: 0}
+  interactionUI: {fileID: 982368390127708489}
 --- !u!114 &7182240874841409050
 MonoBehaviour:
   m_ObjectHideFlags: 0
