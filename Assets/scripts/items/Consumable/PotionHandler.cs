@@ -16,6 +16,11 @@ public class PotionHandler : MonoBehaviour
     private string gameManagerTag = "GameManager";
 
     /// <summary>
+    /// Reference to the audio manager for playing potion sound effects.
+    /// </summary>
+    private AudioManager audioManager;
+
+    /// <summary>
     /// Reference to the buff/debuff handler for applying potion effects.
     /// </summary>
     private BuffAndDebuffHandler buffAndDebuffHandler;
@@ -87,6 +92,11 @@ public class PotionHandler : MonoBehaviour
             .FindGameObjectWithTag(gameManagerTag)
             .transform.parent.GetComponentInChildren<PotionUIHandler>();
 
+        // Find AudioManager in GameManager's children
+        audioManager = GameObject
+            .FindGameObjectWithTag(gameManagerTag)
+            .GetComponentInChildren<AudioManager>();
+
         // Get PlayerController from this GameObject
         playerController = GetComponent<PlayerController>();
     }
@@ -130,23 +140,27 @@ public class PotionHandler : MonoBehaviour
                 StartHealthRegen(potion);
                 potionUIHandler.StartHealthRegen(potion.EffectDuration);
                 particleHealthRegeneration.Play();
+                audioManager.playSFX(this.gameObject.GetComponent<AudioSource>(), "potion");
                 break;
 
             case ConsumableType.StrengthPotion:
                 IncreaseStrength(potion);
                 potionUIHandler.StartStrengthRegen(potion.EffectDuration);
                 particleStrengthRegeneration.Play();
+                audioManager.playSFX(this.gameObject.GetComponent<AudioSource>(), "potion");
                 break;
 
             case ConsumableType.SpeedPotion:
                 IncreaseSpeed(potion);
                 potionUIHandler.StartSpeedRegen(potion.EffectDuration);
                 particleSpeedRegeneration.Play();
+                audioManager.playSFX(this.gameObject.GetComponent<AudioSource>(), "potion");
                 break;
 
             case ConsumableType.HealthInstantPotion:
                 InstantHeal(potion);
                 particleHealthInstant.Play();
+                audioManager.playSFX(this.gameObject.GetComponent<AudioSource>(), "potion");
                 break;
         }
 

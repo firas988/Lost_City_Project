@@ -23,6 +23,12 @@ public class SaveHandler : MonoBehaviour
     private StatisticsHandler statisticsHandler;
 
     /// <summary>
+    /// Reference to NotificationManager for saving/loading notification data.
+    /// Manages notification persistence.
+    /// </summary>
+    private NotificationsManager notificationsManager;
+
+    /// <summary>
     /// Reference to StartPlayer for saving/loading player position and state.
     /// Manages player transform and cutscene completion persistence.
     /// </summary>
@@ -74,6 +80,7 @@ public class SaveHandler : MonoBehaviour
     {
         // Find GameManager and Player GameObjects
         GameObject gameManager = GameObject.FindGameObjectWithTag(gameManagerTag);
+        notificationsManager = gameManager.GetComponentInChildren<NotificationsManager>();
         GameObject player = GameObject.FindGameObjectWithTag(playerTag);
 
         // Get references to all manager components from GameManager
@@ -108,8 +115,11 @@ public class SaveHandler : MonoBehaviour
         SaveSystem.SaveQuest(questManager);
         SaveSystem.SaveSkills(skillTreeManager);
         SaveSystem.SaveLevel(levelManager);
-    }
 
+        // Save notification data
+        notificationsManager.queueTopLeftNotification("Game Saved Successfully!", "notification");
+    }
+ 
     /// <summary>
     /// Loads all game data from persistent storage.
     /// Restores the state of all game systems to their saved values.

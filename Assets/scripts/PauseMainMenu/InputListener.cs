@@ -659,7 +659,9 @@ public class InputListener : MonoBehaviour
         foreach (Keybind keybind in keybindListDefault.Keybinds)
         {
             keybinds[keybind.Key] = keybind.Keycode;
+            updateKeybinds(keybind.Key, keybind.Keycode);
         }
+        setKeyCanvas();
         setKeyTips(); // Update the UI to reflect changes
     }
 
@@ -679,8 +681,9 @@ public class InputListener : MonoBehaviour
                     .Keybinds.Find(x => x.Key == keyCanvas.name)
                     .Keycode.ToString();
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
+                Debug.LogError("Error setting key canvas: " + e.Message);
                 // Silently handle any errors in key canvas setup
             }
         }
