@@ -50,11 +50,11 @@ public class UIMenuManager : MonoBehaviour
 
     [Tooltip("The UI Panel that holds the CONTROLS window tab")]
     [SerializeField]
-    private GameObject PanelControls;
+    private GameObject PanelGameDisplay;
 
     [Tooltip("The UI Panel that holds the GAME window tab")]
     [SerializeField]
-    private GameObject PanelGame;
+    private GameObject PanelGameAudio;
 
     [Tooltip("The UI Panel that holds the KEY BINDINGS window tab")]
     [SerializeField]
@@ -76,7 +76,7 @@ public class UIMenuManager : MonoBehaviour
     [Header("SETTINGS SCREEN")]
     [Tooltip("Highlight Image for when GAME Tab is selected in Settings")]
     [SerializeField]
-    private GameObject lineGame;
+    private GameObject lineGameDisplay;
 
     [Tooltip("Highlight Image for when VIDEO Tab is selected in Settings")]
     [SerializeField]
@@ -84,7 +84,7 @@ public class UIMenuManager : MonoBehaviour
 
     [Tooltip("Highlight Image for when CONTROLS Tab is selected in Settings")]
     [SerializeField]
-    private GameObject lineControls;
+    private GameObject lineGameAudio;
 
     [Tooltip("Highlight Image for when KEY BINDINGS Tab is selected in Settings")]
     [SerializeField]
@@ -274,12 +274,12 @@ public class UIMenuManager : MonoBehaviour
 
     public void DisablePanels()
     {
-        PanelControls.SetActive(false);
-        PanelGame.SetActive(false);
+        PanelGameDisplay.SetActive(false);
+        PanelGameAudio.SetActive(false);
         PanelKeyBindings.SetActive(false);
 
-        lineGame.SetActive(false);
-        lineControls.SetActive(false);
+        lineGameDisplay.SetActive(false);
+        lineGameAudio.SetActive(false);
         lineVideo.SetActive(false);
         lineKeyBindings.SetActive(false);
 
@@ -294,8 +294,8 @@ public class UIMenuManager : MonoBehaviour
     public void GamePanel()
     {
         DisablePanels();
-        PanelGame.SetActive(true);
-        lineGame.SetActive(true);
+        PanelGameAudio.SetActive(true);
+        lineGameAudio.SetActive(true);
     }
 
     public void VideoPanel()
@@ -307,8 +307,8 @@ public class UIMenuManager : MonoBehaviour
     public void ControlsPanel()
     {
         DisablePanels();
-        PanelControls.SetActive(true);
-        lineControls.SetActive(true);
+        PanelGameDisplay.SetActive(true);
+        lineGameDisplay.SetActive(true);
     }
 
     public void KeyBindingsPanel()

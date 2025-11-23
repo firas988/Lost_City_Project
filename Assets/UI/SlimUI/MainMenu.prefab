@@ -13924,15 +13924,15 @@ MonoBehaviour:
   theme: 0
   themeController: {fileID: 11400000, guid: e00c7d2bc58a2424b8dc09ecdafdb067, type: 2}
   mainCanvas: {fileID: 1958837924348576954}
-  PanelControls: {fileID: 219218128165880145}
-  PanelGame: {fileID: 7719346472086209516}
+  PanelGameDisplay: {fileID: 0}
+  PanelGameAudio: {fileID: 0}
   PanelKeyBindings: {fileID: 761645866848132361}
   PanelMovement: {fileID: 3261197178257051161}
   PanelCombat: {fileID: 3336890166873342734}
   PanelGeneral: {fileID: 4008877208383509133}
-  lineGame: {fileID: 4119371342995197623}
+  lineGameDisplay: {fileID: 0}
   lineVideo: {fileID: 6565135159324105586}
-  lineControls: {fileID: 2598682184019936696}
+  lineGameAudio: {fileID: 0}
   lineKeyBindings: {fileID: 8661209124647589288}
   lineMovement: {fileID: 4126364118867444957}
   lineCombat: {fileID: 2210872660007394906}

@@ -300,6 +300,7 @@ public class WorldCreationManager : MonoBehaviour
     {
         // Save the world path for future reference
         PlayerPrefs.SetString("worldPath", worldPath);
+        PlayerPrefs.Save();
 
         // Try to load existing player data
         PlayerData playerData = SaveSystem.LoadPlayer();
