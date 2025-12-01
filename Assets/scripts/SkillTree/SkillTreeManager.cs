@@ -112,6 +112,11 @@ public class SkillTreeManager : MonoBehaviour
     private int prevLevel;
 
     /// <summary>
+    /// toolTip UI that will display info about each skill hovered over
+    /// </summary>
+    private TooltipUI toolTipScript;
+
+    /// <summary>
     /// Audio source component for playing skill-related sound effects.
     /// Provides audio feedback for skill upgrades and interactions.
     /// </summary>
@@ -155,6 +160,8 @@ public class SkillTreeManager : MonoBehaviour
         playerObject = GameObject.FindWithTag("Player");
         startPlayer = playerObject.GetComponent<StartPlayer>();
 
+        //get tooltipUI script
+        toolTipScript =this.gameObject.GetComponent<TooltipUI>();
         // Initialize the skill tree system
         Init(levelSystem);
     }
@@ -302,6 +309,17 @@ public class SkillTreeManager : MonoBehaviour
     }
     #endregion
 
+    #region UI Methods
+
+    public void ShowSkillToolTip(Skill skill, Vector2 position)
+    {
+        toolTipScript.ShowToolTip(skill, position);
+    }
+    public void HideSkillToolTip()
+    {
+        toolTipScript.HideTooltip();
+    }
+    #endregion
     #region Save/Load Methods
     /// <summary>
     /// Loads skill data from saved game data and applies it to the current session.
@@ -344,5 +362,6 @@ public class SkillTreeManager : MonoBehaviour
             skillAmountLimit
         );
     }
+
     #endregion
 }

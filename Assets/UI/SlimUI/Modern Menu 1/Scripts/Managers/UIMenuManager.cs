@@ -28,6 +28,9 @@ public class UIMenuManager : MonoBehaviour
     [SerializeField]
     private GameObject exitMenu;
 
+    [SerializeField]
+    private GameObject confirmationPrompt;
+
     public enum Theme
     {
         custom1,
@@ -136,6 +139,12 @@ public class UIMenuManager : MonoBehaviour
 
     private AudioManager audioManager;
 
+    [Tooltip("The Input Listener component")]
+    private InputListener inputListener;
+
+    [Tooltip("The Confirmation Prompt component")]
+    private ConfirmationPrompt confirmationPromptComponent;
+
     private void Awake()
     {
         Time.timeScale = 1;
@@ -144,9 +153,20 @@ public class UIMenuManager : MonoBehaviour
     void Start()
     {
         audioManager = GameObject.FindWithTag("GameManager").GetComponentInChildren<AudioManager>();
+
+        inputListener = GameObject
+            .FindWithTag("GameManager")
+            .GetComponentInChildren<InputListener>();
+
+        if(confirmationPrompt != null ) 
+        confirmationPromptComponent =
+            confirmationPrompt.GetComponentInChildren<ConfirmationPrompt>();
+
         audioManager.playMusic(GetComponent<AudioSource>(), "music", true);
 
         CameraObject = transform.GetComponent<Animator>();
+
+        Debug.Log(CameraObject);
 
         playMenu?.SetActive(false);
         exitMenu?.SetActive(false);
@@ -363,6 +383,35 @@ public class UIMenuManager : MonoBehaviour
     {
         exitMenu.SetActive(true);
         DisablePlayCampaign();
+    }
+
+    public void askResetKeyBindings()
+    {
+        confirmationPrompt.SetActive(true);
+
+        confirmationPromptComponent =
+            confirmationPrompt.GetComponentInChildren<ConfirmationPrompt>();
+
+        confirmationPromptComponent.setConfirmationPromptText(
+            "Are you sure you want to reset the key bindings? This action cannot be undone."
+        );
+
+        confirmationPromptComponent.subscribeToConfirmationPrompt(() =>
+        {
+            resetAllKeybinds();
+        });
+
+        confirmationPromptComponent.setConfirmationPromptNo(() =>
+        {
+            confirmationPrompt.SetActive(false);
+
+            return;
+        });
+    }
+
+    public void resetAllKeybinds()
+    {
+        inputListener.resetAllKeybinds();
     }
 
     public void QuitGame()

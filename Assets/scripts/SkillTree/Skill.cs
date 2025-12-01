@@ -9,7 +9,7 @@ public enum SkillType
     /// <summary>
     /// Skills that increase player damage output and physical strength.
     /// </summary>
-    Strength,
+    Strength ,
 
     /// <summary>
     /// Skills that increase player movement speed and agility.
@@ -68,6 +68,12 @@ public class Skill : ScriptableObject
     #endregion
 
     #region Properties
+
+
+    public string SkillName
+    {
+        get { return skillName; }
+    }
     /// <summary>
     /// Gets the type/category of this skill.
     /// </summary>

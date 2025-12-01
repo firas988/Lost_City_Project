@@ -10,16 +10,25 @@ public class TooltipUI : MonoBehaviour
 {
     #region UI Components
     /// <summary>The main tooltip panel that contains all tooltip information.</summary>
-    public GameObject tooltipPanel;
+    [SerializeField]
+    private GameObject tooltipPanel;
 
     /// <summary>Text component displaying the item name and description.</summary>
-    public TextMeshProUGUI itemNameText;
+    [SerializeField]
+    private TextMeshProUGUI itemNameText;
 
     /// <summary>Text component displaying the item description.</summary>
-    public TextMeshProUGUI descriptionText;
+    /// 
+    [SerializeField]
+    private TextMeshProUGUI descriptionText;
+
+    /// <summary>
+    /// Text component displaying the items price
+    /// </summary>
+    [SerializeField] private TextMeshProUGUI price;
 
     /// <summary>Text component displaying the maximum stack size information.</summary>
-    public TextMeshProUGUI countText;
+    [SerializeField] private TextMeshProUGUI countText;
     #endregion
 
     #region Tooltip Display
@@ -37,7 +46,26 @@ public class TooltipUI : MonoBehaviour
 
         // Set tooltip content
         itemNameText.text = item.getItemName() + "\n" + item.getDescription();
+   
         countText.text = "Max Stack: " + item.getMaxStack().ToString();
+        // Get tooltip panel dimensions for positioning calculations
+        RectTransform tooltipRect = tooltipPanel.GetComponent<RectTransform>();
+        Vector2 panelSize = tooltipRect.sizeDelta * tooltipPanel.transform.lossyScale;
+
+        // Start with the desired position
+        Vector2 adjustedPosition = position;
+        // Change the position of the tooltip
+        changePosition(adjustedPosition, panelSize, position);
+    }
+
+    public void ShowToolTip(Skill skill, Vector2 position)
+    {
+        //Activate the toolTip panel
+        tooltipPanel.SetActive(true);
+        
+        itemNameText.text =skill.SkillName;
+        price.text = "Price: " + skill.Cost;
+        descriptionText.text = "Gives " + skill.Bonus + " " + skill.SkillType;
 
         // Get tooltip panel dimensions for positioning calculations
         RectTransform tooltipRect = tooltipPanel.GetComponent<RectTransform>();
@@ -47,6 +75,8 @@ public class TooltipUI : MonoBehaviour
         Vector2 adjustedPosition = position;
         // Change the position of the tooltip
         changePosition(adjustedPosition, panelSize, position);
+
+
     }
 
     /// <summary>

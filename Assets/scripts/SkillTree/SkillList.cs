@@ -128,6 +128,12 @@ public class SkillList : ScriptableObject
     {
         get { return this.skills[currentLevel].Bonus; }
     }
+
+
+    /// <summary>
+    /// Gets the refernece to the List of skills
+    /// </summary>
+    public List<Skill> Skills { get { return skills; } }
     #endregion
 
     #region Public API Methods

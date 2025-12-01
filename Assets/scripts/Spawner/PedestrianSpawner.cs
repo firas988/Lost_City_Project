@@ -91,7 +91,7 @@ public class PedestrianSpawner : MonoBehaviour
             GameObject spawnPoint = spawnPoints[getRandomNumber(0, spawnPoints.Length)];
             NavMeshHit hit;
             GameObject pedestrian = Instantiate(
-                prefab[getRandomNumber(0, prefab.Length)],
+                prefab[getRandomNumber(0, prefab.Length - 1)],
                 spawnPoint.transform.position,
                 Quaternion.identity
             );

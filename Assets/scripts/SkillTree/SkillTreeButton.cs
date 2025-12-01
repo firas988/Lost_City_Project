@@ -1,5 +1,7 @@
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
@@ -7,7 +9,7 @@ using UnityEngine.UI;
 /// Manages skill purchase, color state, and button interaction.
 /// Provides visual feedback and interaction handling for individual skill upgrades.
 /// </summary>
-public class SkillTreeButton : MonoBehaviour
+public class SkillTreeButton : MonoBehaviour , IPointerEnterHandler, IPointerExitHandler
 {
     #region Serialized Fields
     [Header("UI Components")]
@@ -258,4 +260,35 @@ public class SkillTreeButton : MonoBehaviour
         SetColors();
     }
     #endregion
+
+
+    #region Button Events 
+    /// <summary>
+    /// Shows the item tooltip when the pointer enters the slot area.
+    /// Displays item information for non-empty slots with valid items.
+    /// </summary>
+    /// <param name="eventData">Pointer event data from Unity's event system.</param>
+    // COMPLEXITY ANALYSIS: OnPointerEnter() - O(1)
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        // Show tooltip only if slot contains an item
+        
+            Vector2 mousePos = Input.mousePosition;
+
+        skillTreeManager.ShowSkillToolTip(skillList.Skills[skillList.getSkillTreeButtons().IndexOf(this.gameObject.GetComponent<Button>())],mousePos);
+    }
+
+    /// <summary>
+    /// Hides the item tooltip when the pointer exits the slot area.
+    /// Ensures tooltip is hidden when not hovering over the slot.
+    /// </summary>
+    /// <param name="eventData">Pointer event data from Unity's event system.</param>
+    // COMPLEXITY ANALYSIS: OnPointerExit() - O(1)
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        skillTreeManager.HideSkillToolTip();
+    }
+
+    #endregion
+
 }
