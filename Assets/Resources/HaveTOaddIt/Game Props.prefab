@@ -41694,6 +41694,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TooltipPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 5740578052803354914, guid: 282369f6169fbce449be55b8c1694dfb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6870765361955212915, guid: 282369f6169fbce449be55b8c1694dfb, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -41724,7 +41728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6870765361955212915, guid: 282369f6169fbce449be55b8c1694dfb, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 65.92
       objectReference: {fileID: 0}
     - target: {fileID: 6870765361955212915, guid: 282369f6169fbce449be55b8c1694dfb, type: 3}
       propertyPath: m_LocalPosition.x

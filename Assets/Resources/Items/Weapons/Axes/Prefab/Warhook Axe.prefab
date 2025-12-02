@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7547733533687475418}
   - component: {fileID: 5632152248291332162}
   m_Layer: 0
-  m_Name: Shepherds Axe
+  m_Name: Warhook Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

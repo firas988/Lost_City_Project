@@ -8,6 +8,11 @@ using UnityEngine;
 /// </summary>
 public class TooltipUI : MonoBehaviour
 {
+    /// <summary>
+    /// The offset distance from the mouse position to the tooltip.
+    /// </summary>
+    private float offsetX = 200f;
+
     #region UI Components
     /// <summary>The main tooltip panel that contains all tooltip information.</summary>
     [SerializeField]
@@ -18,17 +23,19 @@ public class TooltipUI : MonoBehaviour
     private TextMeshProUGUI itemNameText;
 
     /// <summary>Text component displaying the item description.</summary>
-    /// 
+    ///
     [SerializeField]
     private TextMeshProUGUI descriptionText;
 
     /// <summary>
     /// Text component displaying the items price
     /// </summary>
-    [SerializeField] private TextMeshProUGUI price;
+    [SerializeField]
+    private TextMeshProUGUI price;
 
     /// <summary>Text component displaying the maximum stack size information.</summary>
-    [SerializeField] private TextMeshProUGUI countText;
+    [SerializeField]
+    private TextMeshProUGUI countText;
     #endregion
 
     #region Tooltip Display
@@ -46,7 +53,7 @@ public class TooltipUI : MonoBehaviour
 
         // Set tooltip content
         itemNameText.text = item.getItemName() + "\n" + item.getDescription();
-   
+
         countText.text = "Max Stack: " + item.getMaxStack().ToString();
         // Get tooltip panel dimensions for positioning calculations
         RectTransform tooltipRect = tooltipPanel.GetComponent<RectTransform>();
@@ -62,8 +69,8 @@ public class TooltipUI : MonoBehaviour
     {
         //Activate the toolTip panel
         tooltipPanel.SetActive(true);
-        
-        itemNameText.text =skill.SkillName;
+
+        itemNameText.text = skill.SkillName;
         price.text = "Price: " + skill.Cost;
         descriptionText.text = "Gives " + skill.Bonus + " " + skill.SkillType;
 
@@ -75,8 +82,6 @@ public class TooltipUI : MonoBehaviour
         Vector2 adjustedPosition = position;
         // Change the position of the tooltip
         changePosition(adjustedPosition, panelSize, position);
-
-
     }
 
     /// <summary>
@@ -89,8 +94,7 @@ public class TooltipUI : MonoBehaviour
     private void changePosition(Vector2 adjustedPosition, Vector2 panelSize, Vector2 position)
     {
         // Adjust horizontal position to prevent tooltip from going off-screen right
-        adjustedPosition.x -= panelSize.x - 25f;
-
+        adjustedPosition.x = Mathf.Abs(adjustedPosition.x) - offsetX;
         // If adjusted position goes off-screen left, revert to original position
         if (adjustedPosition.x < 0)
         {

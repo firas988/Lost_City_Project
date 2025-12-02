@@ -84,7 +84,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     void Start()
     {
         // Find tooltip component for item information display
-        tooltip = FindAnyObjectByType<TooltipUI>();
+        tooltip = transform.parent.parent.GetComponentInChildren<TooltipUI>();
     }
     #endregion
 

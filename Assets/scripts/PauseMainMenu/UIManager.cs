@@ -392,6 +392,7 @@ public class UIManager : MonoBehaviour
             else
             {
                 // Pausing game - set pause state
+                hideAllMenus();
                 menuIsOpen = true;
                 mainCamera.enabled = false;
                 pauseMenu.SetActive(true);
