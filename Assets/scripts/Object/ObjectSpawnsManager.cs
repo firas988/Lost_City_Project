@@ -8,7 +8,7 @@ public class ObjectSpawnsManager : MonoBehaviour
     private Dictionary<GameObject, int> spawnCounts;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         objectsToSpawn = new List<GameObject>();
         spawnCounts = new Dictionary<GameObject, int>();
@@ -23,6 +23,7 @@ public class ObjectSpawnsManager : MonoBehaviour
     public void SpawnAccordingToQuest(Quest quest)
     {
         List<GameObject> spawns = new List<GameObject>();
+        Debug.Log(objectsToSpawn);
         foreach (GameObject child in objectsToSpawn)
         {
             if (quest.QuestTarget.Contains(child.tag))

@@ -102,6 +102,12 @@ public class UIManager : MonoBehaviour
     /// </summary>
     private InputListener inputListener;
 
+    /// <summary>
+    /// Refernece to the skill tree canvas
+    /// helps maintain script activity of skilltree and controlling its
+    /// display.
+    /// </summary>
+    private Canvas skillTreeCanvas;
     [Header("System Tags")]
     /// <summary>
     /// Tag used to find the GameManager GameObject in the scene.
@@ -152,13 +158,13 @@ public class UIManager : MonoBehaviour
         inputListener = GameObject
             .FindGameObjectWithTag(GameManagerTag)
             .GetComponentInChildren<InputListener>();
-
+        skillTreeCanvas = skillTreeMenu.GetComponent<Canvas>();
         // Initialize black screen to be invisible
         blackScreen.SetActive(false);
         blackScreen.GetComponent<RawImage>().color = new Color(0, 0, 0, 0);
 
         // Initialize all menus to be hidden
-        skillTreeMenu.GetComponent<Canvas>().enabled = false;
+        skillTreeCanvas.enabled = false;
         inventoryMenu.SetActive(false);
         fullMapMenu.SetActive(false);
         bossHealthBar.SetActive(false);
@@ -181,19 +187,19 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         // Check for inventory menu input
-        if (inputListener.isPressingInventory() && !menuIsOpen)
+        if (inputListener.isPressingInventory() && (inventoryMenu.activeSelf || !menuIsOpen))
         {
             toggleInventory();
         }
 
         // Check for skill tree menu input
-        if (inputListener.isPressingSkillTree() && !menuIsOpen)
+        if (inputListener.isPressingSkillTree() && ( skillTreeCanvas.enabled || !menuIsOpen))
         {
             toggleSkillTreeMenu();
         }
 
         // Check for full map menu input
-        if (inputListener.isPressingFullMap() && !menuIsOpen)
+        if (inputListener.isPressingFullMap() && (fullMapMenu.activeSelf || !menuIsOpen))
         {
             toggleFullMapMenu();
         }
@@ -270,7 +276,7 @@ public class UIManager : MonoBehaviour
 
             // Close other menus first
             fullMapMenu.SetActive(false);
-            skillTreeMenu.GetComponent<Canvas>().enabled = false;
+            skillTreeCanvas.enabled = false;
 
             if (inventoryMenu.activeSelf)
             {
@@ -278,6 +284,7 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(FadeOutBlackScreen(0f));
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                menuIsOpen = false;
                 characterPrevController.hideCharacterPreview();
                 playerController.startCameraRotation();
             }
@@ -287,6 +294,7 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(FadeInBlackScreen(0.5f));
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                menuIsOpen = true;
                 characterPrevController.showCharacterPreview();
                 playerController.stopCameraRotation();
             }
@@ -308,14 +316,18 @@ public class UIManager : MonoBehaviour
             // Close other menus first
             fullMapMenu.SetActive(false);
             inventoryMenu.SetActive(false);
+            
 
-            if (skillTreeMenu.GetComponent<Canvas>().enabled)
+            if (skillTreeCanvas.enabled)
             {
                 // Closing skill tree - restore game state
                 StartCoroutine(FadeOutBlackScreen(0f));
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                menuIsOpen = false;
                 playerController.startCameraRotation();
+                
+
             }
             else
             {
@@ -323,14 +335,17 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(FadeInBlackScreen(0.5f));
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                menuIsOpen = true;
                 playerController.stopCameraRotation();
+
             }
 
             // Toggle menu visibility and start cooldown
             StartCoroutine(activateCooldownSkillTreeOpen(0.2f));
-            skillTreeMenu.GetComponent<Canvas>().enabled = !skillTreeMenu
-                .GetComponent<Canvas>()
-                .enabled;
+          
+                skillTreeCanvas.enabled = !skillTreeCanvas.enabled;
+
+
         }
     }
 
@@ -344,7 +359,7 @@ public class UIManager : MonoBehaviour
         {
             // Close other menus first
             inventoryMenu.SetActive(false);
-            skillTreeMenu.GetComponent<Canvas>().enabled = false;
+            skillTreeCanvas.enabled = false;
 
             if (fullMapMenu.activeSelf)
             {
@@ -352,6 +367,7 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(FadeOutBlackScreen(0f));
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                menuIsOpen = false;
                 playerController.startCameraRotation();
             }
             else
@@ -360,6 +376,7 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(FadeInBlackScreen(0.5f));
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                menuIsOpen = true;
                 playerController.stopCameraRotation();
             }
 
@@ -482,7 +499,7 @@ public class UIManager : MonoBehaviour
     {
         // Hide all menu elements
         fullMapMenu.SetActive(false);
-        skillTreeMenu.GetComponent<Canvas>().enabled = false;
+        skillTreeCanvas.enabled = false;
         inventoryMenu.SetActive(false);
         blackScreen.SetActive(false);
         playerUI.SetActive(false);
