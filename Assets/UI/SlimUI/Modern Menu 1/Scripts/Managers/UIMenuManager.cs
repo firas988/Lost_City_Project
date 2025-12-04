@@ -158,15 +158,13 @@ public class UIMenuManager : MonoBehaviour
             .FindWithTag("GameManager")
             .GetComponentInChildren<InputListener>();
 
-        if(confirmationPrompt != null ) 
-        confirmationPromptComponent =
-            confirmationPrompt.GetComponentInChildren<ConfirmationPrompt>();
+        if (confirmationPrompt != null)
+            confirmationPromptComponent =
+                confirmationPrompt.GetComponentInChildren<ConfirmationPrompt>();
 
         audioManager.playMusic(GetComponent<AudioSource>(), "music", true);
 
         CameraObject = transform.GetComponent<Animator>();
-
-        Debug.Log(CameraObject);
 
         playMenu?.SetActive(false);
         exitMenu?.SetActive(false);

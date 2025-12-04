@@ -61,12 +61,11 @@ public class PedestrianSpawner : MonoBehaviour
         prefab = Resources.LoadAll<GameObject>(prefabPath);
         foreach (GameObject p in prefab)
         {
-            if (p.CompareTag("Robert")) {
+            if (p.CompareTag("Robert"))
+            {
                 robert = p;
                 break;
             }
-                
-
         }
     }
 
@@ -104,16 +103,14 @@ public class PedestrianSpawner : MonoBehaviour
             // Select random spawn point and pedestrian prefab
             GameObject spawnPoint = spawnPoints[getRandomNumber(0, spawnPoints.Length)];
             NavMeshHit hit;
-            GameObject pedestrian =robertCount<1 ? Instantiate(
-                robert,
-                spawnPoint.transform.position,
-                Quaternion.identity)
-                : 
-                Instantiate(
-                prefab[getRandomNumber(0, prefab.Length - 1)],
-                spawnPoint.transform.position,
-                Quaternion.identity
-            );
+            GameObject pedestrian =
+                robert != null && robertCount < 1
+                    ? Instantiate(robert, spawnPoint.transform.position, Quaternion.identity)
+                    : Instantiate(
+                        prefab[getRandomNumber(0, prefab.Length - 1)],
+                        spawnPoint.transform.position,
+                        Quaternion.identity
+                    );
 
             // Validate spawn position on NavMesh and adjust if necessary
             if (
@@ -153,7 +150,6 @@ public class PedestrianSpawner : MonoBehaviour
         yield return new WaitForSeconds(1.0f); // Wait 1 second between spawns
         waitForSpawn = false;
     }
-
 
     #endregion
 

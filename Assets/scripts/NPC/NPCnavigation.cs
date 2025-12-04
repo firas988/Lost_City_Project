@@ -215,22 +215,37 @@ public class NPCnavigation : MonoBehaviour
     // COMPLEXITY ANALYSIS: TrySetRandomDestination() - O(1)
     public bool TrySetRandomDestination(out float newWalkTime)
     {
-        for (int attempt = 0; attempt < 10; attempt++)
+        try
         {
-            Vector3 randomDirection = Random.insideUnitSphere * walkRadius + transform.position;
-
-            if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, walkRadius, areaMask))
+            for (int attempt = 0; attempt < 10; attempt++)
             {
-                float distance = Vector3.Distance(transform.position, hit.position);
-                newWalkTime = distance / agent.speed;
-                agent.SetDestination(hit.position);
-                // Draw navigation line to destination
-                return true;
-            }
-        }
+                Vector3 randomDirection = Random.insideUnitSphere * walkRadius + transform.position;
 
-        newWalkTime = 0f;
-        return false;
+                if (
+                    NavMesh.SamplePosition(
+                        randomDirection,
+                        out NavMeshHit hit,
+                        walkRadius,
+                        areaMask
+                    )
+                )
+                {
+                    float distance = Vector3.Distance(transform.position, hit.position);
+                    newWalkTime = distance / agent.speed;
+                    agent.SetDestination(hit.position);
+                    // Draw navigation line to destination
+                    return true;
+                }
+            }
+
+            newWalkTime = 0f;
+            return false;
+        }
+        catch (System.Exception ex)
+        {
+            newWalkTime = 0f;
+            return false;
+        }
     }
 
     #endregion

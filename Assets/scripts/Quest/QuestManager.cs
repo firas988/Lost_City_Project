@@ -322,7 +322,6 @@ public class QuestManager : MonoBehaviour
     // COMPLEXITY ANALYSIS: addFind() - O(q) where q = number of active find quests
     public void addFind(GameObject objectFound)
     {
-        Debug.Log("interacted");
         FindQuest questToInc = activeFindQuests.Find(questToFind =>
             questToFind != null
             && string.Join(", ", questToFind.QuestTarget).Contains(objectFound.tag)

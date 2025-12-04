@@ -108,9 +108,11 @@ public class WorldCreationManager : MonoBehaviour
         Directory.CreateDirectory(Application.persistentDataPath + "/gameData/");
 
         // Get all existing world directories
-        string[] directoryNames = Directory.GetDirectories(
-            Application.persistentDataPath + "/gameData/"
-        );
+        string[] directoryNames = new DirectoryInfo(Application.persistentDataPath + "/gameData/")
+            .GetDirectories()
+            .OrderByDescending(d => d.LastWriteTime)
+            .Select(d => d.FullName)
+            .ToArray();
 
         if (directoryNames.Length > 0)
         {
