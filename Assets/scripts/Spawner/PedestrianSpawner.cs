@@ -30,6 +30,11 @@ public class PedestrianSpawner : MonoBehaviour
     private GameObject[] prefab;
 
     /// <summary>
+    /// Reference to robert NPC that is mandatory to progress through the story
+    /// </summary>
+    private GameObject robert;
+
+    /// <summary>
     /// Current count of spawned pedestrians.
     /// </summary>
     private int spawnCount = 0;
@@ -50,10 +55,19 @@ public class PedestrianSpawner : MonoBehaviour
     /// Initializes the spawner by loading pedestrian prefabs from resources.
     /// </summary>
     // COMPLEXITY ANALYSIS: Start() - O(p) where p = number of prefabs in resources folder
-    void Start()
+    void Awake()
     {
         // Load all pedestrian prefabs from the specified resources path
         prefab = Resources.LoadAll<GameObject>(prefabPath);
+        foreach (GameObject p in prefab)
+        {
+            if (p.CompareTag("Robert")) {
+                robert = p;
+                break;
+            }
+                
+
+        }
     }
 
     /// <summary>
@@ -90,18 +104,16 @@ public class PedestrianSpawner : MonoBehaviour
             // Select random spawn point and pedestrian prefab
             GameObject spawnPoint = spawnPoints[getRandomNumber(0, spawnPoints.Length)];
             NavMeshHit hit;
-            GameObject pedestrian = Instantiate(
+            GameObject pedestrian =robertCount<1 ? Instantiate(
+                robert,
+                spawnPoint.transform.position,
+                Quaternion.identity)
+                : 
+                Instantiate(
                 prefab[getRandomNumber(0, prefab.Length - 1)],
                 spawnPoint.transform.position,
                 Quaternion.identity
             );
-
-            // Check if this is Robert and limit to one instance
-            if (pedestrian.CompareTag("Robert") && robertCount >= 1)
-            {
-                Destroy(pedestrian);
-                yield break;
-            }
 
             // Validate spawn position on NavMesh and adjust if necessary
             if (
@@ -141,6 +153,8 @@ public class PedestrianSpawner : MonoBehaviour
         yield return new WaitForSeconds(1.0f); // Wait 1 second between spawns
         waitForSpawn = false;
     }
+
+
     #endregion
 
     #region Utility Methods
