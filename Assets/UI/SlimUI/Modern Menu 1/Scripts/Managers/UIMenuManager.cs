@@ -391,7 +391,7 @@ public class UIMenuManager : MonoBehaviour
             confirmationPrompt.GetComponentInChildren<ConfirmationPrompt>();
 
         confirmationPromptComponent.setConfirmationPromptText(
-            "Are you sure you want to reset the key bindings? This action cannot be undone."
+            "Are you sure you want to reset the key bindings?\nThis action cannot be undone."
         );
 
         confirmationPromptComponent.subscribeToConfirmationPrompt(() =>

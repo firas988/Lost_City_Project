@@ -49,7 +49,7 @@ public class WolfHealthManager : MonoBehaviour
     void Update()
     {
         // Debug key for testing (set health to 0)
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             entity.setHealth(0);
         }

@@ -7011,7 +7011,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8250217742051458609}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5486526203289154225}
+        m_TargetAssemblyTypeName: UIMenuManager, Assembly-CSharp
+        m_MethodName: askResetKeyBindings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8159960846331462280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33809,18 +33821,19 @@ MonoBehaviour:
   firstMenu: {fileID: 6296095058271773612}
   playMenu: {fileID: 345598659862718704}
   exitMenu: {fileID: 7163832783039229660}
+  confirmationPrompt: {fileID: 0}
   theme: 0
   themeController: {fileID: 11400000, guid: e00c7d2bc58a2424b8dc09ecdafdb067, type: 2}
   mainCanvas: {fileID: 1630602035323167805}
-  PanelControls: {fileID: 5535401730006537098}
-  PanelGame: {fileID: 8429134132275347011}
+  PanelGameDisplay: {fileID: 0}
+  PanelGameAudio: {fileID: 0}
   PanelKeyBindings: {fileID: 1101770914140509247}
   PanelMovement: {fileID: 3673041064729041600}
   PanelCombat: {fileID: 423434678861086305}
   PanelGeneral: {fileID: 2908551617769387673}
-  lineGame: {fileID: 9192899537113730371}
+  lineGameDisplay: {fileID: 0}
   lineVideo: {fileID: 3979858999053046568}
-  lineControls: {fileID: 6689386619967440144}
+  lineGameAudio: {fileID: 0}
   lineKeyBindings: {fileID: 7107347680729025776}
   lineMovement: {fileID: 4568356795358106653}
   lineCombat: {fileID: 4745742867156457457}
